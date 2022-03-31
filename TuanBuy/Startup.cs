@@ -19,6 +19,7 @@ using Topic.Hubs;
 
 namespace TuanBuy
 {
+    //´ú¸Õ¤@¤UGithub
     public class Startup
     {
         public Startup(IConfiguration configuration)
