@@ -6,6 +6,11 @@
         public LynnDemo()
         {
             string s = "";
+
+        public void getdata()
+        {
+
+
         }
     }
 }
