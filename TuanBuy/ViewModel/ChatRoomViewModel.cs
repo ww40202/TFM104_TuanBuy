@@ -23,6 +23,9 @@ namespace TuanBuy.ViewModel
     }
     public class UsersViewModel
     {
+        public string ChatRoomId { get; set; }
+
+        public string ChatRoomTitle { get; set; }
         public string UserAccount { get; set; }
         public string UserId { get; set; }
         public string NickName { get; set; }
