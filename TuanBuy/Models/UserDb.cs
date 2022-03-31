@@ -33,65 +33,59 @@ namespace TuanBuy.Models
                           && (getChatuser.Select(u => u.MemberId).Contains(user.Id))))
                           select new { user, chat.ChatRoomId, chatroom });
             //將使用者分為群 一個聊天室可能有多個使用者
-            Dictionary<Guid, List<User>> keyValuePairs = new Dictionary<Guid, List<User>>();
+            Dictionary<Guid, List<UsersViewModel>> keyValuePairs = new Dictionary<Guid, List<UsersViewModel>>();
             foreach (var item in result)
             {
                 if (keyValuePairs.ContainsKey(item.ChatRoomId))
                 {
-                    List<ChatRoom> chatRooms = new List<ChatRoom>();
-                    ChatRoom chatRoom = new ChatRoom();
-                    chatRooms.Add(item.chatroom);
-                    item.user.ChatRoom = chatRooms;
-                    keyValuePairs[item.ChatRoomId].Add(item.user);
+                    UsersViewModel usersViewModel = new UsersViewModel();
+                    //List<ChatRoom> chatRooms = new List<ChatRoom>();
+                    //ChatRoom chatRoom = new ChatRoom();
+                    usersViewModel.ChatRoomId = item.ChatRoomId.ToString();
+                    usersViewModel.ChatRoomTitle = item.chatroom.ChatRoomTitle;
+                    usersViewModel.NickName = item.user.NickName;
+                    usersViewModel.UserAccount = item.user.Email;
+                    usersViewModel.UserId = item.user.Id.ToString();
+                    keyValuePairs[item.ChatRoomId].Add(usersViewModel);
                 }
                 else
                 {
-                    List<User> members = new List<User>();
-                    List<ChatRoom> chatRooms = new List<ChatRoom>();
-                    ChatRoom chatRoom = new ChatRoom();
-                    chatRooms.Add(item.chatroom);
-                    item.user.ChatRoom = chatRooms;
-                    members.Add(item.user);
-                    keyValuePairs.Add(item.ChatRoomId, members);
+                    List<UsersViewModel> usersViewModels = new List<UsersViewModel>();
+                    UsersViewModel usersViewModel = new UsersViewModel();
+                    //List<ChatRoom> chatRooms = new List<ChatRoom>();
+                    //ChatRoom chatRoom = new ChatRoom();
+                    usersViewModel.ChatRoomId = item.ChatRoomId.ToString();
+                    usersViewModel.ChatRoomTitle = item.chatroom.ChatRoomTitle;
+                    usersViewModel.NickName = item.user.NickName;
+                    usersViewModel.UserAccount = item.user.Email;
+                    usersViewModel.UserId = item.user.Id.ToString();
+                    usersViewModels.Add(usersViewModel);
+                    keyValuePairs.Add(item.ChatRoomId, usersViewModels);
                 }
             }
-            var resulttest = keyValuePairs;
             List<ChatRoomListViewModel> chatRoomViewModels = new List<ChatRoomListViewModel>();
-            foreach (var item in resulttest)
+            foreach(var item in keyValuePairs)
             {
-                ChatRoomListViewModel chatRoomViewModel = new ChatRoomListViewModel();
-                List<UsersViewModel> usersVM = new List<UsersViewModel>();
-                chatRoomViewModel.ChatRoomId = item.Key.ToString();
-                foreach (var users in item.Value)
+                ChatRoomListViewModel chatRoomListViewModel = new ChatRoomListViewModel();
+                List<UsersViewModel> usersViewModels = new List<UsersViewModel>();
+                chatRoomListViewModel.ChatRoomId = item.Key.ToString();
+                foreach(var users in item.Value)
                 {
-                    UsersViewModel user = new UsersViewModel();
-                    user.NickName = users.NickName;
-                    user.UserAccount = users.Email;
-                    user.UserId = users.Id.ToString();
-                    usersVM.Add(user);
-                    chatRoomViewModel.Users = usersVM;
-                    foreach (var chatRoom in users.ChatRoom)
+                    UsersViewModel usersViewModel = new UsersViewModel();
+                    usersViewModel.ChatRoomId = users.ChatRoomId;
+                    if (users.ChatRoomTitle != "")
                     {
-                        chatRoomViewModel.ChatRoomTitle = chatRoom.ChatRoomTitle;
-                        chatRoomViewModel.ChatRoomId = chatRoom.ChatRoomId.ToString();
+                        chatRoomListViewModel.ChatRoomTitle = users.ChatRoomTitle; 
+                        usersViewModel.ChatRoomTitle = users.ChatRoomTitle;
                     }
+                    usersViewModel.NickName = users.NickName;
+                    usersViewModel.UserAccount = users.UserAccount;
+                    usersViewModel.UserId = users.UserId;
+                    usersViewModels.Add(usersViewModel);
                 }
-                chatRoomViewModels.Add(chatRoomViewModel);
+                chatRoomListViewModel.Users = usersViewModels;
+                chatRoomViewModels.Add(chatRoomListViewModel);
             }
-            //foreach (var item in result)
-            //{
-            //    ChatRoomViewModel chatRoomViewModel = new ChatRoomViewModel();
-            //    UsersViewModel user = new UsersViewModel();
-            //    chatRoomViewModel.ChatRoomId = item.ChatRoomId.ToString();
-            //    user.UserId = item.user.Id.ToString();
-            //    user.NickName = item.user.NickName;
-            //    user.UserAccount = item.user.UserAccount;
-            //    //chatRoomViewModel.UserId = item.user.Id.ToString();
-            //    //chatRoomViewModel.UserAccount = item.user.UserAccount;
-            //    //chatRoomViewModel.NickName = item.user.NickName;
-            //    chatRoomViewModel.Users = user;
-            //    chatRoomViewModels.Add(chatRoomViewModel);
-            //}
             return chatRoomViewModels;
         }
         #endregion 取使用者聊天室清單

@@ -14,7 +14,7 @@
                         <p class="card-text">{{item.description}}</p>
                         
 
-                        <!-- 修改 -->
+                        <!-- 修改按鍵，按鈕綁id -->
                         <button type="button" class="btn btn-ddd" data-toggle="modal" data-target="#exampleModal"
                                 data-whatever="" v-on:click="updateProduct($event)" v-bind:value="item.id">
                             修改
@@ -30,6 +30,7 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
+                                        <!--綁定form表單資料-->
                                         <form>
                                             <div class="form-group">
                                                 <label for="product-price"
@@ -55,7 +56,7 @@
                                                 data-dismiss="modal">
                                             取消
                                         </button>
-                                        <!--觸發事件-->
+                                        <!--觸發事件修改-->
                                         <button type="button" class="btn btn-ddd" v-on:click="readyUpdate">修改</button>
                                     </div>
                                 </div>
@@ -85,6 +86,7 @@
                                                 data-dismiss="modal">
                                             取消
                                         </button>
+                                        <!--按下按鈕觸發刪除的API-->
                                         <button type="button" class="btn btn-ddd" v-on:click="deleteProduct">刪除</button>
                                     </div>
                                 </div>
@@ -116,6 +118,7 @@
             target:null
         },
         methods: {
+            //更新商品資料
             updateProduct:function(e) {
                 let self = this;
                 let productId = e.target.value;
@@ -125,19 +128,23 @@
                 self.product = target;
                 console.log(target);
             },
+            //按下按鈕更新資料
             readyUpdate:function() {
                 let self = this;
+                //發送PUT請求到API修改資料
                 axios.put("/api/Products/", self.product)
                      .then((resp) => alert("更新成功"))
                     .catch((res) => console.log(res));
                 window.location.reload();
 
             },
+            //取得商品的ID
             getProductId:function(e) {
                 let self = this;
                 self.target = e.target.value;
                 alert(productId);
             },
+            //刪除產品
             deleteProduct:function() {
                 let self = this;
                 axios.delete("/api/Products/" + self.target)
@@ -148,6 +155,7 @@
                 window.location.reload();
             }
         },
+        //Vue 實體與掛載完成時執行
         mounted: function () {
             let self = this;
 

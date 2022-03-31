@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TuanBuy.Models.Entities;
 
@@ -27,17 +24,11 @@ namespace TuanBuy.Controllers
         // GET: Users/Details/5
         public async Task<IActionResult> Details(string id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var user = await _context.User
                 .FirstOrDefaultAsync(m => m.Email == id);
-            if (user == null)
-            {
-                return NotFound();
-            }
+            if (user == null) return NotFound();
 
             return View(user);
         }
@@ -53,7 +44,8 @@ namespace TuanBuy.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Email,Password,Name,Id,Birth,Phone,BankAccount,State")] User user)
+        public async Task<IActionResult> Create(
+            [Bind("Email,Password,Name,Id,Birth,Phone,BankAccount,State")] User user)
         {
             if (ModelState.IsValid)
             {
@@ -61,22 +53,17 @@ namespace TuanBuy.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             return View(user);
         }
 
         // GET: Users/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var user = await _context.User.FindAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
+            if (user == null) return NotFound();
             return View(user);
         }
 
@@ -85,12 +72,10 @@ namespace TuanBuy.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Email,Password,Name,Id,Birth,Phone,BankAccount,State")] User user)
+        public async Task<IActionResult> Edit(string id,
+            [Bind("Email,Password,Name,Id,Birth,Phone,BankAccount,State")] User user)
         {
-            if (id != user.Email)
-            {
-                return NotFound();
-            }
+            if (id != user.Email) return NotFound();
 
             if (ModelState.IsValid)
             {
@@ -102,39 +87,31 @@ namespace TuanBuy.Controllers
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!UserExists(user.Email))
-                    {
                         return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    throw;
                 }
+
                 return RedirectToAction(nameof(Index));
             }
+
             return View(user);
         }
 
         // GET: Users/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var user = await _context.User
                 .FirstOrDefaultAsync(m => m.Email == id);
-            if (user == null)
-            {
-                return NotFound();
-            }
+            if (user == null) return NotFound();
 
             return View(user);
         }
 
         // POST: Users/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {

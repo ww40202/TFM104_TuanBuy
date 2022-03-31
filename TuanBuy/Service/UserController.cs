@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TuanBuy.Models;
+using TuanBuy.Models.AppUtlity;
 using TuanBuy.Models.Entities;
 using TuanBuy.Models.Interface;
 using TuanBuy.ViewModel;
@@ -17,11 +15,13 @@ namespace TuanBuy.Service
     [ApiController]
     public class UserController : ControllerBase
     {
-        private IRepository<User> _userRepository;
+        private readonly IRepository<User> _userRepository;
+
         public UserController(GenericRepository<User> userRepository)
         {
             _userRepository = userRepository;
         }
+
         // GET: api/<UserController>
         [HttpGet]
         public IEnumerable<User> Get()
@@ -42,16 +42,16 @@ namespace TuanBuy.Service
         [HttpPost]
         public void Post(UserRegister user)
         {
-            var userEntity = new User()
+            var userEntity = new User
             {
                 Email = user.Email,
                 Name = user.Name,
-                Password = user.Password   
+                Password = user.Password
             };
 
-            var vrCode = Models.AppUtlity.GoEncrytion.encrytion(user.Email);
+            var vrCode = GoEncrytion.encrytion(user.Email);
             var body = "https://localhost:5001/MemberCenter/StartMemberState/?s=" + vrCode;
-            Models.AppUtlity.Mail.SendMail(user.Email,"TuanBuy註冊會員，啟動網址", body);
+            Mail.SendMail(user.Email, "TuanBuy註冊會員，啟動網址", body);
             _userRepository.Create(userEntity);
         }
 
@@ -65,7 +65,7 @@ namespace TuanBuy.Service
             //user.Birth = userEntity.Birth;
             user.Phone = userEntity.Phone;
             user.BankAccount = userEntity.BankAccount;
-            
+
             _userRepository.Update(user);
         }
 
