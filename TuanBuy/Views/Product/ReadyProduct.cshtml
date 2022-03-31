@@ -1,0 +1,78 @@
+﻿<div class="container">
+    <div class="row">
+        <div class="col-gl-12 dropdown">
+            <button type="button" class="dropdown-item dropdown-toggle" data-toggle="dropdown">
+                <a href="#">已開團</a>
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href=@Url.Action("WaitingProduct","Product")>等待開團</a>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <p class="display col-lg-6">商品</p>
+            <p class="display col-lg-1">單價</p>
+            <p class="display col-lg-1">數量</p>
+            <p class="display col-lg-2">總計</p>
+        </div>
+        <div class="col-lg-12">
+            <p><input type="checkbox" name="all" onclick="check_all(this,'c')" />全選/取消</p>
+        </div>
+        <div class="display col-lg-12">
+            <div class="display col-lg-6">
+                <div class="display">
+                    <p><input type="checkbox" name="c" value="" /></p>
+                </div>
+                <div class="display">
+                    <img src="img/Log.jpg" alt="商品">
+                </div>
+                <div class="display">
+                    <p>商品資訊</p>
+                </div>
+            </div>
+            <p class="display col-lg-1">單價</p>
+            <p class="display col-lg-1">數量</p>
+            <p class="display col-lg-2">總計</p>
+        </div>
+        <!-- 商品格式 從這段開始複製 -->
+        <div class="display col-lg-12">
+            <div class="display col-lg-6">
+                <div class="display">
+                    <p><input type="checkbox" name="c" value="" /></p>
+                </div>
+                <div class="display">
+                    <img src="img/Log.jpg" alt="商品">
+                </div>
+                <div class="display">
+                    <p>商品資訊</p>
+                </div>
+            </div>
+            <p class="display col-lg-1">單價</p>
+            <p class="display col-lg-1">數量</p>
+            <p class="display col-lg-2">總計</p>
+        </div>
+        <div class="display col-lg-12">
+            <div class="display col-lg-6">
+                <div class="display">
+                    <p><input type="checkbox" name="c" value="" /></p>
+                </div>
+                <div class="display">
+                    <img src="img/Log.jpg" alt="商品">
+                </div>
+                <div class="display">
+                    <p>商品資訊</p>
+                </div>
+            </div>
+            <p class="display col-lg-1">單價</p>
+            <p class="display col-lg-1">數量</p>
+            <p class="display col-lg-2">總計</p>
+        </div>
+        <!-- 商品格式 從這段結束複製 -->
+        <div class="col-lg-12 gprdleft gprdground"><button>優惠券選擇</button></div>
+        <div class="col-lg-12">
+            <p class="display col-lg-6"><input type="checkbox" name="all" onclick="check_all(this,'c')" />全選/取消</p>
+            <p class="display col-lg-1">金額</p>
+            <p class="display col-lg-1">商品數量</p>
+            <button class="display col-lg-2">付款</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,455 @@
+/* footer置底 */
+body {
+  display: flex;
+  /* min-height: 100vh; */
+  flex-direction: column;
+}
+
+footer {
+  margin-top: auto;
+}
+
+.headnamesize {
+  font-size: 20px;
+}
+
+.headnamebtn {
+  background-color: white;
+  border: 1px solid white;
+
+}
+
+.headnamebtn:hover .dropdown-menu {
+  display: block;
+}
+
+.outsideborder {
+  background-color: rgb(235, 235, 235);
+  border-radius: 10px;
+  padding: 1%;
+  height: auto;
+  width: 40rem;
+  margin: auto;
+  margin-top: 1%;
+}
+
+.ftborder {
+  border-top: 1px solid rgba(0, 0, 0, .125);
+  background: #ffffff;
+  box-shadow: 0px 5px 10px rgb(91 91 91 / 10%);
+}
+
+
+.texthead1 {
+  text-align: left;
+  margin: 2% 0;
+}
+
+.texthead2 {
+  text-align: start;
+  margin: 2% 0;
+}
+
+.texthead3 {
+  text-align: right;
+  margin-top: 1.5%;
+}
+
+.texthead4 {
+  text-align: right;
+  margin-top: 2%;
+}
+
+.textft1 {
+  text-align: left;
+  margin: 2% 0;
+}
+
+.textft2 {
+  text-align: center;
+  margin: 2% 0;
+}
+
+.textft3 {
+  text-align: right;
+  margin: 2% 0;
+}
+
+.headsize {
+  font-size: 30px;
+  color: black;
+}
+
+.headsize1 {
+  font-size: 40px;
+  color: rgb(180, 180, 180);
+}
+
+.headsize3 {
+  font-size: 30px;
+  color: black;
+  margin: 0 5%;
+}
+
+.margin10 {
+  margin: 10px;
+}
+
+.margin300 {
+  margin: 45% 0;
+}
+
+.marginbottom {
+  margin-bottom: 40px;
+}
+
+.welcome {
+  font-size: 70px;
+  margin: 2rem 0 3rem;
+}
+
+.display {
+  display: inline-block;
+}
+
+.nobr {
+  font-size: 36px;
+  margin: 40px 0;
+  vertical-align: middle;
+  text-align: left;
+}
+
+.nobr2 {
+  font-size: 36px;
+  margin: 40px 35px;
+  vertical-align: middle;
+}
+
+.loginandregister {
+  font-size: 36px;
+  width: 464px;
+  height: auto;
+  border: 1px solid black;
+  /* padding: 10px; */
+  border-radius: 10px;
+  text-align: center;
+  margin: 2rem 0 2rem;
+}
+
+.loginandregister1 {
+  font-size: 36px;
+  width: 464px;
+  height: auto;
+  border: 1px solid black;
+  /* padding: 10px; */
+  border-radius: 10px;
+  text-align: center;
+  margin: 2rem 0 3rem;
+}
+
+.textborder {
+  width: 20rem;
+  height: 3rem;
+  border: 1px solid black;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+
+.agree {
+  margin: 60px 0 0;
+}
+
+.or {
+  font-size: 30px;
+}
+
+.linklogin {
+  width: 100px;
+  height: auto;
+  border: 2px solid black;
+  padding: 10px;
+  margin: 5% 0;
+  border-radius: 30px;
+  display: inline-block;
+}
+
+.hotbtn {
+  padding: 5px 50px;
+  background-color: white;
+  border: 2px solid black;
+  border-radius: 30px;
+  text-align: center;
+  display: inline-block;
+  margin: auto;
+}
+
+.hotbtn:hover {
+  background-color: rgb(231, 231, 231);
+}
+
+.border {
+  border-radius: 10px;
+  border: 2px solid black;
+}
+
+.center {
+  text-align: center;
+}
+
+.search {
+  font-size: 20px;
+  height: 60px;
+  width: 50%;
+  margin: 40px 0;
+  padding: 10px;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+}
+
+.searchbtn {
+  font-size: 20px;
+  height: 60px;
+  width: auto;
+  margin: 40px 0 46px;
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+  border: 1px solid transparent;
+  vertical-align: middle;
+  border-radius: .25rem;
+}
+
+.margin-3 {
+  margin: 3% 0;
+}
+
+
+/* 熱門按鈕 */
+
+.tc {
+  text-align: center;
+}
+
+.mt4 {
+  margin-top: 2rem;
+}
+
+.mb3 {
+  margin-bottom: 1rem;
+}
+
+.pt3 {
+  padding-top: 1rem;
+}
+
+.bb {
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+}
+
+.bt {
+  border-top-style: solid;
+  border-top-width: 1px;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.db {
+  display: block;
+}
+
+.pt1 {
+  padding-top: .25rem;
+}
+
+.pb3 {
+  padding-bottom: 1rem;
+}
+
+.overflow-auto {
+  overflow: auto;
+}
+
+.link:link,
+.link:visited {
+  transition: color .15s ease-in;
+}
+
+.b {
+  font-weight: 700;
+}
+
+.f6,
+.progress text {
+  font-size: 2rem;
+}
+
+.mid-gray {
+  color: #555;
+}
+
+.mh1 {
+  margin-left: .25rem;
+  margin-right: .25rem;
+}
+
+.ph3 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.pv2 {
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+}
+
+.link {
+  text-decoration: none;
+  transition: color .15s ease-in;
+}
+
+
+
+
+/* 會員首頁 */
+
+.accountcard {
+  border: 1px solid rgba(0, 0, 0, .125);
+  border-radius: .25rem;
+}
+
+.acpabord {
+  border-bottom: 1px solid rgba(0, 0, 0, .125);
+  width: 100%;
+}
+
+.acccolor {
+  background-color: #ced4da;
+  height: auto;
+  width: 100%;
+}
+
+.aldrd {
+  text-align: right;
+}
+
+.backgroundhover:hover {
+  background-color: white;
+}
+
+/* 開團 */
+.gprdleft {
+  text-align: right;
+}
+
+.gprdground {
+  border-top: 1px solid rgba(0, 0, 0, .125);
+  width: 100%;
+}
+
+/* HeadName按鈕 */
+.dropdown-menu a {
+  color: black;
+  padding-bottom: .25rem;
+  text-align: left;
+  text-decoration: none;
+  display: block;
+  background-color: #f9f9f9;
+  /* min-width: 110px; */
+  /* box-shadow: 0px 8px 16px 0px rgb(0 0 0 / 20%); */
+}
+
+/* HeadName Hover沒成功 跑掉 */
+.dropbtn1 {
+  background-color: white;
+  color: white;
+  border: none;
+  /* cursor: pointer; */
+}
+
+.dropdown1 {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown1-content1 {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 110px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+
+.dropdown1-content1 a {
+  color: black;
+  padding: 12px 16px;
+  text-align: left;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown1-content1 a:hover {
+  background-color: white
+}
+
+.dropdown1:hover .dropdown1-content1 {
+  display: block;
+}
+
+.dropdown1:hover .dropbtn1 {
+  background-color: white;
+}
+
+/* .dropdown-item {
+  display: block;
+  width: 100%;
+  padding: .25rem 1.5rem;
+  clear: both;
+  font-weight: 400;
+  color: #212529;
+  text-align: left;
+  white-space: nowrap;
+  background-color: transparent;
+  border: 0;
+} */
+
+
+.btn-ddd {
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+
+.collapsecard {
+  position: relative;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+}
+
+.collapsecardhead{
+  margin-bottom: 0;
+}
+
+.collapsecardhead:first-child {
+  border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0;
+}
+
+.collapsecard-body {
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  min-height: 1px;
+  padding: 1.25rem;
+}

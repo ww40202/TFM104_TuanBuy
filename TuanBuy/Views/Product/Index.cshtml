@@ -1,0 +1,114 @@
+﻿<div class="container" id="form1">
+    <div class="row">
+        <partial name="_MyProductCenter"></partial>
+        <!-- 右邊內容 -->
+        <div class="col-lg-10">
+            <div>
+                <div class="display">
+                    <p>商品名稱</p>
+                </div>
+                <div class="display"><input type="text" id="Name" v-model="product.name"></div>
+            </div>
+            <div>
+                <div class="display">
+                    <p>描述</p>
+                </div>
+                <div class="display"><input type="text" id="Description" v-model="product.description"></div>
+            </div>
+            <div>
+                <div class="display">
+                    <p>內容</p>
+                </div>
+                <div class="display"><input type="text" id="Content" v-model="product.content"></div>
+            </div>
+            <div>
+                <div class="display">
+                    <p>類別</p>
+                </div>
+                <div class="display"><input type="text" id="Category" v-model="product.category"></div>
+            </div>
+            <div>
+                <div class="display">
+                    <p>價格</p>
+                </div>
+                <div class="display"><input type="number" id="Price" v-model="product.price"></div>
+            </div>
+            <div>
+                <div class="display">
+                    <p>結束日期</p>
+                </div>
+                <div class="display"><input type="date" name="" id="EndTime" v-model="product.endTime"></div>
+            </div>
+
+            <div class="col-lg-12">
+                
+                <temlate v-if="preview">
+                    <img v-bind:src="preview"/>
+                </temlate>
+                
+
+            </div>
+            <div>
+                <input type="file" class="form-control" id="PicPath" multiple="" v-on:change="up">
+            </div>
+            <div><button v-on:click="addProduct">刊登</button></div>
+        </div>
+        <!-- 右邊內容 -->
+    </div>
+</div>
+
+
+
+<script>
+    var app = new Vue({
+        el: "#form1",
+        data: {
+            product: {
+                name:"商品",
+                price:300,
+                description:"描述",
+                content:"內容",
+                picPath:null,
+                category:"類別",
+                endTime:null
+            },
+            preview:null
+        },
+        methods: {
+            up: function (event) {
+                console.log(event);
+                this.product.picPath = event.target.files[0];
+                var input = event.target;
+                if (input.files) {
+                    var reader = new FileReader();
+                    reader.onload = (e) => {
+                        this.preview = e.target.result;
+                    }
+                    this.image = input.files[0];
+                    reader.readAsDataURL(input.files[0]);
+                }
+
+
+                alert("上傳成功");
+            },
+            addProduct:function() {
+                var bodyFormData = new FormData();
+                bodyFormData.append("Name", this.product.name);
+                bodyFormData.append("Price", this.product.price);
+                bodyFormData.append("Content", this.product.content);
+                bodyFormData.append("Description", this.product.description);
+                bodyFormData.append("PicPath", this.product.picPath);
+                bodyFormData.append("Category", this.product.category);
+                bodyFormData.append("EndTime", this.product.endTime);
+                axios({
+                        method: "post",
+                        url: "/Product/PostProduct",
+                        data: bodyFormData,
+                        headers: { "Content-Type": "multipart/form-data" }
+                    })
+                    .then((resp) => alert(resp))
+                    .catch((resp) => alert(resp));
+            }
+        }
+    });
+</script>

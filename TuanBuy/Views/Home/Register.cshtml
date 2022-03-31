@@ -1,0 +1,82 @@
+﻿    <script>
+    var user = function() {
+        this.email = "";
+        this.name = "";
+        this.password = "";
+        this.password2 = "";
+    };
+</script>
+
+
+<!-- 歡迎註冊 -->
+        <div class="row" id="register">
+        <div class="center col margin10">
+        <div class="outsideborder">
+        <div>
+        <p class="welcome">歡迎註冊</p>
+        </div>
+        <div>
+        <div class="margin10">
+        <p class="nobr">會員姓名</p><input class="textborder" type="text" placeholder="Enter your name" v-model="user.name">
+        </div>
+        <div class="margin10">
+        <p class="nobr">電子郵件</p><input class="textborder" type="text" placeholder="Enter your email" v-model="user.email" v-on:blur="checkMail">
+        </div>
+        <div class="margin10">
+        <p class="nobr2">密碼</p><input class="textborder" type="text" placeholder="Enter your password" v-model="user.password">
+        </div>
+        <div class="margin10">
+        <p class="nobr">確認密碼</p><input class="textborder" type="text"
+    placeholder="Confirm your password" v-model="user.password2">
+        </div>
+        </div>
+        <div><a href="#">我同意條款</a></div>
+        <input class="loginandregister1 margin10" type="button" v-on:click ="addUser" value="註冊">
+        </div>
+        </div>
+        </div>
+    
+        <script>
+            var check = false;
+            var app = new Vue({
+                el: "#register",
+                data: {
+                    user: new user()
+                },
+                methods: {
+                    handleClick: function() {
+                        alert("收到訊息");
+                    },
+                    checkMail: function() {
+                        let self = this;
+                        let url = "/api/LoginAndRegister/" + self.user.email;
+                        axios.get(url).then((resp) => {
+                                if (resp.data === 0) {
+                                    console.log("電子郵件被用過了");
+                                    check = false;
+                                }else if (resp.data === 1) {
+                                    check = true;
+                                }
+                            }
+                        );
+                    },
+                    addUser: function() {
+                        let self = this;
+                        if (this.user.password !== this.user.password2) {
+                            alert("密碼打不一樣");
+                            return;
+                        }
+                        if (!check) {
+                            alert("Email重複無法註冊");
+                            return;
+                        }
+
+                        axios.post("/api/User", self.user).then((resp) => {
+                            alert("註冊成功即將跳轉首頁");
+                            window.location.href = "/home/login";
+                        });
+
+                    }
+                }
+            });
+        </script>
