@@ -97,10 +97,8 @@ namespace TuanBuy.Service
             };
         }
 
-        // PUT: api/Products/UpProducts
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+
         [HttpPut]
-        //[Route("")]
         public IActionResult PutProduct([FromBody]UpDateProductViewModel product)
         {
             var p = _productsRepository.Get(a => a.Id == Convert.ToInt32(product.Id));

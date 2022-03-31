@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using TuanBuy.Models;
 using TuanBuy.Models.Entities;
 using TuanBuy.Models.Interface;
@@ -21,15 +18,16 @@ namespace TuanBuy.Service
     [ApiController]
     public class MemberCenterController : ControllerBase
     {
+        private readonly IWebHostEnvironment _environment;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IRepository<User> _userRepository;
-        private readonly IWebHostEnvironment _environment;
-        public MemberCenterController(GenericRepository<User> userRepository, IHttpContextAccessor httpContextAccessor, IWebHostEnvironment environment)
+
+        public MemberCenterController(GenericRepository<User> userRepository, IHttpContextAccessor httpContextAccessor,
+            IWebHostEnvironment environment)
         {
             _httpContextAccessor = httpContextAccessor;
             _userRepository = userRepository;
             _environment = environment;
-
         }
         // GET: api/<MemberCenterController>
         //[HttpGet]
@@ -44,11 +42,8 @@ namespace TuanBuy.Service
         public UserViewModel Get()
         {
             var targetUser = GetTargetUser();
-            if (targetUser == null)
-            {
-                return new UserViewModel();
-            }
-            var userData = new UserViewModel()
+            if (targetUser == null) return new UserViewModel();
+            var userData = new UserViewModel
             {
                 Email = targetUser.Email,
                 Name = targetUser.Name,
@@ -57,7 +52,7 @@ namespace TuanBuy.Service
                 Birth = targetUser.Birth,
                 Sex = targetUser.Sex,
                 BankAccount = targetUser.BankAccount,
-                PicPath = "/productpicture/" +targetUser.PicPath
+                PicPath = "/productpicture/" + targetUser.PicPath
             };
             return userData;
         }
@@ -72,11 +67,12 @@ namespace TuanBuy.Service
             {
                 var path = _environment.WebRootPath + "/ProductPicture";
                 var pic = user.PicPath;
-                fileName = DateTime.Now.Ticks.ToString() + pic.FileName;
+                fileName = DateTime.Now.Ticks + pic.FileName;
                 using var fs = System.IO.File.Create($"{path}/{fileName}");
                 pic.CopyTo(fs);
             }
-            bool fullMember = user.Name != "" || user.Phone != "" || user.Address != "" || user.Birth != null;
+
+            var fullMember = user.Name != "" || user.Phone != "" || user.Address != "" || user.Birth != null;
             if (_httpContextAccessor.HttpContext != null)
             {
                 var targetUser = GetTargetUser();
@@ -97,6 +93,7 @@ namespace TuanBuy.Service
                     HttpContext.SignInAsync(claimsPrincipal);
                 }
             }
+
             _userRepository.SaveChanges();
         }
 
@@ -108,7 +105,7 @@ namespace TuanBuy.Service
             {
                 var claim = _httpContextAccessor.HttpContext.User.Claims.ToList();
                 var userMail = claim.First(a => a.Type == "UserEmail").Value;
-                var targetUser =_userRepository.Get(a => a.Email == userMail);
+                var targetUser = _userRepository.Get(a => a.Email == userMail);
                 targetUser.Password = user.Password;
             }
 
@@ -125,6 +122,7 @@ namespace TuanBuy.Service
             target.Disable = true;
             return Ok("使用者刪除成功");
         }
+
         private User GetTargetUser()
         {
             var claim = HttpContext.User.Claims;
