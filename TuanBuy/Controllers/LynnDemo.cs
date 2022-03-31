@@ -3,5 +3,9 @@
     public class LynnDemo
     {
         //GIT的測試
+        public LynnDemo()
+        {
+            string s = "";
+        }
     }
 }
