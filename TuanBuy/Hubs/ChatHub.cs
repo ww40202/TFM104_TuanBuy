@@ -35,8 +35,9 @@ namespace Topic.Hubs
             {
                 string userId = user.Sid;
                 string currentUser = Context.User.Identity.Name;
+                var currentUserImg = Context.User.Claims.FirstOrDefault(x => x.Type == "PicPath").Value;
                 _userservice.CreateMessage(Guid.Parse(nowChatRoomId), userid, message);
-                await this.Clients.Client(userId).SendAsync("PrivateMsgRecevied",message, currentUser);
+                await this.Clients.Client(userId).SendAsync("PrivateMsgRecevied",message, currentUser, currentUserImg);
             }
             else
             {

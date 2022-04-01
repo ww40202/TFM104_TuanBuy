@@ -45,6 +45,7 @@ namespace TuanBuy.Models
                     usersViewModel.ChatRoomTitle = item.chatroom.ChatRoomTitle;
                     usersViewModel.NickName = item.user.NickName;
                     usersViewModel.UserAccount = item.user.Email;
+                    usersViewModel.PicPath = item.user.PicPath;
                     usersViewModel.UserId = item.user.Id.ToString();
                     keyValuePairs[item.ChatRoomId].Add(usersViewModel);
                 }
@@ -58,6 +59,7 @@ namespace TuanBuy.Models
                     usersViewModel.ChatRoomTitle = item.chatroom.ChatRoomTitle;
                     usersViewModel.NickName = item.user.NickName;
                     usersViewModel.UserAccount = item.user.Email;
+                    usersViewModel.PicPath = item.user.PicPath;
                     usersViewModel.UserId = item.user.Id.ToString();
                     usersViewModels.Add(usersViewModel);
                     keyValuePairs.Add(item.ChatRoomId, usersViewModels);
@@ -78,6 +80,7 @@ namespace TuanBuy.Models
                         chatRoomListViewModel.ChatRoomTitle = users.ChatRoomTitle; 
                         usersViewModel.ChatRoomTitle = users.ChatRoomTitle;
                     }
+                    usersViewModel.PicPath = users.PicPath;
                     usersViewModel.NickName = users.NickName;
                     usersViewModel.UserAccount = users.UserAccount;
                     usersViewModel.UserId = users.UserId;
@@ -166,6 +169,7 @@ namespace TuanBuy.Models
                 {
                     chatMessage.FriendMessage = item.usermessage.Message;
                 }
+                chatMessage.PicPath = item.user.PicPath;
                 chatMessage.MemberId = item.usermessage.MemberId.ToString();
                 chatMessage.NickName = item.user.NickName;
                 chatMessage.MessageId = item.usermessage.MessageId.ToString();

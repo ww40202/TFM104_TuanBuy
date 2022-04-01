@@ -75,14 +75,16 @@ namespace TuanBuy.Service
                 new("Userid", user.Id.ToString()),
                 new("NickName", user.NickName),
                 new("Email", user.Email),
-                new("UserName", user.Name)
+                new("UserName", user.Name),
+                new Claim("PicPath",user.PicPath),
             };
             //將使用者資訊存入session
             var jsonstring = JsonConvert.SerializeObject(new
             {
                 user.Email,
                 user.NickName,
-                user.Id
+                user.Id,
+                user.PicPath
             });
             HttpContext.Session.SetString("userData", jsonstring);
             if (user.State >= 1) claims.Add(new Claim(ClaimTypes.Role, "User"));
