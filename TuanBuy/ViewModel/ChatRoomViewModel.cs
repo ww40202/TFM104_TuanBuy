@@ -26,12 +26,15 @@ namespace TuanBuy.ViewModel
         public string ChatRoomId { get; set; }
 
         public string ChatRoomTitle { get; set; }
+
+        public string PicPath { get; set; }
         public string UserAccount { get; set; }
         public string UserId { get; set; }
         public string NickName { get; set; }
     }
     public class ChatMessageViewModel
     {
+        public string PicPath { get; set; }
         public string MessageId { get; set; }
 
         public string MemberId { get; set; }

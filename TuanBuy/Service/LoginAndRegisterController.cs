@@ -91,16 +91,16 @@ namespace TuanBuy.Service
                     new Claim("Userid",user.Id.ToString()),
                     new Claim("NickName",user.NickName),
                     new Claim("Email",user.Email.ToString()),
-                    new Claim("UserName",user.Name.ToString())
-
-
+                    new Claim("UserName",user.Name.ToString()),
+                     new Claim("PicPath",user.PicPath),
                 };
                 //將使用者資訊存入session
                 string jsonstring = Newtonsoft.Json.JsonConvert.SerializeObject(new
                 {
                     Email = user.Email,
                     NickName = user.NickName,
-                    Id = user.Id
+                    Id = user.Id,
+                    PicPath=user.PicPath
                 });
                 HttpContext.Session.SetString("userData", jsonstring);
                 if (user.State >= 1)
