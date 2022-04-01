@@ -1,0 +1,169 @@
+﻿
+<br>
+
+
+<div class="container" id="userMange">
+    <div class="row">
+        <div class="input-group">
+            <input class="form-control width100">
+            <span class="input-group-btn">
+                <input class="btn btn-primary" type="submit" value="搜尋">
+            </span>
+        </div>
+
+        <table class="table table-striped col-gl-12 dropdown">
+            <thead>
+                <tr>
+                    <th scope="col">使用者Email</th>
+                    <th scope="col">會員名稱</th>
+                    <th scope="col">使用者身分</th>
+                    <th scope="col">編輯</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in users">
+                    <th scope="row">{{item.email}}</th>
+                    <td>{{item.name}}</td>
+                    <td>{{item.state}}</td>
+                    <td>
+                        <button type="button" class="btn btn-secondary" v-bind:value="item.email"
+                                v-on:click="update($event)" data-toggle="modal" data-target="#exampleModal"
+                                data-whatever="">
+                            修改
+                        </button>
+                        <button type="button" class="btn btn-danger" v-bind:value="item.email"
+                                v-on:click="getUser($event)" data-toggle="modal" data-target="#deleteModal">
+                            刪除
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!--修改使用者的對話盒-->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">修改使用者資料</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!--綁定form表單資料-->
+                        <form>
+                            <div class="form-group">
+                                <label for="user-name"
+                                       cproductpricelass="col-form-label">姓名:</label>
+                                <input type="text" class="form-control" id="user-name" v-model="user.name">
+                            </div>
+                            <div class="form-group">
+                                <label for="user-birth" class="col-form-label">生日:</label>
+                                <input type="date" class="form-control" id="user-birth" v-model="user.birth" >
+                            </div>
+                            <div class="form-group">
+                                <label for="user-phone" class="col-form-label">電話:</label>
+                                <input type="text" class="form-control" id="user-phone"  v-model="user.phone">
+                            </div>
+                            <div class="form-group">
+                                <label for="user-state" class="col-form-label">狀態:</label>
+                                <input type="text" class="form-control" id="user-state" v-model="user.state">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"
+                                data-dismiss="modal">
+                            取消
+                        </button>
+                        <!--觸發事件修改-->
+                        <button type="button" class="btn btn-ddd" v-on:click="readyUpdate">確認修改</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!--刪除使用者的對話盒-->
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel">刪除使用者</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        確定刪除?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"
+                                data-dismiss="modal">
+                            取消
+                        </button>
+                        <!--按下按鈕觸發刪除的API-->
+                        <button type="button" class="btn btn-ddd" v-on:click="deleteUser">刪除</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+    </div>
+</div>
+
+<script>
+    var app = new Vue({
+        el: "#userMange",
+        data: {
+            users : [],
+            user: {
+                email:'',
+                birth:'',
+                phone:'',
+                state:''
+            },
+            target:null
+        },
+        methods: {
+            update:function(e) {
+                let self = this;
+                let userEmail = e.target.value;
+                console.log(userEmail);
+                let target = self.users.find( i => {return i.email === userEmail});
+                self.user = target;
+            },
+            readyUpdate:function() {
+                let self = this;
+                //發送PUT請求到API修改資料
+                axios.put("/BackstageMange/UpdateUser/", self.user)
+                    .then((resp) => alert("更新成功"))
+                    .catch((res) => console.log(res));
+                window.location.reload();
+
+            },
+            getUser: function(e) {
+                let self = this;
+                self.target = e.target.value;
+            },
+            deleteUser:function() {
+                let self = this;
+                axios.delete("/BackstageMange/DeleteUser/" + self.target)
+                    .then((res) => {
+                        console.log(res);
+                    })
+                    .catch((res) => console.log(res));
+                console.log("/BackstageMange/DeleteUser/" + self.target);
+                window.location.reload();
+            }
+        },
+        mounted: function () {
+            let self = this;
+            axios.get("/BackstageMange/GetUsers").then((resp) => {
+                self.users = resp.data;
+            });
+        }
+    });
+
+</script>

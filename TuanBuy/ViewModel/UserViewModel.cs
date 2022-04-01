@@ -13,4 +13,13 @@ namespace TuanBuy.ViewModel
         public string Address { get; set; }
         public string PicPath { get; set; }
     }
+
+    public class UserBackMange
+    {
+        public string Email { get; set; }
+        public string Name { get; set; }
+        public int State { get; set; }
+        public DateTime? Birth { get; set; }
+
+    }
 }

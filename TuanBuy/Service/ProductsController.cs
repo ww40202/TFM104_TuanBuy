@@ -35,23 +35,20 @@ namespace TuanBuy.Service
             var targetUser = GetTargetUser();
             var byproducts = _productsRepository.GetAll().Where(a => a.User == targetUser && a.Disable == false)
                 .ToList();
-            var products = new List<ProductViewModel>();
 
-            foreach (var p in byproducts)
-                products.Add(
-                    new ProductViewModel
-                    {
-                        Id = p.Id,
-                        Name = p.Name,
-                        Description = p.Description,
-                        Content = p.Content,
-                        Category = p.Category,
-                        PicPath = "/productpicture/" + p.PicPath,
-                        EndTime = p.EndTime,
-                        Price = p.Price,
-                        Href = "/Product/DemoProduct/" + p.Id
-                    });
-            return products;
+            return byproducts.Select(p => new ProductViewModel
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Description = p.Description,
+                    Content = p.Content,
+                    Category = p.Category,
+                    PicPath = "/productpicture/" + p.PicPath,
+                    EndTime = p.EndTime,
+                    Price = p.Price,
+                    Href = "/Product/DemoProduct/" + p.Id
+                })
+                .ToList();
         }
 
         // GET: api/Products
