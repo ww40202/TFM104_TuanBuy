@@ -164,10 +164,12 @@ namespace TuanBuy.Models
                 if (item.usermessage.MemberId == Id)
                 {
                     chatMessage.MyMessage = item.usermessage.Message;
+                    chatMessage.MyMessageImage = item.usermessage.MessageImage;
                 }
                 else
                 {
                     chatMessage.FriendMessage = item.usermessage.Message;
+                    chatMessage.FriendMessageImage = item.usermessage.MessageImage;
                 }
                 chatMessage.PicPath = item.user.PicPath;
                 chatMessage.MemberId = item.usermessage.MemberId.ToString();

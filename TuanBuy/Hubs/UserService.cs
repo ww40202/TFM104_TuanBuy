@@ -36,15 +36,16 @@ namespace Topic.Hubs
         public override int GetHashCode() => (Name, Id).GetHashCode();
         #endregion
     }
+
     public class UserService : DbContext
     {
-        private List<UserData> _userDatas;
+        public static List<UserData> _userDatas = new List<UserData>();
         //手動建立連線
         private IConfiguration _config;
         public UserService()
         {
             _config = AppUtility.getConfiguration("appsettings.json");
-            _userDatas = new List<UserData>();
+            //_userDatas = new List<UserData>();
         }
         //建立使用者資料泛型集合 新增使用者名單
         public List<UserData> addList(UserData userData)

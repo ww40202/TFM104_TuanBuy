@@ -52,7 +52,7 @@ namespace TuanBuy.Service
                 Birth = targetUser.Birth,
                 Sex = targetUser.Sex,
                 BankAccount = targetUser.BankAccount,
-                PicPath = "/productpicture/" + targetUser.PicPath
+                PicPath = "/MemberPicture/" + targetUser.PicPath
             };
             return userData;
         }
@@ -65,7 +65,7 @@ namespace TuanBuy.Service
             var fileName = "";
             if (user.PicPath != null)
             {
-                var path = _environment.WebRootPath + "/ProductPicture";
+                var path = _environment.WebRootPath + "/MemberPicture";
                 var pic = user.PicPath;
                 fileName = DateTime.Now.Ticks + pic.FileName;
                 using var fs = System.IO.File.Create($"{path}/{fileName}");
