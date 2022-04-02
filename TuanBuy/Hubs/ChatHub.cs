@@ -45,7 +45,8 @@ namespace Topic.Hubs
                 string currentUser = Context.User.Identity.Name;
                 var currentUserImg = Context.User.Claims.FirstOrDefault(x => x.Type == "PicPath").Value;
                 _userservice.CreateMessage(Guid.Parse(nowChatRoomId), userid, message);
-                await this.Clients.Client(userId).SendAsync("PrivateMsgRecevied", message, currentUser, currentUserImg);
+                //await this.Clients.Client(userId).SendAsync("PrivateMsgRecevied", message, currentUser, currentUserImg);
+                await this.Clients.GroupExcept(nowChatRoomId, Context.ConnectionId).SendAsync("PrivateMsgRecevied", message, currentUser, currentUserImg);
             }
             else
             {
@@ -61,7 +62,7 @@ namespace Topic.Hubs
                 string userId = user.Sid;
                 //string currentUser = sendUserName;
                 //var currentUserImg = sendUserPicPath;
-                await this.Clients.Client(userId).SendAsync("PrivateImgMsgRecevied", messagecontext, userName, userPicPath, imgMsgPicPath);
+                await this.Clients.GroupExcept(nowChatRoomId, userConnectionId).SendAsync("PrivateImgMsgRecevied", messagecontext, userName, userPicPath, imgMsgPicPath);
             }
         }
 
@@ -79,8 +80,13 @@ namespace Topic.Hubs
             UserData _user = new UserData();
             if (userAccount != null)
             {
-               _user = _userservice.GetOnlineUserChat(username, userId, userAccount);
+                _user = _userservice.GetOnlineUserChat(username, userId, userAccount);
                 _user.Sid = Context.ConnectionId;
+                //將使用者加入個別聊天市群組
+                for (var i = 0; i < _user.ChatId.Count; i++)
+                {
+                    await Groups.AddToGroupAsync(_user.Sid, _user.ChatId[i].ToString());
+                }
                 await Groups.AddToGroupAsync(_user.Sid, "onlineGroup");
                 //即時發送所有有在這個群組裡面的使用者
                 await Clients.Groups("onlineGroup").SendAsync("GetUserList", _userservice.addList(_user));
