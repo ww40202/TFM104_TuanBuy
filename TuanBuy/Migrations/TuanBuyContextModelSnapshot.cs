@@ -74,7 +74,7 @@ namespace TuanBuy.Migrations
 
                     b.HasKey("ChatRoomId");
 
-                    b.ToTable("ChatRoom");
+                    b.ToTable("ChatRooms");
                 });
 
             modelBuilder.Entity("TuanBuy.Models.ChatRoomMember", b =>
@@ -214,6 +214,49 @@ namespace TuanBuy.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Product");
+                });
+
+            modelBuilder.Entity("TuanBuy.Models.Entities.ProductMessage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductMessages");
+                });
+
+            modelBuilder.Entity("TuanBuy.Models.Entities.ProductPic", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("PicPath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductPics");
                 });
 
             modelBuilder.Entity("TuanBuy.Models.Entities.TestProduct", b =>
@@ -379,9 +422,31 @@ namespace TuanBuy.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("TuanBuy.Models.Entities.ProductMessage", b =>
+                {
+                    b.HasOne("TuanBuy.Models.Entities.Product", "Product")
+                        .WithMany("ProductMessage")
+                        .HasForeignKey("ProductId");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("TuanBuy.Models.Entities.ProductPic", b =>
+                {
+                    b.HasOne("TuanBuy.Models.Entities.Product", "Product")
+                        .WithMany("ProductPics")
+                        .HasForeignKey("ProductId");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("TuanBuy.Models.Entities.Product", b =>
                 {
                     b.Navigation("Order");
+
+                    b.Navigation("ProductMessage");
+
+                    b.Navigation("ProductPics");
                 });
 
             modelBuilder.Entity("TuanBuy.Models.Entities.User", b =>
