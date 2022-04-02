@@ -22,8 +22,8 @@ namespace TuanBuy.Controllers
         //自訂建構子 同時注入一個組態物件
         private readonly IWebHostEnvironment _environment;
         private IConfiguration _config;
-        private SqlDbServices _sqldb;
-        public MemberController(IConfiguration configuration, SqlDbServices sqlDbServices, IWebHostEnvironment environment)
+        private TuanBuyContext _sqldb;
+        public MemberController(IConfiguration configuration, TuanBuyContext sqlDbServices, IWebHostEnvironment environment)
         {
             _config = configuration;
             _sqldb = sqlDbServices;

@@ -258,7 +258,7 @@
                     var bodyFormData = new FormData();
                     bodyFormData.append('nowChatRoomId', app.nowChatRoomId);
                     bodyFormData.append('userid', userid);
-                    bodyFormData.append('message', messagecontext);
+                    bodyFormData.append('message', '');
                     bodyFormData.append('connectionId', userConnectionId)
                     bodyFormData.append('picPath', messageimgahe);             
                     axios({
@@ -362,6 +362,7 @@
                     this.image = input.files[0];
                     reader.readAsDataURL(input.files[0]);
                 }
+
             }
         }
     })
