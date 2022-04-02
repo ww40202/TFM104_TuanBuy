@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TuanBuy.Models.Entities;
 
 namespace TuanBuy.Migrations
 {
     [DbContext(typeof(TuanBuyContext))]
-    partial class TuanBuyContextModelSnapshot : ModelSnapshot
+    [Migration("20220402143212_db0402")]
+    partial class db0402
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
