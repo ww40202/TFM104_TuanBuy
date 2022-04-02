@@ -84,7 +84,7 @@ namespace TuanBuy.Service
                 targetUser.PicPath = fileName;
                 if (fullMember)
                 {
-                    targetUser.State = 2;
+                    targetUser.State = UserState.正式會員.ToString();
                     var claims = new Claim(ClaimTypes.Role, "FullUser");
                     var claimsIdentity = new ClaimsIdentity();
                     claimsIdentity.AddClaim(claims);
