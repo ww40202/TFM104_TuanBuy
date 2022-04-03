@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Operations;
 using TuanBuy.Models;
 using TuanBuy.Models.Entities;
 using TuanBuy.Models.Interface;
@@ -20,7 +24,7 @@ namespace TuanBuy.Service
         private readonly IRepository<User> _userRepository;
         private readonly TuanBuyContext _dbContext;
         public ProductsController(GenericRepository<Product> productsRepository, IWebHostEnvironment environment,
-            GenericRepository<User> userRepository,TuanBuyContext dbContext)
+            GenericRepository<User> userRepository, TuanBuyContext dbContext)
         {
             _productsRepository = productsRepository;
             _environment = environment;
@@ -34,46 +38,51 @@ namespace TuanBuy.Service
         public ActionResult<IEnumerable<ProductViewModel>> GetMyProducts()
         {
             var targetUser = GetTargetUser();
-            var byproducts = _productsRepository.GetAll().Where(a => a.User == targetUser && a.Disable == false);
-            
-            var result = from p in _dbContext.Product
-                join pic in _dbContext.ProductPics on p.Id equals pic.Product.Id
-                where p.Disable == true && p.User == targetUser
-                select new ProductViewModel
+
+
+            var product = _dbContext.Product.ToList().GroupJoin(
+             _dbContext.ProductPics.ToList(),
+             product => product,
+             productPic => productPic.Product,
+             (p, pic) => new
+             {
+                 User = p.User,
+                 Disable = p.Disable,
+                 Id = p.Id,
+                 Name = p.Name,
+                 Description = p.Description,
+                 Content = p.Content,
+                 Category = p.Category,
+                 PicPath = "/productpicture/" + pic.FirstOrDefault()?.PicPath,
+                 EndTime = p.EndTime,
+                 Price = p.Price,
+                 Href = "/Product/DemoProduct/" + p.Id
+             }
+             ).ToList();
+
+            var products = new List<ProductViewModel>();
+            foreach (var p in product)
+            {
+                if (p.User == targetUser && p.Disable == false)
                 {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Description = p.Description,
-                    Content = p.Content,
-                    Category = p.Category,
-                    PicPath = "/productpicture/" + pic.PicPath,
-                    EndTime = p.EndTime,
-                    Price = p.Price,
-                    Href = "/Product/DemoProduct/" + p.Id
-                };
-            var test = result.ToList();
+                    var prod = new ProductViewModel
+                    {
+                        Id = p.Id,
+                        Name = p.Name,
+                        Description = p.Description,
+                        Content = p.Content,
+                        Category = p.Category,
+                        PicPath = p.PicPath,
+                        EndTime = p.EndTime,
+                        Price = p.Price,
+                        Href = "/Product/DemoProduct/" + p.Id
+                    };
+                    products.Add(prod);
+                }
+            }
+          
+            return products;
 
-            var ttest = from p in _dbContext.Product
-                join pic in _dbContext.ProductPics on p.Id equals pic.Product.Id
-                where p.User == targetUser && p.Disable == false
-                        select p;
-            var abc = ttest.ToList();
-
-
-            return result.ToList();
-            //return byproducts.Select(p => new ProductViewModel
-            //    {
-            //        Id = p.Id,
-            //        Name = p.Name,
-            //        Description = p.Description,
-            //        Content = p.Content,
-            //        Category = p.Category,
-            //        PicPath = "/productpicture/" + p.PicPath,
-            //        EndTime = p.EndTime,
-            //        Price = p.Price,
-            //        Href = "/Product/DemoProduct/" + p.Id
-            //    })
-            //    .ToList();
         }
 
         // GET: api/Products
@@ -121,7 +130,7 @@ namespace TuanBuy.Service
 
 
         [HttpPut]
-        public IActionResult PutProduct([FromBody]UpDateProductViewModel product)
+        public IActionResult PutProduct([FromBody] UpDateProductViewModel product)
         {
             var p = _productsRepository.Get(a => a.Id == Convert.ToInt32(product.Id));
             p.Price = product.Price;
