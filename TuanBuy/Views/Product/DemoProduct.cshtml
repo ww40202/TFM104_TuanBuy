@@ -365,9 +365,8 @@
 
             },
             mounted: function () {
-                let self = this;
-                axios.get("/api/Products/" + id).then((resp) => {
-                    self.products = resp.data;
+                /*let self = this;*/
+                axios.get("/Product/DemoProduct/" + id).then((resp) => {
                     console.log(resp);
                 });
                 console.log(this.products);

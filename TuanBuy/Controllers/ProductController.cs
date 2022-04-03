@@ -18,11 +18,14 @@ namespace TuanBuy.Controllers
         private readonly IRepository<Product> _productsRepository;
         private readonly IWebHostEnvironment _environment;
         private readonly IRepository<User> _userRepository;
-        public ProductController(GenericRepository<Product> productsRepository, IWebHostEnvironment environment, GenericRepository<User> userRepository)
+        private TuanBuyContext _sqldb;
+
+        public ProductController(GenericRepository<Product> productsRepository, IWebHostEnvironment environment, GenericRepository<User> userRepository, TuanBuyContext sqldb)
         {
             _productsRepository = productsRepository;
             _environment = environment;
             _userRepository = userRepository;
+            _sqldb = sqldb;
         }
         //新增商品首頁
         [Authorize(Roles = "FullUser")]
@@ -30,10 +33,17 @@ namespace TuanBuy.Controllers
         {
             return View();
         }
-        //商品介紹頁
         public IActionResult DemoProduct()
         {
             return View();
+        }
+        //商品介紹頁
+        [HttpGet]
+        public IActionResult DemoProduct(int id)
+        {
+            ProductManage product = new ProductManage(_sqldb);
+            var result = product.GetDemoProductData(id);
+            return View(result);
         }
         //等待開團商品頁
         [Authorize(Roles = "FullUser")]

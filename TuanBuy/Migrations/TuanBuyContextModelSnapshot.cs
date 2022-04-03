@@ -121,8 +121,7 @@ namespace TuanBuy.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId")
-                        .IsUnique();
+                    b.HasIndex("ProductId");
 
                     b.HasIndex("UserId");
 
@@ -206,7 +205,7 @@ namespace TuanBuy.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -249,7 +248,7 @@ namespace TuanBuy.Migrations
                     b.Property<string>("PicPath")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProductId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -384,8 +383,8 @@ namespace TuanBuy.Migrations
             modelBuilder.Entity("TuanBuy.Models.Entities.Order", b =>
                 {
                     b.HasOne("TuanBuy.Models.Entities.Product", "Product")
-                        .WithOne("Order")
-                        .HasForeignKey("TuanBuy.Models.Entities.Order", "ProductId")
+                        .WithMany("Order")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -417,7 +416,9 @@ namespace TuanBuy.Migrations
                 {
                     b.HasOne("TuanBuy.Models.Entities.User", "User")
                         .WithMany("Product")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -435,7 +436,9 @@ namespace TuanBuy.Migrations
                 {
                     b.HasOne("TuanBuy.Models.Entities.Product", "Product")
                         .WithMany("ProductPics")
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Product");
                 });

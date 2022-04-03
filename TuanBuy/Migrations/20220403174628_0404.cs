@@ -3,12 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TuanBuy.Migrations
 {
-    public partial class _0403 : Migration
+    public partial class _0404 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "ChatRoom",
+                name: "ChatRooms",
                 columns: table => new
                 {
                     ChatRoomId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -16,7 +16,7 @@ namespace TuanBuy.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ChatRoom", x => x.ChatRoomId);
+                    table.PrimaryKey("PK_ChatRooms", x => x.ChatRoomId);
                 });
 
             migrationBuilder.CreateTable(
@@ -76,9 +76,9 @@ namespace TuanBuy.Migrations
                 {
                     table.PrimaryKey("PK_ChatMessages", x => x.MessageId);
                     table.ForeignKey(
-                        name: "FK_ChatMessages_ChatRoom_ChatRoomId",
+                        name: "FK_ChatMessages_ChatRooms_ChatRoomId",
                         column: x => x.ChatRoomId,
-                        principalTable: "ChatRoom",
+                        principalTable: "ChatRooms",
                         principalColumn: "ChatRoomId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -94,9 +94,9 @@ namespace TuanBuy.Migrations
                 {
                     table.PrimaryKey("PK_ChatRoomUser", x => new { x.ChatRoomId, x.MemberId });
                     table.ForeignKey(
-                        name: "FK_ChatRoomUser_ChatRoom_ChatRoomId",
+                        name: "FK_ChatRoomUser_ChatRooms_ChatRoomId",
                         column: x => x.ChatRoomId,
-                        principalTable: "ChatRoom",
+                        principalTable: "ChatRooms",
                         principalColumn: "ChatRoomId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -120,9 +120,9 @@ namespace TuanBuy.Migrations
                 {
                     table.PrimaryKey("PK_Member_Chats", x => new { x.MemberId, x.ChatRoomId });
                     table.ForeignKey(
-                        name: "FK_Member_Chats_ChatRoom_ChatRoomId",
+                        name: "FK_Member_Chats_ChatRooms_ChatRoomId",
                         column: x => x.ChatRoomId,
-                        principalTable: "ChatRoom",
+                        principalTable: "ChatRooms",
                         principalColumn: "ChatRoomId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -148,7 +148,7 @@ namespace TuanBuy.Migrations
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Disable = table.Column<bool>(type: "bit", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: true)
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -158,7 +158,7 @@ namespace TuanBuy.Migrations
                         column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -218,7 +218,7 @@ namespace TuanBuy.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PicPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ProductId = table.Column<int>(type: "int", nullable: true)
+                    ProductId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -228,7 +228,7 @@ namespace TuanBuy.Migrations
                         column: x => x.ProductId,
                         principalTable: "Product",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -281,8 +281,7 @@ namespace TuanBuy.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Order_ProductId",
                 table: "Order",
-                column: "ProductId",
-                unique: true);
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Order_UserId",
@@ -339,7 +338,7 @@ namespace TuanBuy.Migrations
                 name: "TestProducts");
 
             migrationBuilder.DropTable(
-                name: "ChatRoom");
+                name: "ChatRooms");
 
             migrationBuilder.DropTable(
                 name: "Order");
