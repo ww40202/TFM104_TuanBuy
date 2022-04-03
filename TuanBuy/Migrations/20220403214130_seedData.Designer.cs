@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TuanBuy.Models.Entities;
 
 namespace TuanBuy.Migrations
 {
     [DbContext(typeof(TuanBuyContext))]
-    partial class TuanBuyContextModelSnapshot : ModelSnapshot
+    [Migration("20220403214130_seedData")]
+    partial class seedData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -213,47 +215,6 @@ namespace TuanBuy.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Product");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Category = "測試類別",
-                            Content = "商品內容",
-                            CreateTime = new DateTime(2022, 4, 4, 5, 47, 59, 862, DateTimeKind.Local).AddTicks(1062),
-                            Description = "商品描述",
-                            Disable = false,
-                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "測試商品1",
-                            Price = 0m,
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Category = "測試類別",
-                            Content = "商品內容",
-                            CreateTime = new DateTime(2022, 4, 4, 5, 47, 59, 862, DateTimeKind.Local).AddTicks(9106),
-                            Description = "商品描述",
-                            Disable = false,
-                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "測試商品2",
-                            Price = 0m,
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Category = "測試類別",
-                            Content = "商品內容",
-                            CreateTime = new DateTime(2022, 4, 4, 5, 47, 59, 862, DateTimeKind.Local).AddTicks(9139),
-                            Description = "商品描述",
-                            Disable = false,
-                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "測試商品3",
-                            Price = 0m,
-                            UserId = 1
-                        });
                 });
 
             modelBuilder.Entity("TuanBuy.Models.Entities.ProductMessage", b =>
@@ -393,8 +354,8 @@ namespace TuanBuy.Migrations
                             Id = 2,
                             Disable = false,
                             Email = "456@gmail.com",
-                            Name = "小明",
-                            NickName = "小明",
+                            Name = "小王",
+                            NickName = "小王",
                             Password = "123456",
                             PicPath = "637843188933582087init.jpg",
                             Sex = 1,
@@ -405,8 +366,8 @@ namespace TuanBuy.Migrations
                             Id = 3,
                             Disable = false,
                             Email = "789@gmail.com",
-                            Name = "小張",
-                            NickName = "小張",
+                            Name = "小王",
+                            NickName = "小王",
                             Password = "123456",
                             PicPath = "637843188933582087init.jpg",
                             Sex = 1,
