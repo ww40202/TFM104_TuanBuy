@@ -2011,7 +2011,9 @@ ol {
 	-ms-flex-pack: center;
 	justify-content: center;
 	position: relative;
-	margin-bottom: 40px;
+	/* margin-bottom: 40px; */
+	background-color: white;
+	padding: 16px 0;
 }
 
 .nav::before {
@@ -2020,7 +2022,7 @@ ol {
 	top: 13px;
 	height: 1px;
 	width: 335px;
-	background: #e1e1e1;
+	/* background: #e1e1e1; */
 	content: "";
 }
 
@@ -2030,7 +2032,7 @@ ol {
 	top: 13px;
 	height: 1px;
 	width: 335px;
-	background: #e1e1e1;
+	/* background: #e1e1e1; */
 	content: "";
 }
 
@@ -2053,7 +2055,7 @@ ol {
 }
 
 .nav-item .nav-link.active {
-	color: #111111;
+	color: #ee4d2d;
 }
 
 .tab-content .tab-pane h6 {
