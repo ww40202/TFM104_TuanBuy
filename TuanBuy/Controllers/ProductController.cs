@@ -97,6 +97,5 @@ namespace TuanBuy.Controllers
         {
             return View();
         }
-
     }
 }

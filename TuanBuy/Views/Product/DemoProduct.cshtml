@@ -359,12 +359,18 @@
             data: {
                 products: []
             },
-            methods: {},
+            methods: {
+
+            
+
+            },
             mounted: function () {
                 let self = this;
                 axios.get("/api/Products/" + id).then((resp) => {
                     self.products = resp.data;
+                    console.log(resp);
                 });
+                console.log(this.products);
             }
         });
 
