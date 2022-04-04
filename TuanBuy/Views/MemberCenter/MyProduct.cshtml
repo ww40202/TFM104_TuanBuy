@@ -1,10 +1,14 @@
-﻿<div class="container">
+﻿<script src="/VueComponent/VueDemo.js"></script>
+
+
+<div class="container">
     <div class="row" id="mypd">
-        <partial name="_MyProductCenter"></partial>
+        <test v-bind:user="user"></test>
+
         <div class="col-lg-10 form-row">
-            <div class="col-lg-3 display">
-                <div class="collapsecard" v-for="item in products">
-                    <img class="card-img-top" v-bind:src="item.picPath" alt="Card image" style="width:100%">
+            <div class="col-lg-4 display">
+                <div class="card"  v-for="item in products">
+                    <img class="card-img-top" v-bind:src="item.picPath" alt="Card image" style="width: 100%">
                     <div class="card-body">
                         @*商品創立時間*@
                         <h5>{{item.createTime}}</h5>
@@ -12,7 +16,7 @@
                         <h4 class="card-title">{{item.name}}</h4>
                         @*商品描述*@
                         <p class="card-text">{{item.description}}</p>
-                        
+
 
                         <!-- 修改按鍵，按鈕綁id -->
                         <button type="button" class="btn btn-ddd" data-toggle="modal" data-target="#exampleModal"
@@ -115,6 +119,14 @@
                 description: '',
                 endTime: ''
             },
+            user: {
+                name: "",
+                phone: "",
+                birth: "",
+                address: "",
+                sex: "",
+                uploadPicPath: ""
+            },
             target: null
         },
         methods: {
@@ -174,6 +186,7 @@
             axios.get("/api/Products/MyProducts").then((resp) => {
                 self.products = resp.data;
             });
+            axios.get("/api/MemberCenter/").then((resp) => { this.user = resp.data });
         }
     });
 </script>
