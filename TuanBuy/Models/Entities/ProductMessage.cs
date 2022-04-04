@@ -12,6 +12,8 @@ namespace TuanBuy.Models.Entities
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public string MessageContent { get; set; }
         public int UserId { get; set; }
+        [ForeignKey("Product")]
+        public int ProductId { get; set; }
         public virtual Product Product { get; set; }
     }
 }
