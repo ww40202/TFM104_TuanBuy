@@ -33,18 +33,31 @@ namespace TuanBuy.Controllers
         {
             return View();
         }
+
+        //商品介紹頁
         public IActionResult DemoProduct()
         {
-            return View();
+            return View();           
         }
-        //商品介紹頁
+
+        #region 取得商品頁資料
         [HttpGet]
-        public IActionResult DemoProduct(int id)
+        public DemoProductViewModel GetProductData(int id)
         {
             ProductManage product = new ProductManage(_sqldb);
             var result = product.GetDemoProductData(id);
-            return View(result);
+            return result;
         }
+        #endregion
+
+        #region 取得商品頁留言
+        public ProductMessage GetProductMessage(int id)
+        {
+            ProductManage product = new ProductManage(_sqldb);
+            var result = product.GetDemoProductData(id);
+            return result;
+        }
+        #endregion
         //等待開團商品頁
         [Authorize(Roles = "FullUser")]
         public IActionResult WaitingProduct()
