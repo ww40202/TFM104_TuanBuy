@@ -14,6 +14,7 @@ namespace TuanBuy.Models.Entities
             _dbContext = dbContext;
         }
 
+        #region 取得商品頁資料
         public DemoProductViewModel GetDemoProductData(int ProductId)
         {
             //群組join
@@ -62,6 +63,19 @@ namespace TuanBuy.Models.Entities
             }
             return demoProductViewModel;
         }
+        #endregion
 
+        #region 取得商品頁留言
+        public ProductMessageViewModel GetProductMessageData(int ProductId)
+        {
+            var result = from message in _dbContext.ProductMessages
+                         join sellreplis in _dbContext.ProductSellerReplies on message.Id equals sellreplis.ProductMessageId
+                         where (message.ProductId == ProductId)
+                         select new { message, sellreplis };
+            ProductMessageViewModel productManage = new ProductMessageViewModel();
+
+            return productManage;
+        }
+        #endregion
     }
 }
