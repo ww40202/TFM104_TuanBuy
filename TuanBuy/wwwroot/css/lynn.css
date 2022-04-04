@@ -1,0 +1,17 @@
+/*//商品卡*/
+.card {
+    margin-bottom: 1rem;
+    border-radius: 10px;
+    box-shadow: 1px 2px 2px gray;
+}
+.collapsecard {
+    margin-bottom: 1rem;
+    border-radius: 2rem;
+}
+.card-body {
+    height: 15rem;
+}
+/*首頁幻燈片*/
+.carousel-inner{
+    border-radius: 1rem;
+}
