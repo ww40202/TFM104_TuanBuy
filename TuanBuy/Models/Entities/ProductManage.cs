@@ -58,7 +58,8 @@ namespace TuanBuy.Models.Entities
                 foreach (var picpath in item.user.prd.product.ProductPics)
 
                 {
-                    demoProductViewModel.Buyers = item.user.prd.product.Order.Count.ToString();
+                    if (item.user.prd.product.Order != null)
+                        demoProductViewModel.Buyers = item.user.prd.product.Order.Count.ToString();
                 }
 
                 if (item.user.prd.product.ProductPics != null)
