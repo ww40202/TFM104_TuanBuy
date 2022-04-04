@@ -39,7 +39,6 @@ namespace TuanBuy.Service
         {
             var targetUser = GetTargetUser();
 
-
             var product = _dbContext.Product.ToList().GroupJoin(
              _dbContext.ProductPics.ToList(),
              product => product,
@@ -59,7 +58,7 @@ namespace TuanBuy.Service
                  Href = "/Product/DemoProduct/" + p.Id
              }
              ).ToList();
-
+            //只取第一張圖片
             var products = new List<ProductViewModel>();
             foreach (var p in product)
             {
