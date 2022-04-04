@@ -55,13 +55,6 @@ namespace TuanBuy.Models.Entities
                 {
                     demoProductViewModel.Buyers = item.user.prd.product.Order.Count.ToString();
                 }
-                foreach (var picpath in item.user.prd.product.ProductPics)
-
-                {
-                    if (item.user.prd.product.Order != null)
-                        demoProductViewModel.Buyers = item.user.prd.product.Order.Count.ToString();
-                }
-
                 if (item.user.prd.product.ProductPics != null)
                 {
                     foreach (var picpath in item.user.prd.product.ProductPics)
