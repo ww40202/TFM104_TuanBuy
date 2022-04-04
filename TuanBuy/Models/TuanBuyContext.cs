@@ -30,8 +30,6 @@ namespace TuanBuy.Models.Entities
         public virtual DbSet<ChatRoomMember> Member_Chats { get; set; }
 
         public virtual DbSet<ChatMessages> ChatMessages { get; set; }
-
-        public virtual DbSet<ProductSellerReply> ProductSellerReplies { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ChatRoomMember>().HasKey(s => new { s.MemberId, s.ChatRoomId });

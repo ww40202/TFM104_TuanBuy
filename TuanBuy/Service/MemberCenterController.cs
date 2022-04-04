@@ -62,7 +62,8 @@ namespace TuanBuy.Service
         [HttpPost]
         public void Post([FromForm] UserUpdate user)
         {
-            var fileName = "";
+            var targetUser = GetTargetUser();
+            var fileName = targetUser.PicPath;
             if (user.PicPath != null)
             {
                 var path = _environment.WebRootPath + "/MemberPicture";
@@ -75,7 +76,6 @@ namespace TuanBuy.Service
             var fullMember = user.Name != "" || user.Phone != "" || user.Address != "" || user.Birth != null;
             if (_httpContextAccessor.HttpContext != null)
             {
-                var targetUser = GetTargetUser();
                 targetUser.Name = user.Name;
                 targetUser.Phone = user.Phone;
                 targetUser.Birth = user.Birth;

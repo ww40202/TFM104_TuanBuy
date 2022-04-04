@@ -18,14 +18,13 @@ namespace TuanBuy.Controllers
         private readonly IRepository<Product> _productsRepository;
         private readonly IWebHostEnvironment _environment;
         private readonly IRepository<User> _userRepository;
-        private TuanBuyContext _sqldb;
-
-        public ProductController(GenericRepository<Product> productsRepository, IWebHostEnvironment environment, GenericRepository<User> userRepository, TuanBuyContext sqldb)
+        private readonly TuanBuyContext _dbContext;
+        public ProductController(GenericRepository<Product> productsRepository, IWebHostEnvironment environment, GenericRepository<User> userRepository, TuanBuyContext dbContext)
         {
             _productsRepository = productsRepository;
             _environment = environment;
             _userRepository = userRepository;
-            _sqldb = sqldb;
+            _dbContext = dbContext;
         }
         //新增商品首頁
         [Authorize(Roles = "FullUser")]
@@ -33,31 +32,25 @@ namespace TuanBuy.Controllers
         {
             return View();
         }
+        //新增商品頁
+        public IActionResult Test()
+        {
+            return View();
+        }
 
         //商品介紹頁
         public IActionResult DemoProduct()
         {
-            return View();           
+            return View();
         }
-
-        #region 取得商品頁資料
+        //商品介紹頁
         [HttpGet]
-        public DemoProductViewModel GetProductData(int id)
+        public IActionResult DemoProduct(int id)
         {
-            ProductManage product = new ProductManage(_sqldb);
+            ProductManage product = new ProductManage(_dbContext);
             var result = product.GetDemoProductData(id);
-            return result;
+            return View(result);
         }
-        #endregion
-
-        #region 取得商品頁留言
-        public ProductMessageViewModel GetProductMessage(int id)
-        {
-            ProductManage product = new ProductManage(_sqldb);
-            var result = product.GetProductMessageData(id);
-            return result;
-        }
-        #endregion
         //等待開團商品頁
         [Authorize(Roles = "FullUser")]
         public IActionResult WaitingProduct()
@@ -75,50 +68,71 @@ namespace TuanBuy.Controllers
         [Authorize(Roles = "FullUser")]
         public IActionResult PostProduct(AddProductViewModel product)
         {
-            var path = _environment.WebRootPath + "/ProductPicture";
             if (product.PicPath == null)
             {
                 return BadRequest();
             }
-            var pic = product.PicPath.FirstOrDefault();
 
-            if (pic != null)
+
+            var targetUser = GetTargetUser();
+
+            #region 建立商品
+            var targetProduct = new Product
             {
-                var fileName = DateTime.Now.Ticks.ToString() + pic.FileName;
+                Name = product.Name,
+                Content = product.Content,
+                Category = product.Category,
+                Description = product.Description,
+                CreateTime = DateTime.Now,
+                EndTime = product.EndTime,
+                Price = product.Price,
+                User = targetUser
+            };
+            _productsRepository.Create(targetProduct);
+            _productsRepository.SaveChanges();
+            #endregion
 
-                using (var fs = System.IO.File.Create($"{path}/{fileName}"))
+            //檔案路徑
+            var path = _environment.WebRootPath + "/ProductPicture";
+
+            #region 加入圖片
+            
+            
+            foreach (var file in product.PicPath)
+            {
+                if (file != null)
                 {
-                    pic.CopyTo(fs);
+                    var fileName = DateTime.Now.Ticks + file.FileName;
+                    using var fs = System.IO.File.Create($"{path}/{fileName}");
+                    file.CopyTo(fs);
+                    var pPic = new ProductPic()
+                    {
+                        Product = targetProduct,
+                        PicPath = fileName
+                    };
+                    _dbContext.ProductPics.Add(pPic);
                 }
-                
-                var claim = HttpContext.User.Claims;
-                var userEmail = claim.FirstOrDefault(a => a.Type == ClaimTypes.Email)?.Value;
-                var targetUser = _userRepository.Get(a => a.Email == userEmail);
-                
-                _productsRepository.Create(new Product()
-                {
-                    Name = product.Name,
-                    PicPath = fileName,
-                    Content = product.Content,
-                    Category = product.Category,
-                    Description = product.Description,
-                    CreateTime = DateTime.Now,
-                    EndTime = product.EndTime,
-                    Price = product.Price,
-                    User = targetUser
-                });
-                return Ok();
             }
-            else
-            {
-                return BadRequest();
-            }
+            _dbContext.SaveChanges();
+
+
+            #endregion
+            return Ok();
         }
+
 
         [Authorize(Roles = "FullUser")]
         public IActionResult MyProduct()
         {
             return View();
+        }
+        //抓取當前使用者
+        private User GetTargetUser()
+        {
+            var claim = HttpContext.User.Claims;
+            var userEmail = claim.FirstOrDefault(a => a.Type == ClaimTypes.Email)?.Value;
+            var targetUser = _userRepository.Get(a => a.Email == userEmail);
+            return targetUser;
         }
     }
 }
