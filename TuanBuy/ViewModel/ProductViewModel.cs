@@ -46,5 +46,18 @@ namespace TuanBuy.ViewModel
         //產品圖片
         public List<string> ProductPicPath { get; set; }
     }
+    public class ProductMessageViewModel
+    {
+        //留言者頭像
+        public string MessagePicPaht { get; set; }
+        //留言者名稱
+        public string MessageName { get; set; }
+        //留言者內容
+        public string MessageContent { get; set; }
 
+        //賣家名稱
+        public string SellerName { get; set; }
+        //賣家回覆訊息
+        public string SeelerReply { get; set; }
+    }
 }
