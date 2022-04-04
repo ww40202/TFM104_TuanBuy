@@ -50,7 +50,13 @@ namespace TuanBuy.Models.Entities
                 demoProductViewModel.SellerId = item.user.prd.product.User.Id;
                 demoProductViewModel.Seller = item.user.prd.product.User.NickName;
                 //目前團購已訂購人數
-                if (item.user.prd.product.Order != null)
+
+                if(item.user.prd.product.Order !=null)
+                {
+                    demoProductViewModel.Buyers = item.user.prd.product.Order.Count.ToString();
+                }
+                foreach (var picpath in item.user.prd.product.ProductPics)
+
                 {
                     demoProductViewModel.Buyers = item.user.prd.product.Order.Count.ToString();
                 }
