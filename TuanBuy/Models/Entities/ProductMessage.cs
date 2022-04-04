@@ -10,6 +10,7 @@ namespace TuanBuy.Models.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.Now;
+        public string MessageContent { get; set; }
         public int UserId { get; set; }
         public virtual Product Product { get; set; }
     }

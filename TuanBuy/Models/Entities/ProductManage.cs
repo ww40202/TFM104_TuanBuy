@@ -50,7 +50,10 @@ namespace TuanBuy.Models.Entities
                 demoProductViewModel.SellerId = item.user.prd.product.User.Id;
                 demoProductViewModel.Seller = item.user.prd.product.User.NickName;
                 //目前團購已訂購人數
-                demoProductViewModel.Buyers = item.user.prd.product.Order.Count.ToString();
+                if(item.user.prd.product.Order !=null)
+                {
+                    demoProductViewModel.Buyers = item.user.prd.product.Order.Count.ToString();
+                }
                 foreach (var picpath in item.user.prd.product.ProductPics)
                 {
                     productPicPath.Add($"/ProductPicture/{picpath.PicPath}");
@@ -59,5 +62,6 @@ namespace TuanBuy.Models.Entities
             }
             return demoProductViewModel;
         }
+
     }
 }
