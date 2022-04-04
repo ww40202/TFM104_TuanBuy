@@ -77,5 +77,12 @@ namespace TuanBuy.Models.Entities
             return productManage;
         }
         #endregion
+
+        #region 新增商品頁留言 
+        public void AddProductMessage()
+        {
+            
+        }
+        #endregion
     }
 }

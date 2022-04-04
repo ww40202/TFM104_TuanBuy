@@ -57,7 +57,18 @@ namespace TuanBuy.Controllers
             var result = product.GetProductMessageData(id);
             return result;
         }
+        [HttpPost]
+        #endregion 新增商品頁留言
+        public IActionResult AddProductMessage(int ProductId,int UserId,string MessageContent)
+        {
+            ProductManage product = new ProductManage(_sqldb);
+            //新增商品頁留言
+            product.AddProductMessage();
+            return Ok();
+        }
+        #region 
         #endregion
+
         //等待開團商品頁
         [Authorize(Roles = "FullUser")]
         public IActionResult WaitingProduct()
