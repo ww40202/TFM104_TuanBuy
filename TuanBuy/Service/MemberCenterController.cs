@@ -52,7 +52,7 @@ namespace TuanBuy.Service
                 Birth = targetUser.Birth,
                 Sex = targetUser.Sex,
                 BankAccount = targetUser.BankAccount,
-                PicPath = "/productpicture/" + targetUser.PicPath
+                PicPath = "/MemberPicture/" + targetUser.PicPath
             };
             return userData;
         }
@@ -62,10 +62,11 @@ namespace TuanBuy.Service
         [HttpPost]
         public void Post([FromForm] UserUpdate user)
         {
-            var fileName = "";
+            var targetUser = GetTargetUser();
+            var fileName = targetUser.PicPath;
             if (user.PicPath != null)
             {
-                var path = _environment.WebRootPath + "/ProductPicture";
+                var path = _environment.WebRootPath + "/MemberPicture";
                 var pic = user.PicPath;
                 fileName = DateTime.Now.Ticks + pic.FileName;
                 using var fs = System.IO.File.Create($"{path}/{fileName}");
@@ -75,7 +76,6 @@ namespace TuanBuy.Service
             var fullMember = user.Name != "" || user.Phone != "" || user.Address != "" || user.Birth != null;
             if (_httpContextAccessor.HttpContext != null)
             {
-                var targetUser = GetTargetUser();
                 targetUser.Name = user.Name;
                 targetUser.Phone = user.Phone;
                 targetUser.Birth = user.Birth;
@@ -84,13 +84,16 @@ namespace TuanBuy.Service
                 targetUser.PicPath = fileName;
                 if (fullMember)
                 {
-                    targetUser.State = 2;
-                    var claims = new Claim(ClaimTypes.Role, "FullUser");
-                    var claimsIdentity = new ClaimsIdentity();
-                    claimsIdentity.AddClaim(claims);
-                    var claimsPrincipal = new ClaimsPrincipal();
-                    claimsPrincipal.AddIdentity(claimsIdentity);
-                    HttpContext.SignInAsync(claimsPrincipal);
+                    targetUser.State = UserState.正式會員.ToString();
+                    //這段有問題 不能直接更改會員資料
+                    //var claims = new Claim(ClaimTypes.Role, "FullUser");
+                    //var claimsIdentity = new ClaimsIdentity();
+                    //claimsIdentity.AddClaim(claims);
+                    //var claimsPrincipal = new ClaimsPrincipal();
+                    //claimsPrincipal.AddIdentity(claimsIdentity);
+                    //HttpContext.SignInAsync(claimsPrincipal);
+                    //TODO 用回應加Cookies做?
+                    //HttpContext.Response.Cookies.Append("","");
                 }
             }
 
