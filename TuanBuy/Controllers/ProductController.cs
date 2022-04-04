@@ -52,6 +52,16 @@ namespace TuanBuy.Controllers
             return View(result);
         }
 
+        #region 取得商品頁資料
+        [HttpGet]
+        public DemoProductViewModel GetProductData(int id)
+        {
+            ProductManage product = new ProductManage(_dbContext);
+            var result = product.GetDemoProductData(id);
+            return result;
+        }
+        #endregion
+
         #region 取得商品頁留言
         public ProductMessageViewModel GetProductMessage(int id)
         {
