@@ -160,7 +160,10 @@
                                                 <h5>
                                                     <strong style="color: black">ATOLL 快轉機身環 | 最靈活的相機角度調整配件</strong>
                                                 </h5>
-                                                <p> 團主 by <a href="">Harry Wang</a></p>
+                                                <p>
+                                                    團主 by
+                                                    <a href="">Harry Wang</a>
+                                                </p>
                                                 <p>ATOLL 是相機的角度調整環，具有腳架環的功能，但裝在機身上，超便利流暢的操作體驗，彷如相機的一部份</p>
                                             </div>
                                             <div>
@@ -183,7 +186,10 @@
                                                 <h5>
                                                     <strong style="color: black">ATOLL 快轉機身環 | 最靈活的相機角度調整配件</strong>
                                                 </h5>
-                                                <p> 團主 by <a href="">Harry Wang</a></p>
+                                                <p>
+                                                    團主 by
+                                                    <a href="">Harry Wang</a>
+                                                </p>
                                                 <p>ATOLL 是相機的角度調整環，具有腳架環的功能，但裝在機身上，超便利流暢的操作體驗，彷如相機的一部份</p>
                                             </div>
                                             <div>
@@ -206,7 +212,10 @@
                                                 <h5>
                                                     <strong style="color: black">ATOLL 快轉機身環 | 最靈活的相機角度調整配件</strong>
                                                 </h5>
-                                                <p> 團主 by <a href="">Harry Wang</a></p>
+                                                <p>
+                                                    團主 by
+                                                    <a href="">Harry Wang</a>
+                                                </p>
                                                 <p>ATOLL 是相機的角度調整環，具有腳架環的功能，但裝在機身上，超便利流暢的操作體驗，彷如相機的一部份</p>
                                             </div>
                                             <div>
@@ -229,7 +238,10 @@
                                                 <h5>
                                                     <strong style="color: black">ATOLL 快轉機身環 | 最靈活的相機角度調整配件</strong>
                                                 </h5>
-                                                <p> 團主 by <a href="">Harry Wang</a></p>
+                                                <p>
+                                                    團主 by
+                                                    <a href="">Harry Wang</a>
+                                                </p>
                                                 <p>ATOLL 是相機的角度調整環，具有腳架環的功能，但裝在機身上，超便利流暢的操作體驗，彷如相機的一部份</p>
                                             </div>
                                             <div>
@@ -243,8 +255,8 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="message" role="tabpanel" aria-labelledby="message-tab">
-                            <input required='' type='text'>
-                            <label alt='留下你的評論吧!' placeholder='按下Enter送出' v-on:keyup.enter="sendMessage"></label>
+                        <input required='' type='text' v-model="messageContent" v-on:keyup.enter="sendMessage">
+                        <label alt='留下你的評論吧!' placeholder='按下Enter送出'></label>
                         <!-- Featured on LittleBigDetails -->
                         <div class="container">
                             <!--對話內容留言板-->
@@ -295,63 +307,77 @@
         day: '2-digit',     // 日: 使用2數位
         hour12: false,      // 12小時制: 不使用
     };
-        //抓取Url資訊
-        let str = window.location.pathname.split("/");
-        /*抓取Url id*/
-        let prdid = str[str.length - 1];
-        class ProductData {
-            productId = 0;
-            buyers = 0;
-            productCategory = '';
-            productDescription = '';
-            productEndTime = '';
-            productLastTime = '';
-            productStartTime = '';
-            productSummary = '';
-            productTargetPrice = 0;
-            productTitle = '';
-            productPicPath = [];
-            seller = '';
-            sellerId = 0;
-        }
-        var app = new Vue({
-            el: "#app",
-            data: {
-                productData: new ProductData(),
+    //抓取Url資訊
+    let str = window.location.pathname.split("/");
+    /*抓取Url id*/
+    let prdid = str[str.length - 1];
+    var useUserId = null;
+    class ProductData {
+        productId = 0;
+        buyers = 0;
+        productCategory = '';
+        productDescription = '';
+        productEndTime = '';
+        productLastTime = '';
+        productStartTime = '';
+        productSummary = '';
+        productTargetPrice = 0;
+        productTitle = '';
+        productPicPath = [];
+        seller = '';
+        sellerId = 0;
+    }
+    var app = new Vue({
+        el: "#app",
+        data: {
+            productData: new ProductData(),
+            messageContent : '',
+        },
+        methods: {
+            getMessage: function () {
+                console.log('點擊取得留言');
             },
-            methods: {
-                getMessage: function () {
-                    console.log('點擊取得留言');
-                },
-                sendMessage: function () {
-                    console.log('送出留言');
-                }
-            },
-            mounted: function () {
-                axios.get("/Product/GetProductData/" + prdid).then((resp) => {
-                    console.log(resp);
-                    this.productData.productId = resp.data.id;
-                    if (resp.data.buyers !== null) { this.productData.buyers = resp.data.buyers;}
-                    this.productData.productCategory = resp.data.productCategory;
-                    this.productData.productDescription = resp.data.productDescription;
-                    this.productData.productId = resp.data.id;
-                    this.productData.productStartTime = new Intl.DateTimeFormat('zh-TW', options).format(new Date(resp.data.productStartTime));
-                    this.productData.productEndTime = new Intl.DateTimeFormat('zh-TW', options).format(new Date(resp.data.productEndTime));
-                    this.productData.productLastTime = resp.data.productLastTime;
-                    this.productData.productSummary = resp.data.productSummary;
-                    this.productData.productTargetPrice = resp.data.productTargetPrice;
-                    this.productData.productTitle = resp.data.productTitle;
-                    this.productData.seller = resp.data.seller;
-                    this.productData.sellerId = resp.data.sellerId;
-                    for (var item in resp.data.productPicPath) {
-                        this.productData.productPicPath.push(resp.data.productPicPath[item]);
+            sendMessage: function () {
+                console.log(this.productData.productId);
+                console.log(useUserId);
+                console.log(this.messageContent);
+                axios.post('/Product/AddProductMessage/', {
+                    data: {
+                        ProductId: this.productData.productId,
+                        UserId: useUserId,
+                        MessageContent: this.messageContent
                     }
-                    const date = new Date(resp[i].createDate);
-                    app.message.createDate = new Intl.DateTimeFormat('zh-TW', options).format(date)
-                });
-                console.log(this.productData);
+                }).then((response) => {
+                    console.log(response);
+                })
             }
-        });
+        },
+        mounted: function () {
+            axios.get("/Product/GetProductData/" + prdid).then((resp) => {
+                console.log(resp);
+                this.productData.productId = resp.data.id;
+                if (resp.data.buyers !== null) { this.productData.buyers = resp.data.buyers; }
+                this.productData.productCategory = resp.data.productCategory;
+                this.productData.productDescription = resp.data.productDescription;
+                this.productData.productId = resp.data.id;
+                this.productData.productStartTime = new Intl.DateTimeFormat('zh-TW', options).format(new Date(resp.data.productStartTime));
+                this.productData.productEndTime = new Intl.DateTimeFormat('zh-TW', options).format(new Date(resp.data.productEndTime));
+                this.productData.productLastTime = resp.data.productLastTime;
+                this.productData.productSummary = resp.data.productSummary;
+                this.productData.productTargetPrice = resp.data.productTargetPrice;
+                this.productData.productTitle = resp.data.productTitle;
+                this.productData.seller = resp.data.seller;
+                this.productData.sellerId = resp.data.sellerId;
+                for (var item in resp.data.productPicPath) {
+                    this.productData.productPicPath.push(resp.data.productPicPath[item]);
+                }
+            }),
+            axios.get("/Member/GetOnlineMember/").then((resp) => {
+                useUserId = resp.data.id;
+            }),
+            console.log(this.productData);
+        },
+    });
 
 </script>
 
