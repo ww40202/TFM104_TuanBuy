@@ -76,7 +76,7 @@ namespace TuanBuy.Service
                 new("NickName", user.NickName),
                 new("Email", user.Email),
                 new("UserName", user.Name),
-                new Claim("PicPath",user.PicPath),
+                new("PicPath",user.PicPath),
             };
             //將使用者資訊存入session
             var jsonstring = JsonConvert.SerializeObject(new

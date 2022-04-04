@@ -22,7 +22,7 @@ namespace TuanBuy.Models
 
         public string MessageImage { get; set; }
 
-        public DateTime CreateDate { get; set; }
+        public DateTime CreateDate { get; set; } = DateTime.Now;
         //public int ChatId { get; set; }
         public virtual ChatRoom ChatRoom { get; set; }
 

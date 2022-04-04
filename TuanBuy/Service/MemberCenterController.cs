@@ -85,12 +85,15 @@ namespace TuanBuy.Service
                 if (fullMember)
                 {
                     targetUser.State = UserState.正式會員.ToString();
-                    var claims = new Claim(ClaimTypes.Role, "FullUser");
-                    var claimsIdentity = new ClaimsIdentity();
-                    claimsIdentity.AddClaim(claims);
-                    var claimsPrincipal = new ClaimsPrincipal();
-                    claimsPrincipal.AddIdentity(claimsIdentity);
-                    HttpContext.SignInAsync(claimsPrincipal);
+                    //這段有問題 不能直接更改會員資料
+                    //var claims = new Claim(ClaimTypes.Role, "FullUser");
+                    //var claimsIdentity = new ClaimsIdentity();
+                    //claimsIdentity.AddClaim(claims);
+                    //var claimsPrincipal = new ClaimsPrincipal();
+                    //claimsPrincipal.AddIdentity(claimsIdentity);
+                    //HttpContext.SignInAsync(claimsPrincipal);
+                    //TODO 用回應加Cookies做?
+                    //HttpContext.Response.Cookies.Append("","");
                 }
             }
 
