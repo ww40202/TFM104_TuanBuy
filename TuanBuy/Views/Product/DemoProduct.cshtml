@@ -243,10 +243,8 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="message" role="tabpanel" aria-labelledby="message-tab">
-                        <form>
                             <input required='' type='text'>
-                            <label alt='留下你的評論吧!' placeholder='按下Enter送出'></label>
-                        </form>
+                            <label alt='留下你的評論吧!' placeholder='按下Enter送出' v-on:keyup.enter="sendMessage"></label>
                         <!-- Featured on LittleBigDetails -->
                         <div class="container">
                             <!--對話內容留言板-->
@@ -324,10 +322,14 @@
             methods: {
                 getMessage: function () {
                     console.log('點擊取得留言');
+                },
+                sendMessage: function () {
+                    console.log('送出留言');
                 }
             },
             mounted: function () {
                 axios.get("/Product/GetProductData/" + prdid).then((resp) => {
+                    console.log(resp);
                     this.productData.productId = resp.data.id;
                     if (resp.data.buyers !== null) { this.productData.buyers = resp.data.buyers;}
                     this.productData.productCategory = resp.data.productCategory;
@@ -344,7 +346,7 @@
                     for (var item in resp.data.productPicPath) {
                         this.productData.productPicPath.push(resp.data.productPicPath[item]);
                     }
-                    const date = new Date(response[i].createDate);
+                    const date = new Date(resp[i].createDate);
                     app.message.createDate = new Intl.DateTimeFormat('zh-TW', options).format(date)
                 });
                 console.log(this.productData);
