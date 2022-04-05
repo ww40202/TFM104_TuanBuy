@@ -63,6 +63,7 @@ namespace TuanBuy.Controllers
         #endregion
 
         #region 取得商品頁留言
+        [HttpGet]
         public ProductMessageViewModel GetProductMessage(int id)
         {
             ProductManage product = new ProductManage(_dbContext);
@@ -73,9 +74,9 @@ namespace TuanBuy.Controllers
         #endregion 新增商品頁留言
         public IActionResult AddProductMessage(int ProductId,int UserId,string MessageContent)
         {
-            ProductManage product = new ProductManage(_dbContext);
+            ProductManage product = new ProductManage(_dbContext);              
             //新增商品頁留言
-            product.AddProductMessage();
+            product.AddProductMessage(ProductId,UserId,MessageContent);
             return Ok();
         }
         #region 
