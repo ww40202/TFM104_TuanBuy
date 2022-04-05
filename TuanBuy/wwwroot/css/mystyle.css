@@ -397,13 +397,73 @@ footer {
 }
 
 
-/* 開團 */
-.gprdleft {
-  text-align: right;
+/* 結帳 */
+.checkmessageborder {
+  border-left: 1px solid rgba(0, 0, 0, .125);
+
+}
+
+.checkmessageborderbot {
+  border-bottom: 1px solid rgba(0, 0, 0, .125);
 }
 
 .gprdground {
   border-top: 1px solid rgba(0, 0, 0, .125);
+  width: 100%;
+  margin: 3% 0;
+  border-radius: .25rem;
+}
+
+.checkend {
+  display: flex;
+  justify-content: flex-end;
+}
+
+
+.checkfont {
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.checkmg {
+  margin: 1% 0;
+}
+
+.checkmgbot {
+  margin-bottom: 1%;
+}
+
+.checkmgright {
+  margin-right: 1%;
+}
+
+.checkpaystylebtn {
+  background: #fff;
+  border: 2px solid rgba(0, 0, 0, .09);
+  color: rgba(0, 0, 0, .8);
+  font-weight: 500;
+  font-size: 1.5rem;
+  margin-left: .75rem;
+  border-radius: .25rem;
+
+}
+
+.checkpaystylebtn:focus {
+  color: #ee4d2d;
+  border: 1px solid #ee4d2d;
+}
+
+.checkright {
+  margin-right: 5rem;
+}
+
+.checkmgbt {
+  margin: 1rem 0;
+}
+
+.checttext{
+  background-color: transparent;
+  border: 2px solid rgba(0, 0, 0, .09);
   width: 100%;
 }
 
@@ -513,7 +573,7 @@ footer {
 
 
 .sellborder {
-  border: 2px solid rgba(0, 0, 0, .125);
+
   border-radius: .25rem;
   padding: 1%;
   height: 10rem;
@@ -522,12 +582,18 @@ footer {
   margin: 2rem auto;
   position: relative;
   max-width: 35rem;
+  background-image: url(https://www.mook.com.tw/images/upload/article/18989/A18989_1539059014_2.jpg);
+  background-position: 50%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: rgba(0, 0, 0, .6);
 }
 
 .sellp {
-  font-size: 1.25rem;
-  line-height: 1.5rem;
-  max-height: 3rem;
+  color: #fff;
+  font-size: 2rem;
+  line-height: 2rem;
+  max-height: 4rem;
   font-weight: 500;
   margin-bottom: .3125rem;
   margin-top: 0;
@@ -544,6 +610,27 @@ footer {
   width: 100%;
   margin-top: .5rem;
   position: relative;
+  background-color: rgb(233, 54, 54);
+  color: #fff;
+  border-color: transparent;
+}
+
+.sellbtn:hover {
+  box-shadow: 0 0 0 3px #fff, 0 0 0 5px rgb(233, 54, 54);
+}
+
+.sellbtn2 {
+  max-width: 15rem;
+  width: 100%;
+  margin-top: .5rem;
+  position: relative;
+  background-color: #ee4d2d;
+  color: #fff;
+  border-color: transparent;
+}
+
+.sellbtn2:hover {
+  box-shadow: 0 0 0 3px #fff, 0 0 0 5px #ee4d2d;
 }
 
 /* purchase */
@@ -627,14 +714,314 @@ footer {
   justify-content: end;
 }
 
-.purchaseback{
+.purchaseback {
   margin: 1% 0;
   padding: 1% 0;
-background-color: white;
+  background-color: white;
 }
 
 .purchasecolor {
   border-radius: .25rem;
   height: 100%;
   width: 100%;
+}
+
+/* fullLove.css */
+.heart {
+  background-color: #8a93a0;
+  height: 13px;
+  width: 13px;
+  transform: rotate(-45deg) scale(1);
+  display: inline-block;
+  cursor: pointer
+}
+
+.heart::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: 0;
+  background-color: inherit;
+  border-radius: 50%;
+  height: 13px;
+  width: 13px;
+}
+
+.heart::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -50%;
+  background-color: inherit;
+  border-radius: 50%;
+  height: 13px;
+  width: 13px;
+}
+
+
+
+.heart:active {
+  background-color: red;
+}
+
+
+
+
+
+/* 開團 */
+.addh2 {
+  font-weight: 700;
+  font-size: 2rem;
+  text-align: center;
+  margin-top: 2rem;
+  margin-bottom: .5rem;
+  line-height: 1.6em;
+  color: #101010;
+}
+
+.addborder {
+  border-style: solid;
+  border-width: 1px;
+  border-radius: .25rem;
+  border-color: #e0e0e0;
+  max-width: 48rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 2rem;
+  padding: .5rem 2rem 2rem 2rem;
+}
+
+.addp {
+  font-weight: 500;
+  font-size: 1.5rem;
+  display: block;
+  margin-bottom: 8px;
+  margin-top: 1rem;
+}
+
+.addtext {
+  -webkit-tap-highlight-color: rgba(55, 134, 148, 0.25);
+  background-color: #F5F5F5;
+  border: 0;
+  border-bottom: 1px solid #ababab;
+  font-weight: 500;
+  border-radius: .25rem;
+  width: 100%;
+  box-shadow: 0 1px 0 0 transparent;
+  color: #1b1b1b;
+  display: inline-block;
+  min-height: 2.25em;
+  padding: 12px;
+}
+
+
+
+.addtext:focus {
+  box-shadow: 0 0 0 3px #fff, 0 0 0 5px #ccc;
+  outline: none;
+  border-radius: .125rem;
+}
+
+.addbtn {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0.25);
+  background: #1b1b1b;
+  border-color: #1b1b1b;
+  color: white;
+  cursor: pointer;
+  display: block;
+  min-height: 45px;
+  padding: 0.5em;
+  text-align: center;
+  text-decoration: none;
+  width: 100%;
+  font-size: 20px;
+  justify-content: center;
+  margin-top: 1rem;
+  border-radius: .125rem;
+}
+
+.addbtn:focus {
+  box-shadow: 0 0 0 2px gray, 0 0 0 5px gray;
+  outline: none;
+  border-radius: .125rem;
+}
+
+.addimg {
+  border-radius: .125rem;
+  border: 1px solid #e0e0e0;
+  padding: .25rem .5rem;
+}
+
+.addimg:focus {
+  box-shadow: 0 0 0 3px #fff, 0 0 0 5px #ccc;
+  outline: none;
+  border-radius: .125rem;
+}
+
+.addselect {
+  height: 2.25em;
+  background: #fdfdfd;
+  border-radius: .125rem;
+  margin-bottom: 1rem;
+  border: 1px solid #e0e0e0;
+  text-transform: none;
+  font-family: sans-serif;
+  font-size: 100%;
+  line-height: 1.15;
+  margin: 0;
+  padding: 2px;
+}
+
+
+/* 進度條 */
+
+.progressbargreen {
+  width: 100%;
+  border-width: .125rem;
+  border-top-style: solid;
+  border-radius: .25rem;
+  border-color: #67b47f;
+}
+
+.progressbarblue {
+  width: 100%;
+  border-width: .125rem;
+  border-top-style: solid;
+  border-radius: .25rem;
+  border-color: #3366a9;
+}
+
+.bridto {
+  margin-bottom: .5rem;
+  border-width: .125rem;
+  border-top-style: solid;
+  border-radius: .25rem;
+  border-color: #e0e0e0;
+}
+
+.ntless {
+  font-weight: 700;
+  float: right;
+}
+
+.fday {
+  font-size: .75rem;
+}
+
+.lessicon {
+  margin-top: -.125rem;
+  vertical-align: middle;
+  font-size: .875rem;
+  color: #767676;
+  margin-right: .25rem;
+
+}
+
+/* .material-icons{
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+} */
+
+
+/* 註冊登入 */
+.rew50 {
+  width: 50%;
+  align-self: center;
+  text-align: right;
+  padding-top: 8rem;
+  padding-bottom: 8rem;
+  padding-left: 4rem;
+  padding-right: 4rem;
+  font-size: 1.5rem;
+}
+
+.regi {
+
+  width: 50%;
+  padding-top: 8rem;
+  padding-bottom: 8rem;
+  padding-left: 4rem;
+  padding-right: 4rem;
+  background-color: #fdfdfd;
+}
+
+.disflix {
+  display: flex;
+}
+
+.registerdiv {
+  margin-top: 1rem;
+}
+
+.registerbtn {
+  font-weight: 700;
+  color: #229f2a;
+  display: inline-block;
+  background-color: transparent;
+  border-width: 1px;
+  border-style: solid;
+  border-color: initial;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: .75rem 1.5rem;
+  line-height: 1em;
+  opacity: .9;
+  white-space: nowrap;
+  transform: translateZ(0);
+  margin-top: 1rem;
+  font-size: 1.5rem;
+}
+
+.registerbtn:focus {
+  color: black;
+}
+
+.iagree {
+  font-size: 1rem;
+  color: #767676;
+  margin-top: 1rem;
+}
+
+.reborder {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-color: #e0e0e0;
+}
+
+.reloginpass {
+  color: #101010;
+  margin-right: 1rem;
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.nothingmg {
+  margin-top: 7rem;
+}
+
+/* 通知 */
+
+.notifybtn {
+  border: 1px solid rgba(0, 0, 0, .09);
+  color: rgba(0, 0, 0, .8);
+  background-color: #fff;
+}
+
+.notifyright {
+  text-align: right;
+}
+
+.notifymgbt {
+  margin-bottom: 2rem;
 }

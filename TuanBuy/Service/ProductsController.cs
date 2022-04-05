@@ -76,10 +76,6 @@ namespace TuanBuy.Service
             //var product = _productsRepository.GetAll().Where(a => a.Disable == false)
             //    .OrderByDescending(x => x.Id);
             var products = GetAllProducts();
-            foreach (var product in products)
-            {
-
-            }
 
             return products.Where(p => p.Disable == false)
                 .Select(p => new ProductViewModel
@@ -98,26 +94,6 @@ namespace TuanBuy.Service
                 .ToList();
         }
 
-        //取得指定商品
-        [HttpGet("{id}")]
-        public ActionResult<ProductViewModel> GetProduct(int id)
-        {
-            var p = _productsRepository.Get(x => x.Id == id);
-            if (p == null) return NotFound();
-
-            return new ProductViewModel
-            {
-                Id = p.Id,
-                Name = p.Name,
-                Description = p.Description,
-                Content = p.Content,
-                Category = p.Category,
-                PicPath = "/productpicture/" + p.PicPath,
-                EndTime = p.EndTime,
-                Price = p.Price,
-                Href = "/Product/DemoProduct/" + p.Id
-            };
-        }
 
         //修改商品
         [HttpPut]

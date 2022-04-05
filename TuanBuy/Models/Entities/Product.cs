@@ -25,14 +25,14 @@ namespace TuanBuy.Models.Entities
         public string Description { get; set; }
 
         public string Content { get; set; }
-        public string PicPath { get; set; }
+
         [Required]
         public decimal Price { get; set; }
         [Required]
         public string Category { get; set; }
 
         public bool Disable { get; set; } = false;
-
+        [ForeignKey("User")]
         public int UserId { get; set; }
 
         public virtual User User { get; set; }
