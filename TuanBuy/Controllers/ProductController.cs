@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Claims;
@@ -64,7 +65,7 @@ namespace TuanBuy.Controllers
 
         #region 取得商品頁留言
         [HttpGet]
-        public ProductMessageViewModel GetProductMessage(int id)
+        public List<ProductMessageViewModel> GetProductMessage(int id)
         {
             ProductManage product = new ProductManage(_dbContext);
             var result = product.GetProductMessageData(id);

@@ -3,29 +3,29 @@
 <div class="container" id="app">
     <div class="row">
         <div class="col-lg-8">
-                <!--商品圖片-->
-                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                    <ol class="carousel-indicators">
-                        <li data-target="#carouselExampleIndicators" :data-slide-to="index" v-for="(item,index) in productData.productPicPath" v-if="index >= 1"></li>
-                        <li data-target="#carouselExampleIndicators" :data-slide-to="index" class="active" v-else></li>
-                    </ol>
-                    <div class="carousel-inner">
-                        <div class="carousel-item" v-for="(item,index) in productData.productPicPath" v-if="index >= 1">
-                            <img class="d-block w-100" :src="item" style="height:400px;width:250px;" alt="First slide">
-                        </div>
-                        <div class="carousel-item active" v-else>
-                            <img class="d-block w-100" :src="item" style="height:400px;width:250px;" alt="First slide">
-                        </div>
+            <!--商品圖片-->
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-target="#carouselExampleIndicators" :data-slide-to="index" v-for="(item,index) in productData.productPicPath" v-if="index >= 1"></li>
+                    <li data-target="#carouselExampleIndicators" :data-slide-to="index" class="active" v-else></li>
+                </ol>
+                <div class="carousel-inner">
+                    <div class="carousel-item" v-for="(item,index) in productData.productPicPath" v-if="index >= 1">
+                        <img class="d-block w-100" :src="item" style="height:400px;width:250px;" alt="First slide">
                     </div>
-                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
+                    <div class="carousel-item active" v-else>
+                        <img class="d-block w-100" :src="item" style="height:400px;width:250px;" alt="First slide">
+                    </div>
                 </div>
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
         </div>
 
         <div class="col-lg-4">
@@ -247,43 +247,38 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="message" role="tabpanel" aria-labelledby="message-tab">
-                        <div v-if="useUserId!=undefined">
-                            <input required='' type='text' v-model="messageContent" v-on:keyup.enter="sendMessage">
+                        <div v-if="useUserId!=undefined && useUserId!==sellerId">
+                            <input required='' type='text' v-model="messageSendContent" v-on:keyup.enter="sendMessage">
                             <label alt='留下你的評論吧!' placeholder='按下Enter送出'></label>
                         </div>
-                        <div class="speak" v-else>
+                        <div class="speak" v-else-if="useUserId==undefined">
                             <p>趕快登入留言你的評論!</p>
                         </div>
                         <!-- Featured on LittleBigDetails -->
                         <div class="container">
                             <!--對話內容留言板-->
                             <div class="container">
-                                <div class="headpic">
+                                <div class="headpic" v-for="item in leaveMessages">
                                     <div class="headpic1">
-                                        <img class="imge" src="https://i.picsum.photos/id/892/50/50.jpg?hmac=UFi_MC3DKG4PnEpIR60EdCg4AHzs_jnNxQ8uxamK7Co" alt="">
-                                        <a class="name" href="">王曉明</a>
+                                        <img class="imge" style="height:50px;width:50px" :src="item.messagePicPaht" alt="">
+                                        <a class="name" href="">{{item.messageName}}</a>
                                     </div>
                                     <div class="speak1">
-                                        <p>這個可以吃嗎?</p>
+                                        <p>{{item.messageContent}}</p>
                                     </div>
-                                </div>
-                                @*團主回覆可日後實作*@
-                                <div class="speak">
-                                    <div>
-                                        <a href="">Harry Wang</a>
-                                        <span>團主</span>
+                                    @*團主回覆可日後實作*@
+                                    <div class="speak" v-if="item.sellerReply !==null">
+                                        <div>
+                                            <a href="">{{item.sellerName}}</a>
+                                            <span>團主</span>
+                                        </div>
+                                        <div>
+                                            <p>{{item.sellerReply}}</p>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <p>您好，是可以使用的唷。相關大小也建議參酌頁面建議，也提醒火伴，無論是使用哪種燒柴爐/焚火台，要用木炭的話，可選有中空型的</p>
-                                    </div>
-                                </div>
-                                <div class="headpic">
-                                    <div class="headpic1">
-                                        <img class="imge" src="https://i.picsum.photos/id/892/50/50.jpg?hmac=UFi_MC3DKG4PnEpIR60EdCg4AHzs_jnNxQ8uxamK7Co" alt="">
-                                        <a class="name" href="">王曉明</a>
-                                    </div>
-                                    <div class="speak1">
-                                        <p>這個可以吃嗎?</p>
+                                    <div class="speak" v-else-if="useUserId==sellerId">
+                                        <input required='' type='text' v-model="messageSendContent" v-on:keyup.enter="sendMessage">
+                                        <label alt='趕快回覆他的問題吧!' placeholder='按下Enter送出'></label>
                                     </div>
                                 </div>
                             </div>
@@ -307,7 +302,7 @@
     //抓取Url資訊
     let str = window.location.pathname.split("/");
     /*抓取Url id*/
-    let prdid = str[str.length - 1];
+    let prdid = str[str.length - 1];    
     class ProductData {
         productId = 0;
         buyers = 0;
@@ -323,12 +318,24 @@
         seller = '';
         sellerId = 0;
     }
+    class Message {
+        messageId = 0;
+        messageName = '';
+        messagePicPaht = '';
+        messageDateTime = '';
+        messageContent = '';
+        sellerName = '';
+        sellerReply = '';
+        replyDateTime = '';
+    }
     var app = new Vue({
         el: "#app",
         data: {
             productData: new ProductData(),
-            messageContent: '',
-            useUserId:null,
+            messageSendContent: '',
+            useUserId: null,
+            sellerId : null,
+            leaveMessages: [],
         },
         methods: {
             getMessage: function () {
@@ -337,7 +344,22 @@
                     type: "get",
                     url: "/Product/GetProductMessage?id=" + this.productData.productId,
                     success: function (response) {
+                        //將先前留言清空
+                        app.leaveMessages = [];
                         console.log(response);
+                        for (let i = 0; i < response.length; i++) {
+                            var messageObject = new Message();
+                            messageObject.messageId = response[i].messageId;
+                            messageObject.messageDateTime = new Date(response[i].messageDateTime).toLocaleString();
+                            messageObject.messageContent = response[i].messageContent;
+                            messageObject.messageName = response[i].messageName;
+                            messageObject.messagePicPaht = '/MemberPicture/' + response[i].messagePicPaht;
+                            messageObject.replyDateTime = new Date(response[i].replyDateTime).toLocaleString();
+                            messageObject.sellerReply = response[i].sellerReply;
+                            messageObject.sellerName = response[i].sellerName;
+                            app.leaveMessages.push(messageObject);
+                        }
+                        console.log(app.leaveMessages);
                     },
                     error: function (response) {
                         alert(response);
@@ -349,10 +371,12 @@
                     type: "POST",
                     url: "/Product/AddProductMessage",
                     data: {
-                        ProductId: this.productData.productId,
-                        UserId: useUserId,
-                        MessageContent: this.messageContent },
+                        ProductId: app.productData.productId,
+                        UserId: app.useUserId,
+                        MessageContent: app.messageSendContent
+                    },
                     success: function (response) {
+                        app.messageSendContent = '';
                         console.log(response);
                     },
                     error: function (response) {
@@ -377,9 +401,11 @@
                 this.productData.productTitle = resp.data.productTitle;
                 this.productData.seller = resp.data.seller;
                 this.productData.sellerId = resp.data.sellerId;
+                app.sellerId = resp.data.sellerId;
                 for (var item in resp.data.productPicPath) {
                     this.productData.productPicPath.push(resp.data.productPicPath[item]);
                 }
+                console.log(app.sellerId);
             }),
                 axios.get("/Member/GetOnlineMember/").then((resp) => {
                     app.useUserId = resp.data.id;
