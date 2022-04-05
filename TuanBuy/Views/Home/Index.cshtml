@@ -1,6 +1,5 @@
 ﻿
-   
-<!-- 熱門按鈕 -->
+   <!-- 熱門按鈕 -->
    <div class="container">
        <div class="mt4 bt pt3 tc mb3 mb0-l bb">
            <div class="db nowrap overflow-auto pb3 pt1">
@@ -61,11 +60,12 @@
    <div class="container" id="productCard">
     <div class="row">
         <div class="col-md-4" v-for="item in products"   >
-            <div class="card "  >
+            <div class="card "   >
                 <img class="card-img-top"
                      v-bind:src="item.picPath"
                      alt="Card image" style="width: 100%" width="320" height="200">
                 <div class="card-body">
+                    <a v-bind:href="item.href" class="btn btn-primary2 stretched-link"></a>
                     @*商品創立時間*@
                     <h5>{{item.createTime}}</h5>
                     @*商品名稱*@
@@ -75,7 +75,6 @@
                     <div class="progressbargreen" style="width: 100%"></div>
                     <div class="bridto"></div>
                     <div class="ntless">NT$113,552</div>
-                    @*<a v-bind:href="item.href" class="btn btn-primary2 stretched-link">了解更多</a>*@
                     <span class="fday"><i class="material-icons lessicon">timelapse</i> 剩下 4 天
                     </span>
                 </div>
