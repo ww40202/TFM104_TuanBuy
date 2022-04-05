@@ -125,5 +125,21 @@ namespace TuanBuy.Models.Entities
                 }
         }
         #endregion
+
+        #region 賣家回覆商品頁留言
+        public void AddSellerMessage(int ProductMessageId, int SellerId, string MessageContent)
+        {
+            using(_dbContext)
+            {
+                ProductSellerReply productSellerReply = new ProductSellerReply();
+                productSellerReply.UserId = SellerId;
+                productSellerReply.CreatedDate = DateTime.Now;
+                productSellerReply.MessageContent = MessageContent;
+                productSellerReply.ProductMessageId = ProductMessageId;
+                _dbContext.ProductSellerReplies.Add(productSellerReply);
+                _dbContext.SaveChanges();
+            }
+        }
+        #endregion
     }
 }

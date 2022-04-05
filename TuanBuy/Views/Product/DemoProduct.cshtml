@@ -258,7 +258,7 @@
                         <div class="container">
                             <!--對話內容留言板-->
                             <div class="container">
-                                <div class="headpic" v-for="item in leaveMessages">
+                                <div class="headpic" v-for="(item,index) in leaveMessages">
                                     <div class="headpic1">
                                         <img class="imge" style="height:50px;width:50px" :src="item.messagePicPaht" alt="">
                                         <a class="name" href="">{{item.messageName}}</a>
@@ -277,7 +277,7 @@
                                         </div>
                                     </div>
                                     <div class="speak" v-else-if="useUserId==sellerId">
-                                        <input required='' type='text' v-model="messageSendContent" v-on:keyup.enter="sendMessage">
+                                        <input required='' :id="item.messageId" type='text' v-on:keyup.enter="sendSellerReply(event,index)">
                                         <label alt='趕快回覆他的問題吧!' placeholder='按下Enter送出'></label>
                                     </div>
                                 </div>
@@ -333,6 +333,7 @@
         data: {
             productData: new ProductData(),
             messageSendContent: '',
+            /*sellerReplyContent:'',*/
             useUserId: null,
             sellerId : null,
             leaveMessages: [],
@@ -366,6 +367,7 @@
                     }
                 });
             },
+
             sendMessage: function () {
                 $.ajax({
                     type: "POST",
@@ -377,6 +379,27 @@
                     },
                     success: function (response) {
                         app.messageSendContent = '';
+                        console.log(response);
+                    },
+                    error: function (response) {
+                        alert(response);
+                    }
+                });
+            },
+
+            sendSellerReply: function (event) {
+                console.log(event.target.id);
+                console.log('賣家id' + app.sellerId);
+                console.log(event.target.value);
+                $.ajax({
+                    type: "POST",
+                    url: "/Product/AddSellerMessage",
+                    data: {
+                        ProductMessageId: event.target.id,
+                        UserId: app.sellerId,
+                        MessageContent: event.target.value
+                    },
+                    success: function (response) {
                         console.log(response);
                     },
                     error: function (response) {

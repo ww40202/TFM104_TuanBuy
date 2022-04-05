@@ -73,6 +73,8 @@ namespace TuanBuy.Controllers
         }
         [HttpPost]
         #endregion 新增商品頁留言
+
+        #region 新增產品頁留言
         public IActionResult AddProductMessage(int ProductId,int UserId,string MessageContent)
         {
             ProductManage product = new ProductManage(_dbContext);              
@@ -80,7 +82,17 @@ namespace TuanBuy.Controllers
             product.AddProductMessage(ProductId,UserId,MessageContent);
             return Ok();
         }
-        #region 
+        #endregion
+
+        #region 賣家回覆留言
+        public IActionResult AddSellerMessage(int ProductMessageId, int SellerId, string MessageContent)
+        {
+            ProductManage product = new ProductManage(_dbContext);
+            //新增商品頁留言
+            product.AddSellerMessage(ProductMessageId, SellerId, MessageContent);
+            return Ok();
+        }
+
         #endregion
 
         //等待開團商品頁
