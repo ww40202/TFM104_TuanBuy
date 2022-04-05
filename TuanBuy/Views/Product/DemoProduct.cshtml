@@ -267,7 +267,7 @@
                                         <p>{{item.messageContent}}</p>
                                     </div>
                                     @*團主回覆可日後實作*@
-                                    <div class="speak" v-if="item.sellerReply !==null">
+                                    <div class="speak" v-if="item.sellerReply !==null && item.sellerReply !==''">
                                         <div>
                                             <a href="">{{item.sellerName}}</a>
                                             <span>團主</span>
@@ -333,9 +333,11 @@
         data: {
             productData: new ProductData(),
             messageSendContent: '',
-            /*sellerReplyContent:'',*/
             useUserId: null,
-            sellerId : null,
+            userUserPicPath: null,
+            userUserName:null,
+            sellerId: null,
+            sellerName :null,
             leaveMessages: [],
         },
         methods: {
@@ -378,8 +380,13 @@
                         MessageContent: app.messageSendContent
                     },
                     success: function (response) {
+                        var leaveObject = new Message();
+                        leaveObject.messageContent = app.messageSendContent;
+                        leaveObject.messageName = app.userUserName;
+                        leaveObject.messagePicPaht = app.userUserPicPath;
+                        //將資料存入陣列第一個元素 unshift
+                        app.leaveMessages.unshift(leaveObject);
                         app.messageSendContent = '';
-                        console.log(response);
                     },
                     error: function (response) {
                         alert(response);
@@ -387,20 +394,21 @@
                 });
             },
 
-            sendSellerReply: function (event) {
-                console.log(event.target.id);
-                console.log('賣家id' + app.sellerId);
-                console.log(event.target.value);
+            sendSellerReply: function (event,index) {
+                console.log(event.target);
+                console.log(app.leaveMessages);               
                 $.ajax({
                     type: "POST",
                     url: "/Product/AddSellerMessage",
                     data: {
                         ProductMessageId: event.target.id,
-                        UserId: app.sellerId,
+                        SellerId: app.sellerId,
                         MessageContent: event.target.value
                     },
                     success: function (response) {
-                        console.log(response);
+                        var result = app.leaveMessages.find(x => x.messageId == event.target.id);
+                        result.sellerName = app.sellerName;
+                        result.sellerReply = event.target.value;
                     },
                     error: function (response) {
                         alert(response);
@@ -425,6 +433,7 @@
                 this.productData.seller = resp.data.seller;
                 this.productData.sellerId = resp.data.sellerId;
                 app.sellerId = resp.data.sellerId;
+                app.sellerName = resp.data.seller
                 for (var item in resp.data.productPicPath) {
                     this.productData.productPicPath.push(resp.data.productPicPath[item]);
                 }
@@ -432,7 +441,9 @@
             }),
                 axios.get("/Member/GetOnlineMember/").then((resp) => {
                     app.useUserId = resp.data.id;
-                    console.log(this.useUserId);
+                    app.userUserPicPath = '/MemberPicture/' + resp.data.picPath;
+                    app.userUserName = resp.data.nickName;
+                    console.log(resp);
                 }),
                 console.log(this.productData);
         },
