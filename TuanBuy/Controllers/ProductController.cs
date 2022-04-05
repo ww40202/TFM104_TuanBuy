@@ -164,7 +164,7 @@ namespace TuanBuy.Controllers
             return Ok();
         }
 
-
+        //我的商品
         [Authorize(Roles = "FullUser")]
         public IActionResult MyProduct()
         {

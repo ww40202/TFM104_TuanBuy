@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TuanBuy.Models.Entities;
 
 namespace TuanBuy.ViewModel
 {
@@ -14,6 +15,8 @@ namespace TuanBuy.ViewModel
         public decimal Price { get; set; }
         public string Category { get; set; }
         public string Href { get; set; } = "";
+        public User User { get; set; }
+        public bool Disable { get; set; }
 
     }
 
@@ -42,7 +45,7 @@ namespace TuanBuy.ViewModel
         //產品剩餘天數
         public string ProductLastTime { get; set; }
         //加入團購人數
-        public string Buyers { get; set;}
+        public string Buyers { get; set; }
         //產品圖片
         public List<string> ProductPicPath { get; set; }
     }

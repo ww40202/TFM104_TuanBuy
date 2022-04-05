@@ -1,0 +1,28 @@
+/*//商品卡開始*/
+.card {
+    margin-bottom: 1rem;
+    border-radius: 10px;
+    box-shadow: 1px 2px 2px gray;
+}
+.collapsecard {
+    margin-bottom: 1rem;
+    border-radius: 2rem;
+}
+.card-body {
+    height: 15rem;
+}
+/*//商品卡結束*/
+/*首頁幻燈片開始*/
+.carousel-inner{
+    border-radius: 1rem;  /*設定圓角*/
+}
+/*首頁幻燈片結束*/
+/*商品介紹頁的導覽標籤開始*/
+.nav {
+    background-color: #F5F5F5;
+}
+.nav-item .nav-link.active {
+    color: #ee4d2d;
+    background-color: #F5F5F5;
+}
+/*商品介紹頁的導覽標籤結束*/
