@@ -72,7 +72,7 @@ namespace TuanBuy.Controllers
             return result;
         }
         [HttpPost]
-        #endregion 新增商品頁留言
+        #endregion 
 
         #region 新增產品頁留言
         public IActionResult AddProductMessage(int ProductId,int UserId,string MessageContent)
