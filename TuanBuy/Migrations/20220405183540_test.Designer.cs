@@ -10,8 +10,8 @@ using TuanBuy.Models.Entities;
 namespace TuanBuy.Migrations
 {
     [DbContext(typeof(TuanBuyContext))]
-    [Migration("20220403214800_seedData1")]
-    partial class seedData1
+    [Migration("20220405183540_test")]
+    partial class test
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -201,10 +201,10 @@ namespace TuanBuy.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PicPath")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Total")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("UserId")
@@ -222,12 +222,13 @@ namespace TuanBuy.Migrations
                             Id = 1,
                             Category = "測試類別",
                             Content = "商品內容",
-                            CreateTime = new DateTime(2022, 4, 4, 5, 47, 59, 862, DateTimeKind.Local).AddTicks(1062),
+                            CreateTime = new DateTime(2022, 4, 6, 2, 35, 40, 91, DateTimeKind.Local).AddTicks(3129),
                             Description = "商品描述",
                             Disable = false,
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "測試商品1",
                             Price = 0m,
+                            Total = 0m,
                             UserId = 1
                         },
                         new
@@ -235,12 +236,13 @@ namespace TuanBuy.Migrations
                             Id = 2,
                             Category = "測試類別",
                             Content = "商品內容",
-                            CreateTime = new DateTime(2022, 4, 4, 5, 47, 59, 862, DateTimeKind.Local).AddTicks(9106),
+                            CreateTime = new DateTime(2022, 4, 6, 2, 35, 40, 92, DateTimeKind.Local).AddTicks(40),
                             Description = "商品描述",
                             Disable = false,
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "測試商品2",
                             Price = 0m,
+                            Total = 0m,
                             UserId = 1
                         },
                         new
@@ -248,12 +250,13 @@ namespace TuanBuy.Migrations
                             Id = 3,
                             Category = "測試類別",
                             Content = "商品內容",
-                            CreateTime = new DateTime(2022, 4, 4, 5, 47, 59, 862, DateTimeKind.Local).AddTicks(9139),
+                            CreateTime = new DateTime(2022, 4, 6, 2, 35, 40, 92, DateTimeKind.Local).AddTicks(67),
                             Description = "商品描述",
                             Disable = false,
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "測試商品3",
                             Price = 0m,
+                            Total = 0m,
                             UserId = 1
                         });
                 });
@@ -268,7 +271,10 @@ namespace TuanBuy.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("ProductId")
+                    b.Property<string>("MessageContent")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")
@@ -299,6 +305,32 @@ namespace TuanBuy.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductPics");
+                });
+
+            modelBuilder.Entity("TuanBuy.Models.Entities.ProductSellerReply", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("MessageContent")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProductMessageId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductMessageId");
+
+                    b.ToTable("ProductSellerReplies");
                 });
 
             modelBuilder.Entity("TuanBuy.Models.Entities.TestProduct", b =>
@@ -508,7 +540,9 @@ namespace TuanBuy.Migrations
                 {
                     b.HasOne("TuanBuy.Models.Entities.Product", "Product")
                         .WithMany("ProductMessage")
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Product");
                 });
@@ -522,6 +556,17 @@ namespace TuanBuy.Migrations
                         .IsRequired();
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("TuanBuy.Models.Entities.ProductSellerReply", b =>
+                {
+                    b.HasOne("TuanBuy.Models.Entities.ProductMessage", "ProductMessage")
+                        .WithMany()
+                        .HasForeignKey("ProductMessageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ProductMessage");
                 });
 
             modelBuilder.Entity("TuanBuy.Models.Entities.Product", b =>

@@ -130,7 +130,8 @@ namespace TuanBuy.Controllers
                 CreateTime = DateTime.Now,
                 EndTime = product.EndTime,
                 Price = product.Price,
-                User = targetUser
+                User = targetUser,
+                Total = product.Total
             };
             _productsRepository.Create(targetProduct);
             _productsRepository.SaveChanges();
@@ -164,12 +165,7 @@ namespace TuanBuy.Controllers
             return Ok();
         }
 
-        //我的商品
-        [Authorize(Roles = "FullUser")]
-        public IActionResult MyProduct()
-        {
-            return View();
-        }
+
         //抓取當前使用者
         private User GetTargetUser()
         {

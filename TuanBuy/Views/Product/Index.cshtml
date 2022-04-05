@@ -124,6 +124,8 @@
                 }
                 bodyFormData.append("Category", this.product.category);
                 bodyFormData.append("EndTime", this.product.endTime);
+                bodyFormData.append("Total", this.product.total);
+
                 console.log(bodyFormData);
                 axios({
                         method: "post",
@@ -132,8 +134,11 @@
                         headers: { "Content-Type": "multipart/form-data" }
                     })
                     .then((resp) => {
-                        console.log(resp);
-                        alert(resp);
+                        Swal.fire(
+                            '刊登成功！',
+                            '會員中心可供您修改商品',
+                            'success'
+                        ).then((result) => {});
                     })
                     .catch((resp) => alert(resp.response.data));
             }

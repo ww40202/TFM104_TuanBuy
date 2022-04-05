@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TuanBuy.Migrations
 {
-    public partial class _0404 : Migration
+    public partial class test : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -144,8 +144,8 @@ namespace TuanBuy.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PicPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Total = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Disable = table.Column<bool>(type: "bit", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false)
@@ -198,7 +198,8 @@ namespace TuanBuy.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: true)
+                    MessageContent = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProductId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -208,7 +209,7 @@ namespace TuanBuy.Migrations
                         column: x => x.ProductId,
                         principalTable: "Product",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -263,6 +264,58 @@ namespace TuanBuy.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ProductSellerReplies",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    MessageContent = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProductMessageId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductSellerReplies", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProductSellerReplies_ProductMessages_ProductMessageId",
+                        column: x => x.ProductMessageId,
+                        principalTable: "ProductMessages",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "User",
+                columns: new[] { "Id", "Address", "BankAccount", "Birth", "Disable", "Email", "Friend", "Name", "NickName", "Password", "Phone", "PicPath", "Sex", "State" },
+                values: new object[] { 1, null, null, null, false, "123@gmail.com", null, "小王", "小王", "123456", null, "637843188933582087init.jpg", 1, "正式會員" });
+
+            migrationBuilder.InsertData(
+                table: "User",
+                columns: new[] { "Id", "Address", "BankAccount", "Birth", "Disable", "Email", "Friend", "Name", "NickName", "Password", "Phone", "PicPath", "Sex", "State" },
+                values: new object[] { 2, null, null, null, false, "456@gmail.com", null, "小明", "小明", "123456", null, "637843188933582087init.jpg", 1, "正式會員" });
+
+            migrationBuilder.InsertData(
+                table: "User",
+                columns: new[] { "Id", "Address", "BankAccount", "Birth", "Disable", "Email", "Friend", "Name", "NickName", "Password", "Phone", "PicPath", "Sex", "State" },
+                values: new object[] { 3, null, null, null, false, "789@gmail.com", null, "小張", "小張", "123456", null, "637843188933582087init.jpg", 1, "正式會員" });
+
+            migrationBuilder.InsertData(
+                table: "Product",
+                columns: new[] { "Id", "Category", "Content", "CreateTime", "Description", "Disable", "EndTime", "Name", "Price", "Total", "UserId" },
+                values: new object[] { 1, "測試類別", "商品內容", new DateTime(2022, 4, 6, 2, 35, 40, 91, DateTimeKind.Local).AddTicks(3129), "商品描述", false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "測試商品1", 0m, 0m, 1 });
+
+            migrationBuilder.InsertData(
+                table: "Product",
+                columns: new[] { "Id", "Category", "Content", "CreateTime", "Description", "Disable", "EndTime", "Name", "Price", "Total", "UserId" },
+                values: new object[] { 2, "測試類別", "商品內容", new DateTime(2022, 4, 6, 2, 35, 40, 92, DateTimeKind.Local).AddTicks(40), "商品描述", false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "測試商品2", 0m, 0m, 1 });
+
+            migrationBuilder.InsertData(
+                table: "Product",
+                columns: new[] { "Id", "Category", "Content", "CreateTime", "Description", "Disable", "EndTime", "Name", "Price", "Total", "UserId" },
+                values: new object[] { 3, "測試類別", "商品內容", new DateTime(2022, 4, 6, 2, 35, 40, 92, DateTimeKind.Local).AddTicks(67), "商品描述", false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "測試商品3", 0m, 0m, 1 });
+
             migrationBuilder.CreateIndex(
                 name: "IX_ChatMessages_ChatRoomId",
                 table: "ChatMessages",
@@ -312,6 +365,11 @@ namespace TuanBuy.Migrations
                 name: "IX_ProductPics_ProductId",
                 table: "ProductPics",
                 column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductSellerReplies_ProductMessageId",
+                table: "ProductSellerReplies",
+                column: "ProductMessageId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -329,10 +387,10 @@ namespace TuanBuy.Migrations
                 name: "OrderDetail");
 
             migrationBuilder.DropTable(
-                name: "ProductMessages");
+                name: "ProductPics");
 
             migrationBuilder.DropTable(
-                name: "ProductPics");
+                name: "ProductSellerReplies");
 
             migrationBuilder.DropTable(
                 name: "TestProducts");
@@ -342,6 +400,9 @@ namespace TuanBuy.Migrations
 
             migrationBuilder.DropTable(
                 name: "Order");
+
+            migrationBuilder.DropTable(
+                name: "ProductMessages");
 
             migrationBuilder.DropTable(
                 name: "Product");
