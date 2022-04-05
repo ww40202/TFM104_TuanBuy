@@ -11,7 +11,7 @@ namespace TuanBuy.Models.Entities
         public int Id { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public int UserId { get; set; }
-
+        public string MessageContent { get; set; }
         public int ProductId { get; set; }
         public virtual Product Product { get; set; }
     }

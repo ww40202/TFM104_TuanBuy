@@ -100,6 +100,8 @@ namespace TuanBuy.Service
         [HttpDelete]
         public void Logout()
         {
+            //清除Session
+            HttpContext.Session.Remove("userData");
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
     }

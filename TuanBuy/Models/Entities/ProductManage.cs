@@ -22,7 +22,7 @@ namespace TuanBuy.Models.Entities
                     prd => prd.Id,
                     pit => pit.ProductId,
                     (product,productimg)=> new {product}                
-                ).ToList().GroupJoin(_dbContext.User,
+                ).ToList().Where(x=>x.product.Id==ProductId).GroupJoin(_dbContext.User,
                     prd => prd.product.UserId,
                     user => user.Id,
                     (prd,user) => new { prd}
@@ -71,20 +71,35 @@ namespace TuanBuy.Models.Entities
         #region 取得商品頁留言
         public ProductMessageViewModel GetProductMessageData(int ProductId)
         {
-            var result = from message in _dbContext.ProductMessages
-                         join sellreplis in _dbContext.ProductSellerReplies on message.Id equals sellreplis.ProductMessageId
-                         where (message.ProductId == ProductId)
-                         select new { message, sellreplis };
-            ProductMessageViewModel productManage = new ProductMessageViewModel();
+            var message = from productmessage in _dbContext.ProductMessages
+                          join user in _dbContext.User on productmessage.UserId equals user.Id
+                         where productmessage.ProductId == ProductId
+                         select new { productmessage ,user};
+            var sellerReplies = from seller in _dbContext.ProductSellerReplies
+                         where (message.Select(x => x.productmessage.Id).Contains(seller.ProductMessageId))
+                         select seller;
+            //var result = from message in _dbContext.ProductMessages select message;
+            ProductMessageViewModel productMessage = new ProductMessageViewModel();
+            //foreach(var item in message)
+            //{
+            //    productMessage.MessageName
 
-            return productManage;
+            //}
+
+            
+            return productMessage;
         }
         #endregion
 
         #region 新增商品頁留言 
-        public void AddProductMessage()
+        public void AddProductMessage(int ProductId, int UserId, string MessageContent)
         {
-            
+                ProductMessage productMessage = new ProductMessage();
+                productMessage.ProductId = ProductId;
+                productMessage.UserId = UserId;
+                productMessage.MessageContent = MessageContent;
+                productMessage.CreatedDate = DateTime.Now;
+                _dbContext.ProductMessages.Add(productMessage);
         }
         #endregion
     }
