@@ -4,7 +4,7 @@
     template: `
                <div class="col-lg-2">
                 <div>
-                    <img v-bind:src="user.picPath" alt="頭像" id="testUserImg" width="100" height="100">
+                    <img v-bind:src="user.picPath" alt="頭像" id="testUserImg" width="100" height="100"  class="Largeheadsticker" >
                 </div>
                 <div class="accordion" id="accordionExample">
                     <div class="collapsecard">
