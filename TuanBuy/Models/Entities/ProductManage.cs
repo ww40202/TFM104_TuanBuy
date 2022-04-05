@@ -69,37 +69,76 @@ namespace TuanBuy.Models.Entities
         #endregion
 
         #region 取得商品頁留言
-        public ProductMessageViewModel GetProductMessageData(int ProductId)
+        public List<ProductMessageViewModel> GetProductMessageData(int ProductId)
         {
-            var message = from productmessage in _dbContext.ProductMessages
+            //取得商品頁留言訊息
+            var message = (from productmessage in _dbContext.ProductMessages
                           join user in _dbContext.User on productmessage.UserId equals user.Id
                          where productmessage.ProductId == ProductId
-                         select new { productmessage ,user};
+                         select new { productmessage ,user}).ToList().OrderByDescending(x=>x.productmessage.Id);
+            //取得賣家回覆訊息
             var sellerReplies = from seller in _dbContext.ProductSellerReplies
-                         where (message.Select(x => x.productmessage.Id).Contains(seller.ProductMessageId))
-                         select seller;
+                                join user in _dbContext.User on seller.UserId equals user.Id
+                                where (message.Select(x => x.productmessage.Id).Contains(seller.ProductMessageId))
+                                select new { seller,user};
             //var result = from message in _dbContext.ProductMessages select message;
-            ProductMessageViewModel productMessage = new ProductMessageViewModel();
-            //foreach(var item in message)
-            //{
-            //    productMessage.MessageName
+            List<ProductMessageViewModel> productMessageViewModels = new List<ProductMessageViewModel>();
+            //先分裝買家留言訊息 裡面判斷賣家是否有回覆訊息
+            foreach (var item in message)
+            {
+                ProductMessageViewModel productMessage = new ProductMessageViewModel();
+                productMessage.MessagePicPaht = item.user.PicPath;
+                productMessage.MessageName = item.user.NickName;
+                productMessage.MessageContent = item.productmessage.MessageContent;
+                productMessage.MessageDateTime = item.productmessage.CreatedDate;
+                productMessage.MessageId = item.productmessage.Id;
+                //賣家回覆訊息
+                foreach(var sellerReply in sellerReplies)
+                {
+                    if (sellerReply.seller.ProductMessageId == item.productmessage.Id)
+                    {
+                        productMessage.SellerReply = sellerReply.seller.MessageContent;
+                        productMessage.SellerName = sellerReply.user.NickName;
+                        productMessage.ReplyDateTime = sellerReply.seller.CreatedDate;
+                    }
+                }
+                productMessageViewModels.Add(productMessage);
+            }
 
-            //}
 
-            
-            return productMessage;
+            return productMessageViewModels;
         }
         #endregion
 
         #region 新增商品頁留言 
         public void AddProductMessage(int ProductId, int UserId, string MessageContent)
         {
-                ProductMessage productMessage = new ProductMessage();
-                productMessage.ProductId = ProductId;
-                productMessage.UserId = UserId;
-                productMessage.MessageContent = MessageContent;
-                productMessage.CreatedDate = DateTime.Now;
-                _dbContext.ProductMessages.Add(productMessage);
+                using(_dbContext)
+                { 
+                    ProductMessage productMessage = new ProductMessage();
+                    productMessage.ProductId = ProductId;
+                    productMessage.UserId = UserId;
+                    productMessage.MessageContent = MessageContent;
+                    productMessage.CreatedDate = DateTime.Now;
+                    _dbContext.ProductMessages.Add(productMessage);
+                    _dbContext.SaveChanges();
+                }
+        }
+        #endregion
+
+        #region 賣家回覆商品頁留言
+        public void AddSellerMessage(int ProductMessageId, int SellerId, string MessageContent)
+        {
+            using(_dbContext)
+            {
+                ProductSellerReply productSellerReply = new ProductSellerReply();
+                productSellerReply.UserId = SellerId;
+                productSellerReply.CreatedDate = DateTime.Now;
+                productSellerReply.MessageContent = MessageContent;
+                productSellerReply.ProductMessageId = ProductMessageId;
+                _dbContext.ProductSellerReplies.Add(productSellerReply);
+                _dbContext.SaveChanges();
+            }
         }
         #endregion
     }
