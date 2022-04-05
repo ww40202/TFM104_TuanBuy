@@ -1,5 +1,6 @@
-﻿  
-   <!-- 熱門按鈕 -->
+﻿
+   
+<!-- 熱門按鈕 -->
    <div class="container">
        <div class="mt4 bt pt3 tc mb3 mb0-l bb">
            <div class="db nowrap overflow-auto pb3 pt1">
@@ -71,8 +72,12 @@
                     <h4 class="card-title">{{item.name}}</h4>
                     @*商品描述*@
                     <p class="card-text">{{item.description}}</p>
-                    <a v-bind:href="item.href" class="btn btn-primary2 stretched-link">了解更多</a>
-                      @*  Href = "/Product/MyProduct/" + Convert.ToString(p.Id)*@
+                    <div class="progressbargreen" style="width: 100%"></div>
+                    <div class="bridto"></div>
+                    <div class="ntless">NT$113,552</div>
+                    @*<a v-bind:href="item.href" class="btn btn-primary2 stretched-link">了解更多</a>*@
+                    <span class="fday"><i class="material-icons lessicon">timelapse</i> 剩下 4 天
+                    </span>
                 </div>
             </div>
         </div>
