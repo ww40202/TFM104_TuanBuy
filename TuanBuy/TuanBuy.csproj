@@ -6,8 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Views\MemberCenter\mystoresell.cshtml" />
-    <Content Remove="Views\Product\checkout.cshtml" />
+    <Content Remove="wwwroot\css\StyleSheet.css" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,8 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Views\MemberCenter\mystoresell.cshtml" />
-    <None Include="Views\Product\checkout.cshtml" />
     <None Include="wwwroot\VueComponent\VueDemo.js" />
   </ItemGroup>
 

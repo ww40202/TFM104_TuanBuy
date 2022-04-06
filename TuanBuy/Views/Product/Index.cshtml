@@ -5,10 +5,10 @@
             <h2 class="col-12 addh2">開團</h2>
             <div class="col-12 addborder">
                 <label class="addp" for="name">使用者名稱</label>
-                <input class="addtext" type="text" name="" id="name" readonly="">
+                <input class="addtext" type="text" name="" id="name" readonly="" v-model="user.name">
 
                 <label class="addp" for="email">電子信箱</label>
-                <input class="addtext" type="text" name="" id="email" readonly="">
+                <input class="addtext" type="text" name="" id="email" readonly=""v-model="user.email">
                 
                 <!--商品名稱-->
                 <label class="addp" for="productname">商品名稱</label>
@@ -73,6 +73,10 @@
                 category:"商品種類",
                 endTime:null,
                 total:1000
+            },
+            user: {
+                name: "",
+                email:""
             },
             preview:null,
             image: null,
@@ -142,6 +146,10 @@
                     })
                     .catch((resp) => alert(resp.response.data));
             }
+        },
+        mounted:function() {
+            let self = this;
+            axios.get("/api/MemberCenter/").then((resp) => { this.user = resp.data });
         }
     });
 </script>

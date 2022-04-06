@@ -102,5 +102,35 @@ namespace TuanBuy.Controllers
                 return View();
             }
         }
+        //訂單管理
+        public IActionResult Order()
+        {
+            return View();
+        }
+        [HttpGet]
+        public List<OrderBackMangeViewModel>  TestJoin()
+        {
+            var BackOrder = new OrderManage(_dbcontext);
+            var result = BackOrder.get();
+            return result;
+        }
+        //public  List<OrderBackMangeViewModel> GetOrder()
+        //{
+        //    var order=_dbcontext.OrderDetail.ToList();
+        //    return (order);
+        //}
+        //public List<UserBackMange> GetUsers()
+        //{
+        //    var ableUsers = _dbcontext.User.Where(x => x.Disable == false);
+
+        //    return ableUsers.Select(u => new UserBackMange
+        //    {
+        //        Name = u.Name,
+        //        Email = u.Email,
+        //        State = u.State,
+        //        Birth = u.Birth,
+        //        Phone = u.Phone
+        //    }).ToList();
+        //}
     }
 }
