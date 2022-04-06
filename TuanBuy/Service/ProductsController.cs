@@ -123,13 +123,13 @@ namespace TuanBuy.Service
 
 
             #endregion
-            var result = GetAllProducts().OrderByDescending(x=>x.Id);
-            var result123 =
-                (from orderdetail in _dbContext.OrderDetail
-                 where (result.Select(X => X.Id)).Contains(orderdetail.ProductId)
-                 select new { orderdetail }).ToList();
-            var abc = new List<ProductViewModel>();
-            foreach (var p in result)
+            var products = GetAllProducts().OrderByDescending(x=>x.Id);
+            var orderDetails =
+                (from orderDetail in _dbContext.OrderDetail
+                 where (products.Select(x => x.Id)).Contains(orderDetail.ProductId)
+                 select new {orderdetail = orderDetail }).ToList();
+            var result = new List<ProductViewModel>();
+            foreach (var p in products)
             {
                 var i = new ProductViewModel();
                 i.Id = p.Id;
@@ -139,24 +139,32 @@ namespace TuanBuy.Service
                 i.Category = p.Category;
                 i.PicPath = p.PicPath;
                 TimeSpan timeSpan = p.EndTime.Subtract(DateTime.Now).Duration();
-                i.LastTime = timeSpan.Days.ToString() + "天";
+                i.LastTime = timeSpan.Days + "天";
                 i.Price = p.Price;
                 i.Total = 0;
                 i.Href = p.Href;
-                foreach (var orderDetils in result123)
+                i.TargetPrice = p.TargetPrice;
+                foreach (var orderDetail in orderDetails)
                 {
-                    if (orderDetils.orderdetail.ProductId == p.Id)
+                    if (orderDetail.orderdetail.ProductId == p.Id)
                     {
-                        i.Total += orderDetils.orderdetail.Count * p.Price;
+                        i.Total += orderDetail.orderdetail.Count * p.Price;
                     }
                 }
-                abc.Add(i);
+
+                if (i.Total != null && i.Total != 0)
+                {
+                    i.percentage = (i.Total / i.TargetPrice) + "%";
+                }
+                else
+                {
+                    i.percentage = "0%";
+                }
+                result.Add(i);
             }
 
-            return abc;
+            return result;
 
-
-            //return test;
         }
 
 
@@ -222,7 +230,7 @@ namespace TuanBuy.Service
                     PicPath = "/productpicture/" + pic.FirstOrDefault()?.PicPath,
                     EndTime = p.EndTime,
                     Price = p.Price,
-                    Total = p.Total,
+                    TargetPrice = p.Total,
                     Href = "/Product/DemoProduct/" + p.Id
                 }
             ).ToList();
