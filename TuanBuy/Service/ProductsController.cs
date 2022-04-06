@@ -75,23 +75,30 @@ namespace TuanBuy.Service
         {
             //var product = _productsRepository.GetAll().Where(a => a.Disable == false)
             //    .OrderByDescending(x => x.Id);
-            var products = GetAllProducts();
+            //var products = GetAllProducts();
 
-            return products.Where(p => p.Disable == false)
-                .Select(p => new ProductViewModel
+            var result =
+                from p in _dbContext.Product
+                where p.Disable == false
+                join pic in _dbContext.ProductPics on p.Id equals pic.Id //into prodPic
+                join o in _dbContext.Order on p.Id equals o.Id
+                join od in _dbContext.OrderDetail on o.Id equals od.Id
+                orderby p.Id
+                select new ProductViewModel
                 {
                     Id = p.Id,
-                    Name = p.Name,
+                    Total = p.Price * od.Count,
+                    Price = p.Price,
                     Description = p.Description,
                     Content = p.Content,
                     Category = p.Category,
-                    PicPath = p.PicPath,
+                    PicPath = "/productpicture/" + pic.PicPath,
                     EndTime = p.EndTime,
-                    Price = p.Price,
-                    Href = p.Href
-                })
-                .OrderByDescending(x => x.Id)
-                .ToList();
+                    Href = "/Product/DemoProduct/" + p.Id
+                };
+            var test = result.ToList();
+
+            return test;
         }
 
 
@@ -157,6 +164,7 @@ namespace TuanBuy.Service
                     PicPath = "/productpicture/" + pic.FirstOrDefault()?.PicPath,
                     EndTime = p.EndTime,
                     Price = p.Price,
+                    Total = p.Total,
                     Href = "/Product/DemoProduct/" + p.Id
                 }
             ).ToList();
