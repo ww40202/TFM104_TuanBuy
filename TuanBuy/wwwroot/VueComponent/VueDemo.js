@@ -4,7 +4,7 @@
     template: `
                <div class="col-lg-2">
                 <div>
-                    <img v-bind:src="user.picPath" alt="頭像" id="testUserImg" width="100" height="100">
+                    <img v-bind:src="user.picPath" alt="頭像" id="testUserImg" width="100" height="100"  class="Largeheadsticker" >
                 </div>
                 <div class="accordion" id="accordionExample">
                     <div class="collapsecard">
@@ -19,13 +19,13 @@
                         <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
                             data-parent="#accordionExample">
                             <div class="collapsecard-body bgcf5">
-                                <a href="#">個人檔案</a>
+                                <a href="/MemberCenter/Index">個人檔案</a>
                             </div>
                         </div>
                         <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
                             data-parent="#accordionExample">
                             <div class="collapsecard-body bgcf5">
-                                <a href="#">更改密碼</a>
+                                <a href="/MemberCenter/ResetPassword">更改密碼</a>
                             </div>
                         </div>
                     </div>
@@ -41,7 +41,7 @@
                         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
                             data-parent="#accordionExample">
                             <div class="collapsecard-body bgcf5">
-                                <a href="#">我的商品</a>
+                                <a href="/MemberCenter/MyBuyProduct">我的商品</a>
                             </div>
                         </div>
                     </div>
@@ -90,7 +90,7 @@
                         <div id="collapseFive" class="collapse" aria-labelledby="headingFiVE"
                             data-parent="#accordionExample">
                             <div class="collapsecard-body bgcf5">
-                                <a href="#">我的商品</a>
+                                <a href="/MemberCenter/MyProduct">我的商品</a>
                             </div>
                         </div>
 

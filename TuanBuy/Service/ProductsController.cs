@@ -6,6 +6,7 @@ using System.Net.NetworkInformation;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Operations;
 using TuanBuy.Models;
@@ -32,32 +33,14 @@ namespace TuanBuy.Service
             _dbContext = dbContext;
         }
 
-        // GET: api/Products
+        //我的商品
         [Route("MyProducts")]
         [HttpGet]
         public ActionResult<IEnumerable<ProductViewModel>> GetMyProducts()
         {
             var targetUser = GetTargetUser();
 
-            var product = _dbContext.Product.ToList().GroupJoin(
-             _dbContext.ProductPics.ToList(),
-             product => product,
-             productPic => productPic.Product,
-             (p, pic) => new
-             {
-                 User = p.User,
-                 Disable = p.Disable,
-                 Id = p.Id,
-                 Name = p.Name,
-                 Description = p.Description,
-                 Content = p.Content,
-                 Category = p.Category,
-                 PicPath = "/productpicture/" + pic.FirstOrDefault()?.PicPath,
-                 EndTime = p.EndTime,
-                 Price = p.Price,
-                 Href = "/Product/DemoProduct/" + p.Id
-             }
-             ).ToList();
+            var product = GetAllProducts();
             //只取第一張圖片
             var products = new List<ProductViewModel>();
             foreach (var p in product)
@@ -74,60 +57,45 @@ namespace TuanBuy.Service
                         PicPath = p.PicPath,
                         EndTime = p.EndTime,
                         Price = p.Price,
-                        Href = "/Product/DemoProduct/" + p.Id
+                        Href = p.Href
                     };
                     products.Add(prod);
                 }
             }
-          
+
             return products;
 
         }
 
-        // GET: api/Products
+
+
+        //首頁撈商品
         [HttpGet]
         public ActionResult<IEnumerable<ProductViewModel>> GetProducts()
         {
-            var product = _productsRepository.GetAll().Where(a => a.Disable == false)
-                .OrderByDescending(x => x.Id);
-            //.ToList();
-            var products = new List<ProductViewModel>();
-            return product.Select(p => new ProductViewModel
-            {
-                Id = p.Id,
-                Name = p.Name,
-                Description = p.Description,
-                Content = p.Content,
-                Category = p.Category,
-                PicPath = "/productpicture/" + p.PicPath,
-                EndTime = p.EndTime,
-                Price = p.Price,
-                Href = "/Product/DemoProduct/" + p.Id
-            }).ToList();
-        }
+            //var product = _productsRepository.GetAll().Where(a => a.Disable == false)
+            //    .OrderByDescending(x => x.Id);
+            var products = GetAllProducts();
 
-        // GET: api/Products/5
-        [HttpGet("{id}")]
-        public ActionResult<ProductViewModel> GetProduct(int id)
-        {
-            var p = _productsRepository.Get(x => x.Id == id);
-            if (p == null) return NotFound();
-
-            return new ProductViewModel
-            {
-                Id = p.Id,
-                Name = p.Name,
-                Description = p.Description,
-                Content = p.Content,
-                Category = p.Category,
-                PicPath = "/productpicture/" + p.PicPath,
-                EndTime = p.EndTime,
-                Price = p.Price,
-                Href = "/Product/DemoProduct/" + p.Id
-            };
+            return products.Where(p => p.Disable == false)
+                .Select(p => new ProductViewModel
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Description = p.Description,
+                    Content = p.Content,
+                    Category = p.Category,
+                    PicPath = p.PicPath,
+                    EndTime = p.EndTime,
+                    Price = p.Price,
+                    Href = p.Href
+                })
+                .OrderByDescending(x => x.Id)
+                .ToList();
         }
 
 
+        //修改商品
         [HttpPut]
         public IActionResult PutProduct([FromBody] UpDateProductViewModel product)
         {
@@ -143,7 +111,7 @@ namespace TuanBuy.Service
 
 
 
-        // DELETE: api/Products/5
+        //商品軟刪除
         [HttpDelete("{id}")]
         public IActionResult DeleteProduct(int id)
         {
@@ -170,5 +138,30 @@ namespace TuanBuy.Service
             var targetUser = _userRepository.Get(a => a.Email == userEmail);
             return targetUser;
         }
+        //抓取全部商品
+        private List<ProductViewModel> GetAllProducts()
+        {
+            var product = _dbContext.Product.ToList().GroupJoin(
+                _dbContext.ProductPics.ToList(),
+                product => product,
+                productPic => productPic.Product,
+                (p, pic) => new ProductViewModel
+                {
+                    User = p.User,
+                    Disable = p.Disable,
+                    Id = p.Id,
+                    Name = p.Name,
+                    Description = p.Description,
+                    Content = p.Content,
+                    Category = p.Category,
+                    PicPath = "/productpicture/" + pic.FirstOrDefault()?.PicPath,
+                    EndTime = p.EndTime,
+                    Price = p.Price,
+                    Href = "/Product/DemoProduct/" + p.Id
+                }
+            ).ToList();
+            return product;
+        }
+
     }
 }

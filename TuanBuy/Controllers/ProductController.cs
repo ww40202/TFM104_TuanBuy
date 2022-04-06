@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Claims;
@@ -63,22 +64,35 @@ namespace TuanBuy.Controllers
         #endregion
 
         #region 取得商品頁留言
-        public ProductMessageViewModel GetProductMessage(int id)
+        [HttpGet]
+        public List<ProductMessageViewModel> GetProductMessage(int id)
         {
             ProductManage product = new ProductManage(_dbContext);
             var result = product.GetProductMessageData(id);
             return result;
         }
         [HttpPost]
-        #endregion 新增商品頁留言
+        #endregion 
+
+        #region 新增產品頁留言
         public IActionResult AddProductMessage(int ProductId,int UserId,string MessageContent)
+        {
+            ProductManage product = new ProductManage(_dbContext);              
+            //新增商品頁留言
+            product.AddProductMessage(ProductId,UserId,MessageContent);
+            return Ok();
+        }
+        #endregion
+
+        #region 賣家回覆留言
+        public IActionResult AddSellerMessage(int ProductMessageId, int SellerId, string MessageContent)
         {
             ProductManage product = new ProductManage(_dbContext);
             //新增商品頁留言
-            product.AddProductMessage();
+            product.AddSellerMessage(ProductMessageId, SellerId, MessageContent);
             return Ok();
         }
-        #region 
+
         #endregion
 
         //等待開團商品頁
@@ -116,7 +130,8 @@ namespace TuanBuy.Controllers
                 CreateTime = DateTime.Now,
                 EndTime = product.EndTime,
                 Price = product.Price,
-                User = targetUser
+                User = targetUser,
+                Total = product.Total
             };
             _productsRepository.Create(targetProduct);
             _productsRepository.SaveChanges();
@@ -151,11 +166,6 @@ namespace TuanBuy.Controllers
         }
 
 
-        [Authorize(Roles = "FullUser")]
-        public IActionResult MyProduct()
-        {
-            return View();
-        }
         //抓取當前使用者
         private User GetTargetUser()
         {

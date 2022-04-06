@@ -1,50 +1,44 @@
-﻿<script>
+﻿@{
+    Layout = null;
+}
+<script>
     var user = function() {
         this.email = "";
         this.password = "";
     };
-    //class user {
-    //    mail = " ";
-    //    pass = 5;
-    //}
 
 </script>
 
-    <!-- 登入選單 -->
-    <div class="container-fluid center" id="app">
-    <div class="row">
-        <div class="outsideborder">
-            <div>
-                <p class="welcome col-lg-12">歡迎登入</p>
-            </div>
-            <div class="col-lg-12">
-                <p class="display nobr">電子郵件</p><input class="display textborder col-md-8" type="text"
-                                                       placeholder="Enter your email" v-model="user.email">
-            </div>
-            <div class="col-lg-12">
-                <p class="display nobr2">密碼</p>
-                <input class="display textborder col-md-8" type="password" placeholder="Enter your password" name=""
-                       id="" v-model="user.password">
-            </div>
-            <div class="col-lg-12"><a href="#">忘記密碼</a></div>
-            <div class="col-lg-12"><input class="loginandregister col-lg-12" type="submit" value="登入"  v-on:click="login">
-                <div></div>
-                <div>
-                    <p class="or col-lg-12">—————— 或是 ——————</p>
-                </div>
-                <div>
-                    <div class="linklogin col-lg-12"><a href="#"></a>fb</div>
-                    <div class="linklogin col-lg-12"><a href="#"></a>google</div>
-                    <div class="linklogin col-lg-12"><a href="#"></a>line</div>
-                </div>
-                <div class="col-lg-12">
-                    <input class="loginandregister1" type="submit" value="註冊">
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
 
+<link rel="stylesheet" href="~/css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="~/css/font-awesome.min.css" type="text/css">
+<link rel="stylesheet" href="~/css/style.css" type="text/css">
+<link rel="stylesheet" href="~/css/mystyle.css">
+<script src="~/js/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<!-- 歡迎註冊 -->
+
+<body>
+<div class="disflix" id="app">
+    <div class="rew50"><a href=@Url.Action("Index","Home")><img src="~/img/Log.jpg" alt=""> 一起讓美好的事物發生</a></div>
+     <div class="regi">
+        <h2>會員登入</h2>
+        <label class="addp" for="email">電子郵件</label>
+        <input class="addtext" type="text" name="" id="email" v-model="user.email">
+        <label class="addp" for="password"  >密碼</label>
+        <input class="addtext" type="text" name="" id="password" v-model="user.password">
+        <div class="registerdiv">
+            <input type="submit" name="commit" value="登入" class="registerbtn" data-disable-with="登入" v-on:click="login">
+        </div>
+        <div class="iagree">繼續進行代表你同意<a href="">服務條款</a></div>
+        <div class="registerdiv"><a class="registerbtn2" href="">Google登入</a></div>
+        <div class="reborder"></div>
+        <a class="reloginpass" href=@Url.Action("Register","Home")>註冊</a>
+        <a class="reloginpass" href="">忘記密碼</a>
+        <div class="nothingmg"></div>
+    </div>
+</div>
+</body>
 
 <script>
     var app = new Vue({
@@ -52,23 +46,23 @@
         data : {
             user:new user()
         },
-            methods: {
+        methods: {
             login:function() {
                 let self = this;
                 axios.post("/api/LoginAndRegister", self.user).then((resp) => {
                     console.log(resp);
                     if (resp.data === "登入成功") {
                         window.location.href = "/Home/Index";
+                        return;
                     }
                     if (resp.data === '帳號未啟用') {
                         alert("帳號未啟用");
-
+                        return;
                     }
+                    alert("帳號密碼錯誤");
                 });
             }
         }
     })
 
 </script>
-
-
