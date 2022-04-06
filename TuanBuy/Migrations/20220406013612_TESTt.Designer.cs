@@ -10,8 +10,8 @@ using TuanBuy.Models.Entities;
 namespace TuanBuy.Migrations
 {
     [DbContext(typeof(TuanBuyContext))]
-    [Migration("20220405183540_test")]
-    partial class test
+    [Migration("20220406013612_TESTt")]
+    partial class TESTt
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -222,7 +222,7 @@ namespace TuanBuy.Migrations
                             Id = 1,
                             Category = "測試類別",
                             Content = "商品內容",
-                            CreateTime = new DateTime(2022, 4, 6, 2, 35, 40, 91, DateTimeKind.Local).AddTicks(3129),
+                            CreateTime = new DateTime(2022, 4, 6, 9, 36, 11, 521, DateTimeKind.Local).AddTicks(7156),
                             Description = "商品描述",
                             Disable = false,
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -236,7 +236,7 @@ namespace TuanBuy.Migrations
                             Id = 2,
                             Category = "測試類別",
                             Content = "商品內容",
-                            CreateTime = new DateTime(2022, 4, 6, 2, 35, 40, 92, DateTimeKind.Local).AddTicks(40),
+                            CreateTime = new DateTime(2022, 4, 6, 9, 36, 11, 522, DateTimeKind.Local).AddTicks(7361),
                             Description = "商品描述",
                             Disable = false,
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -250,7 +250,7 @@ namespace TuanBuy.Migrations
                             Id = 3,
                             Category = "測試類別",
                             Content = "商品內容",
-                            CreateTime = new DateTime(2022, 4, 6, 2, 35, 40, 92, DateTimeKind.Local).AddTicks(67),
+                            CreateTime = new DateTime(2022, 4, 6, 9, 36, 11, 522, DateTimeKind.Local).AddTicks(7404),
                             Description = "商品描述",
                             Disable = false,
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),

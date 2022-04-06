@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TuanBuy.Migrations
 {
-    public partial class test : Migration
+    public partial class TESTt : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -304,17 +304,17 @@ namespace TuanBuy.Migrations
             migrationBuilder.InsertData(
                 table: "Product",
                 columns: new[] { "Id", "Category", "Content", "CreateTime", "Description", "Disable", "EndTime", "Name", "Price", "Total", "UserId" },
-                values: new object[] { 1, "測試類別", "商品內容", new DateTime(2022, 4, 6, 2, 35, 40, 91, DateTimeKind.Local).AddTicks(3129), "商品描述", false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "測試商品1", 0m, 0m, 1 });
+                values: new object[] { 1, "測試類別", "商品內容", new DateTime(2022, 4, 6, 9, 36, 11, 521, DateTimeKind.Local).AddTicks(7156), "商品描述", false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "測試商品1", 0m, 0m, 1 });
 
             migrationBuilder.InsertData(
                 table: "Product",
                 columns: new[] { "Id", "Category", "Content", "CreateTime", "Description", "Disable", "EndTime", "Name", "Price", "Total", "UserId" },
-                values: new object[] { 2, "測試類別", "商品內容", new DateTime(2022, 4, 6, 2, 35, 40, 92, DateTimeKind.Local).AddTicks(40), "商品描述", false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "測試商品2", 0m, 0m, 1 });
+                values: new object[] { 2, "測試類別", "商品內容", new DateTime(2022, 4, 6, 9, 36, 11, 522, DateTimeKind.Local).AddTicks(7361), "商品描述", false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "測試商品2", 0m, 0m, 1 });
 
             migrationBuilder.InsertData(
                 table: "Product",
                 columns: new[] { "Id", "Category", "Content", "CreateTime", "Description", "Disable", "EndTime", "Name", "Price", "Total", "UserId" },
-                values: new object[] { 3, "測試類別", "商品內容", new DateTime(2022, 4, 6, 2, 35, 40, 92, DateTimeKind.Local).AddTicks(67), "商品描述", false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "測試商品3", 0m, 0m, 1 });
+                values: new object[] { 3, "測試類別", "商品內容", new DateTime(2022, 4, 6, 9, 36, 11, 522, DateTimeKind.Local).AddTicks(7404), "商品描述", false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "測試商品3", 0m, 0m, 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ChatMessages_ChatRoomId",
