@@ -6,6 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\MemberCenter\mystoresell.cshtml" />
+    <Content Remove="Views\Product\checkout.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MailKit" Version="3.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.15" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.15" />
@@ -21,6 +26,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\MemberCenter\mystoresell.cshtml" />
+    <None Include="Views\Product\checkout.cshtml" />
     <None Include="wwwroot\VueComponent\VueDemo.js" />
   </ItemGroup>
 

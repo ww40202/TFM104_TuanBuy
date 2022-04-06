@@ -39,12 +39,12 @@ namespace TuanBuy.Controllers
             return View();
         }
 
-        //商品介紹頁
-        public IActionResult DemoProduct()
-        {
-            return View();
-        }
-        //商品介紹頁
+        ////商品介紹頁
+        //public IActionResult DemoProduct()
+        //{
+        //    return View();
+        //}
+        #region 商品介紹頁
         [HttpGet]
         public IActionResult DemoProduct(int id)
         {
@@ -52,6 +52,7 @@ namespace TuanBuy.Controllers
             var result = product.GetDemoProductData(id);
             return View(result);
         }
+        #endregion
 
         #region 取得商品頁資料
         [HttpGet]
@@ -93,6 +94,14 @@ namespace TuanBuy.Controllers
             return Ok();
         }
 
+        #endregion
+
+        #region 加入團購結帳頁面
+        [Authorize(Roles = "FullUser")]
+        public IActionResult checkout()
+        {
+            return View();
+        }
         #endregion
 
         //等待開團商品頁

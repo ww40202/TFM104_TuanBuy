@@ -43,7 +43,7 @@
                 </a>
                 <div class="concern">
                     <span class="master">團主</span>
-                    <a class="personname" href="">{{productData.seller}}</a>
+                    <a class="personname" v-bind:href="productData.sellerhref">{{productData.seller}}</a>
                     <a href="">聊聊+</a>
                     <a href="">商場</a>
                 </div>
@@ -76,7 +76,7 @@
                             <input type="number" id="stepper" value="1" min="0" max="100" step="1" readonly>
                             <button>+</button>
                         </span>
-                        <button type="button" class="btn btn-danger" onclick="location.href='@Url.Action("ReadyProduct","Product")'">加入團購</button>
+                        <button type="button" class="btn btn-danger" onclick="location.href='@Url.Action("checkout","Product")'">加入團購</button>
                     </div>
                 </div>
             </div>
@@ -315,6 +315,7 @@
         productTargetPrice = 0;
         productTitle = '';
         productPicPath = [];
+        sellerhref = '';
         seller = '';
         sellerId = 0;
     }
@@ -430,6 +431,7 @@
                 this.productData.productSummary = resp.data.productSummary;
                 this.productData.productTargetPrice = resp.data.productTargetPrice;
                 this.productData.productTitle = resp.data.productTitle;
+                this.productData.sellerhref = '/MemberCenter/mystoresell/' + resp.data.sellerId;
                 this.productData.seller = resp.data.seller;
                 this.productData.sellerId = resp.data.sellerId;
                 app.sellerId = resp.data.sellerId;
