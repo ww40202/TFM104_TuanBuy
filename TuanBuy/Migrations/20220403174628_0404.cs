@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TuanBuy.Migrations
 {
-    public partial class _0405 : Migration
+    public partial class _0404 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -197,9 +197,8 @@ namespace TuanBuy.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    MessageContent = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false)
+                    ProductId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -209,7 +208,7 @@ namespace TuanBuy.Migrations
                         column: x => x.ProductId,
                         principalTable: "Product",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -264,28 +263,6 @@ namespace TuanBuy.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "ProductSellerReplies",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    MessageContent = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ProductMessageId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProductSellerReplies", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ProductSellerReplies_ProductMessages_ProductMessageId",
-                        column: x => x.ProductMessageId,
-                        principalTable: "ProductMessages",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_ChatMessages_ChatRoomId",
                 table: "ChatMessages",
@@ -335,11 +312,6 @@ namespace TuanBuy.Migrations
                 name: "IX_ProductPics_ProductId",
                 table: "ProductPics",
                 column: "ProductId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductSellerReplies_ProductMessageId",
-                table: "ProductSellerReplies",
-                column: "ProductMessageId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -357,10 +329,10 @@ namespace TuanBuy.Migrations
                 name: "OrderDetail");
 
             migrationBuilder.DropTable(
-                name: "ProductPics");
+                name: "ProductMessages");
 
             migrationBuilder.DropTable(
-                name: "ProductSellerReplies");
+                name: "ProductPics");
 
             migrationBuilder.DropTable(
                 name: "TestProducts");
@@ -370,9 +342,6 @@ namespace TuanBuy.Migrations
 
             migrationBuilder.DropTable(
                 name: "Order");
-
-            migrationBuilder.DropTable(
-                name: "ProductMessages");
 
             migrationBuilder.DropTable(
                 name: "Product");

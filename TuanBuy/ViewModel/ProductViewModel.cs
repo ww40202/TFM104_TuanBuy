@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TuanBuy.Models.Entities;
 
 namespace TuanBuy.ViewModel
 {
@@ -14,6 +15,8 @@ namespace TuanBuy.ViewModel
         public decimal Price { get; set; }
         public string Category { get; set; }
         public string Href { get; set; } = "";
+        public User User { get; set; }
+        public bool Disable { get; set; }
 
     }
 
@@ -42,24 +45,28 @@ namespace TuanBuy.ViewModel
         //產品剩餘天數
         public string ProductLastTime { get; set; }
         //加入團購人數
-        public string Buyers { get; set;}
+        public string Buyers { get; set; }
         //產品圖片
         public List<string> ProductPicPath { get; set; }
     }
-
     public class ProductMessageViewModel
     {
+        //留言id
+        public int MessageId { get; set; }
         //留言者頭像
         public string MessagePicPaht { get; set; }
         //留言者名稱
         public string MessageName { get; set; }
+        //留言時間
+        public DateTime MessageDateTime { get; set; }
         //留言者內容
         public string MessageContent { get; set; }
 
         //賣家名稱
         public string SellerName { get; set; }
         //賣家回覆訊息
-        public string SeelerReply { get; set; }
+        public string SellerReply { get; set; }
+        //賣家回覆訊息時間
+        public DateTime ReplyDateTime { get; set; }
     }
-
 }

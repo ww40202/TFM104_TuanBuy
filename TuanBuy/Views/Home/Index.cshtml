@@ -1,4 +1,4 @@
-﻿  
+﻿
    <!-- 熱門按鈕 -->
    <div class="container">
        <div class="mt4 bt pt3 tc mb3 mb0-l bb">
@@ -35,7 +35,7 @@
                    <img src="https://picsum.photos/1000/400" alt="Chicago" width=100% height=auto>
                </div>
                <div class="carousel-item">
-                   <img src="https://picsum.photos/1000/433" alt="New York" width=100% height=auto>
+                   <img src="https://picsum.photos/1000/400" alt="New York" width=100% height=auto>
                </div>
            </div>
 
@@ -48,32 +48,6 @@
            </a>
        </div>
    </div>
-   
-   <!-- 搜尋 -->
-@*   <div class="container">
-       <div class="row">
-           <div class="center col-md-12">
-               <div>
-                   <input class="display search col-md-11 form-control" type="text" placeholder="Search">
-                   <button class="display searchbtn col-md-1" type="submit">搜尋</button>
-               </div>
-           </div>
-       </div>
-   </div>*@
-
-   <!-- 熱門搜尋 -->
-@*   <div class="container">
-       <div class="row">
-           <div class="center col-md-12">
-               <div>
-                   <div class="display col-md-2"><a href="#">熱門搜尋1</a></div>
-                   <div class="display col-md-2"><a href="#">熱門搜尋2</a></div>
-                   <div class="display col-md-2"><a href="#">熱門搜尋3</a></div>
-                   <div class="display col-md-2"><a href="#">熱門搜尋4</a></div>
-               </div>
-           </div>
-       </div>
-   </div>*@
 
    <br />
    <br />
@@ -81,22 +55,28 @@
 
    <!-- 商品卡 -->
    @*https://picsum.photos/300/150*@
-<div class="container" id="productCard">
+ 
+
+   <div class="container" id="productCard">
     <div class="row">
-        <div class="col-md-4" v-for="item in products" width="290" height="400">
-            <div class="card">
+        <div class="col-md-4" v-for="item in products"   >
+            <div class="card "   >
                 <img class="card-img-top"
                      v-bind:src="item.picPath"
-                     alt="Card image" style="width: 100%" width="300" height="200">
+                     alt="Card image" style="width: 100%" width="320" height="200">
                 <div class="card-body">
+                    <a v-bind:href="item.href" class="btn btn-primary2 stretched-link"></a>
                     @*商品創立時間*@
                     <h5>{{item.createTime}}</h5>
                     @*商品名稱*@
                     <h4 class="card-title">{{item.name}}</h4>
                     @*商品描述*@
                     <p class="card-text">{{item.description}}</p>
-                    <a v-bind:href="item.href" class="btn btn-primary2 stretched-link">了解更多</a>
-                      @*  Href = "/Product/MyProduct/" + Convert.ToString(p.Id)*@
+                    <div class="progressbargreen" style="width: 100%"></div>
+                    <div class="bridto"></div>
+                    <div class="ntless">NT$113,552</div>
+                    <span class="fday"><i class="material-icons lessicon">timelapse</i> 剩下 4 天
+                    </span>
                 </div>
             </div>
         </div>

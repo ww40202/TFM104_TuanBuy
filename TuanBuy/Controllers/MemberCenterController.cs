@@ -30,6 +30,20 @@ namespace TuanBuy.Controllers
         {
             return View();
         }
+        //我是買家我購買的商品
+        public IActionResult MyBuyProduct()
+        {
+            return View();
+        }
+
+        //我是賣家我的商品
+        public IActionResult MyProduct()
+        {
+            return View();
+        }
+
+
+        //接收傳遞過來的URL去解碼判斷啟用會員
         [AllowAnonymous]
         public IActionResult StartMemberState(string s)
         {
@@ -50,9 +64,13 @@ namespace TuanBuy.Controllers
 
             return RedirectToAction("Login", "Home");
         }
-        public string Test(string s)
+
+        [HttpGet]
+        #region 會員個人販賣商品頁面
+        public IActionResult mystoresell(int id)
         {
-            return s;
+            return View();
         }
+        #endregion
     }
 }
