@@ -22,6 +22,7 @@ namespace TuanBuy.ViewModel
         public bool Disable { get; set; }
         public string LastTime { get; set; }
         public string percentage { get; set; }
+        public string color { get; set; }
     }
 
     public class DemoProductViewModel

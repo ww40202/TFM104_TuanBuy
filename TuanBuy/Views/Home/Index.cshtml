@@ -73,8 +73,7 @@
                         <h4 class="card-title">{{item.name}}</h4>
                         @*商品描述*@
                         <p class="card-text">{{item.description}}</p>
-                        {{item.percentage}}
-                        <div class="progressbargreen" v-bind:style="{width:item.percentage}"></div>
+                        <div class="progressbargreen" v-bind:style="{width:item.percentage,borderColor:item.color}"></div>
                         <div class="bridto"></div>
 
                         <div class="ntless">NT${{item.total}}</div>
@@ -135,10 +134,9 @@
             });
         },
         computed: {
-            getWidth() {
+            getStyle(data) {
                 const style={}
-                style.width = 100 + "%";
-                return style;
+                return style;
             }
         }
     });

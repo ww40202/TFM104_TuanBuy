@@ -144,6 +144,7 @@ namespace TuanBuy.Service
                 i.Total = 0;
                 i.Href = p.Href;
                 i.TargetPrice = p.TargetPrice;
+                i.color = "#3366a9";
                 foreach (var orderDetail in orderDetails)
                 {
                     if (orderDetail.orderdetail.ProductId == p.Id)
@@ -152,13 +153,31 @@ namespace TuanBuy.Service
                     }
                 }
 
-                if (i.Total != null && i.Total != 0)
+                if (i.Total != null && i.Total != 0 &&i.TargetPrice!= 0)
                 {
-                    i.percentage = (i.Total / i.TargetPrice) + "%";
+                    var a = (i.Total / i.TargetPrice) * 100;
+                    if (a >= 30)
+                    {
+                        i.color = "#3366a9";
+                    }
+
+                    if (a>=100)
+                    {
+                        a = 100;
+                        i.color = "red";
+                    }
+                    i.percentage = a + "%";
                 }
                 else
                 {
                     i.percentage = "0%";
+                
+                }
+                if (i.TargetPrice == 0)
+                {
+                    i.percentage = "100%";
+                    i.color = "red";
+
                 }
                 result.Add(i);
             }
@@ -230,6 +249,7 @@ namespace TuanBuy.Service
                     PicPath = "/productpicture/" + pic.FirstOrDefault()?.PicPath,
                     EndTime = p.EndTime,
                     Price = p.Price,
+                    //目標金額是商品的Total欄位
                     TargetPrice = p.Total,
                     Href = "/Product/DemoProduct/" + p.Id
                 }
