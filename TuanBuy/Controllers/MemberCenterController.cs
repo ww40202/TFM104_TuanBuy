@@ -65,5 +65,12 @@ namespace TuanBuy.Controllers
             return RedirectToAction("Login", "Home");
         }
 
+        [HttpGet]
+        #region 會員個人販賣商品頁面
+        public IActionResult mystoresell(int id)
+        {
+            return View();
+        }
+        #endregion
     }
 }
