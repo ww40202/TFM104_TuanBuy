@@ -408,7 +408,7 @@ footer {
 .gprdground {
     border-top: 1px solid rgba(0, 0, 0, .125);
     width: 100%;
-    margin: 3% 0;
+    margin: 1% 0;
     border-radius: .25rem;
 }
 
@@ -467,10 +467,23 @@ footer {
     margin: 1rem 0;
 }
 
-.checttext {
+.checktext {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    white-space: normal;
+}
+
+.checktextarea {
     background-color: transparent;
     border: 2px solid rgba(0, 0, 0, .09);
     width: 100%;
+    height: 8.5rem;
+    border-radius: .25rem;
 }
 
 .dasdP {
@@ -488,8 +501,44 @@ footer {
     margin: auto -25px;
 }
 
+.checkmg-15rem {
+    margin: auto 1.3rem;
+}
+
+.checkmg-1 {
+    margin: 1rem;
+    text-align: start;
+    padding: 0 15px;
+}
+
+.checkmg-2 {
+    margin: 1rem;
+    text-align: center;
+    padding: 0;
+}
+
+.checkmg-3 {
+    margin: 1rem 1.5rem;
+    text-align: end;
+    padding: 0;
+}
+
+.checkmg-4 {
+    margin: 1rem;
+    text-align: end;
+}
+
 .checauto {
     margin: auto;
+}
+
+.checkcolor {
+    color: #ee4d2d;
+}
+
+.checkdelbtn {
+    border: 0;
+    background-color: #FFF;
 }
 
 .checkproduct {
@@ -502,12 +551,82 @@ footer {
     white-space: normal;
 }
 
+
+
 .checkimg {
     width: 80px;
     height: 80px;
     vertical-align: left;
     padding: 0;
 }
+
+
+.check-ddd {
+    color: blue;
+    /* background-color: #007bff; */
+    border-color: #007bff;
+}
+
+.checkokbtn {
+    color: white;
+    background-color: #ee4d2d;
+}
+
+.checkcostdiv {
+    display: flex;
+    padding: 0.9375rem;
+    align-items: center;
+    background: rgb(248, 248, 248);
+}
+
+.checkcosttext {
+    align-items: center;
+    border-radius: 2px;
+    border: 1px solid rgba(0, 0, 0, 0.14);
+    box-shadow: rgb(0 0 0 / 2%) 0px 2px 0px 0px inset;
+    color: rgb(34, 34, 34);
+    height: 40px;
+    padding: 10px;
+    flex: 1 1 0%;
+    margin-left: 0.3rem;
+}
+
+.checktextbtn {
+    margin-left: 0.5rem;
+    width: 4rem;
+    height: 2.5rem;
+    color: black;
+    background-color: white;
+    border: 2px solid #F5F5F5;
+    border-radius: .25rem;
+}
+
+.checkchosediv {
+    display: flex;
+    margin: 1rem 0;
+    border: 2px solid #F5F5F5;
+    border-radius: .25rem;
+    box-shadow: 0 1px 0 0 transparent;
+    align-items: center;
+}
+
+.checkchosep {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    white-space: normal;
+    width: 80%;
+}
+
+.checkcheckbox {
+    width: 16px;
+    height: 16px;
+    margin: auto .5rem;
+}
+
 
 .stepper {
     border: 1px solid #eee;
@@ -538,6 +657,8 @@ footer {
         color: #333;
         border: none;
     }
+
+
 
 /* HeadName按鈕 */
 .dropdown-menu a {

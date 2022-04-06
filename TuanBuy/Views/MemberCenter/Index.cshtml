@@ -1,66 +1,135 @@
-﻿<script src="/VueComponent/VueDemo.js"></script>
-<br/>
-<br/>
-<div id="app">
-    <div class="container" id="app">
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Tuan Buy">
+    <meta name="keywords" content="Tuan Buy, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Tuan Buy</title>
+</head>
+
+<body>
+    <!-- 會員首頁 -->
+    <!-- 左邊表格 -->
+    <div class="container mtb2rem">
         <div class="row">
-            <test v-bind:user="user"></test>
-            <!---->
+            <div class="col-lg-2">
+                <div>
+                    <img src="https://img.league-funny.com/imgur/148292128067.jpg" alt="頭像">
+                </div>
+                <div class="accordion" id="accordionExample">
+                    <div class="collapsecard">
+                        <div class="collapsecardhead" id="headingOne">
+                            <h2 class="mb-0 bgcf5">
+                                <button class="btn btn-link" type="button" data-toggle="collapse"
+                                        data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    我的帳戶
+                                </button>
+                            </h2>
+                        </div>
+                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
+                             data-parent="#accordionExample">
+                            <div class="collapsecard-body bgcf5">
+                                <a href="#">個人檔案</a>
+                            </div>
+                        </div>
+                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
+                             data-parent="#accordionExample">
+                            <div class="collapsecard-body bgcf5">
+                                <a href="#">銀行帳號/信用卡</a>
+                            </div>
+                        </div>
+                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
+                             data-parent="#accordionExample">
+                            <div class="collapsecard-body bgcf5">
+                                <a href="#">更改密碼</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collapsecard">
+                        <div class="collapsecardhead" id="headingTwo">
+                            <h2 class="mb-0 bgcf5">
+                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                        data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    購買清單
+                                </button>
+                            </h2>
+                        </div>
+                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+                             data-parent="#accordionExample">
+                            <div class="collapsecard-body bgcf5">
+                                <a href="#">我的商品</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collapsecard">
+                        <div class="collapsecardhead" id="headingThree">
+                            <h2 class="mb-0 bgcf5">
+                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                        data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    通知總攬
+                                </button>
+                            </h2>
+                        </div>
+                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
+                             data-parent="#accordionExample">
+                            <div class="collapsecard-body bgcf5">
+                                <a href="#">通知</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collapsecard">
+                        <div class="collapsecardhead" id="headingFour">
+                            <h2 class="mb-0 bgcf5">
+                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                        data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                    團購優惠券
+                                </button>
+                            </h2>
+                        </div>
+                        <div id="collapseFour" class="collapse" aria-labelledby="headingFour"
+                             data-parent="#accordionExample">
+                            <div class="collapsecard-body bgcf5">
+                                <a href="#">我的優惠券</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 右邊內容 -->
             <div class="col-lg-10 form-row acccolor">
                 <div class="col-lg-12 acpabord">
                     <h4>我的檔案</h4>
                 </div>
                 <div class="col-lg-8">
+                    <label class="prop" for="name">姓名</label>
+                    <input class="protext" type="text" name="" id="name">
+                    <label class="prop promgtop" for="phone">手機號碼</label>
+                    <input class="protext" type="text" name="" id="phone">
+                    <label class="prop promgtop" for="addres">地址</label>
+                    <input class="protext" type="text" name="" id="addres">
+
 
                     <div>
-                        <div class="mtbot">
-                            <div class="display acctext">
-                                <p>姓名</p>
-                            </div>
-                            <div class="display"></div><input type="text" v-model="user.name">
-                        </div>
+                        <div class="prop promgtop">性別</div>
+                        <input name="sex" type="radio">男
+                        <input name="sex" type="radio">女
+                        <input name="sex" type="radio">其他
                     </div>
-                    <div class="mtbot">
-                        <div class="display acctextphone">
-                            <p>手機號碼</p>
-                        </div>
-                        <div class="display"><input type="text" v-model="user.phone"></div>
-                    </div>
-                    <div class="mtbot">
-                        <div class="display acctext">
-                            <p>地址</p>
-                        </div>
-                        <div class="display"><input type="text" v-model="user.address"></div>
-                    </div>
-                    <div class="mtbot">
-                        <div class="display acctext">
-                            <p>性別</p>
-                        </div>
-                        <div class="display">
-                            <input name="sex" type="radio" value="1" v-model="user.sex">男
-                            <input name="sex" type="radio" value="0" v-model="user.sex">女
-                            <input name="sex" type="radio" value="3" v-model="user.sex">其他
-                        </div>
-                    </div>
-                    <div class="mtbot">
-                        <div class="display acctext">
-                            <p>生日</p>
-                        </div>
-                        <div class="display"><input type="date" v-model="birthDate" ></div>
-                    </div>
-                    <div class="accsave"><button v-on:click="dataUpdate">儲存</button></div>
+                    <label class="prop promgtop" for="birthday">生日</label>
+                    <input class="protext" type="date" name="" id="birthday">
+                    <button class="registerbtn">儲存</button>
                 </div>
                 <div class="col-lg-4">
                     <div>
-                        <input type="file" class="form-control" id="uploadPicPath" multiple="" v-on:change="up">
+                        <img src="https://img.league-funny.com/imgur/148292128067.jpg" alt="頭像">
                     </div>
                     <div>
-                        <temlate v-if="preview">
-                            <img v-bind:src="preview" width="100" height="100"  class="Largeheadsticker"  />
-                        </temlate>
+                        <input type="file" name="files" id="file" onchange="verificationPicFile(this)">
                     </div>
                     <div>
-                        <p>大頭貼選擇</p>
                         <p>檔案大小:最大1MB</p>
                     </div>
                     <div>
@@ -68,96 +137,9 @@
                     </div>
                 </div>
             </div>
-
-            <!---->
         </div>
     </div>
-</div>
+    <!-- 會員首頁結束 -->
+</body>
 
-
-
-
-<script>
-    var vm = new Vue({
-        el: '#app',
-        data: {
-            user: {
-                name: "",
-                phone: "",
-                birth: "",
-                address: "",
-                sex: "",
-                uploadPicPath: ""
-            },
-            preview: null
-        },
-        methods: {
-            testDataUpdate: function () {
-                let self = this;
-                let u = self.user;
-                if (u.name.trim() === "" || u.phone.trim() === "" || u.birth.trim() === "" || u.address.trim() === "" || u.sex === null) {
-                    alert("請將會員資料填寫完整");
-                    return;
-                }
-                axios.post("/api/MemberCenter", self.user).then(() => { alert("更新成功！"); });
-            },
-            dataUpdate: function () {
-                var bodyFormData = new FormData();
-                let self = this;
-                let u = self.user;
-                if (u.name === "" || u.phone === "" || u.birth === "" || u.address === "" || u.sex === null) {
-                    alert("請將會員資料填寫完整");
-                    return;
-                }
-                bodyFormData.append("Name", u.name);
-                bodyFormData.append("Phone", u.phone);
-                bodyFormData.append("Birth", u.birth);
-                bodyFormData.append("Sex", u.sex);
-                bodyFormData.append("Address", u.address);
-                bodyFormData.append("PicPath", u.uploadPicPath);
-                console.log(bodyFormData);
-                axios({
-                    method: "post",
-                    url: "/api/MemberCenter",
-                    data: bodyFormData,
-                    headers: { "Content-Type": "multipart/form-data" }
-                })
-                    .then((resp) => {
-                        alert("儲存成功！");
-                        window.location.reload();
-                    })
-                    .catch((resp) => alert(resp));
-            },
-            up: function (event) {
-                console.log(event);
-                this.user.uploadPicPath = event.target.files[0];
-                var input = event.target;
-                if (input.files) {
-                    var reader = new FileReader();
-                    reader.onload = (e) => {
-                        this.preview = e.target.result;
-                    }
-                    this.image = input.files[0];
-                    reader.readAsDataURL(input.files[0]);
-                }
-                alert("上傳成功");
-            }
-        },
-        mounted: function () {
-            let self = this;
-            axios.get("/api/MemberCenter/").then((resp) => { this.user = resp.data });
-        },
-        computed: {
-            birthDate:{
-                get()
-                {
-                    return moment(this.user.birth).format('YYYY-MM-DD');
-                },
-                set(value) {
-                    return this.user.birth = moment(value).format('YYYY-MM-DD');
-                }
-                
-            }
-        }
-    });
-</script>
+</html>
