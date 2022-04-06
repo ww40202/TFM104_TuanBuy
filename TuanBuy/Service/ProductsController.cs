@@ -73,32 +73,46 @@ namespace TuanBuy.Service
         [HttpGet]
         public ActionResult<IEnumerable<ProductViewModel>> GetProducts()
         {
-            //var product = _productsRepository.GetAll().Where(a => a.Disable == false)
-            //    .OrderByDescending(x => x.Id);
-            //var products = GetAllProducts();
 
-            var result =
-                from p in _dbContext.Product
-                where p.Disable == false
-                join pic in _dbContext.ProductPics on p.Id equals pic.Id //into prodPic
-                join o in _dbContext.Order on p.Id equals o.Id
-                join od in _dbContext.OrderDetail on o.Id equals od.Id
-                orderby p.Id
-                select new ProductViewModel
+            var products = GetAllProducts();
+            var result = products.Where(p => p.Disable == false)
+                .Select(p => new ProductViewModel
                 {
                     Id = p.Id,
-                    Total = p.Price * od.Count,
-                    Price = p.Price,
+                    Name = p.Name,
                     Description = p.Description,
                     Content = p.Content,
                     Category = p.Category,
-                    PicPath = "/productpicture/" + pic.PicPath,
+                    PicPath = p.PicPath,
                     EndTime = p.EndTime,
-                    Href = "/Product/DemoProduct/" + p.Id
-                };
-            var test = result.ToList();
+                    Price = p.Price,
+                    Href = p.Href
+                })
+                .OrderByDescending(x => x.Id)
+                .ToList();
+            return result;
+            //var result =
+            //    from p in _dbContext.Product
+            //    where p.Disable == false
+            //    join pic in _dbContext.ProductPics on p.Id equals pic.Id //into prodPic
+            //    join o in _dbContext.Order on p.Id equals o.Id
+            //    join od in _dbContext.OrderDetail on o.Id equals od.Id
+            //    orderby p.Id
+            //    select new ProductViewModel
+            //    {
+            //        Id = p.Id,
+            //        Total = p.Price * od.Count,
+            //        Price = p.Price,
+            //        Description = p.Description,
+            //        Content = p.Content,
+            //        Category = p.Category,
+            //        PicPath = "/productpicture/" + pic.PicPath,
+            //        EndTime = p.EndTime,
+            //        Href = "/Product/DemoProduct/" + p.Id
+            //    };
+            //var test = result.ToList();
 
-            return test;
+            //return product;
         }
 
 
