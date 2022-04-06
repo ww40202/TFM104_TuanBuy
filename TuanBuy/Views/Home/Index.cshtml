@@ -73,7 +73,8 @@
                         <h4 class="card-title">{{item.name}}</h4>
                         @*商品描述*@
                         <p class="card-text">{{item.description}}</p>
-                        <div class="progressbargreen" style="width: 100%"></div>
+                        {{item.percentage}}
+                        <div class="progressbargreen" v-bind:style="{width:item.percentage}"></div>
                         <div class="bridto"></div>
 
                         <div class="ntless">NT${{item.total}}</div>
@@ -86,7 +87,6 @@
         </div>
     </div>
 
-</div>
 </div>
 
 <!-- 上一頁、下一頁 -->
@@ -133,6 +133,13 @@
             axios.get("/api/Products").then((resp) => {
                 self.products = resp.data;
             });
+        },
+        computed: {
+            getWidth() {
+                const style={}
+                style.width = 100 + "%";
+                return style;
+            }
         }
     });
 </script>
