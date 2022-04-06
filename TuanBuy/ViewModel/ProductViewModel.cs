@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using TuanBuy.Models.Entities;
 
 namespace TuanBuy.ViewModel
@@ -13,10 +14,12 @@ namespace TuanBuy.ViewModel
         public string Content { get; set; }
         public string PicPath { get; set; }
         public decimal Price { get; set; }
+        public decimal? Total { get; set; }
         public string Category { get; set; }
         public string Href { get; set; } = "";
         public User User { get; set; }
         public bool Disable { get; set; }
+        public string LastTime { get; set; }
 
     }
 
