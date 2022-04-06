@@ -61,31 +61,32 @@
     <div class="row">
         <div class="col-md-4" v-for="item in products">
             <div class="card ">
-                <img class="card-img-top"
-                     v-bind:src="item.picPath"
-                     alt="Card image" style="width: 100%" width="320" height="200">
-                <div class="card-body">
-                    <a v-bind:href="item.href" class="btn btn-primary2 stretched-link"></a>
-                    @*商品創立時間*@
-                    <h5>{{item.createTime}}</h5>
-                    @*商品名稱*@
-                    <h4 class="card-title">{{item.name}}</h4>
-                    @*商品描述*@
-                    <p class="card-text">{{item.description}}</p>
-                    <div class="progressbargreen" style="width: 100%"></div>
-                    <div class="bridto"></div>
+                <a v-bind:href="item.href">
+                    <img class="card-img-top"
+                         v-bind:src="item.picPath"
+                         alt="Card image" style="width: 100%" width="320" height="200">
+                    <div class="card-body">
 
-                    <div class="ntless">NT${{item.total}}</div>
-                    <span class="fday">
-                        <i class="material-icons lessicon">timelapse</i> 剩下 {{item.lastTime}}
+                        @*商品創立時間*@
+                        <h5>{{item.createTime}}</h5>
+                        @*商品名稱*@
+                        <h4 class="card-title">{{item.name}}</h4>
+                        @*商品描述*@
+                        <p class="card-text">{{item.description}}</p>
+                        <div class="progressbargreen" style="width: 100%"></div>
+                        <div class="bridto"></div>
 
-
-                    </span>
-                </div>
+                        <div class="ntless">NT${{item.total}}</div>
+                        <span class="fday">
+                            <i class="material-icons lessicon">timelapse</i> 剩下 {{item.lastTime}}
+                        </span>
+                    </div>
+                </a>
             </div>
         </div>
-
     </div>
+
+</div>
 </div>
 
 <!-- 上一頁、下一頁 -->
