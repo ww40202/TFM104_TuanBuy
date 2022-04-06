@@ -19,6 +19,7 @@ namespace TuanBuy.ViewModel
         public string Href { get; set; } = "";
         public User User { get; set; }
         public bool Disable { get; set; }
+        public string LastTime { get; set; }
 
     }
 
