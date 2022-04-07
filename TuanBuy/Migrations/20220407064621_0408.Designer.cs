@@ -10,8 +10,8 @@ using TuanBuy.Models.Entities;
 namespace TuanBuy.Migrations
 {
     [DbContext(typeof(TuanBuyContext))]
-    [Migration("20220407050212_0407")]
-    partial class _0407
+    [Migration("20220407064621_0408")]
+    partial class _0408
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -205,44 +205,44 @@ namespace TuanBuy.Migrations
                         new
                         {
                             Id = 1,
-                            Category = "測試類別",
-                            Content = "商品內容",
-                            CreateTime = new DateTime(2022, 4, 7, 13, 2, 11, 737, DateTimeKind.Local).AddTicks(5801),
-                            Description = "商品描述",
+                            Category = "食品",
+                            Content = "不知道可不可以吃的貓咪",
+                            CreateTime = new DateTime(2022, 4, 7, 14, 46, 20, 772, DateTimeKind.Local).AddTicks(9928),
+                            Description = "不知道可不可以吃",
                             Disable = false,
-                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "測試商品1",
-                            Price = 0m,
-                            Total = 0m,
+                            EndTime = new DateTime(2022, 4, 12, 14, 46, 20, 774, DateTimeKind.Local).AddTicks(6445),
+                            Name = "貓貓",
+                            Price = 50m,
+                            Total = 1000m,
                             UserId = 1
                         },
                         new
                         {
                             Id = 2,
-                            Category = "測試類別",
-                            Content = "商品內容",
-                            CreateTime = new DateTime(2022, 4, 7, 13, 2, 11, 739, DateTimeKind.Local).AddTicks(4563),
-                            Description = "商品描述",
+                            Category = "食品",
+                            Content = "可以吃的生鮮鮭魚",
+                            CreateTime = new DateTime(2022, 4, 7, 14, 46, 20, 774, DateTimeKind.Local).AddTicks(7515),
+                            Description = "便宜好吃的鮭魚",
                             Disable = false,
-                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "測試商品2",
-                            Price = 0m,
-                            Total = 0m,
-                            UserId = 1
+                            EndTime = new DateTime(2022, 4, 13, 14, 46, 20, 774, DateTimeKind.Local).AddTicks(7529),
+                            Name = "鮭魚",
+                            Price = 50m,
+                            Total = 500m,
+                            UserId = 2
                         },
                         new
                         {
                             Id = 3,
-                            Category = "測試類別",
-                            Content = "商品內容",
-                            CreateTime = new DateTime(2022, 4, 7, 13, 2, 11, 739, DateTimeKind.Local).AddTicks(4635),
-                            Description = "商品描述",
+                            Category = "3C",
+                            Content = "便宜好用ㄉ記憶體",
+                            CreateTime = new DateTime(2022, 4, 7, 14, 46, 20, 774, DateTimeKind.Local).AddTicks(7664),
+                            Description = "記憶體是要描述什麼",
                             Disable = false,
-                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "測試商品3",
-                            Price = 0m,
-                            Total = 0m,
-                            UserId = 1
+                            EndTime = new DateTime(2022, 4, 10, 14, 46, 20, 774, DateTimeKind.Local).AddTicks(7669),
+                            Name = "記憶體",
+                            Price = 3000m,
+                            Total = 10000m,
+                            UserId = 3
                         });
                 });
 
@@ -290,6 +290,26 @@ namespace TuanBuy.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductPics");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            PicPath = "DEMO喵喵.jpg",
+                            ProductId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            PicPath = "DEMO鮭魚.jpg",
+                            ProductId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            PicPath = "DEMO記憶體.jpg",
+                            ProductId = 3
+                        });
                 });
 
             modelBuilder.Entity("TuanBuy.Models.Entities.ProductSellerReply", b =>
@@ -401,7 +421,7 @@ namespace TuanBuy.Migrations
                             Disable = false,
                             Email = "123@gmail.com",
                             Name = "小王",
-                            NickName = "小王",
+                            NickName = "賣貓的小王",
                             Password = "123456",
                             PicPath = "637843188933582087init.jpg",
                             Sex = 1,
@@ -413,7 +433,7 @@ namespace TuanBuy.Migrations
                             Disable = false,
                             Email = "456@gmail.com",
                             Name = "小明",
-                            NickName = "小明",
+                            NickName = "賣鮭魚的小明",
                             Password = "123456",
                             PicPath = "637843188933582087init.jpg",
                             Sex = 1,
@@ -425,7 +445,7 @@ namespace TuanBuy.Migrations
                             Disable = false,
                             Email = "789@gmail.com",
                             Name = "小張",
-                            NickName = "小張",
+                            NickName = "賣記憶體的小張",
                             Password = "123456",
                             PicPath = "637843188933582087init.jpg",
                             Sex = 1,
@@ -447,7 +467,7 @@ namespace TuanBuy.Migrations
             modelBuilder.Entity("TuanBuy.Models.ChatRoomMember", b =>
                 {
                     b.HasOne("TuanBuy.Models.ChatRoom", "ChatRoom")
-                        .WithMany("Users")
+                        .WithMany("ChatRoomMembers")
                         .HasForeignKey("ChatRoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -543,7 +563,7 @@ namespace TuanBuy.Migrations
 
             modelBuilder.Entity("TuanBuy.Models.ChatRoom", b =>
                 {
-                    b.Navigation("Users");
+                    b.Navigation("ChatRoomMembers");
                 });
 
             modelBuilder.Entity("TuanBuy.Models.Entities.Product", b =>

@@ -7,6 +7,7 @@
         <test v-bind:user="user"></test>
 
         <div class="col-lg-10 form-row">
+            @*商品卡從這邊動態*@
             <div class="col-lg-4 display">
                 <div class="card"  v-for="item in products">
                     <img class="card-img-top" v-bind:src="item.picPath" alt="Card image" style="width: 100%">
@@ -100,6 +101,7 @@
                     </div>
                 </div>
             </div>
+            @*商品卡從這結束*@
         </div>
     </div>
 </div>
