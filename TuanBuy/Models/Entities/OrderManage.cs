@@ -37,12 +37,12 @@ namespace TuanBuy.Models.Entities
                          join y in _dbcontext.User on i.User.Id equals y.Id
                          select new OrderBackMangeViewModel
                          {
-                             Address = o.Address,
+                             //Address = o.Address,
                              Count = o.Count,
                              CreateDate = i.CreateDate,
                              Phone = y.Phone,
                              OrderId = o.Id,
-                             PaymentType = o.PaymentType,
+                             //PaymentType = o.PaymentType,
                              ProductName = p.Name,
                              Price=p.Price,
                              UserName=i.User.Name

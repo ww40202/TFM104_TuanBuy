@@ -223,7 +223,7 @@ namespace TuanBuy.Controllers
             using(_dbContext)
             {
                 Order order = new Order();
-                order.ProductId = ProductId;
+                //order.ProductId = ProductId;
                 order.User.Id = UserId;
                 order.CreateDate = DateTime.Now;
                 _dbContext.Order.Add(order);

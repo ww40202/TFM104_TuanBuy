@@ -11,7 +11,7 @@ namespace TuanBuy.Models.Entities
 {
     [Table("Product")]
 
-    public  class Product
+    public class Product
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
@@ -38,8 +38,7 @@ namespace TuanBuy.Models.Entities
         public int UserId { get; set; }
 
         public virtual User User { get; set; }
-        public virtual ICollection<Order> Order { get; set; }
-        public virtual  ICollection<ProductPic>  ProductPics { get; set; }
+        public virtual ICollection<ProductPic> ProductPics { get; set; }
         public virtual ICollection<ProductMessage> ProductMessage { get; set; }
 
     }

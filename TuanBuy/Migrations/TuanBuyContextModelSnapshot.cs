@@ -89,24 +89,28 @@ namespace TuanBuy.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Disable")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ProductId")
+                    b.Property<int?>("PaymentType")
                         .HasColumnType("int");
 
-                    b.Property<int>("State")
-                        .HasColumnType("int");
+                    b.Property<string>("State")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
 
                     b.HasIndex("UserId");
 
@@ -120,14 +124,8 @@ namespace TuanBuy.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("Count")
                         .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Disable")
                         .HasColumnType("bit");
@@ -135,14 +133,11 @@ namespace TuanBuy.Migrations
                     b.Property<int?>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PaymentType")
-                        .HasColumnType("int");
+                    b.Property<decimal?>("Price")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
-
-                    b.Property<decimal?>("Total")
-                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -205,10 +200,10 @@ namespace TuanBuy.Migrations
                             Id = 1,
                             Category = "食品",
                             Content = "不知道可不可以吃的貓咪",
-                            CreateTime = new DateTime(2022, 4, 7, 17, 23, 21, 552, DateTimeKind.Local).AddTicks(6844),
+                            CreateTime = new DateTime(2022, 4, 7, 20, 56, 39, 51, DateTimeKind.Local).AddTicks(984),
                             Description = "不知道可不可以吃",
                             Disable = false,
-                            EndTime = new DateTime(2022, 4, 12, 17, 23, 21, 553, DateTimeKind.Local).AddTicks(7254),
+                            EndTime = new DateTime(2022, 4, 12, 20, 56, 39, 52, DateTimeKind.Local).AddTicks(1056),
                             Name = "貓貓",
                             Price = 50m,
                             Total = 1000m,
@@ -219,10 +214,10 @@ namespace TuanBuy.Migrations
                             Id = 2,
                             Category = "食品",
                             Content = "可以吃的生鮮鮭魚",
-                            CreateTime = new DateTime(2022, 4, 7, 17, 23, 21, 553, DateTimeKind.Local).AddTicks(8036),
+                            CreateTime = new DateTime(2022, 4, 7, 20, 56, 39, 52, DateTimeKind.Local).AddTicks(1759),
                             Description = "便宜好吃的鮭魚",
                             Disable = false,
-                            EndTime = new DateTime(2022, 4, 13, 17, 23, 21, 553, DateTimeKind.Local).AddTicks(8044),
+                            EndTime = new DateTime(2022, 4, 13, 20, 56, 39, 52, DateTimeKind.Local).AddTicks(1767),
                             Name = "鮭魚",
                             Price = 50m,
                             Total = 500m,
@@ -233,10 +228,10 @@ namespace TuanBuy.Migrations
                             Id = 3,
                             Category = "3C",
                             Content = "便宜好用ㄉ記憶體",
-                            CreateTime = new DateTime(2022, 4, 7, 17, 23, 21, 553, DateTimeKind.Local).AddTicks(8078),
+                            CreateTime = new DateTime(2022, 4, 7, 20, 56, 39, 52, DateTimeKind.Local).AddTicks(1799),
                             Description = "記憶體是要描述什麼",
                             Disable = false,
-                            EndTime = new DateTime(2022, 4, 10, 17, 23, 21, 553, DateTimeKind.Local).AddTicks(8081),
+                            EndTime = new DateTime(2022, 4, 10, 20, 56, 39, 52, DateTimeKind.Local).AddTicks(1801),
                             Name = "記憶體",
                             Price = 3000m,
                             Total = 10000m,
@@ -483,17 +478,11 @@ namespace TuanBuy.Migrations
 
             modelBuilder.Entity("TuanBuy.Models.Entities.Order", b =>
                 {
-                    b.HasOne("TuanBuy.Models.Entities.Product", "Product")
-                        .WithMany("Order")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("TuanBuy.Models.Entities.User", "User")
                         .WithMany("Order")
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("Product");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -566,8 +555,6 @@ namespace TuanBuy.Migrations
 
             modelBuilder.Entity("TuanBuy.Models.Entities.Product", b =>
                 {
-                    b.Navigation("Order");
-
                     b.Navigation("ProductMessage");
 
                     b.Navigation("ProductPics");

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TuanBuy.Migrations
 {
-    public partial class _0408 : Migration
+    public partial class test : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -110,6 +110,31 @@ namespace TuanBuy.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Order",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    State = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Disable = table.Column<bool>(type: "bit", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PaymentType = table.Column<int>(type: "int", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Order", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Order_User_UserId",
+                        column: x => x.UserId,
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Product",
                 columns: table => new
                 {
@@ -138,32 +163,32 @@ namespace TuanBuy.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Order",
+                name: "OrderDetail",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    State = table.Column<int>(type: "int", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Count = table.Column<int>(type: "int", nullable: true),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     Disable = table.Column<bool>(type: "bit", nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: true)
+                    OrderId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Order", x => x.Id);
+                    table.PrimaryKey("PK_OrderDetail", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Order_Product_ProductId",
+                        name: "FK_OrderDetail_Order_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Order",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_OrderDetail_Product_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Product",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Order_User_UserId",
-                        column: x => x.UserId,
-                        principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -202,38 +227,6 @@ namespace TuanBuy.Migrations
                     table.PrimaryKey("PK_ProductPics", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ProductPics_Product_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Product",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "OrderDetail",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PaymentType = table.Column<int>(type: "int", nullable: true),
-                    Count = table.Column<int>(type: "int", nullable: true),
-                    Total = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    Disable = table.Column<bool>(type: "bit", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    OrderId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_OrderDetail", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_OrderDetail_Order_OrderId",
-                        column: x => x.OrderId,
-                        principalTable: "Order",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_OrderDetail_Product_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Product",
                         principalColumn: "Id",
@@ -280,17 +273,17 @@ namespace TuanBuy.Migrations
             migrationBuilder.InsertData(
                 table: "Product",
                 columns: new[] { "Id", "Category", "Content", "CreateTime", "Description", "Disable", "EndTime", "Name", "Price", "Total", "UserId" },
-                values: new object[] { 1, "食品", "不知道可不可以吃的貓咪", new DateTime(2022, 4, 7, 14, 46, 20, 772, DateTimeKind.Local).AddTicks(9928), "不知道可不可以吃", false, new DateTime(2022, 4, 12, 14, 46, 20, 774, DateTimeKind.Local).AddTicks(6445), "貓貓", 50m, 1000m, 1 });
+                values: new object[] { 1, "食品", "不知道可不可以吃的貓咪", new DateTime(2022, 4, 7, 20, 55, 59, 987, DateTimeKind.Local).AddTicks(8673), "不知道可不可以吃", false, new DateTime(2022, 4, 12, 20, 55, 59, 988, DateTimeKind.Local).AddTicks(8201), "貓貓", 50m, 1000m, 1 });
 
             migrationBuilder.InsertData(
                 table: "Product",
                 columns: new[] { "Id", "Category", "Content", "CreateTime", "Description", "Disable", "EndTime", "Name", "Price", "Total", "UserId" },
-                values: new object[] { 2, "食品", "可以吃的生鮮鮭魚", new DateTime(2022, 4, 7, 14, 46, 20, 774, DateTimeKind.Local).AddTicks(7515), "便宜好吃的鮭魚", false, new DateTime(2022, 4, 13, 14, 46, 20, 774, DateTimeKind.Local).AddTicks(7529), "鮭魚", 50m, 500m, 2 });
+                values: new object[] { 2, "食品", "可以吃的生鮮鮭魚", new DateTime(2022, 4, 7, 20, 55, 59, 988, DateTimeKind.Local).AddTicks(8778), "便宜好吃的鮭魚", false, new DateTime(2022, 4, 13, 20, 55, 59, 988, DateTimeKind.Local).AddTicks(8785), "鮭魚", 50m, 500m, 2 });
 
             migrationBuilder.InsertData(
                 table: "Product",
                 columns: new[] { "Id", "Category", "Content", "CreateTime", "Description", "Disable", "EndTime", "Name", "Price", "Total", "UserId" },
-                values: new object[] { 3, "3C", "便宜好用ㄉ記憶體", new DateTime(2022, 4, 7, 14, 46, 20, 774, DateTimeKind.Local).AddTicks(7664), "記憶體是要描述什麼", false, new DateTime(2022, 4, 10, 14, 46, 20, 774, DateTimeKind.Local).AddTicks(7669), "記憶體", 3000m, 10000m, 3 });
+                values: new object[] { 3, "3C", "便宜好用ㄉ記憶體", new DateTime(2022, 4, 7, 20, 55, 59, 988, DateTimeKind.Local).AddTicks(8815), "記憶體是要描述什麼", false, new DateTime(2022, 4, 10, 20, 55, 59, 988, DateTimeKind.Local).AddTicks(8817), "記憶體", 3000m, 10000m, 3 });
 
             migrationBuilder.InsertData(
                 table: "ProductPics",
@@ -316,11 +309,6 @@ namespace TuanBuy.Migrations
                 name: "IX_Member_Chats_ChatRoomId",
                 table: "Member_Chats",
                 column: "ChatRoomId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Order_ProductId",
-                table: "Order",
-                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Order_UserId",

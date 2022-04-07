@@ -15,19 +15,17 @@ namespace TuanBuy.Models.Entities
         [Required]
         [Key]
         public int Id { get; set; }
-        public string Description { get; set; }
-        public string Address { get; set; }
-        public int? PaymentType { get; set; }
         public int? Count { get; set; }
-        public decimal? Total { get; set; }
+        public decimal? Price { get; set; }
         public bool Disable { get; set; } = false;
 
-        //[ForeignKey("Order")]
-        //public int OrderId { get; set; }
+
         [ForeignKey("Product")]
         public int ProductId { get; set; }
-        public virtual Order Order { get; set; }         
         public virtual Product Product { get; set; }
+        //[ForeignKey("Order")]
+        //public int OrderId { get; set; }
+        public virtual Order Order { get; set; }
     }
 
 }
