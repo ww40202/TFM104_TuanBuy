@@ -24,11 +24,11 @@
                 <!--類別-->
                 <label class="addp" for="category">類別</label>
                 <select class="addselect addimg" name="category" id="category" v-model="product.category">
-                    <option value="">選擇計畫分類</option>
-                    <option value="1">票券</option>
-                    <option value="2">食品</option>
-                    <option value="3">衣服</option>
-                    <option value="4">3C</option>
+                    <option value="未分類">選擇計畫分類</option>
+                    <option value="票卷">票券</option>
+                    <option value="食品">食品</option>
+                    <option value="衣服">衣服</option>
+                    <option value="3C">3C</option>
                 </select>
 
                 <!--商品簡介-->
@@ -125,7 +125,6 @@
                 bodyFormData.append("Price", this.product.price);
                 bodyFormData.append("Content", this.product.content);
                 bodyFormData.append("Description", this.product.description);
-/*                bodyFormData.append("PicPath", this.product.picPath);*/
                 for(let i =0; i <  this.product.picPath.length; i++) {
                     bodyFormData.append("PicPath", this.product.picPath[i]);
                 }
@@ -145,7 +144,7 @@
                             '刊登成功！',
                             '會員中心可供您修改商品',
                             'success'
-                        ).then((result) => {});
+                        ).then((result) => {document.location.href = "/home/index";});
                     })
                     .catch((resp) => alert(resp.response.data));
             }

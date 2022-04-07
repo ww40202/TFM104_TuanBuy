@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TuanBuy.Migrations
 {
-    public partial class TESTt : Migration
+    public partial class _0408 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -84,30 +84,6 @@ namespace TuanBuy.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ChatRoomUser",
-                columns: table => new
-                {
-                    ChatRoomId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    MemberId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ChatRoomUser", x => new { x.ChatRoomId, x.MemberId });
-                    table.ForeignKey(
-                        name: "FK_ChatRoomUser_ChatRooms_ChatRoomId",
-                        column: x => x.ChatRoomId,
-                        principalTable: "ChatRooms",
-                        principalColumn: "ChatRoomId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ChatRoomUser_User_MemberId",
-                        column: x => x.MemberId,
-                        principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Member_Chats",
                 columns: table => new
                 {
@@ -167,10 +143,10 @@ namespace TuanBuy.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
                     State = table.Column<int>(type: "int", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Disable = table.Column<bool>(type: "bit", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -244,8 +220,8 @@ namespace TuanBuy.Migrations
                     Count = table.Column<int>(type: "int", nullable: true),
                     Total = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     Disable = table.Column<bool>(type: "bit", nullable: false),
-                    OrderId = table.Column<int>(type: "int", nullable: true),
-                    ProductId = table.Column<int>(type: "int", nullable: true)
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    OrderId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -261,7 +237,7 @@ namespace TuanBuy.Migrations
                         column: x => x.ProductId,
                         principalTable: "Product",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -289,42 +265,52 @@ namespace TuanBuy.Migrations
             migrationBuilder.InsertData(
                 table: "User",
                 columns: new[] { "Id", "Address", "BankAccount", "Birth", "Disable", "Email", "Friend", "Name", "NickName", "Password", "Phone", "PicPath", "Sex", "State" },
-                values: new object[] { 1, null, null, null, false, "123@gmail.com", null, "小王", "小王", "123456", null, "637843188933582087init.jpg", 1, "正式會員" });
+                values: new object[] { 1, null, null, null, false, "123@gmail.com", null, "小王", "賣貓的小王", "123456", null, "637843188933582087init.jpg", 1, "正式會員" });
 
             migrationBuilder.InsertData(
                 table: "User",
                 columns: new[] { "Id", "Address", "BankAccount", "Birth", "Disable", "Email", "Friend", "Name", "NickName", "Password", "Phone", "PicPath", "Sex", "State" },
-                values: new object[] { 2, null, null, null, false, "456@gmail.com", null, "小明", "小明", "123456", null, "637843188933582087init.jpg", 1, "正式會員" });
+                values: new object[] { 2, null, null, null, false, "456@gmail.com", null, "小明", "賣鮭魚的小明", "123456", null, "637843188933582087init.jpg", 1, "正式會員" });
 
             migrationBuilder.InsertData(
                 table: "User",
                 columns: new[] { "Id", "Address", "BankAccount", "Birth", "Disable", "Email", "Friend", "Name", "NickName", "Password", "Phone", "PicPath", "Sex", "State" },
-                values: new object[] { 3, null, null, null, false, "789@gmail.com", null, "小張", "小張", "123456", null, "637843188933582087init.jpg", 1, "正式會員" });
+                values: new object[] { 3, null, null, null, false, "789@gmail.com", null, "小張", "賣記憶體的小張", "123456", null, "637843188933582087init.jpg", 1, "正式會員" });
 
             migrationBuilder.InsertData(
                 table: "Product",
                 columns: new[] { "Id", "Category", "Content", "CreateTime", "Description", "Disable", "EndTime", "Name", "Price", "Total", "UserId" },
-                values: new object[] { 1, "測試類別", "商品內容", new DateTime(2022, 4, 6, 9, 36, 11, 521, DateTimeKind.Local).AddTicks(7156), "商品描述", false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "測試商品1", 0m, 0m, 1 });
+                values: new object[] { 1, "食品", "不知道可不可以吃的貓咪", new DateTime(2022, 4, 7, 14, 46, 20, 772, DateTimeKind.Local).AddTicks(9928), "不知道可不可以吃", false, new DateTime(2022, 4, 12, 14, 46, 20, 774, DateTimeKind.Local).AddTicks(6445), "貓貓", 50m, 1000m, 1 });
 
             migrationBuilder.InsertData(
                 table: "Product",
                 columns: new[] { "Id", "Category", "Content", "CreateTime", "Description", "Disable", "EndTime", "Name", "Price", "Total", "UserId" },
-                values: new object[] { 2, "測試類別", "商品內容", new DateTime(2022, 4, 6, 9, 36, 11, 522, DateTimeKind.Local).AddTicks(7361), "商品描述", false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "測試商品2", 0m, 0m, 1 });
+                values: new object[] { 2, "食品", "可以吃的生鮮鮭魚", new DateTime(2022, 4, 7, 14, 46, 20, 774, DateTimeKind.Local).AddTicks(7515), "便宜好吃的鮭魚", false, new DateTime(2022, 4, 13, 14, 46, 20, 774, DateTimeKind.Local).AddTicks(7529), "鮭魚", 50m, 500m, 2 });
 
             migrationBuilder.InsertData(
                 table: "Product",
                 columns: new[] { "Id", "Category", "Content", "CreateTime", "Description", "Disable", "EndTime", "Name", "Price", "Total", "UserId" },
-                values: new object[] { 3, "測試類別", "商品內容", new DateTime(2022, 4, 6, 9, 36, 11, 522, DateTimeKind.Local).AddTicks(7404), "商品描述", false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "測試商品3", 0m, 0m, 1 });
+                values: new object[] { 3, "3C", "便宜好用ㄉ記憶體", new DateTime(2022, 4, 7, 14, 46, 20, 774, DateTimeKind.Local).AddTicks(7664), "記憶體是要描述什麼", false, new DateTime(2022, 4, 10, 14, 46, 20, 774, DateTimeKind.Local).AddTicks(7669), "記憶體", 3000m, 10000m, 3 });
+
+            migrationBuilder.InsertData(
+                table: "ProductPics",
+                columns: new[] { "Id", "PicPath", "ProductId" },
+                values: new object[] { 1, "DEMO喵喵.jpg", 1 });
+
+            migrationBuilder.InsertData(
+                table: "ProductPics",
+                columns: new[] { "Id", "PicPath", "ProductId" },
+                values: new object[] { 2, "DEMO鮭魚.jpg", 2 });
+
+            migrationBuilder.InsertData(
+                table: "ProductPics",
+                columns: new[] { "Id", "PicPath", "ProductId" },
+                values: new object[] { 3, "DEMO記憶體.jpg", 3 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ChatMessages_ChatRoomId",
                 table: "ChatMessages",
                 column: "ChatRoomId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ChatRoomUser_MemberId",
-                table: "ChatRoomUser",
-                column: "MemberId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Member_Chats_ChatRoomId",
@@ -376,9 +362,6 @@ namespace TuanBuy.Migrations
         {
             migrationBuilder.DropTable(
                 name: "ChatMessages");
-
-            migrationBuilder.DropTable(
-                name: "ChatRoomUser");
 
             migrationBuilder.DropTable(
                 name: "Member_Chats");
