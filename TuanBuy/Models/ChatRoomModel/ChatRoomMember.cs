@@ -8,18 +8,19 @@ using TuanBuy.Models.Entities;
 
 namespace TuanBuy.Models
 {
+    [Table("Member_Chats")]
     public class ChatRoomMember
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [ForeignKey("Member")]
+        [ForeignKey("User")]
         public int MemberId { get; set; }
 
         [ForeignKey("ChatRoom")]
         public Guid ChatRoomId { get; set; }
 
-        public virtual User Member { get; set; }
+        public virtual User User { get; set; }
 
         public virtual ChatRoom ChatRoom { get; set; }
     }

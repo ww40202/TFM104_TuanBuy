@@ -10,8 +10,8 @@ using TuanBuy.Models.Entities;
 namespace TuanBuy.Migrations
 {
     [DbContext(typeof(TuanBuyContext))]
-    [Migration("20220406013612_TESTt")]
-    partial class TESTt
+    [Migration("20220407050212_0407")]
+    partial class _0407
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,21 +20,6 @@ namespace TuanBuy.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.15")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("ChatRoomUser", b =>
-                {
-                    b.Property<Guid>("ChatRoomId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("MemberId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ChatRoomId", "MemberId");
-
-                    b.HasIndex("MemberId");
-
-                    b.ToTable("ChatRoomUser");
-                });
 
             modelBuilder.Entity("TuanBuy.Models.ChatMessages", b =>
                 {
@@ -155,7 +140,7 @@ namespace TuanBuy.Migrations
                     b.Property<int?>("PaymentType")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ProductId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<decimal?>("Total")
@@ -222,7 +207,7 @@ namespace TuanBuy.Migrations
                             Id = 1,
                             Category = "測試類別",
                             Content = "商品內容",
-                            CreateTime = new DateTime(2022, 4, 6, 9, 36, 11, 521, DateTimeKind.Local).AddTicks(7156),
+                            CreateTime = new DateTime(2022, 4, 7, 13, 2, 11, 737, DateTimeKind.Local).AddTicks(5801),
                             Description = "商品描述",
                             Disable = false,
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -236,7 +221,7 @@ namespace TuanBuy.Migrations
                             Id = 2,
                             Category = "測試類別",
                             Content = "商品內容",
-                            CreateTime = new DateTime(2022, 4, 6, 9, 36, 11, 522, DateTimeKind.Local).AddTicks(7361),
+                            CreateTime = new DateTime(2022, 4, 7, 13, 2, 11, 739, DateTimeKind.Local).AddTicks(4563),
                             Description = "商品描述",
                             Disable = false,
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -250,7 +235,7 @@ namespace TuanBuy.Migrations
                             Id = 3,
                             Category = "測試類別",
                             Content = "商品內容",
-                            CreateTime = new DateTime(2022, 4, 6, 9, 36, 11, 522, DateTimeKind.Local).AddTicks(7404),
+                            CreateTime = new DateTime(2022, 4, 7, 13, 2, 11, 739, DateTimeKind.Local).AddTicks(4635),
                             Description = "商品描述",
                             Disable = false,
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -448,21 +433,6 @@ namespace TuanBuy.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ChatRoomUser", b =>
-                {
-                    b.HasOne("TuanBuy.Models.ChatRoom", null)
-                        .WithMany()
-                        .HasForeignKey("ChatRoomId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TuanBuy.Models.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("MemberId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("TuanBuy.Models.ChatMessages", b =>
                 {
                     b.HasOne("TuanBuy.Models.ChatRoom", "ChatRoom")
@@ -477,20 +447,20 @@ namespace TuanBuy.Migrations
             modelBuilder.Entity("TuanBuy.Models.ChatRoomMember", b =>
                 {
                     b.HasOne("TuanBuy.Models.ChatRoom", "ChatRoom")
-                        .WithMany()
+                        .WithMany("Users")
                         .HasForeignKey("ChatRoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TuanBuy.Models.Entities.User", "Member")
-                        .WithMany()
+                    b.HasOne("TuanBuy.Models.Entities.User", "User")
+                        .WithMany("ChatRoom")
                         .HasForeignKey("MemberId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("ChatRoom");
 
-                    b.Navigation("Member");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("TuanBuy.Models.Entities.Order", b =>
@@ -518,7 +488,9 @@ namespace TuanBuy.Migrations
 
                     b.HasOne("TuanBuy.Models.Entities.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Order");
 
@@ -569,6 +541,11 @@ namespace TuanBuy.Migrations
                     b.Navigation("ProductMessage");
                 });
 
+            modelBuilder.Entity("TuanBuy.Models.ChatRoom", b =>
+                {
+                    b.Navigation("Users");
+                });
+
             modelBuilder.Entity("TuanBuy.Models.Entities.Product", b =>
                 {
                     b.Navigation("Order");
@@ -580,6 +557,8 @@ namespace TuanBuy.Migrations
 
             modelBuilder.Entity("TuanBuy.Models.Entities.User", b =>
                 {
+                    b.Navigation("ChatRoom");
+
                     b.Navigation("Order");
 
                     b.Navigation("Product");

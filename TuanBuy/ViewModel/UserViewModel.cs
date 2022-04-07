@@ -14,6 +14,11 @@ namespace TuanBuy.ViewModel
         public string PicPath { get; set; }
     }
 
+    public class SellerUser
+    {
+        public string Name { get; set; }
+        public string PicPath { get; set; }
+    }
     public class UserBackMange
     {
         public string Email { get; set; }

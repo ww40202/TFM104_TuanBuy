@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TuanBuy.Models.AppUtlity;
 using TuanBuy.ViewModel;
 
 namespace TuanBuy.Models.Entities
@@ -141,5 +142,164 @@ namespace TuanBuy.Models.Entities
             }
         }
         #endregion
+
+        #region 取得所有商品資料給予進度條剩餘時間等
+        public IEnumerable<ProductViewModel> GetProducts()
+        {
+
+            var products = GetAllProducts().OrderByDescending(x => x.Id);
+            var orderDetails =
+                (from orderDetail in _dbContext.OrderDetail
+                 where (products.Select(x => x.Id)).Contains(orderDetail.ProductId)
+                 select new { orderdetail = orderDetail }).ToList();
+            var result = new List<ProductViewModel>();
+            foreach (var p in products)
+            {
+                var i = new ProductViewModel();
+                i.Id = p.Id;
+                i.Name = p.Name;
+                i.Description = p.Description;
+                i.Content = p.Content;
+                i.Category = p.Category;
+                i.PicPath = p.PicPath;
+                TimeSpan timeSpan = p.EndTime.Subtract(DateTime.Now).Duration();
+                i.LastTime = timeSpan.Days + "天";
+                i.Price = p.Price;
+                i.Total = 0;
+                i.Href = p.Href;
+                i.TargetPrice = p.TargetPrice;
+                i.Color = "#3366a9";
+                foreach (var orderDetail in orderDetails)
+                {
+                    if (orderDetail.orderdetail.ProductId == p.Id)
+                    {
+                        i.Total += orderDetail.orderdetail.Count * p.Price;
+                    }
+                }
+
+                if (i.Total != null && i.Total != 0 && i.TargetPrice != 0)
+                {
+                    var a = (i.Total / i.TargetPrice) * 100;
+                    if (a >= 100)
+                    {
+                        a = 100;
+                    }
+                    i.Color = GetBarColor.GetColor(a);
+                    i.Percentage = a + "%";
+                }
+                else
+                {
+                    i.Percentage = "0%";
+
+                }
+                if (i.TargetPrice == 0)
+                {
+                    i.Percentage = "100%";
+                }
+                result.Add(i);
+            }
+
+            return result;
+
+        }
+
+        #endregion
+
+        #region 取得單一賣家商品資料
+        public IEnumerable<ProductViewModel> GetSellerProducts(int sellerId)
+        {
+
+            var products = GetAllProducts().OrderByDescending(x => x.Id).ToList();
+            var orderDetails =
+                (from orderDetail in _dbContext.OrderDetail
+                 where (products.Select(x => x.Id )).Contains(orderDetail.ProductId)
+                 select new { orderdetail = orderDetail }).ToList();
+            var result = new List<ProductViewModel>();
+            foreach (var p in products)
+            {
+                if (p.UserId == sellerId)
+                {
+                    var i = new ProductViewModel();
+                    i.Id = p.Id;
+                    i.Name = p.Name;
+                    i.Description = p.Description;
+                    i.Content = p.Content;
+                    i.Category = p.Category;
+                    i.PicPath = p.PicPath;
+                    TimeSpan timeSpan = p.EndTime.Subtract(DateTime.Now).Duration();
+                    i.LastTime = timeSpan.Days + "天";
+                    i.Price = p.Price;
+                    i.Total = 0;
+                    i.Href = p.Href;
+                    i.TargetPrice = p.TargetPrice;
+                    i.Color = "#3366a9";
+                    foreach (var orderDetail in orderDetails)
+                    {
+                        if (orderDetail.orderdetail.ProductId == p.Id)
+                        {
+                            i.Total += orderDetail.orderdetail.Count * p.Price;
+                        }
+                    }
+
+                    if (i.Total != null && i.Total != 0 && i.TargetPrice != 0)
+                    {
+                        var a = (i.Total / i.TargetPrice) * 100;
+                        if (a >= 100)
+                        {
+                            a = 100;
+                        }
+                        i.Color = GetBarColor.GetColor(a);
+                        i.Percentage = a + "%";
+                    }
+                    else
+                    {
+                        i.Percentage = "0%";
+
+                    }
+                    if (i.TargetPrice == 0)
+                    {
+                        i.Percentage = "100%";
+                    }
+                    result.Add(i);
+                }
+            }
+            return result;
+        }
+
+
+
+        #endregion
+
+        #region 取得所有商品資料（單一圖片）
+
+        private List<ProductViewModel> GetAllProducts()
+        {
+            var product = _dbContext.Product.ToList().GroupJoin(
+                _dbContext.ProductPics.ToList(),
+                product => product,
+                productPic => productPic.Product,
+                (p, pic) => new ProductViewModel
+                {
+                    UserId = p.UserId,
+                    User = p.User,
+                    Disable = p.Disable,
+                    Id = p.Id,
+                    Name = p.Name,
+                    Description = p.Description,
+                    Content = p.Content,
+                    Category = p.Category,
+                    PicPath = "/productpicture/" + pic.FirstOrDefault()?.PicPath,
+                    EndTime = p.EndTime,
+                    Price = p.Price,
+                    //目標金額是商品的Total欄位
+                    TargetPrice = p.Total,
+                    Href = "/Product/DemoProduct/" + p.Id
+                }
+            ).ToList();
+            return product;
+        }
+        #endregion
+
+
     }
 }

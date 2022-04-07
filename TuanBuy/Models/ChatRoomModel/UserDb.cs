@@ -195,5 +195,38 @@ namespace TuanBuy.Models
             return "OK";
         }
         #endregion
+
+        #region 新增聊天室將賣家及買家加入
+        public void AddChatRoom(int SellerId,int MemberId)
+        {
+            if(SellerId!=MemberId)
+            {
+                using (_dbContext)
+                {
+                    ChatRoom chatRoom = new ChatRoom() { };
+                    List<ChatRoomMember> chatRoomMembers = new List<ChatRoomMember>()
+                {
+                     new ChatRoomMember() {MemberId=SellerId ,ChatRoomId=chatRoom.ChatRoomId},
+                     new ChatRoomMember() {MemberId=MemberId ,ChatRoomId=chatRoom.ChatRoomId}
+                };
+                    chatRoom.ChatRoomMembers = chatRoomMembers;
+                    _dbContext.ChatRooms.Add(chatRoom);
+                    _dbContext.SaveChanges();
+                }
+            }
+            //_dbContext.User.Add(new User()
+            //{
+            //    Email = "666@gmail.com",
+            //    Password = "777",
+            //    NickName = "測試一下",
+            //    UserAccount = "666",
+            //    ChatRoom = new List<ChatRoom>()
+            //    {
+            //       new ChatRoom(){ChatRoomTitle = "測試聊天室" },new ChatRoom(){ChatRoomTitle = "測試聊天室2" }
+            //    }
+            //});
+            //_dbContext.SaveChanges();
+        }
+        #endregion
     }
 }
