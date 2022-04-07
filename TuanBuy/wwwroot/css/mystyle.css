@@ -532,6 +532,10 @@ footer {
     margin: auto;
 }
 
+.checkinputnumber {
+    padding-left: .8em;
+}
+
 .checkcolor {
     color: #ee4d2d;
 }
@@ -1269,4 +1273,66 @@ footer {
 
 .promgtop {
     margin-top: 1rem;
+}
+
+.probtn {
+    font-weight: 700;
+    color: #229f2a;
+    display: inline-block;
+    background-color: transparent;
+    border-width: 1px;
+    border-style: solid;
+    border-color: initial;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: .75rem 1.5rem;
+    line-height: 1em;
+    opacity: .9;
+    white-space: nowrap;
+    transform: translateZ(0);
+    margin-top: 1rem;
+    font-size: 1rem;
+}
+
+/* 更改密碼 */
+.passtext {
+    -webkit-tap-highlight-color: rgba(55, 134, 148, 0.25);
+    background-color: #FFF;
+    border: 1px solid #ababab;
+    font-weight: 500;
+    border-radius: .25rem;
+    width: 50%;
+    box-shadow: 0 1px 0 0 transparent;
+    color: #1b1b1b;
+    display: inline-block;
+    min-height: 2.25em;
+    padding: 2px;
+}
+
+
+
+    .passtext:focus {
+        box-shadow: 0 0 0 3px #fff, 0 0 0 5px #ccc;
+        outline: none;
+        border-radius: .125rem;
+    }
+
+/* 改商品頁導覽列 底色 */
+.navtabbottom {
+    border-bottom: 1px solid #dee2e6;
+    margin-bottom: 1%;
+}
+
+
+.navcolorwhite {
+    background-color: white !important;
+}
+
+.nav-tabs .nav-link.active {
+    border-bottom: 2px solid #ee4d2d;
+}
+
+.proimgdiv {
+    height: 7rem;
+    width: 7rem;
 }

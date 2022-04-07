@@ -29,18 +29,19 @@
 
                     <label class="prop promgtop" for="birthday">生日</label>
                     <input class="protext" type="date" name="" id="birthday" v-model="birthDate">
-                    <button class="registerbtn" v-on:click="dataUpdate">儲存</button>
+                    <button class="probtn" v-on:click="dataUpdate">儲存</button>
                 </div>
 
                 
-                <div class="col-lg-4">
-                    <div>
-                        <input type="file" class="form-control" id="uploadPicPath" multiple="" v-on:change="up">
-                    </div>
-                    <div>
+                <div class="col-lg-4 center">
+
+                    <div class="proimgdiv">
                         <temlate v-if="preview">
                             <img v-bind:src="preview" width="100" height="100" class="Largeheadsticker" />
                         </temlate>
+                    </div>
+                    <div>
+                        <input type="file" class="protext" id="uploadPicPath" multiple="" v-on:change="up">
                     </div>
                     <div>
                         <p>大頭貼選擇</p>
