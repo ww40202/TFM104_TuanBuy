@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace TuanBuy.Models.Entities
 {
     [Table("OrderDetail")]
-    public  class OrderDetail
+    public class OrderDetail
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required]
@@ -20,9 +20,10 @@ namespace TuanBuy.Models.Entities
         public int? PaymentType { get; set; }
         public int? Count { get; set; }
         public decimal? Total { get; set; }
-
-        public bool Disable { get; set; } =false;
-        public virtual Order Order { get; set; }
+        public bool Disable { get; set; } = false;
+        public int ProductId { get; set; }
+        public virtual Order Order { get; set; }         
         public virtual Product Product { get; set; }
     }
+
 }

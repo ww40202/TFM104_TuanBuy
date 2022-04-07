@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Data.Common;
 using System.Linq;
 using System.Net.NetworkInformation;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Operations;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using TuanBuy.Models;
 using TuanBuy.Models.Entities;
 using TuanBuy.Models.Interface;
@@ -73,25 +75,115 @@ namespace TuanBuy.Service
         [HttpGet]
         public ActionResult<IEnumerable<ProductViewModel>> GetProducts()
         {
-            //var product = _productsRepository.GetAll().Where(a => a.Disable == false)
-            //    .OrderByDescending(x => x.Id);
-            var products = GetAllProducts();
+            #region 原始版本 可以的
+            //var products = GetAllProducts();
+            //var result = products.Where(p => p.Disable == false)
+            //    .Select(p => new ProductViewModel
+            //    {
+            //        Id = p.Id,
+            //        Name = p.Name,
+            //        Description = p.Description,
+            //        Content = p.Content,
+            //        Category = p.Category,
+            //        PicPath = p.PicPath,
+            //        EndTime = p.EndTime,
+            //        Price = p.Price,
+            //        Href = p.Href
+            //    })
+            //    .OrderByDescending(x => x.Id)
+            //    .ToList();
+            //return result;
+            #endregion
 
-            return products.Where(p => p.Disable == false)
-                .Select(p => new ProductViewModel
+            #region 測試
+            //var result =
+            //    from p in _dbContext.Product
+            //    join pic in _dbContext.ProductPics on p.Id equals pic.Id //into prodPic
+            //    join o in _dbContext.Order on p.Id equals o.Id
+            //    join od in _dbContext.OrderDetail on o.Id equals od.Id
+            //    where p.Disable == false
+            //    orderby p.Id
+            //    select new ProductViewModel
+            //    {
+            //        Id = p.Id,
+            //        Total = p.Price * od.Count,
+            //        Price = p.Price,
+            //        Description = p.Description,
+            //        Content = p.Content,
+            //        Category = p.Category,
+            //        PicPath = "/productpicture/" + pic.PicPath,
+            //        EndTime = p.EndTime,
+            //        Href = "/Product/DemoProduct/" + p.Id
+            //    };
+            //var test = result.ToList();
+
+            //var result = (from product in _dbContext.Product
+            //    join prdpics in _dbContext.ProductPics on product.Id equals prdpics.ProductId
+            //    select new {product, prdpics}).ToList();
+
+
+            #endregion
+            var products = GetAllProducts().OrderByDescending(x=>x.Id);
+            var orderDetails =
+                (from orderDetail in _dbContext.OrderDetail
+                 where (products.Select(x => x.Id)).Contains(orderDetail.ProductId)
+                 select new {orderdetail = orderDetail }).ToList();
+            var result = new List<ProductViewModel>();
+            foreach (var p in products)
+            {
+                var i = new ProductViewModel();
+                i.Id = p.Id;
+                i.Name = p.Name;
+                i.Description = p.Description;
+                i.Content = p.Content;
+                i.Category = p.Category;
+                i.PicPath = p.PicPath;
+                TimeSpan timeSpan = p.EndTime.Subtract(DateTime.Now).Duration();
+                i.LastTime = timeSpan.Days + "天";
+                i.Price = p.Price;
+                i.Total = 0;
+                i.Href = p.Href;
+                i.TargetPrice = p.TargetPrice;
+                i.color = "#3366a9";
+                foreach (var orderDetail in orderDetails)
                 {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Description = p.Description,
-                    Content = p.Content,
-                    Category = p.Category,
-                    PicPath = p.PicPath,
-                    EndTime = p.EndTime,
-                    Price = p.Price,
-                    Href = p.Href
-                })
-                .OrderByDescending(x => x.Id)
-                .ToList();
+                    if (orderDetail.orderdetail.ProductId == p.Id)
+                    {
+                        i.Total += orderDetail.orderdetail.Count * p.Price;
+                    }
+                }
+
+                if (i.Total != null && i.Total != 0 &&i.TargetPrice!= 0)
+                {
+                    var a = (i.Total / i.TargetPrice) * 100;
+                    if (a >= 30)
+                    {
+                        i.color = "#3366a9";
+                    }
+
+                    if (a>=100)
+                    {
+                        a = 100;
+                        i.color = "red";
+                    }
+                    i.percentage = a + "%";
+                }
+                else
+                {
+                    i.percentage = "0%";
+                
+                }
+                if (i.TargetPrice == 0)
+                {
+                    i.percentage = "100%";
+                    i.color = "red";
+
+                }
+                result.Add(i);
+            }
+
+            return result;
+
         }
 
 
@@ -157,6 +249,8 @@ namespace TuanBuy.Service
                     PicPath = "/productpicture/" + pic.FirstOrDefault()?.PicPath,
                     EndTime = p.EndTime,
                     Price = p.Price,
+                    //目標金額是商品的Total欄位
+                    TargetPrice = p.Total,
                     Href = "/Product/DemoProduct/" + p.Id
                 }
             ).ToList();

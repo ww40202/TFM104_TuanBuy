@@ -20,7 +20,7 @@
 
 <body>
 <div class="disflix" id="app">
-    <div class="rew50"><a href=""><img src="~/img/Log.jpg" alt=""> 一起讓美好的事物發生</a></div>
+    <div class="rew50"><a href=@Url.Action("Index","Home")><img src="~/img/Log.jpg" alt=""> 一起讓美好的事物發生</a></div>
      <div class="regi">
         <h2>會員登入</h2>
         <label class="addp" for="email">電子郵件</label>
@@ -33,8 +33,8 @@
         <div class="iagree">繼續進行代表你同意<a href="">服務條款</a></div>
         <div class="registerdiv"><a class="registerbtn2" href="">Google登入</a></div>
         <div class="reborder"></div>
-        <a class="reloginpass" href="">註冊</a>
-        <a class="reloginpass" href="">忘記密碼或重設密碼</a>
+        <a class="reloginpass" href=@Url.Action("Register","Home")>註冊</a>
+        <a class="reloginpass" href="">忘記密碼</a>
         <div class="nothingmg"></div>
     </div>
 </div>

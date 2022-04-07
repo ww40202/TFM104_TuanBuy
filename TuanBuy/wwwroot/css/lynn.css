@@ -9,7 +9,8 @@
     border-radius: 2rem;
 }
 .card-body {
-    height: 15rem;
+    height: 11rem;
+
 }
 /*//商品卡結束*/
 /*首頁幻燈片開始*/
@@ -28,5 +29,5 @@
 /*商品介紹頁的導覽標籤結束*/
 
 .Largeheadsticker {
-    border-radius: 3rem;
+    border-radius: 50%;
 }
