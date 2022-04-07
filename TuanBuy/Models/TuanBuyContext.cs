@@ -30,11 +30,17 @@ namespace TuanBuy.Models.Entities
         public virtual DbSet<ChatMessages> ChatMessages { get; set; }
 
         public virtual DbSet<ProductSellerReply> ProductSellerReplies { get; set; }
+  
+        public virtual DbSet<OrderState> OrderState { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ChatRoomMember>().ToTable("Member_Chats");
             modelBuilder.Entity<ChatRoomMember>().HasKey(s => new { s.MemberId, s.ChatRoomId });
             
+
+
+            //商品和訂單多對多產生訂單明細
             modelBuilder.Entity<OrderDetail>().HasKey(s => new { s.ProductId, s.OrderId });
             modelBuilder.Entity<OrderDetail>()
                 .HasOne(od => od.Order)
@@ -47,6 +53,10 @@ namespace TuanBuy.Models.Entities
                 .WithMany(pd => pd.OrderDetails)
                 .HasForeignKey(pt => pt.ProductId)
                 .OnDelete(DeleteBehavior.ClientNoAction);
+
+
+
+                
 
 
             //假資料

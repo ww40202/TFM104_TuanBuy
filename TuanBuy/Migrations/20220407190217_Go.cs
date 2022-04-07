@@ -20,6 +20,19 @@ namespace TuanBuy.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "OrderState",
+                columns: table => new
+                {
+                    StateId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    State = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderState", x => x.StateId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "User",
                 columns: table => new
                 {
@@ -99,17 +112,24 @@ namespace TuanBuy.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    State = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Disable = table.Column<bool>(type: "bit", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PaymentType = table.Column<int>(type: "int", nullable: true),
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    StateId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Order", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Order_OrderState_StateId",
+                        column: x => x.StateId,
+                        principalTable: "OrderState",
+                        principalColumn: "StateId",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Order_User_UserId",
                         column: x => x.UserId,
@@ -253,17 +273,17 @@ namespace TuanBuy.Migrations
             migrationBuilder.InsertData(
                 table: "Product",
                 columns: new[] { "Id", "Category", "Content", "CreateTime", "Description", "Disable", "EndTime", "Name", "Price", "Total", "UserId" },
-                values: new object[] { 1, "食品", "不知道可不可以吃的貓咪", new DateTime(2022, 4, 7, 23, 41, 43, 564, DateTimeKind.Local).AddTicks(7088), "不知道可不可以吃", false, new DateTime(2022, 4, 12, 23, 41, 43, 565, DateTimeKind.Local).AddTicks(4126), "貓貓", 50m, 1000m, 1 });
+                values: new object[] { 1, "食品", "不知道可不可以吃的貓咪", new DateTime(2022, 4, 8, 3, 2, 16, 735, DateTimeKind.Local).AddTicks(714), "不知道可不可以吃", false, new DateTime(2022, 4, 13, 3, 2, 16, 735, DateTimeKind.Local).AddTicks(8194), "貓貓", 50m, 1000m, 1 });
 
             migrationBuilder.InsertData(
                 table: "Product",
                 columns: new[] { "Id", "Category", "Content", "CreateTime", "Description", "Disable", "EndTime", "Name", "Price", "Total", "UserId" },
-                values: new object[] { 2, "食品", "可以吃的生鮮鮭魚", new DateTime(2022, 4, 7, 23, 41, 43, 565, DateTimeKind.Local).AddTicks(4511), "便宜好吃的鮭魚", false, new DateTime(2022, 4, 13, 23, 41, 43, 565, DateTimeKind.Local).AddTicks(4515), "鮭魚", 50m, 500m, 2 });
+                values: new object[] { 2, "食品", "可以吃的生鮮鮭魚", new DateTime(2022, 4, 8, 3, 2, 16, 735, DateTimeKind.Local).AddTicks(8591), "便宜好吃的鮭魚", false, new DateTime(2022, 4, 14, 3, 2, 16, 735, DateTimeKind.Local).AddTicks(8596), "鮭魚", 50m, 500m, 2 });
 
             migrationBuilder.InsertData(
                 table: "Product",
                 columns: new[] { "Id", "Category", "Content", "CreateTime", "Description", "Disable", "EndTime", "Name", "Price", "Total", "UserId" },
-                values: new object[] { 3, "3C", "便宜好用ㄉ記憶體", new DateTime(2022, 4, 7, 23, 41, 43, 565, DateTimeKind.Local).AddTicks(4535), "記憶體是要描述什麼", false, new DateTime(2022, 4, 10, 23, 41, 43, 565, DateTimeKind.Local).AddTicks(4537), "記憶體", 3000m, 10000m, 3 });
+                values: new object[] { 3, "3C", "便宜好用ㄉ記憶體", new DateTime(2022, 4, 8, 3, 2, 16, 735, DateTimeKind.Local).AddTicks(8616), "記憶體是要描述什麼", false, new DateTime(2022, 4, 11, 3, 2, 16, 735, DateTimeKind.Local).AddTicks(8618), "記憶體", 3000m, 10000m, 3 });
 
             migrationBuilder.InsertData(
                 table: "ProductPics",
@@ -289,6 +309,11 @@ namespace TuanBuy.Migrations
                 name: "IX_Member_Chats_ChatRoomId",
                 table: "Member_Chats",
                 column: "ChatRoomId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Order_StateId",
+                table: "Order",
+                column: "StateId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Order_UserId",
@@ -346,6 +371,9 @@ namespace TuanBuy.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProductMessages");
+
+            migrationBuilder.DropTable(
+                name: "OrderState");
 
             migrationBuilder.DropTable(
                 name: "Product");

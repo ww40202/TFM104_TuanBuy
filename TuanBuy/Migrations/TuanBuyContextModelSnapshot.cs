@@ -104,13 +104,18 @@ namespace TuanBuy.Migrations
                     b.Property<int?>("PaymentType")
                         .HasColumnType("int");
 
-                    b.Property<string>("State")
+                    b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StateId")
+                        .HasColumnType("int");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("StateId");
 
                     b.HasIndex("UserId");
 
@@ -139,6 +144,21 @@ namespace TuanBuy.Migrations
                     b.HasIndex("OrderId");
 
                     b.ToTable("OrderDetail");
+                });
+
+            modelBuilder.Entity("TuanBuy.Models.Entities.OrderState", b =>
+                {
+                    b.Property<int>("StateId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("State")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("StateId");
+
+                    b.ToTable("OrderState");
                 });
 
             modelBuilder.Entity("TuanBuy.Models.Entities.Product", b =>
@@ -193,10 +213,10 @@ namespace TuanBuy.Migrations
                             Id = 1,
                             Category = "食品",
                             Content = "不知道可不可以吃的貓咪",
-                            CreateTime = new DateTime(2022, 4, 7, 23, 41, 43, 564, DateTimeKind.Local).AddTicks(7088),
+                            CreateTime = new DateTime(2022, 4, 8, 3, 2, 16, 735, DateTimeKind.Local).AddTicks(714),
                             Description = "不知道可不可以吃",
                             Disable = false,
-                            EndTime = new DateTime(2022, 4, 12, 23, 41, 43, 565, DateTimeKind.Local).AddTicks(4126),
+                            EndTime = new DateTime(2022, 4, 13, 3, 2, 16, 735, DateTimeKind.Local).AddTicks(8194),
                             Name = "貓貓",
                             Price = 50m,
                             Total = 1000m,
@@ -207,10 +227,10 @@ namespace TuanBuy.Migrations
                             Id = 2,
                             Category = "食品",
                             Content = "可以吃的生鮮鮭魚",
-                            CreateTime = new DateTime(2022, 4, 7, 23, 41, 43, 565, DateTimeKind.Local).AddTicks(4511),
+                            CreateTime = new DateTime(2022, 4, 8, 3, 2, 16, 735, DateTimeKind.Local).AddTicks(8591),
                             Description = "便宜好吃的鮭魚",
                             Disable = false,
-                            EndTime = new DateTime(2022, 4, 13, 23, 41, 43, 565, DateTimeKind.Local).AddTicks(4515),
+                            EndTime = new DateTime(2022, 4, 14, 3, 2, 16, 735, DateTimeKind.Local).AddTicks(8596),
                             Name = "鮭魚",
                             Price = 50m,
                             Total = 500m,
@@ -221,10 +241,10 @@ namespace TuanBuy.Migrations
                             Id = 3,
                             Category = "3C",
                             Content = "便宜好用ㄉ記憶體",
-                            CreateTime = new DateTime(2022, 4, 7, 23, 41, 43, 565, DateTimeKind.Local).AddTicks(4535),
+                            CreateTime = new DateTime(2022, 4, 8, 3, 2, 16, 735, DateTimeKind.Local).AddTicks(8616),
                             Description = "記憶體是要描述什麼",
                             Disable = false,
-                            EndTime = new DateTime(2022, 4, 10, 23, 41, 43, 565, DateTimeKind.Local).AddTicks(4537),
+                            EndTime = new DateTime(2022, 4, 11, 3, 2, 16, 735, DateTimeKind.Local).AddTicks(8618),
                             Name = "記憶體",
                             Price = 3000m,
                             Total = 10000m,
@@ -447,11 +467,19 @@ namespace TuanBuy.Migrations
 
             modelBuilder.Entity("TuanBuy.Models.Entities.Order", b =>
                 {
+                    b.HasOne("TuanBuy.Models.Entities.OrderState", "OrderState")
+                        .WithMany()
+                        .HasForeignKey("StateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("TuanBuy.Models.Entities.User", "User")
                         .WithMany("Order")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("OrderState");
 
                     b.Navigation("User");
                 });
