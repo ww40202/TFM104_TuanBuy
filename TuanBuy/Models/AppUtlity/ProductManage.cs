@@ -219,13 +219,15 @@ namespace TuanBuy.Models.Entities
             {
                 if (p.UserId == sellerId)
                 {
-                    var i = new ProductViewModel();
-                    i.Id = p.Id;
-                    i.Name = p.Name;
-                    i.Description = p.Description;
-                    i.Content = p.Content;
-                    i.Category = p.Category;
-                    i.PicPath = p.PicPath;
+                    var i = new ProductViewModel
+                    {
+                        Id = p.Id,
+                        Name = p.Name,
+                        Description = p.Description,
+                        Content = p.Content,
+                        Category = p.Category,
+                        PicPath = p.PicPath
+                    };
                     TimeSpan timeSpan = p.EndTime.Subtract(DateTime.Now).Duration();
                     i.LastTime = timeSpan.Days + "天";
                     i.Price = p.Price;
