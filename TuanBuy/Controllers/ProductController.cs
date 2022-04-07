@@ -217,8 +217,19 @@ namespace TuanBuy.Controllers
 
 
         #region 加入團購新增產品訂單
-
-
+        [Authorize(Roles = "FullUser")]
+        public void AddProductOrder(int ProductId,int UserId)
+        {
+            using(_dbContext)
+            {
+                Order order = new Order();
+                order.ProductId = ProductId;
+                order.User.Id = UserId;
+                order.CreateDate = DateTime.Now;
+                _dbContext.Order.Add(order);
+                _dbContext.SaveChanges();
+            }
+        }
         #endregion
     }
 }
