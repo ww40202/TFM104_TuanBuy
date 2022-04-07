@@ -138,5 +138,18 @@ namespace TuanBuy.Controllers
             return "新增圖片失敗";
         }
         #endregion
+
+        #region 將賣家加入聊天室
+        public IActionResult AddChatRoom(int SellerId,int MemberId)
+        {
+            if(SellerId!=0 && MemberId !=0)
+            {
+                UserDb db = new UserDb(_sqldb);
+                db.AddChatRoom(SellerId, MemberId);
+                return Ok();
+            }
+            return BadRequest();
+        }
+        #endregion
     }
 }

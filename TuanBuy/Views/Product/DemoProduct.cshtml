@@ -44,7 +44,7 @@
                 <div class="concern">
                     <span class="master">團主</span>
                     <a class="personname" v-bind:href="productData.sellerhref">{{productData.seller}}</a>
-                    <a href="">聊聊</a>
+                    <a  v-on:click="AddChat" v-if="sellerId!==useUserId && useUserId!==undefined">聊聊</a>
                 </div>
                 <!--商品內容-->
                 <p>{{productData.productDescription}}</p>
@@ -315,6 +315,7 @@
         productTitle = '';
         productPicPath = [];
         sellerhref = '';
+        sellerChatHref = '';
         seller = '';
         sellerId = 0;
     }
@@ -414,6 +415,23 @@
                         alert(response);
                     }
                 });
+            },
+
+            AddChat: function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/Member/AddChatRoom",
+                    data: {
+                        SellerId: app.sellerId,
+                        MemberId: app.useUserId
+                    },
+                    success: function (response) {
+                        window.location.href = '/Member/chatRoom';
+                    },
+                    error: function (response) {
+                        alert(response);
+                    }
+                });
             }
         },
         mounted: function () {
@@ -431,6 +449,7 @@
                 this.productData.productTargetPrice = resp.data.productTargetPrice;
                 this.productData.productTitle = resp.data.productTitle;
                 this.productData.sellerhref = '/MemberCenter/mystoresell/' + resp.data.sellerId;
+                this.productData.sellerChatHref = '/Member/AddChatRoom/' + resp.data.sellerId;
                 this.productData.seller = resp.data.seller;
                 this.productData.sellerId = resp.data.sellerId;
                 app.sellerId = resp.data.sellerId;
@@ -439,6 +458,7 @@
                     this.productData.productPicPath.push(resp.data.productPicPath[item]);
                 }
                 console.log(app.sellerId);
+                console.log(app.useUserId);
             }),
                 axios.get("/Member/GetOnlineMember/").then((resp) => {
                     app.useUserId = resp.data.id;
