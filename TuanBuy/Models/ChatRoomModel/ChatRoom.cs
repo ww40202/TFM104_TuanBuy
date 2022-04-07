@@ -19,7 +19,7 @@ namespace TuanBuy.Models
         //與會員多對多關係建立連接
         //public List<Member> Member { get; set; } = new List<Member>();
 
-        public virtual ICollection<User> Member { get; set; }
+        public virtual ICollection<ChatRoomMember> ChatRoomMembers { get; set; }
 
     }
 }

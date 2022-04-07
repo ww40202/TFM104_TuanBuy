@@ -10,7 +10,7 @@ namespace TuanBuy.Models.Entities
 {
     [Table("User")]
 
-    public partial class User
+    public class User
     {
         [Required]
         public string Email { get; set; }
@@ -35,6 +35,6 @@ namespace TuanBuy.Models.Entities
         public virtual ICollection<Product> Product { get; set; }
         //public virtual Role Role { get; set; }
         //public List<ChatRoomTest> ChatRoomTest { get; set; } = new List<ChatRoomTest>();
-        public virtual ICollection<ChatRoom> ChatRoom { get; set; }
+        public virtual ICollection<ChatRoomMember> ChatRoom { get; set; }
     }
 }

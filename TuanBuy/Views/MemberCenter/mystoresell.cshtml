@@ -7,19 +7,23 @@
     <meta name="keywords" content="Tuan Buy, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
     <title>Tuan Buy</title>
 </head>
 
 <body>
     <!-- 賣場標題 -->
-    <div class="container">
+    <div class="container" id="app">
         <div class="row">
             <div class="sellborder col-lg-12">
                 <div>
-                    <div class="display col-3 form-row"><img src="https://img.league-funny.com/imgur/148292128067.jpg"
-                            alt="頭像"></div>
+                    <div class="display col-3 form-row">
+                        <img v-bind:src="user.picPath"
+                             alt="頭像" height="80" width="80" class="Largeheadsticker">
+                    </div>
                     <div class="display col-9 form-row ">
-                        <p class="sellp">店家名稱店家名稱店家名稱店家名稱店家名稱</p>
+                        <p class="sellp">{{user.name}}</p>
                     </div>
                 </div>
                 <div class="center">
@@ -34,649 +38,102 @@
     <div class="container">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
-                    aria-selected="true">回首頁</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="all-tallab" data-toggle="tab" href="#all" role="tab" aria-controls="all"
-                    aria-selected="false">所有商品</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="product1-tab" data-toggle="tab" href="#product1" role="tab"
-                    aria-controls="product1" aria-selected="false">商品1</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="product2-tab" data-toggle="tab" href="#product2" role="tab"
-                    aria-controls="product2" aria-selected="false">商品2</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="product3-tab" data-toggle="tab" href="#product3" role="tab"
-                    aria-controls="product3" aria-selected="false">商品3</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="product4-tab" data-toggle="tab" href="#product4" role="tab"
-                    aria-controls="product4" aria-selected="false">商品4</a>
+                <a class="nav-link active" id="all-tallab" data-toggle="tab" href="#all" role="tab" aria-controls="all"
+                   aria-selected="false">所有商品</a>
             </li>
         </ul>
     </div>
-    <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
             <div class="container">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img class="card-img-top"
-                                src="https://genesisblockhk.com/wp-content/uploads/elementor/thumbs/3-sep-2021-04-scaled-pcjyliwp5u4nxrhm67xebpne05fav2x2z14l7a8fwo.jpg"
-                                alt="Card image" style="width:100%">
-                            <div class="card-body">
-                                <h5>日期</h5>
-                                <h4 class="card-title">商品名稱</h4>
-                                <p class="card-text">商品簡介</p>
-                                <!-- <a href="#" class="btn btn-primary2 stretched-link">了解更多</a> -->
-                                <!-- fullLove.html -->
+                <div class="row"  id="productCard">
 
-                                    <span class="heart" id="heart"></span>
+                    <div class="col-md-4" v-for="item in products">
+                        <div class="card ">
+                            <a v-bind:href="item.href">
+                                <img class="card-img-top"
+                                     v-bind:src="item.picPath"
+                                     alt="Card image" style="width: 100%" width="320" height="200">
+                                <div class="card-body">
 
+                                    @*商品創立時間*@
+                                    <h5>{{item.createTime}}</h5>
+                                    @*商品名稱*@
+                                    <h4 class="card-title">{{item.name}}</h4>
+                                    @*商品描述*@
+                                    <p class="card-text">{{item.description}}</p>
+                                    <div class="progressbargreen" v-bind:style="{width:item.percentage,borderColor:item.color}"></div>
+                                    <div class="bridto"></div>
 
-                            </div>
+                                    <div class="ntless">NT${{item.total}}</div>
+                                    <span class="fday">
+                                        <i class="material-icons lessicon">timelapse</i> 剩下 {{item.lastTime}}
+                                    </span>
+                                </div>
+                            </a>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img class="card-img-top"
-                                src="https://genesisblockhk.com/wp-content/uploads/elementor/thumbs/3-sep-2021-04-scaled-pcjyliwp5u4nxrhm67xebpne05fav2x2z14l7a8fwo.jpg"
-                                alt="Card image" style="width:100%">
-                            <div class="card-body">
-                                <h5>日期</h5>
-                                <h4 class="card-title">商品名稱</h4>
-                                <p class="card-text">商品簡介</p>
-                                <div class="progressbargreen" style="width: 100%"></div>
-                                <div class="bridto"></div>
-                                <div class="ntless">NT$113,552</div>
-                                <span class="fday"><i class="material-icons lessicon">timelapse</i>剩下 4 天
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img class="card-img-top"
-                                src="https://genesisblockhk.com/wp-content/uploads/elementor/thumbs/3-sep-2021-04-scaled-pcjyliwp5u4nxrhm67xebpne05fav2x2z14l7a8fwo.jpg"
-                                alt="Card image" style="width:100%">
-                            <div class="card-body">
-                                <h5>日期</h5>
-                                <h4 class="card-title">商品名稱</h4>
-                                <p class="card-text">商品簡介</p>
-                                <a href="#" class="btn btn-primary2 stretched-link">了解更多</a>
 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img class="card-img-top"
-                                src="https://genesisblockhk.com/wp-content/uploads/elementor/thumbs/3-sep-2021-04-scaled-pcjyliwp5u4nxrhm67xebpne05fav2x2z14l7a8fwo.jpg"
-                                alt="Card image" style="width:100%">
-                            <div class="card-body">
-                                <h5>日期</h5>
-                                <h4 class="card-title">商品名稱</h4>
-                                <p class="card-text">商品簡介</p>
-                                <a href="#" class="btn btn-primary2 stretched-link">了解更多</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img class="card-img-top"
-                                src="https://genesisblockhk.com/wp-content/uploads/elementor/thumbs/3-sep-2021-04-scaled-pcjyliwp5u4nxrhm67xebpne05fav2x2z14l7a8fwo.jpg"
-                                alt="Card image" style="width:100%">
-                            <div class="card-body">
-                                <h5>日期</h5>
-                                <h4 class="card-title">商品名稱</h4>
-                                <p class="card-text">商品簡介</p>
-                                <a href="#" class="btn btn-primary2 stretched-link">了解更多</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img class="card-img-top"
-                                src="https://genesisblockhk.com/wp-content/uploads/elementor/thumbs/3-sep-2021-04-scaled-pcjyliwp5u4nxrhm67xebpne05fav2x2z14l7a8fwo.jpg"
-                                alt="Card image" style="width:100%">
-                            <div class="card-body">
-                                <h5>日期</h5>
-                                <h4 class="card-title">商品名稱</h4>
-                                <p class="card-text">商品簡介</p>
-                                <a href="#" class="btn btn-primary2 stretched-link">了解更多</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-12 center">
-                        <div class="margin-3">
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item"><a class="page-link" href="#">上一頁</a> </li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">下一頁</a></li>
-                            </ul>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
-        <div class="tab-pane fade" id="all" role="tabpanel" aria-labelledby="all-tab">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img class="card-img-top"
-                                src="https://genesisblockhk.com/wp-content/uploads/elementor/thumbs/3-sep-2021-04-scaled-pcjyliwp5u4nxrhm67xebpne05fav2x2z14l7a8fwo.jpg"
-                                alt="Card image" style="width:100%">
-                            <div class="card-body">
-                                <h5>日期</h5>
-                                <h4 class="card-title">商品名稱</h4>
-                                <p class="card-text">商品簡介</p>
-                                <a href="#" class="btn btn-primary2 stretched-link">了解更多</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img class="card-img-top"
-                                src="https://genesisblockhk.com/wp-content/uploads/elementor/thumbs/3-sep-2021-04-scaled-pcjyliwp5u4nxrhm67xebpne05fav2x2z14l7a8fwo.jpg"
-                                alt="Card image" style="width:100%">
-                            <div class="card-body">
-                                <h5>日期</h5>
-                                <h4 class="card-title">商品名稱</h4>
-                                <p class="card-text">商品簡介</p>
-                                <a href="#" class="btn btn-primary2 stretched-link">了解更多</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img class="card-img-top"
-                                src="https://genesisblockhk.com/wp-content/uploads/elementor/thumbs/3-sep-2021-04-scaled-pcjyliwp5u4nxrhm67xebpne05fav2x2z14l7a8fwo.jpg"
-                                alt="Card image" style="width:100%">
-                            <div class="card-body">
-                                <h5>日期</h5>
-                                <h4 class="card-title">商品名稱</h4>
-                                <p class="card-text">商品簡介</p>
-                                <a href="#" class="btn btn-primary2 stretched-link">了解更多</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img class="card-img-top"
-                                src="https://genesisblockhk.com/wp-content/uploads/elementor/thumbs/3-sep-2021-04-scaled-pcjyliwp5u4nxrhm67xebpne05fav2x2z14l7a8fwo.jpg"
-                                alt="Card image" style="width:100%">
-                            <div class="card-body">
-                                <h5>日期</h5>
-                                <h4 class="card-title">商品名稱</h4>
-                                <p class="card-text">商品簡介</p>
-                                <a href="#" class="btn btn-primary2 stretched-link">了解更多</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img class="card-img-top"
-                                src="https://genesisblockhk.com/wp-content/uploads/elementor/thumbs/3-sep-2021-04-scaled-pcjyliwp5u4nxrhm67xebpne05fav2x2z14l7a8fwo.jpg"
-                                alt="Card image" style="width:100%">
-                            <div class="card-body">
-                                <h5>日期</h5>
-                                <h4 class="card-title">商品名稱</h4>
-                                <p class="card-text">商品簡介</p>
-                                <a href="#" class="btn btn-primary2 stretched-link">了解更多</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img class="card-img-top"
-                                src="https://genesisblockhk.com/wp-content/uploads/elementor/thumbs/3-sep-2021-04-scaled-pcjyliwp5u4nxrhm67xebpne05fav2x2z14l7a8fwo.jpg"
-                                alt="Card image" style="width:100%">
-                            <div class="card-body">
-                                <h5>日期</h5>
-                                <h4 class="card-title">商品名稱</h4>
-                                <p class="card-text">商品簡介</p>
-                                <a href="#" class="btn btn-primary2 stretched-link">了解更多</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-12 center">
-                        <div class="margin-3">
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item"><a class="page-link" href="#">上一頁</a> </li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">下一頁</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="tab-pane fade" id="product1" role="tabpanel" aria-labelledby="product1-tab">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img class="card-img-top"
-                                src="https://genesisblockhk.com/wp-content/uploads/elementor/thumbs/3-sep-2021-04-scaled-pcjyliwp5u4nxrhm67xebpne05fav2x2z14l7a8fwo.jpg"
-                                alt="Card image" style="width:100%">
-                            <div class="card-body">
-                                <h5>日期</h5>
-                                <h4 class="card-title">商品名稱</h4>
-                                <p class="card-text">商品簡介</p>
-                                <a href="#" class="btn btn-primary2 stretched-link">了解更多</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img class="card-img-top"
-                                src="https://genesisblockhk.com/wp-content/uploads/elementor/thumbs/3-sep-2021-04-scaled-pcjyliwp5u4nxrhm67xebpne05fav2x2z14l7a8fwo.jpg"
-                                alt="Card image" style="width:100%">
-                            <div class="card-body">
-                                <h5>日期</h5>
-                                <h4 class="card-title">商品名稱</h4>
-                                <p class="card-text">商品簡介</p>
-                                <a href="#" class="btn btn-primary2 stretched-link">了解更多</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img class="card-img-top"
-                                src="https://genesisblockhk.com/wp-content/uploads/elementor/thumbs/3-sep-2021-04-scaled-pcjyliwp5u4nxrhm67xebpne05fav2x2z14l7a8fwo.jpg"
-                                alt="Card image" style="width:100%">
-                            <div class="card-body">
-                                <h5>日期</h5>
-                                <h4 class="card-title">商品名稱</h4>
-                                <p class="card-text">商品簡介</p>
-                                <a href="#" class="btn btn-primary2 stretched-link">了解更多</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img class="card-img-top"
-                                src="https://genesisblockhk.com/wp-content/uploads/elementor/thumbs/3-sep-2021-04-scaled-pcjyliwp5u4nxrhm67xebpne05fav2x2z14l7a8fwo.jpg"
-                                alt="Card image" style="width:100%">
-                            <div class="card-body">
-                                <h5>日期</h5>
-                                <h4 class="card-title">商品名稱</h4>
-                                <p class="card-text">商品簡介</p>
-                                <a href="#" class="btn btn-primary2 stretched-link">了解更多</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img class="card-img-top"
-                                src="https://genesisblockhk.com/wp-content/uploads/elementor/thumbs/3-sep-2021-04-scaled-pcjyliwp5u4nxrhm67xebpne05fav2x2z14l7a8fwo.jpg"
-                                alt="Card image" style="width:100%">
-                            <div class="card-body">
-                                <h5>日期</h5>
-                                <h4 class="card-title">商品名稱</h4>
-                                <p class="card-text">商品簡介</p>
-                                <a href="#" class="btn btn-primary2 stretched-link">了解更多</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img class="card-img-top"
-                                src="https://genesisblockhk.com/wp-content/uploads/elementor/thumbs/3-sep-2021-04-scaled-pcjyliwp5u4nxrhm67xebpne05fav2x2z14l7a8fwo.jpg"
-                                alt="Card image" style="width:100%">
-                            <div class="card-body">
-                                <h5>日期</h5>
-                                <h4 class="card-title">商品名稱</h4>
-                                <p class="card-text">商品簡介</p>
-                                <a href="#" class="btn btn-primary2 stretched-link">了解更多</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-12 center">
-                        <div class="margin-3">
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item"><a class="page-link" href="#">上一頁</a> </li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">下一頁</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="tab-pane fade" id="product2" role="tabpanel" aria-labelledby="product2-tab">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img class="card-img-top"
-                                src="https://genesisblockhk.com/wp-content/uploads/elementor/thumbs/3-sep-2021-04-scaled-pcjyliwp5u4nxrhm67xebpne05fav2x2z14l7a8fwo.jpg"
-                                alt="Card image" style="width:100%">
-                            <div class="card-body">
-                                <h5>日期</h5>
-                                <h4 class="card-title">商品名稱</h4>
-                                <p class="card-text">商品簡介</p>
-                                <a href="#" class="btn btn-primary2 stretched-link">了解更多</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img class="card-img-top"
-                                src="https://genesisblockhk.com/wp-content/uploads/elementor/thumbs/3-sep-2021-04-scaled-pcjyliwp5u4nxrhm67xebpne05fav2x2z14l7a8fwo.jpg"
-                                alt="Card image" style="width:100%">
-                            <div class="card-body">
-                                <h5>日期</h5>
-                                <h4 class="card-title">商品名稱</h4>
-                                <p class="card-text">商品簡介</p>
-                                <a href="#" class="btn btn-primary2 stretched-link">了解更多</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img class="card-img-top"
-                                src="https://genesisblockhk.com/wp-content/uploads/elementor/thumbs/3-sep-2021-04-scaled-pcjyliwp5u4nxrhm67xebpne05fav2x2z14l7a8fwo.jpg"
-                                alt="Card image" style="width:100%">
-                            <div class="card-body">
-                                <h5>日期</h5>
-                                <h4 class="card-title">商品名稱</h4>
-                                <p class="card-text">商品簡介</p>
-                                <a href="#" class="btn btn-primary2 stretched-link">了解更多</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img class="card-img-top"
-                                src="https://genesisblockhk.com/wp-content/uploads/elementor/thumbs/3-sep-2021-04-scaled-pcjyliwp5u4nxrhm67xebpne05fav2x2z14l7a8fwo.jpg"
-                                alt="Card image" style="width:100%">
-                            <div class="card-body">
-                                <h5>日期</h5>
-                                <h4 class="card-title">商品名稱</h4>
-                                <p class="card-text">商品簡介</p>
-                                <a href="#" class="btn btn-primary2 stretched-link">了解更多</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img class="card-img-top"
-                                src="https://genesisblockhk.com/wp-content/uploads/elementor/thumbs/3-sep-2021-04-scaled-pcjyliwp5u4nxrhm67xebpne05fav2x2z14l7a8fwo.jpg"
-                                alt="Card image" style="width:100%">
-                            <div class="card-body">
-                                <h5>日期</h5>
-                                <h4 class="card-title">商品名稱</h4>
-                                <p class="card-text">商品簡介</p>
-                                <a href="#" class="btn btn-primary2 stretched-link">了解更多</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img class="card-img-top"
-                                src="https://genesisblockhk.com/wp-content/uploads/elementor/thumbs/3-sep-2021-04-scaled-pcjyliwp5u4nxrhm67xebpne05fav2x2z14l7a8fwo.jpg"
-                                alt="Card image" style="width:100%">
-                            <div class="card-body">
-                                <h5>日期</h5>
-                                <h4 class="card-title">商品名稱</h4>
-                                <p class="card-text">商品簡介</p>
-                                <a href="#" class="btn btn-primary2 stretched-link">了解更多</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-12 center">
-                        <div class="margin-3">
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item"><a class="page-link" href="#">上一頁</a> </li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">下一頁</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="tab-pane fade" id="product3" role="tabpanel" aria-labelledby="product3-tab">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img class="card-img-top"
-                                src="https://genesisblockhk.com/wp-content/uploads/elementor/thumbs/3-sep-2021-04-scaled-pcjyliwp5u4nxrhm67xebpne05fav2x2z14l7a8fwo.jpg"
-                                alt="Card image" style="width:100%">
-                            <div class="card-body">
-                                <h5>日期</h5>
-                                <h4 class="card-title">商品名稱</h4>
-                                <p class="card-text">商品簡介</p>
-                                <a href="#" class="btn btn-primary2 stretched-link">了解更多</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img class="card-img-top"
-                                src="https://genesisblockhk.com/wp-content/uploads/elementor/thumbs/3-sep-2021-04-scaled-pcjyliwp5u4nxrhm67xebpne05fav2x2z14l7a8fwo.jpg"
-                                alt="Card image" style="width:100%">
-                            <div class="card-body">
-                                <h5>日期</h5>
-                                <h4 class="card-title">商品名稱</h4>
-                                <p class="card-text">商品簡介</p>
-                                <a href="#" class="btn btn-primary2 stretched-link">了解更多</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img class="card-img-top"
-                                src="https://genesisblockhk.com/wp-content/uploads/elementor/thumbs/3-sep-2021-04-scaled-pcjyliwp5u4nxrhm67xebpne05fav2x2z14l7a8fwo.jpg"
-                                alt="Card image" style="width:100%">
-                            <div class="card-body">
-                                <h5>日期</h5>
-                                <h4 class="card-title">商品名稱</h4>
-                                <p class="card-text">商品簡介</p>
-                                <a href="#" class="btn btn-primary2 stretched-link">了解更多</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img class="card-img-top"
-                                src="https://genesisblockhk.com/wp-content/uploads/elementor/thumbs/3-sep-2021-04-scaled-pcjyliwp5u4nxrhm67xebpne05fav2x2z14l7a8fwo.jpg"
-                                alt="Card image" style="width:100%">
-                            <div class="card-body">
-                                <h5>日期</h5>
-                                <h4 class="card-title">商品名稱</h4>
-                                <p class="card-text">商品簡介</p>
-                                <a href="#" class="btn btn-primary2 stretched-link">了解更多</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img class="card-img-top"
-                                src="https://genesisblockhk.com/wp-content/uploads/elementor/thumbs/3-sep-2021-04-scaled-pcjyliwp5u4nxrhm67xebpne05fav2x2z14l7a8fwo.jpg"
-                                alt="Card image" style="width:100%">
-                            <div class="card-body">
-                                <h5>日期</h5>
-                                <h4 class="card-title">商品名稱</h4>
-                                <p class="card-text">商品簡介</p>
-                                <a href="#" class="btn btn-primary2 stretched-link">了解更多</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img class="card-img-top"
-                                src="https://genesisblockhk.com/wp-content/uploads/elementor/thumbs/3-sep-2021-04-scaled-pcjyliwp5u4nxrhm67xebpne05fav2x2z14l7a8fwo.jpg"
-                                alt="Card image" style="width:100%">
-                            <div class="card-body">
-                                <h5>日期</h5>
-                                <h4 class="card-title">商品名稱</h4>
-                                <p class="card-text">商品簡介</p>
-                                <a href="#" class="btn btn-primary2 stretched-link">了解更多</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-12 center">
-                        <div class="margin-3">
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item"><a class="page-link" href="#">上一頁</a> </li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">下一頁</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="tab-pane fade" id="product4" role="tabpanel" aria-labelledby="product4-tab">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img class="card-img-top"
-                                src="https://genesisblockhk.com/wp-content/uploads/elementor/thumbs/3-sep-2021-04-scaled-pcjyliwp5u4nxrhm67xebpne05fav2x2z14l7a8fwo.jpg"
-                                alt="Card image" style="width:100%">
-                            <div class="card-body">
-                                <h5>日期</h5>
-                                <h4 class="card-title">商品名稱</h4>
-                                <p class="card-text">商品簡介</p>
-                                <a href="#" class="btn btn-primary2 stretched-link">了解更多</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img class="card-img-top"
-                                src="https://genesisblockhk.com/wp-content/uploads/elementor/thumbs/3-sep-2021-04-scaled-pcjyliwp5u4nxrhm67xebpne05fav2x2z14l7a8fwo.jpg"
-                                alt="Card image" style="width:100%">
-                            <div class="card-body">
-                                <h5>日期</h5>
-                                <h4 class="card-title">商品名稱</h4>
-                                <p class="card-text">商品簡介</p>
-                                <a href="#" class="btn btn-primary2 stretched-link">了解更多</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img class="card-img-top"
-                                src="https://genesisblockhk.com/wp-content/uploads/elementor/thumbs/3-sep-2021-04-scaled-pcjyliwp5u4nxrhm67xebpne05fav2x2z14l7a8fwo.jpg"
-                                alt="Card image" style="width:100%">
-                            <div class="card-body">
-                                <h5>日期</h5>
-                                <h4 class="card-title">商品名稱</h4>
-                                <p class="card-text">商品簡介</p>
-                                <a href="#" class="btn btn-primary2 stretched-link">了解更多</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img class="card-img-top"
-                                src="https://genesisblockhk.com/wp-content/uploads/elementor/thumbs/3-sep-2021-04-scaled-pcjyliwp5u4nxrhm67xebpne05fav2x2z14l7a8fwo.jpg"
-                                alt="Card image" style="width:100%">
-                            <div class="card-body">
-                                <h5>日期</h5>
-                                <h4 class="card-title">商品名稱</h4>
-                                <p class="card-text">商品簡介</p>
-                                <a href="#" class="btn btn-primary2 stretched-link">了解更多</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img class="card-img-top"
-                                src="https://genesisblockhk.com/wp-content/uploads/elementor/thumbs/3-sep-2021-04-scaled-pcjyliwp5u4nxrhm67xebpne05fav2x2z14l7a8fwo.jpg"
-                                alt="Card image" style="width:100%">
-                            <div class="card-body">
-                                <h5>日期</h5>
-                                <h4 class="card-title">商品名稱</h4>
-                                <p class="card-text">商品簡介</p>
-                                <a href="#" class="btn btn-primary2 stretched-link">了解更多</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img class="card-img-top"
-                                src="https://genesisblockhk.com/wp-content/uploads/elementor/thumbs/3-sep-2021-04-scaled-pcjyliwp5u4nxrhm67xebpne05fav2x2z14l7a8fwo.jpg"
-                                alt="Card image" style="width:100%">
-                            <div class="card-body">
-                                <h5>日期</h5>
-                                <h4 class="card-title">商品名稱</h4>
-                                <p class="card-text">商品簡介</p>
-                                <a href="#" class="btn btn-primary2 stretched-link">了解更多</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-12 center">
-                        <div class="margin-3">
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item"><a class="page-link" href="#">上一頁</a> </li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">下一頁</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
     </div>
 
 
 
 
 
-
-    <!-- 下方商品卡 換行列 -->
-    <!-- <div class="container">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card">
-                    <img class="card-img-top"
-                        src="https://genesisblockhk.com/wp-content/uploads/elementor/thumbs/3-sep-2021-04-scaled-pcjyliwp5u4nxrhm67xebpne05fav2x2z14l7a8fwo.jpg"
-                        alt="Card image" style="width:100%">
-                    <div class="card-body">
-                        <h5>日期</h5>
-                        <h4 class="card-title">商品名稱</h4>
-                        <p class="card-text">商品簡介</p>
-                        <a href="#" class="btn btn-primary2 stretched-link">了解更多</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-12 center">
-                <div class="margin-3">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item"><a class="page-link" href="#">上一頁</a> </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">下一頁</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div> -->
-
 </body>
+<script>
+
+    var app = new Vue({
+        el: "#productCard",
+        data: {
+            //data: testData,
+            products: []
+        },
+        methods: {},
+        mounted: function () {
+            let self = this;
+            //抓取Url資訊
+            let str = window.location.pathname.split("/");
+            /*抓取Url id*/
+            let userId = str[str.length - 1];
+            axios.get("/Product/GetSellerProducts/" + userId).then((resp) => {
+                self.products = resp.data;
+            });
+        },
+        computed: {
+            getStyle(data) {
+                const style = {}
+                return style;
+            }
+        }
+    });
+
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            user: {
+                name: "",
+                PicPath: ""
+            }
+        },
+        methods: {
+        },
+        mounted: function () {
+            let self = this;
+            //抓取Url資訊
+            let str = window.location.pathname.split("/");
+            /*抓取Url id*/
+            let userId = str[str.length - 1];
+            axios.get("/MemberCenter/GetSellerData/" + userId).then((resp) => { this.user = resp.data });
+        },
+        computed: {
+        }
+    });
+</script>
+
 
 </html>

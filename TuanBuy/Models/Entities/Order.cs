@@ -14,12 +14,15 @@ namespace TuanBuy.Models.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int Id { get; set; }
-        [ForeignKey("Product")]
-        public int ProductId { get; set; }
-        public int State { get; set; }
+
+        public string State { get; set; } = "未付款";
         public DateTime CreateDate { get; set; }
         public bool Disable { get; set; } = false;
+        [ForeignKey("Product")]
+        public int ProductId { get; set; }
         public virtual Product Product { get; set; }
+        //[ForeignKey("User")]
+        //public int UserId { get; set; }
         public virtual User User { get; set; }
     }
 }

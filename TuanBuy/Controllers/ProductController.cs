@@ -104,18 +104,29 @@ namespace TuanBuy.Controllers
         }
         #endregion
 
+        #region 等待開團商品頁
+
         //等待開團商品頁
         [Authorize(Roles = "FullUser")]
         public IActionResult WaitingProduct()
         {
             return View();
         }
+
+        #endregion
+
+        #region 已開團商品頁
+
+
         //已開團商品頁
         [Authorize(Roles = "FullUser")]
         public IActionResult ReadyProduct()
         {
             return View();
         }
+        #endregion
+
+        #region 新增商品
         //新增商品
         [HttpPost]
         [Authorize(Roles = "FullUser")]
@@ -150,8 +161,8 @@ namespace TuanBuy.Controllers
             var path = _environment.WebRootPath + "/ProductPicture";
 
             #region 加入圖片
-            
-            
+
+
             foreach (var file in product.PicPath)
             {
                 if (file != null)
@@ -175,7 +186,11 @@ namespace TuanBuy.Controllers
         }
 
 
+        #endregion
+
+        #region 抓取當前使用者
         //抓取當前使用者
+
         private User GetTargetUser()
         {
             var claim = HttpContext.User.Claims;
@@ -183,5 +198,38 @@ namespace TuanBuy.Controllers
             var targetUser = _userRepository.Get(a => a.Email == userEmail);
             return targetUser;
         }
+
+
+        #endregion
+
+        #region 尋找賣方商品資料
+
+        public List<ProductViewModel> GetSellerProducts(int id)
+        {
+            ProductManage product = new ProductManage(_dbContext);
+            var result =product.GetSellerProducts(id);
+
+            return result.ToList();
+        }
+
+
+        #endregion
+
+
+        #region 加入團購新增產品訂單
+        [Authorize(Roles = "FullUser")]
+        public void AddProductOrder(int ProductId,int UserId)
+        {
+            using(_dbContext)
+            {
+                Order order = new Order();
+                order.ProductId = ProductId;
+                order.User.Id = UserId;
+                order.CreateDate = DateTime.Now;
+                _dbContext.Order.Add(order);
+                _dbContext.SaveChanges();
+            }
+        }
+        #endregion
     }
 }

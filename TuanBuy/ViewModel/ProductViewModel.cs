@@ -14,13 +14,16 @@ namespace TuanBuy.ViewModel
         public string Content { get; set; }
         public string PicPath { get; set; }
         public decimal Price { get; set; }
+        public decimal TargetPrice { get; set; }
         public decimal? Total { get; set; }
         public string Category { get; set; }
         public string Href { get; set; } = "";
         public User User { get; set; }
+        public int UserId { get; set; }
         public bool Disable { get; set; }
         public string LastTime { get; set; }
-
+        public string Percentage { get; set; }
+        public string Color { get; set; }
     }
 
     public class DemoProductViewModel
