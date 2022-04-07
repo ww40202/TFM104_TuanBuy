@@ -19,10 +19,11 @@ namespace TuanBuy.ViewModel
         public string Category { get; set; }
         public string Href { get; set; } = "";
         public User User { get; set; }
+        public int UserId { get; set; }
         public bool Disable { get; set; }
         public string LastTime { get; set; }
-        public string percentage { get; set; }
-        public string color { get; set; }
+        public string Percentage { get; set; }
+        public string Color { get; set; }
     }
 
     public class DemoProductViewModel

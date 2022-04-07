@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Org.BouncyCastle.Math.EC.Rfc7748;
 using TuanBuy.Models;
+using TuanBuy.Models.AppUtlity;
 using TuanBuy.Models.Entities;
 using TuanBuy.Models.Interface;
 using TuanBuy.ViewModel;
@@ -14,10 +15,11 @@ namespace TuanBuy.Controllers
     public class MemberCenterController : Controller
     {
         private readonly IRepository<User> _userRepository;
-
-        public MemberCenterController(GenericRepository<User> userRepository)
+        private readonly TuanBuyContext _dbContext;
+        public MemberCenterController(GenericRepository<User> userRepository,TuanBuyContext dbContext)
         {
             _userRepository = userRepository;
+            _dbContext = dbContext;
         }
         
         //會員中心首頁
@@ -67,9 +69,19 @@ namespace TuanBuy.Controllers
 
         #region 會員個人販賣商品頁面
         [HttpGet]
-        public IActionResult mystoresell(int id)
+        public IActionResult MyStoreSell(int id)
         {
             return View();
+        }
+        #endregion
+
+        #region 取得賣家商場資料
+        [HttpGet]
+        public SellerUser GetSellerData(int id)
+        {
+            var data = new MemberMange(_dbContext);
+            var target =data.GetUerData(id);
+            return target;
         }
         #endregion
     }

@@ -12,6 +12,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Operations;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using TuanBuy.Models;
+using TuanBuy.Models.AppUtlity;
 using TuanBuy.Models.Entities;
 using TuanBuy.Models.Interface;
 using TuanBuy.ViewModel;
@@ -144,7 +145,7 @@ namespace TuanBuy.Service
                 i.Total = 0;
                 i.Href = p.Href;
                 i.TargetPrice = p.TargetPrice;
-                i.color = "#3366a9";
+                i.Color = "#3366a9";
                 foreach (var orderDetail in orderDetails)
                 {
                     if (orderDetail.orderdetail.ProductId == p.Id)
@@ -156,28 +157,21 @@ namespace TuanBuy.Service
                 if (i.Total != null && i.Total != 0 &&i.TargetPrice!= 0)
                 {
                     var a = (i.Total / i.TargetPrice) * 100;
-                    if (a >= 30)
-                    {
-                        i.color = "#3366a9";
-                    }
-
                     if (a>=100)
                     {
                         a = 100;
-                        i.color = "red";
                     }
-                    i.percentage = a + "%";
+                    i.Color = GetBarColor.GetColor(a);
+                    i.Percentage = a + "%";
                 }
                 else
                 {
-                    i.percentage = "0%";
+                    i.Percentage = "0%";
                 
                 }
                 if (i.TargetPrice == 0)
                 {
-                    i.percentage = "100%";
-                    i.color = "red";
-
+                    i.Percentage = "100%";
                 }
                 result.Add(i);
             }
