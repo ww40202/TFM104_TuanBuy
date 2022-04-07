@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TuanBuy.Migrations
 {
-    public partial class Go : Migration
+    public partial class FakeData : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -256,49 +256,66 @@ namespace TuanBuy.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "User",
-                columns: new[] { "Id", "Address", "BankAccount", "Birth", "Disable", "Email", "Friend", "Name", "NickName", "Password", "Phone", "PicPath", "Sex", "State" },
-                values: new object[] { 1, null, null, null, false, "123@gmail.com", null, "小王", "賣貓的小王", "123456", null, "637843188933582087init.jpg", 1, "正式會員" });
+                table: "OrderState",
+                columns: new[] { "StateId", "State" },
+                values: new object[,]
+                {
+                    { 1, "購物車" },
+                    { 2, "未付款" },
+                    { 3, "已付款" },
+                    { 4, "完成" },
+                    { 5, "取消" }
+                });
 
             migrationBuilder.InsertData(
                 table: "User",
                 columns: new[] { "Id", "Address", "BankAccount", "Birth", "Disable", "Email", "Friend", "Name", "NickName", "Password", "Phone", "PicPath", "Sex", "State" },
-                values: new object[] { 2, null, null, null, false, "456@gmail.com", null, "小明", "賣鮭魚的小明", "123456", null, "637843188933582087init.jpg", 1, "正式會員" });
+                values: new object[,]
+                {
+                    { 1, null, null, null, false, "123@gmail.com", null, "小王", "賣貓的小王", "123456", null, "637843188933582087init.jpg", 1, "正式會員" },
+                    { 2, null, null, null, false, "456@gmail.com", null, "小明", "賣鮭魚的小明", "123456", null, "637843188933582087init.jpg", 1, "正式會員" },
+                    { 3, null, null, null, false, "789@gmail.com", null, "小張", "賣記憶體的小張", "123456", null, "637843188933582087init.jpg", 1, "正式會員" }
+                });
 
             migrationBuilder.InsertData(
-                table: "User",
-                columns: new[] { "Id", "Address", "BankAccount", "Birth", "Disable", "Email", "Friend", "Name", "NickName", "Password", "Phone", "PicPath", "Sex", "State" },
-                values: new object[] { 3, null, null, null, false, "789@gmail.com", null, "小張", "賣記憶體的小張", "123456", null, "637843188933582087init.jpg", 1, "正式會員" });
+                table: "Order",
+                columns: new[] { "Id", "Address", "CreateDate", "Description", "Disable", "PaymentType", "Phone", "StateId", "UserId" },
+                values: new object[,]
+                {
+                    { 1, null, new DateTime(2022, 4, 8, 5, 4, 57, 159, DateTimeKind.Local).AddTicks(3160), "訂單描述", false, 1, "091234567", 1, 1 },
+                    { 2, null, new DateTime(2022, 4, 8, 5, 4, 57, 159, DateTimeKind.Local).AddTicks(5564), "訂單描述", false, 1, "091234567", 2, 2 },
+                    { 3, null, new DateTime(2022, 4, 8, 5, 4, 57, 159, DateTimeKind.Local).AddTicks(5600), "訂單描述", false, 1, "091234567", 3, 3 }
+                });
 
             migrationBuilder.InsertData(
                 table: "Product",
                 columns: new[] { "Id", "Category", "Content", "CreateTime", "Description", "Disable", "EndTime", "Name", "Price", "Total", "UserId" },
-                values: new object[] { 1, "食品", "不知道可不可以吃的貓咪", new DateTime(2022, 4, 8, 3, 2, 16, 735, DateTimeKind.Local).AddTicks(714), "不知道可不可以吃", false, new DateTime(2022, 4, 13, 3, 2, 16, 735, DateTimeKind.Local).AddTicks(8194), "貓貓", 50m, 1000m, 1 });
+                values: new object[,]
+                {
+                    { 1, "食品", "不知道可不可以吃的貓咪", new DateTime(2022, 4, 8, 5, 4, 57, 158, DateTimeKind.Local).AddTicks(3844), "不知道可不可以吃", false, new DateTime(2022, 4, 13, 5, 4, 57, 159, DateTimeKind.Local).AddTicks(766), "貓貓", 50m, 1000m, 1 },
+                    { 2, "食品", "可以吃的生鮮鮭魚", new DateTime(2022, 4, 8, 5, 4, 57, 159, DateTimeKind.Local).AddTicks(1215), "便宜好吃的鮭魚", false, new DateTime(2022, 4, 14, 5, 4, 57, 159, DateTimeKind.Local).AddTicks(1221), "鮭魚", 50m, 1000m, 2 },
+                    { 3, "3C", "便宜好用ㄉ記憶體", new DateTime(2022, 4, 8, 5, 4, 57, 159, DateTimeKind.Local).AddTicks(1245), "記憶體是要描述什麼", false, new DateTime(2022, 4, 11, 5, 4, 57, 159, DateTimeKind.Local).AddTicks(1247), "記憶體", 300m, 10000m, 3 }
+                });
 
             migrationBuilder.InsertData(
-                table: "Product",
-                columns: new[] { "Id", "Category", "Content", "CreateTime", "Description", "Disable", "EndTime", "Name", "Price", "Total", "UserId" },
-                values: new object[] { 2, "食品", "可以吃的生鮮鮭魚", new DateTime(2022, 4, 8, 3, 2, 16, 735, DateTimeKind.Local).AddTicks(8591), "便宜好吃的鮭魚", false, new DateTime(2022, 4, 14, 3, 2, 16, 735, DateTimeKind.Local).AddTicks(8596), "鮭魚", 50m, 500m, 2 });
-
-            migrationBuilder.InsertData(
-                table: "Product",
-                columns: new[] { "Id", "Category", "Content", "CreateTime", "Description", "Disable", "EndTime", "Name", "Price", "Total", "UserId" },
-                values: new object[] { 3, "3C", "便宜好用ㄉ記憶體", new DateTime(2022, 4, 8, 3, 2, 16, 735, DateTimeKind.Local).AddTicks(8616), "記憶體是要描述什麼", false, new DateTime(2022, 4, 11, 3, 2, 16, 735, DateTimeKind.Local).AddTicks(8618), "記憶體", 3000m, 10000m, 3 });
-
-            migrationBuilder.InsertData(
-                table: "ProductPics",
-                columns: new[] { "Id", "PicPath", "ProductId" },
-                values: new object[] { 1, "DEMO喵喵.jpg", 1 });
-
-            migrationBuilder.InsertData(
-                table: "ProductPics",
-                columns: new[] { "Id", "PicPath", "ProductId" },
-                values: new object[] { 2, "DEMO鮭魚.jpg", 2 });
+                table: "OrderDetail",
+                columns: new[] { "OrderId", "ProductId", "Count", "Disable", "Price" },
+                values: new object[,]
+                {
+                    { 1, 1, 18, false, 500m },
+                    { 2, 2, 10, false, 1000m },
+                    { 3, 3, 10, false, 500m }
+                });
 
             migrationBuilder.InsertData(
                 table: "ProductPics",
                 columns: new[] { "Id", "PicPath", "ProductId" },
-                values: new object[] { 3, "DEMO記憶體.jpg", 3 });
+                values: new object[,]
+                {
+                    { 1, "DEMO喵喵.jpg", 1 },
+                    { 2, "DEMO鮭魚.jpg", 2 },
+                    { 3, "DEMO記憶體.jpg", 3 }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ChatMessages_ChatRoomId",

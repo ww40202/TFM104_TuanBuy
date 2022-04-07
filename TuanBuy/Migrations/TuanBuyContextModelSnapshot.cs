@@ -120,6 +120,41 @@ namespace TuanBuy.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Order");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreateDate = new DateTime(2022, 4, 8, 5, 4, 57, 159, DateTimeKind.Local).AddTicks(3160),
+                            Description = "訂單描述",
+                            Disable = false,
+                            PaymentType = 1,
+                            Phone = "091234567",
+                            StateId = 1,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreateDate = new DateTime(2022, 4, 8, 5, 4, 57, 159, DateTimeKind.Local).AddTicks(5564),
+                            Description = "訂單描述",
+                            Disable = false,
+                            PaymentType = 1,
+                            Phone = "091234567",
+                            StateId = 2,
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreateDate = new DateTime(2022, 4, 8, 5, 4, 57, 159, DateTimeKind.Local).AddTicks(5600),
+                            Description = "訂單描述",
+                            Disable = false,
+                            PaymentType = 1,
+                            Phone = "091234567",
+                            StateId = 3,
+                            UserId = 3
+                        });
                 });
 
             modelBuilder.Entity("TuanBuy.Models.Entities.OrderDetail", b =>
@@ -144,6 +179,32 @@ namespace TuanBuy.Migrations
                     b.HasIndex("OrderId");
 
                     b.ToTable("OrderDetail");
+
+                    b.HasData(
+                        new
+                        {
+                            ProductId = 1,
+                            OrderId = 1,
+                            Count = 18,
+                            Disable = false,
+                            Price = 500m
+                        },
+                        new
+                        {
+                            ProductId = 2,
+                            OrderId = 2,
+                            Count = 10,
+                            Disable = false,
+                            Price = 1000m
+                        },
+                        new
+                        {
+                            ProductId = 3,
+                            OrderId = 3,
+                            Count = 10,
+                            Disable = false,
+                            Price = 500m
+                        });
                 });
 
             modelBuilder.Entity("TuanBuy.Models.Entities.OrderState", b =>
@@ -159,6 +220,33 @@ namespace TuanBuy.Migrations
                     b.HasKey("StateId");
 
                     b.ToTable("OrderState");
+
+                    b.HasData(
+                        new
+                        {
+                            StateId = 1,
+                            State = "購物車"
+                        },
+                        new
+                        {
+                            StateId = 2,
+                            State = "未付款"
+                        },
+                        new
+                        {
+                            StateId = 3,
+                            State = "已付款"
+                        },
+                        new
+                        {
+                            StateId = 4,
+                            State = "完成"
+                        },
+                        new
+                        {
+                            StateId = 5,
+                            State = "取消"
+                        });
                 });
 
             modelBuilder.Entity("TuanBuy.Models.Entities.Product", b =>
@@ -213,10 +301,10 @@ namespace TuanBuy.Migrations
                             Id = 1,
                             Category = "食品",
                             Content = "不知道可不可以吃的貓咪",
-                            CreateTime = new DateTime(2022, 4, 8, 3, 21, 54, 0, DateTimeKind.Local).AddTicks(3974),
+                            CreateTime = new DateTime(2022, 4, 8, 5, 4, 57, 158, DateTimeKind.Local).AddTicks(3844),
                             Description = "不知道可不可以吃",
                             Disable = false,
-                            EndTime = new DateTime(2022, 4, 13, 3, 21, 54, 1, DateTimeKind.Local).AddTicks(1652),
+                            EndTime = new DateTime(2022, 4, 13, 5, 4, 57, 159, DateTimeKind.Local).AddTicks(766),
                             Name = "貓貓",
                             Price = 50m,
                             Total = 1000m,
@@ -227,13 +315,13 @@ namespace TuanBuy.Migrations
                             Id = 2,
                             Category = "食品",
                             Content = "可以吃的生鮮鮭魚",
-                            CreateTime = new DateTime(2022, 4, 8, 3, 21, 54, 1, DateTimeKind.Local).AddTicks(2079),
+                            CreateTime = new DateTime(2022, 4, 8, 5, 4, 57, 159, DateTimeKind.Local).AddTicks(1215),
                             Description = "便宜好吃的鮭魚",
                             Disable = false,
-                            EndTime = new DateTime(2022, 4, 14, 3, 21, 54, 1, DateTimeKind.Local).AddTicks(2083),
+                            EndTime = new DateTime(2022, 4, 14, 5, 4, 57, 159, DateTimeKind.Local).AddTicks(1221),
                             Name = "鮭魚",
                             Price = 50m,
-                            Total = 500m,
+                            Total = 1000m,
                             UserId = 2
                         },
                         new
@@ -241,12 +329,12 @@ namespace TuanBuy.Migrations
                             Id = 3,
                             Category = "3C",
                             Content = "便宜好用ㄉ記憶體",
-                            CreateTime = new DateTime(2022, 4, 8, 3, 21, 54, 1, DateTimeKind.Local).AddTicks(2104),
+                            CreateTime = new DateTime(2022, 4, 8, 5, 4, 57, 159, DateTimeKind.Local).AddTicks(1245),
                             Description = "記憶體是要描述什麼",
                             Disable = false,
-                            EndTime = new DateTime(2022, 4, 11, 3, 21, 54, 1, DateTimeKind.Local).AddTicks(2106),
+                            EndTime = new DateTime(2022, 4, 11, 5, 4, 57, 159, DateTimeKind.Local).AddTicks(1247),
                             Name = "記憶體",
-                            Price = 3000m,
+                            Price = 300m,
                             Total = 10000m,
                             UserId = 3
                         });
