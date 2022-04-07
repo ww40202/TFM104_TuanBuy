@@ -32,10 +32,10 @@
         <input class="addtext" type="text" name="" id="email" v-model="user.email" v-on:blur="checkMail">
 
         <label class="addp" for="password">密碼</label>
-        <input class="addtext" type="text" name="" id="password" v-model="user.password">
+        <input class="addtext" type="password" name="" id="password" v-model="user.password">
 
         <label class="addp" for="confirm">確認密碼</label>
-        <input class="addtext" type="text" name="" id="confirm" v-model="user.password2">
+        <input class="addtext" type="password" name="" id="confirm" v-model="user.password2">
 
         <div class="registerdiv">
             <input type="submit" name="commit" value="註冊" class="registerbtn" data-disable-with="註冊" v-on:click="addUser">

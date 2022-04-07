@@ -42,7 +42,7 @@ namespace TuanBuy.Models.Entities
                 Email = "123@gmail.com",
                 Password = "123456",
                 Name = "小王",
-                NickName = "小王",
+                NickName = "賣貓的小王",
                 State = "正式會員"
             });
             modelBuilder.Entity<User>().HasData(new User()
@@ -51,7 +51,7 @@ namespace TuanBuy.Models.Entities
                 Email = "456@gmail.com",
                 Password = "123456",
                 Name = "小明",
-                NickName = "小明",
+                NickName = "賣鮭魚的小明",
                 State = "正式會員"
             });
             modelBuilder.Entity<User>().HasData(new User()
@@ -60,7 +60,7 @@ namespace TuanBuy.Models.Entities
                 Email = "789@gmail.com",
                 Password = "123456",
                 Name = "小張",
-                NickName = "小張",
+                NickName = "賣記憶體的小張",
                 State = "正式會員"
             });
 
@@ -68,32 +68,67 @@ namespace TuanBuy.Models.Entities
             {
                 UserId = 1,
                 Id = 1,
-                Name = "測試商品1",
+                Name = "貓貓",
                 CreateTime = DateTime.Now,
-                Description = "商品描述",
-                Category = "測試類別",
-                Content = "商品內容"
+                Description = "不知道可不可以吃",
+                Category = "食品",
+                Content = "不知道可不可以吃的貓咪",
+                Disable = false,
+                Price = 50,
+                Total = 1000,
+                EndTime = DateTime.Now.AddDays(5)
             });
             modelBuilder.Entity<Product>().HasData(new Product()
             {
-                UserId = 1,
+                UserId = 2,
                 Id = 2,
-                Name = "測試商品2",
+                Name = "鮭魚",
                 CreateTime = DateTime.Now,
-                Description = "商品描述",
-                Category = "測試類別",
-                Content = "商品內容"
+                Description = "便宜好吃的鮭魚",
+                Category = "食品",
+                Content = "可以吃的生鮮鮭魚",
+                Disable = false,
+                Price = 50,
+                Total = 500,
+                EndTime = DateTime.Now.AddDays(6)
             });
             modelBuilder.Entity<Product>().HasData(new Product()
             {
-                UserId = 1,
+                UserId = 3,
                 Id = 3,
-                Name = "測試商品3",
+                Name = "記憶體",
                 CreateTime = DateTime.Now,
-                Description = "商品描述",
-                Category = "測試類別",
-                Content = "商品內容"
+                Description = "記憶體是要描述什麼",
+                Category = "3C",
+                Content = "便宜好用ㄉ記憶體",
+                Disable = false,
+                Price = 3000,
+                Total = 10000,
+                EndTime = DateTime.Now.AddDays(3)
             });
+
+            modelBuilder.Entity<ProductPic>().HasData(new ProductPic()
+            {
+                Id=1,
+                ProductId = 1,
+                PicPath = "DEMO喵喵.jpg"
+            });
+            modelBuilder.Entity<ProductPic>().HasData(new ProductPic()
+            {
+                Id = 2,
+                ProductId = 2,
+                PicPath = "DEMO鮭魚.jpg"
+            });
+            modelBuilder.Entity<ProductPic>().HasData(new ProductPic()
+            {
+                Id = 3,
+                ProductId = 3,
+                PicPath = "DEMO記憶體.jpg"
+            });
+
+
+
+
 
             base.OnModelCreating(modelBuilder);
         }

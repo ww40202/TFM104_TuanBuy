@@ -21,6 +21,8 @@ namespace TuanBuy.Models.Entities
         public int? Count { get; set; }
         public decimal? Total { get; set; }
         public bool Disable { get; set; } = false;
+        //[ForeignKey("Order")]
+        //public int OrderId { get; set; }
         public int ProductId { get; set; }
         public virtual Order Order { get; set; }         
         public virtual Product Product { get; set; }
