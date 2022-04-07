@@ -34,7 +34,22 @@ namespace TuanBuy.Models.Entities
         {
             modelBuilder.Entity<ChatRoomMember>().ToTable("Member_Chats");
             modelBuilder.Entity<ChatRoomMember>().HasKey(s => new { s.MemberId, s.ChatRoomId });
-            //modelBuilder.Entity<OrderDetail>().HasKey(s => new { s.ProductId, s.OrderId });
+            
+            modelBuilder.Entity<OrderDetail>().HasKey(s => new { s.ProductId, s.OrderId });
+            modelBuilder.Entity<OrderDetail>()
+                .HasOne(od => od.Order)
+                .WithMany(o => o.OrderDetails)
+                .HasForeignKey(pt => pt.OrderId)
+                .OnDelete(DeleteBehavior.ClientNoAction);
+
+            modelBuilder.Entity<OrderDetail>()
+                .HasOne(pd => pd.Product)
+                .WithMany(pd => pd.OrderDetails)
+                .HasForeignKey(pt => pt.ProductId)
+                .OnDelete(DeleteBehavior.ClientNoAction);
+
+
+            //假資料
             modelBuilder.Entity<User>().HasData(new User()
             {
                 Id = 1,

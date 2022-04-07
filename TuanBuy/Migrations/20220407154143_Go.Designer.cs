@@ -10,8 +10,8 @@ using TuanBuy.Models.Entities;
 namespace TuanBuy.Migrations
 {
     [DbContext(typeof(TuanBuyContext))]
-    [Migration("20220407133023_test1")]
-    partial class test1
+    [Migration("20220407154143_Go")]
+    partial class Go
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -121,10 +121,11 @@ namespace TuanBuy.Migrations
 
             modelBuilder.Entity("TuanBuy.Models.Entities.OrderDetail", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("Count")
                         .HasColumnType("int");
@@ -132,20 +133,12 @@ namespace TuanBuy.Migrations
                     b.Property<bool>("Disable")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("int");
-
                     b.Property<decimal?>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
+                    b.HasKey("ProductId", "OrderId");
 
                     b.HasIndex("OrderId");
-
-                    b.HasIndex("ProductId");
 
                     b.ToTable("OrderDetail");
                 });
@@ -202,10 +195,10 @@ namespace TuanBuy.Migrations
                             Id = 1,
                             Category = "食品",
                             Content = "不知道可不可以吃的貓咪",
-                            CreateTime = new DateTime(2022, 4, 7, 21, 30, 22, 810, DateTimeKind.Local).AddTicks(741),
+                            CreateTime = new DateTime(2022, 4, 7, 23, 41, 43, 564, DateTimeKind.Local).AddTicks(7088),
                             Description = "不知道可不可以吃",
                             Disable = false,
-                            EndTime = new DateTime(2022, 4, 12, 21, 30, 22, 811, DateTimeKind.Local).AddTicks(4806),
+                            EndTime = new DateTime(2022, 4, 12, 23, 41, 43, 565, DateTimeKind.Local).AddTicks(4126),
                             Name = "貓貓",
                             Price = 50m,
                             Total = 1000m,
@@ -216,10 +209,10 @@ namespace TuanBuy.Migrations
                             Id = 2,
                             Category = "食品",
                             Content = "可以吃的生鮮鮭魚",
-                            CreateTime = new DateTime(2022, 4, 7, 21, 30, 22, 811, DateTimeKind.Local).AddTicks(5954),
+                            CreateTime = new DateTime(2022, 4, 7, 23, 41, 43, 565, DateTimeKind.Local).AddTicks(4511),
                             Description = "便宜好吃的鮭魚",
                             Disable = false,
-                            EndTime = new DateTime(2022, 4, 13, 21, 30, 22, 811, DateTimeKind.Local).AddTicks(5964),
+                            EndTime = new DateTime(2022, 4, 13, 23, 41, 43, 565, DateTimeKind.Local).AddTicks(4515),
                             Name = "鮭魚",
                             Price = 50m,
                             Total = 500m,
@@ -230,10 +223,10 @@ namespace TuanBuy.Migrations
                             Id = 3,
                             Category = "3C",
                             Content = "便宜好用ㄉ記憶體",
-                            CreateTime = new DateTime(2022, 4, 7, 21, 30, 22, 811, DateTimeKind.Local).AddTicks(6009),
+                            CreateTime = new DateTime(2022, 4, 7, 23, 41, 43, 565, DateTimeKind.Local).AddTicks(4535),
                             Description = "記憶體是要描述什麼",
                             Disable = false,
-                            EndTime = new DateTime(2022, 4, 10, 21, 30, 22, 811, DateTimeKind.Local).AddTicks(6012),
+                            EndTime = new DateTime(2022, 4, 10, 23, 41, 43, 565, DateTimeKind.Local).AddTicks(4537),
                             Name = "記憶體",
                             Price = 3000m,
                             Total = 10000m,
@@ -469,12 +462,14 @@ namespace TuanBuy.Migrations
                 {
                     b.HasOne("TuanBuy.Models.Entities.Order", "Order")
                         .WithMany("OrderDetails")
-                        .HasForeignKey("OrderId");
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.ClientNoAction)
+                        .IsRequired();
 
                     b.HasOne("TuanBuy.Models.Entities.Product", "Product")
                         .WithMany("OrderDetails")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.ClientNoAction)
                         .IsRequired();
 
                     b.Navigation("Order");

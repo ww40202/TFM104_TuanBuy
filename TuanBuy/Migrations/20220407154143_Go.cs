@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TuanBuy.Migrations
 {
-    public partial class test1 : Migration
+    public partial class Go : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -150,29 +150,25 @@ namespace TuanBuy.Migrations
                 name: "OrderDetail",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    OrderId = table.Column<int>(type: "int", nullable: false),
                     Count = table.Column<int>(type: "int", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    Disable = table.Column<bool>(type: "bit", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    OrderId = table.Column<int>(type: "int", nullable: true)
+                    Disable = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderDetail", x => x.Id);
+                    table.PrimaryKey("PK_OrderDetail", x => new { x.ProductId, x.OrderId });
                     table.ForeignKey(
                         name: "FK_OrderDetail_Order_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Order",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_OrderDetail_Product_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Product",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -257,17 +253,17 @@ namespace TuanBuy.Migrations
             migrationBuilder.InsertData(
                 table: "Product",
                 columns: new[] { "Id", "Category", "Content", "CreateTime", "Description", "Disable", "EndTime", "Name", "Price", "Total", "UserId" },
-                values: new object[] { 1, "食品", "不知道可不可以吃的貓咪", new DateTime(2022, 4, 7, 21, 30, 22, 810, DateTimeKind.Local).AddTicks(741), "不知道可不可以吃", false, new DateTime(2022, 4, 12, 21, 30, 22, 811, DateTimeKind.Local).AddTicks(4806), "貓貓", 50m, 1000m, 1 });
+                values: new object[] { 1, "食品", "不知道可不可以吃的貓咪", new DateTime(2022, 4, 7, 23, 41, 43, 564, DateTimeKind.Local).AddTicks(7088), "不知道可不可以吃", false, new DateTime(2022, 4, 12, 23, 41, 43, 565, DateTimeKind.Local).AddTicks(4126), "貓貓", 50m, 1000m, 1 });
 
             migrationBuilder.InsertData(
                 table: "Product",
                 columns: new[] { "Id", "Category", "Content", "CreateTime", "Description", "Disable", "EndTime", "Name", "Price", "Total", "UserId" },
-                values: new object[] { 2, "食品", "可以吃的生鮮鮭魚", new DateTime(2022, 4, 7, 21, 30, 22, 811, DateTimeKind.Local).AddTicks(5954), "便宜好吃的鮭魚", false, new DateTime(2022, 4, 13, 21, 30, 22, 811, DateTimeKind.Local).AddTicks(5964), "鮭魚", 50m, 500m, 2 });
+                values: new object[] { 2, "食品", "可以吃的生鮮鮭魚", new DateTime(2022, 4, 7, 23, 41, 43, 565, DateTimeKind.Local).AddTicks(4511), "便宜好吃的鮭魚", false, new DateTime(2022, 4, 13, 23, 41, 43, 565, DateTimeKind.Local).AddTicks(4515), "鮭魚", 50m, 500m, 2 });
 
             migrationBuilder.InsertData(
                 table: "Product",
                 columns: new[] { "Id", "Category", "Content", "CreateTime", "Description", "Disable", "EndTime", "Name", "Price", "Total", "UserId" },
-                values: new object[] { 3, "3C", "便宜好用ㄉ記憶體", new DateTime(2022, 4, 7, 21, 30, 22, 811, DateTimeKind.Local).AddTicks(6009), "記憶體是要描述什麼", false, new DateTime(2022, 4, 10, 21, 30, 22, 811, DateTimeKind.Local).AddTicks(6012), "記憶體", 3000m, 10000m, 3 });
+                values: new object[] { 3, "3C", "便宜好用ㄉ記憶體", new DateTime(2022, 4, 7, 23, 41, 43, 565, DateTimeKind.Local).AddTicks(4535), "記憶體是要描述什麼", false, new DateTime(2022, 4, 10, 23, 41, 43, 565, DateTimeKind.Local).AddTicks(4537), "記憶體", 3000m, 10000m, 3 });
 
             migrationBuilder.InsertData(
                 table: "ProductPics",
@@ -303,11 +299,6 @@ namespace TuanBuy.Migrations
                 name: "IX_OrderDetail_OrderId",
                 table: "OrderDetail",
                 column: "OrderId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OrderDetail_ProductId",
-                table: "OrderDetail",
-                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Product_UserId",
