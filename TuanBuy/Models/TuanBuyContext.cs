@@ -23,8 +23,6 @@ namespace TuanBuy.Models.Entities
         public virtual DbSet<ProductMessage> ProductMessages { get; set; }
 
         public virtual DbSet<ProductPic> ProductPics { get; set; }
-        public virtual DbSet<TestProduct> TestProducts { get; set; }
-
         public virtual DbSet<ChatRoom> ChatRooms { get; set; }
 
         public virtual DbSet<ChatRoomMember> Member_Chats { get; set; }
@@ -36,7 +34,7 @@ namespace TuanBuy.Models.Entities
         {
             modelBuilder.Entity<ChatRoomMember>().ToTable("Member_Chats");
             modelBuilder.Entity<ChatRoomMember>().HasKey(s => new { s.MemberId, s.ChatRoomId });
-
+            //modelBuilder.Entity<OrderDetail>().HasKey(s => new { s.ProductId, s.OrderId });
             modelBuilder.Entity<User>().HasData(new User()
             {
                 Id = 1,

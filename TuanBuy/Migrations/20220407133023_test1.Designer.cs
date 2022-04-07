@@ -10,7 +10,7 @@ using TuanBuy.Models.Entities;
 namespace TuanBuy.Migrations
 {
     [DbContext(typeof(TuanBuyContext))]
-    [Migration("20220407125639_test1")]
+    [Migration("20220407133023_test1")]
     partial class test1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -202,10 +202,10 @@ namespace TuanBuy.Migrations
                             Id = 1,
                             Category = "食品",
                             Content = "不知道可不可以吃的貓咪",
-                            CreateTime = new DateTime(2022, 4, 7, 20, 56, 39, 51, DateTimeKind.Local).AddTicks(984),
+                            CreateTime = new DateTime(2022, 4, 7, 21, 30, 22, 810, DateTimeKind.Local).AddTicks(741),
                             Description = "不知道可不可以吃",
                             Disable = false,
-                            EndTime = new DateTime(2022, 4, 12, 20, 56, 39, 52, DateTimeKind.Local).AddTicks(1056),
+                            EndTime = new DateTime(2022, 4, 12, 21, 30, 22, 811, DateTimeKind.Local).AddTicks(4806),
                             Name = "貓貓",
                             Price = 50m,
                             Total = 1000m,
@@ -216,10 +216,10 @@ namespace TuanBuy.Migrations
                             Id = 2,
                             Category = "食品",
                             Content = "可以吃的生鮮鮭魚",
-                            CreateTime = new DateTime(2022, 4, 7, 20, 56, 39, 52, DateTimeKind.Local).AddTicks(1759),
+                            CreateTime = new DateTime(2022, 4, 7, 21, 30, 22, 811, DateTimeKind.Local).AddTicks(5954),
                             Description = "便宜好吃的鮭魚",
                             Disable = false,
-                            EndTime = new DateTime(2022, 4, 13, 20, 56, 39, 52, DateTimeKind.Local).AddTicks(1767),
+                            EndTime = new DateTime(2022, 4, 13, 21, 30, 22, 811, DateTimeKind.Local).AddTicks(5964),
                             Name = "鮭魚",
                             Price = 50m,
                             Total = 500m,
@@ -230,10 +230,10 @@ namespace TuanBuy.Migrations
                             Id = 3,
                             Category = "3C",
                             Content = "便宜好用ㄉ記憶體",
-                            CreateTime = new DateTime(2022, 4, 7, 20, 56, 39, 52, DateTimeKind.Local).AddTicks(1799),
+                            CreateTime = new DateTime(2022, 4, 7, 21, 30, 22, 811, DateTimeKind.Local).AddTicks(6009),
                             Description = "記憶體是要描述什麼",
                             Disable = false,
-                            EndTime = new DateTime(2022, 4, 10, 20, 56, 39, 52, DateTimeKind.Local).AddTicks(1801),
+                            EndTime = new DateTime(2022, 4, 10, 21, 30, 22, 811, DateTimeKind.Local).AddTicks(6012),
                             Name = "記憶體",
                             Price = 3000m,
                             Total = 10000m,
@@ -331,30 +331,6 @@ namespace TuanBuy.Migrations
                     b.HasIndex("ProductMessageId");
 
                     b.ToTable("ProductSellerReplies");
-                });
-
-            modelBuilder.Entity("TuanBuy.Models.Entities.TestProduct", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PicPath")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TestProducts");
                 });
 
             modelBuilder.Entity("TuanBuy.Models.Entities.User", b =>
@@ -492,11 +468,11 @@ namespace TuanBuy.Migrations
             modelBuilder.Entity("TuanBuy.Models.Entities.OrderDetail", b =>
                 {
                     b.HasOne("TuanBuy.Models.Entities.Order", "Order")
-                        .WithMany()
+                        .WithMany("OrderDetails")
                         .HasForeignKey("OrderId");
 
                     b.HasOne("TuanBuy.Models.Entities.Product", "Product")
-                        .WithMany()
+                        .WithMany("OrderDetails")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -555,8 +531,15 @@ namespace TuanBuy.Migrations
                     b.Navigation("ChatRoomMembers");
                 });
 
+            modelBuilder.Entity("TuanBuy.Models.Entities.Order", b =>
+                {
+                    b.Navigation("OrderDetails");
+                });
+
             modelBuilder.Entity("TuanBuy.Models.Entities.Product", b =>
                 {
+                    b.Navigation("OrderDetails");
+
                     b.Navigation("ProductMessage");
 
                     b.Navigation("ProductPics");

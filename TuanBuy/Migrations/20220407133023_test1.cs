@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TuanBuy.Migrations
 {
-    public partial class test : Migration
+    public partial class test1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,22 +17,6 @@ namespace TuanBuy.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ChatRooms", x => x.ChatRoomId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TestProducts",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PicPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TestProducts", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -273,17 +257,17 @@ namespace TuanBuy.Migrations
             migrationBuilder.InsertData(
                 table: "Product",
                 columns: new[] { "Id", "Category", "Content", "CreateTime", "Description", "Disable", "EndTime", "Name", "Price", "Total", "UserId" },
-                values: new object[] { 1, "食品", "不知道可不可以吃的貓咪", new DateTime(2022, 4, 7, 20, 55, 59, 987, DateTimeKind.Local).AddTicks(8673), "不知道可不可以吃", false, new DateTime(2022, 4, 12, 20, 55, 59, 988, DateTimeKind.Local).AddTicks(8201), "貓貓", 50m, 1000m, 1 });
+                values: new object[] { 1, "食品", "不知道可不可以吃的貓咪", new DateTime(2022, 4, 7, 21, 30, 22, 810, DateTimeKind.Local).AddTicks(741), "不知道可不可以吃", false, new DateTime(2022, 4, 12, 21, 30, 22, 811, DateTimeKind.Local).AddTicks(4806), "貓貓", 50m, 1000m, 1 });
 
             migrationBuilder.InsertData(
                 table: "Product",
                 columns: new[] { "Id", "Category", "Content", "CreateTime", "Description", "Disable", "EndTime", "Name", "Price", "Total", "UserId" },
-                values: new object[] { 2, "食品", "可以吃的生鮮鮭魚", new DateTime(2022, 4, 7, 20, 55, 59, 988, DateTimeKind.Local).AddTicks(8778), "便宜好吃的鮭魚", false, new DateTime(2022, 4, 13, 20, 55, 59, 988, DateTimeKind.Local).AddTicks(8785), "鮭魚", 50m, 500m, 2 });
+                values: new object[] { 2, "食品", "可以吃的生鮮鮭魚", new DateTime(2022, 4, 7, 21, 30, 22, 811, DateTimeKind.Local).AddTicks(5954), "便宜好吃的鮭魚", false, new DateTime(2022, 4, 13, 21, 30, 22, 811, DateTimeKind.Local).AddTicks(5964), "鮭魚", 50m, 500m, 2 });
 
             migrationBuilder.InsertData(
                 table: "Product",
                 columns: new[] { "Id", "Category", "Content", "CreateTime", "Description", "Disable", "EndTime", "Name", "Price", "Total", "UserId" },
-                values: new object[] { 3, "3C", "便宜好用ㄉ記憶體", new DateTime(2022, 4, 7, 20, 55, 59, 988, DateTimeKind.Local).AddTicks(8815), "記憶體是要描述什麼", false, new DateTime(2022, 4, 10, 20, 55, 59, 988, DateTimeKind.Local).AddTicks(8817), "記憶體", 3000m, 10000m, 3 });
+                values: new object[] { 3, "3C", "便宜好用ㄉ記憶體", new DateTime(2022, 4, 7, 21, 30, 22, 811, DateTimeKind.Local).AddTicks(6009), "記憶體是要描述什麼", false, new DateTime(2022, 4, 10, 21, 30, 22, 811, DateTimeKind.Local).AddTicks(6012), "記憶體", 3000m, 10000m, 3 });
 
             migrationBuilder.InsertData(
                 table: "ProductPics",
@@ -362,9 +346,6 @@ namespace TuanBuy.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProductSellerReplies");
-
-            migrationBuilder.DropTable(
-                name: "TestProducts");
 
             migrationBuilder.DropTable(
                 name: "ChatRooms");

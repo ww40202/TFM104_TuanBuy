@@ -33,8 +33,6 @@ namespace TuanBuy.Models.Entities
         public string Friend { get; set; }
         public virtual ICollection<Order> Order { get; set; }
         public virtual ICollection<Product> Product { get; set; }
-        //public virtual Role Role { get; set; }
-        //public List<ChatRoomTest> ChatRoomTest { get; set; } = new List<ChatRoomTest>();
         public virtual ICollection<ChatRoomMember> ChatRoom { get; set; }
     }
 }

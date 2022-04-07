@@ -127,7 +127,7 @@ namespace TuanBuy.Service
             var products = GetAllProducts().OrderByDescending(x=>x.Id);
             var orderDetails =
                 (from orderDetail in _dbContext.OrderDetail
-                 where (products.Select(x => x.Id)).Contains(orderDetail.ProductId)
+                 //where (products.Select(x => x.Id)).Contains(orderDetail.ProductId)
                  select new {orderdetail = orderDetail }).ToList();
             var result = new List<ProductViewModel>();
             foreach (var p in products)
