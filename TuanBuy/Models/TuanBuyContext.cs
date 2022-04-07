@@ -34,6 +34,7 @@ namespace TuanBuy.Models.Entities
         public virtual DbSet<ProductSellerReply> ProductSellerReplies { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<ChatRoomMember>().ToTable("Member_Chats");
             modelBuilder.Entity<ChatRoomMember>().HasKey(s => new { s.MemberId, s.ChatRoomId });
 
             modelBuilder.Entity<User>().HasData(new User()

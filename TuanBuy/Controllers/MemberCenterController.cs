@@ -69,7 +69,7 @@ namespace TuanBuy.Controllers
 
         #region 會員個人販賣商品頁面
         [HttpGet]
-        public IActionResult MyStoreSell()
+        public IActionResult MyStoreSell(int id)
         {
             return View();
         }
