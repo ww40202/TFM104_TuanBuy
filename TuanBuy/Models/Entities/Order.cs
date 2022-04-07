@@ -15,7 +15,7 @@ namespace TuanBuy.Models.Entities
         [Key]
         public int Id { get; set; }
 
-        public int State { get; set; }
+        public string State { get; set; } = "未付款";
         public DateTime CreateDate { get; set; }
         public bool Disable { get; set; } = false;
         [ForeignKey("Product")]

@@ -8,8 +8,8 @@
 
         <div class="col-lg-10 form-row">
             @*商品卡從這邊動態*@
-            <div class="col-lg-4 display">
-                <div class="card"  v-for="item in products">
+            <div class="col-lg-4 display" v-for="item in products">
+                <div class="card"  >
                     <img class="card-img-top" v-bind:src="item.picPath" alt="Card image" style="width: 100%">
                     <div class="card-body">
                         @*商品創立時間*@
