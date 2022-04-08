@@ -18,34 +18,36 @@ namespace TuanBuy.Models.Entities
         public DemoProductViewModel GetDemoProductData(int ProductId)
         {
             //群組join
-            var result = 
+            var result =
                 _dbContext.Product.ToList()
                     //GroupJoin商品圖片
-                .GroupJoin(
-                    _dbContext.ProductPics.ToList(),
-                    prd => prd.Id,
-                    pit => pit.ProductId,
-                    (product, productimg) => new { product })
-                .ToList()
-                .Where(x => x.product.Id == ProductId)
+                    .GroupJoin(
+                        _dbContext.ProductPics.ToList(),
+                        prd => prd.Id,
+                        pit => pit.ProductId,
+                        (product, productimg) => new {product})
+                    .ToList()
+                    .Where(x => x.product.Id == ProductId)
                     //GroupJoin使用者
-                .GroupJoin(
-                    _dbContext.User,
-                    prd => prd.product.UserId,
-                    user => user.Id,
-                    (prd, user) => new { prd })
-                .ToList()
+
+                    .GroupJoin(
+                        _dbContext.User,
+                        prd => prd.product.UserId,
+                        user => user.Id,
+                        (prd, user) => new {prd})
+                    .ToList()
                     //GroupJoin訂單ID
-                .GroupJoin(
-                    _dbContext.Order,
-                    user => user.prd.product.Id,
-                    order => order.ProductId,
-                    (user, order) => new { user }
-                );
+                    .GroupJoin(
+                        _dbContext.OrderDetail,
+                        user => user.prd.product.Id,
+                        //order => order.Product,
+                        orderDetail => orderDetail.ProductId,
+                        (user, order) => new {user});
             DemoProductViewModel demoProductViewModel = new DemoProductViewModel();
             List<string> productPicPath = new List<string>();
             foreach (var item in result)
             {
+                
                 demoProductViewModel.Id = item.user.prd.product.Id;
                 demoProductViewModel.ProductTitle = item.user.prd.product.Name;
                 demoProductViewModel.ProductSummary = item.user.prd.product.Content;
@@ -62,9 +64,9 @@ namespace TuanBuy.Models.Entities
                 demoProductViewModel.Seller = item.user.prd.product.User.NickName;
                 //目前團購已訂購人數
 
-                if (item.user.prd.product.Order != null)
+                if (item.user.prd.product.OrderDetails != null)
                 {
-                    demoProductViewModel.Buyers = item.user.prd.product.Order.Count.ToString();
+                    demoProductViewModel.Buyers = item.user.prd.product.OrderDetails.Count.ToString();
                 }
                 if (item.user.prd.product.ProductPics != null)
                 {
