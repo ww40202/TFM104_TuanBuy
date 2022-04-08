@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TuanBuy.Models.Entities;
 
 namespace TuanBuy.Migrations
 {
     [DbContext(typeof(TuanBuyContext))]
-    partial class TuanBuyContextModelSnapshot : ModelSnapshot
+    [Migration("20220407050810_0407")]
+    partial class _0407
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -223,7 +225,7 @@ namespace TuanBuy.Migrations
                             Id = 1,
                             Category = "測試類別",
                             Content = "商品內容",
-                            CreateTime = new DateTime(2022, 4, 7, 13, 16, 18, 989, DateTimeKind.Local).AddTicks(4812),
+                            CreateTime = new DateTime(2022, 4, 7, 13, 8, 9, 696, DateTimeKind.Local).AddTicks(7311),
                             Description = "商品描述",
                             Disable = false,
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -237,7 +239,7 @@ namespace TuanBuy.Migrations
                             Id = 2,
                             Category = "測試類別",
                             Content = "商品內容",
-                            CreateTime = new DateTime(2022, 4, 7, 13, 16, 18, 990, DateTimeKind.Local).AddTicks(4013),
+                            CreateTime = new DateTime(2022, 4, 7, 13, 8, 9, 697, DateTimeKind.Local).AddTicks(6908),
                             Description = "商品描述",
                             Disable = false,
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -251,7 +253,7 @@ namespace TuanBuy.Migrations
                             Id = 3,
                             Category = "測試類別",
                             Content = "商品內容",
-                            CreateTime = new DateTime(2022, 4, 7, 13, 16, 18, 990, DateTimeKind.Local).AddTicks(4054),
+                            CreateTime = new DateTime(2022, 4, 7, 13, 8, 9, 697, DateTimeKind.Local).AddTicks(6952),
                             Description = "商品描述",
                             Disable = false,
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),

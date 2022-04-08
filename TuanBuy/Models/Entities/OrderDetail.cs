@@ -21,8 +21,10 @@ namespace TuanBuy.Models.Entities
         public int? Count { get; set; }
         public decimal? Total { get; set; }
         public bool Disable { get; set; } = false;
+        public string Phone { get; set; }
         public virtual Order Order { get; set; }         
         public virtual Product Product { get; set; }
+        
     }
 
 }
