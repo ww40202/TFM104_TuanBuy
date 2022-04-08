@@ -103,34 +103,53 @@ namespace TuanBuy.Controllers
             }
         }
         //訂單管理
-        //public IActionResult Order()
+        public IActionResult Order()
+        {
+            return View();
+        }
+        [HttpGet]
+        public List<OrderBackMangeViewModel> TestJoin()
+        {
+            var BackOrder = new OrderManage(_dbcontext);
+            var result = BackOrder.get();
+            return result;
+        }
+        [HttpPut]
+        public IActionResult UpdateOrder([FromBody] int id, OrderDetail order)
+        {
+
+            var orders = _dbcontext.OrderDetail.FirstOrDefault(x => x.Id == id);
+            if (orders != null)
+            {
+                orders.Address = order.Address;
+                orders.Phone = order.Phone;
+            }
+            _dbcontext.SaveChanges();
+            return Ok();
+            //var targetOrder = _dbcontext.OrderDetail.FirstOrDefault(x => x.Id == order.Id);
+            //if (targetOrder == null) return BadRequest();
+            //targetOrder.Address = order.Address;
+            //targetOrder.Phone = order.Phone;
+            //_dbcontext.SaveChanges();
+            //return Ok();
+        }
+        //刪除訂單
+        //[HttpDelete]
+        //public IActionResult DeleteOrder(string id)
         //{
-        //    return View();
+
+        //    var user = _dbcontext.OrderDetail.FirstOrDefault(x => x.Id == id);
+        //    if (user == null) return BadRequest();
+        //    user.Disable = true;
+        //    _dbcontext.SaveChanges();
+        //    return Ok();
         //}
-        //[HttpGet]
-        //public List<OrderBackMangeViewModel>  TestJoin()
-        //{
-        //    var BackOrder = new OrderManage(_dbcontext);
-        //    var result = BackOrder.get();
-        //    return result;
-        //}
-        ////public  List<OrderBackMangeViewModel> GetOrder()
+
+        //public  List<OrderBackMangeViewModel> GetOrder()
         //{
         //    var order=_dbcontext.OrderDetail.ToList();
         //    return (order);
         //}
-        //public List<UserBackMange> GetUsers()
-        //{
-        //    var ableUsers = _dbcontext.User.Where(x => x.Disable == false);
 
-        //    return ableUsers.Select(u => new UserBackMange
-        //    {
-        //        Name = u.Name,
-        //        Email = u.Email,
-        //        State = u.State,
-        //        Birth = u.Birth,
-        //        Phone = u.Phone
-        //    }).ToList();
-        //}
     }
 }

@@ -22,6 +22,8 @@ namespace TuanBuy.Models.Entities
         //關連到訂單ID
         public int OrderId { get; set; }
         public virtual Order Order { get; set; }
+
+        
     }
 
 }
