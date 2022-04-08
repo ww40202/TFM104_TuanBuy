@@ -33,22 +33,28 @@ namespace TuanBuy.Models.Entities
             //             };
             var result = from o in _dbcontext.OrderDetail
                          join p in _dbcontext.Product on o.Id equals p.Id
-                         join i in _dbcontext.Order on o.Id equals i.Id
-                         join y in _dbcontext.User on i.User.Id equals y.Id
+                         //join i in _dbcontext.Order on o.Id equals i.Id
+                         //join u in _dbcontext.User on i.User.Id equals u.Id
                          select new OrderBackMangeViewModel
                          {
+                             
                              Address = o.Address,
                              Count = o.Count,
-                             CreateDate = i.CreateDate,
-                             Phone = y.Phone,
+                             //CreateDate = i.CreateDate,
+                             Phone = o.Phone,
                              OrderId = o.Id,
                              PaymentType = o.PaymentType,
                              ProductName = p.Name,
-                             Price=p.Price,
-                             UserName=i.User.Name
-                         };
-            var test = result.ToList();
-            return test;
+                             Price = p.Price,
+                             //UserName = i.User.Name
+
+                         }; 
+           
+                        var test = result.ToList();
+                        return test;
+            
+            
+                       
 
         }
 

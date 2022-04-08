@@ -22,12 +22,11 @@ namespace TuanBuy.Models.Entities
         public decimal? Total { get; set; }
         public bool Disable { get; set; } = false;
 
-        //[ForeignKey("Order")]
-        //public int OrderId { get; set; }
-        [ForeignKey("Product")]
         public int ProductId { get; set; }
+        public string Phone { get; set; }
         public virtual Order Order { get; set; }         
         public virtual Product Product { get; set; }
+        
     }
 
 }
