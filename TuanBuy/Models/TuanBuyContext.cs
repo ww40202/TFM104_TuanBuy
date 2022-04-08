@@ -59,9 +59,9 @@ namespace TuanBuy.Models.Entities
                 .HasForeignKey(pt => pt.ProductId)
                 .OnDelete(DeleteBehavior.ClientNoAction);
 
-
+            #region 假資料去FakeData資料夾裡面的json檔案新增
             //使用者資料
-            var userJsonData = File.ReadAllText(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)+ @"/FakeData/UserData.json",Encoding.UTF8);
+            var userJsonData = File.ReadAllText(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"/FakeData/UserData.json", Encoding.UTF8);
             IList<User> users = JsonConvert.DeserializeObject<IList<User>>(userJsonData);
             modelBuilder.Entity<User>().HasData(users);
 
@@ -89,6 +89,11 @@ namespace TuanBuy.Models.Entities
             var orderDetailJsonData = File.ReadAllText(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"/FakeData/OrderDetailJson.json", Encoding.UTF8);
             IList<OrderDetail> orderDetail = JsonConvert.DeserializeObject<IList<OrderDetail>>(orderDetailJsonData);
             modelBuilder.Entity<OrderDetail>().HasData(orderDetail);
+
+
+            #endregion
+
+
 
 
             base.OnModelCreating(modelBuilder);

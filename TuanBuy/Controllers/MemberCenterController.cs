@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Org.BouncyCastle.Math.EC.Rfc7748;
@@ -34,11 +35,17 @@ namespace TuanBuy.Controllers
         {
             return View();
         }
+
+        #region 我是買家我購買的商品
         //我是買家我購買的商品
         public IActionResult MyBuyProduct()
         {
             return View();
         }
+
+
+        #endregion
+
 
         //我是賣家我的商品
         public IActionResult MyProduct()
@@ -87,12 +94,22 @@ namespace TuanBuy.Controllers
         }
         #endregion
 
-        public List<OrderViewModel> GetMyOrder(int id)
+        public IActionResult GetMyOrder()
         {
+            var claim = HttpContext.User.Claims;
+            var userEmail = claim.FirstOrDefault(a => a.Type == ClaimTypes.Email)?.Value;
+            var targetUser = _dbContext.User.FirstOrDefault(x => x.Email == userEmail);
             var data = new OrderManage(_dbContext);
-            var result = data.GetMyOrder(id);
+            if (targetUser != null)
+            {
+                var result = data.GetMyOrder(targetUser.Id);
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest();
+            }
 
-            return result;
         }
     }
 }
