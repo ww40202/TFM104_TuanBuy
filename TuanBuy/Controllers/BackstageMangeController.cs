@@ -103,18 +103,18 @@ namespace TuanBuy.Controllers
             }
         }
         //訂單管理
-        public IActionResult Order()
-        {
-            return View();
-        }
-        [HttpGet]
-        public List<OrderBackMangeViewModel>  TestJoin()
-        {
-            var BackOrder = new OrderManage(_dbcontext);
-            var result = BackOrder.get();
-            return result;
-        }
-        //public  List<OrderBackMangeViewModel> GetOrder()
+        //public IActionResult Order()
+        //{
+        //    return View();
+        //}
+        //[HttpGet]
+        //public List<OrderBackMangeViewModel>  TestJoin()
+        //{
+        //    var BackOrder = new OrderManage(_dbcontext);
+        //    var result = BackOrder.get();
+        //    return result;
+        //}
+        ////public  List<OrderBackMangeViewModel> GetOrder()
         //{
         //    var order=_dbcontext.OrderDetail.ToList();
         //    return (order);

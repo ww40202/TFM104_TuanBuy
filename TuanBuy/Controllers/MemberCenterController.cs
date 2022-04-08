@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Org.BouncyCastle.Math.EC.Rfc7748;
@@ -84,5 +86,13 @@ namespace TuanBuy.Controllers
             return target;
         }
         #endregion
+
+        public List<OrderViewModel> GetMyOrder(int id)
+        {
+            var data = new OrderManage(_dbContext);
+            var result = data.GetMyOrder(id);
+
+            return result;
+        }
     }
 }
