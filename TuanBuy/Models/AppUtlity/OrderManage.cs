@@ -52,7 +52,27 @@ namespace TuanBuy.Models.Entities
 
         //}
 
-
+        public List<OrderBackMangeViewModel> GetOrderDetails()
+        {
+            var orderdetails = from orderdetail in _dbContext.OrderDetail
+                         join oder in _dbContext.Order on orderdetail.OrderId equals oder.Id
+                         join product in _dbContext.Product on orderdetail.ProductId equals product.Id
+                         join user in _dbContext.User on orderdetail.ProductId equals user.Id
+                         select new OrderBackMangeViewModel()
+                         {
+                            Address=oder.Address,
+                            Count=orderdetail.Count,
+                            CreateDate=oder.CreateDate,
+                            OrderId=orderdetail.OrderId,
+                            PaymentType=oder.PaymentType,
+                            Phone=oder.Phone,
+                            Price=orderdetail.Price,
+                            ProductName=product.Name,
+                            UserName=user.Name
+                         };
+            var result = orderdetails.ToList();
+            return result;
+        }
 
 
 

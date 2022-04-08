@@ -38,5 +38,25 @@
     "UserId": 5,
     "StateId": 1,
     "Address": "送貨地址"
+  },
+  {
+    "Id": 5,
+    "Disable": false,
+    "Description": "Benny跟Harry購買產品",
+    "PaymentType": 1,
+    "Phone": "0987654",
+    "UserId": 5,
+    "StateId": 1,
+    "Address": "送貨地址"
+  },
+  {
+    "Id": 6,
+    "Disable": false,
+    "Description": "Linn跟Harry購買產品",
+    "PaymentType": 1,
+    "Phone": "0987654",
+    "UserId": 4,
+    "StateId": 1,
+    "Address": "送貨地址"
   }
 ]

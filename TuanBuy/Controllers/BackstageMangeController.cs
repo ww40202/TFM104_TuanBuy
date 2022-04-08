@@ -14,12 +14,12 @@ namespace TuanBuy.Controllers
         {
             _dbcontext = context;
         }
-        // GET: BackstageMangeController
+        // 會員後台管理首頁
         public ActionResult Index()
         {
             return View();
         }
-
+        #region 會員管理
         public List<UserBackMange> GetUsers()
         {
             var ableUsers = _dbcontext.User.Where(x => x.Disable == false);
@@ -58,79 +58,40 @@ namespace TuanBuy.Controllers
             _dbcontext.SaveChanges();
             return Ok();
         }
+        #endregion
 
 
-
-        // GET: BackstageMangeController/Edit/5
-        public ActionResult Edit(int id)
+        public IActionResult Order()
         {
             return View();
         }
-
-        // POST: BackstageMangeController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public List<OrderBackMangeViewModel> TestJoin()
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var BackOrder = new OrderManage(_dbcontext);
+            var result = BackOrder.GetOrderDetails();
+            return result;
         }
-
-        // GET: BackstageMangeController/Delete/5
-        public ActionResult Delete(int id)
+        [HttpPut]
+        public IActionResult UpdateOrder([FromBody] OrderBackMangeViewModel order)
         {
-            return View();
-        }
 
-        // POST: BackstageMangeController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+            var orders = _dbcontext.Order.FirstOrDefault(x => x.Id == order.OrderId);
+            if (orders == null) return BadRequest();
+            orders.Address = order.Address;
+            orders.Phone = order.Phone;
+            _dbcontext.SaveChanges();
+            return Ok();
+
+        }
+        //刪除訂單
+        [HttpDelete]
+        public IActionResult DeleteOrder(int id)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var user = _dbcontext.OrderDetail.FirstOrDefault(x => x.OrderId == id);
+            if (user == null) return BadRequest();
+            user.Disable = true;
+            _dbcontext.SaveChanges();
+            return Ok();
         }
-        //訂單管理
-        //public IActionResult Order()
-        //{
-        //    return View();
-        //}
-        //[HttpGet]
-        //public List<OrderBackMangeViewModel>  TestJoin()
-        //{
-        //    var BackOrder = new OrderManage(_dbcontext);
-        //    var result = BackOrder.get();
-        //    return result;
-        //}
-        ////public  List<OrderBackMangeViewModel> GetOrder()
-        //{
-        //    var order=_dbcontext.OrderDetail.ToList();
-        //    return (order);
-        //}
-        //public List<UserBackMange> GetUsers()
-        //{
-        //    var ableUsers = _dbcontext.User.Where(x => x.Disable == false);
-
-        //    return ableUsers.Select(u => new UserBackMange
-        //    {
-        //        Name = u.Name,
-        //        Email = u.Email,
-        //        State = u.State,
-        //        Birth = u.Birth,
-        //        Phone = u.Phone
-        //    }).ToList();
-        //}
     }
 }

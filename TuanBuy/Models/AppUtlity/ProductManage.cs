@@ -185,17 +185,20 @@ namespace TuanBuy.Models.Entities
                 {
                     if (orderDetail.orderdetail.ProductId == p.Id)
                     {
+                        //計算該商品目前被購買的總金額
                         i.Total += orderDetail.orderdetail.Count * p.Price;
                     }
                 }
 
                 if (i.Total != null && i.Total != 0 && i.TargetPrice != 0)
                 {
+                    //商品的總金額除以商品的集資金額*100算進度百分比
                     var a = (i.Total / i.TargetPrice) * 100;
                     if (a >= 100)
                     {
                         a = 100;
                     }
+                    //依進度條百分比取得顏色
                     i.Color = GetBarColor.GetColor(a);
                     i.Percentage = a + "%";
                 }
