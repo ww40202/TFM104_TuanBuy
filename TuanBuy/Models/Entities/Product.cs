@@ -18,9 +18,9 @@ namespace TuanBuy.Models.Entities
         [Key]
         public int Id { get; set; }
         //商品建立時間
-        public DateTime CreateTime { get; set; }
+        public DateTime CreateTime { get; set; } = DateTime.Now;
         //商品結束時間
-        public DateTime EndTime { get; set; }
+        public DateTime EndTime { get; set; } = DateTime.Now.AddDays(10);
         //商品名稱
 
         [Required]

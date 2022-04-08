@@ -17,7 +17,7 @@ namespace TuanBuy.Models.Entities
         public int Id { get; set; }
 
         //訂單建立時間 
-        public DateTime CreateDate { get; set; }
+        public DateTime CreateDate { get; set; } = DateTime.Now;
         //訂單軟刪除
         public bool Disable { get; set; } = false;
         //訂單備註

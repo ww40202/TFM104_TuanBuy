@@ -10,7 +10,7 @@ using TuanBuy.Models.Entities;
 namespace TuanBuy.Migrations
 {
     [DbContext(typeof(TuanBuyContext))]
-    [Migration("20220407210457_FakeData")]
+    [Migration("20220408080350_FakeData")]
     partial class FakeData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -127,7 +127,8 @@ namespace TuanBuy.Migrations
                         new
                         {
                             Id = 1,
-                            CreateDate = new DateTime(2022, 4, 8, 5, 4, 57, 159, DateTimeKind.Local).AddTicks(3160),
+                            Address = "送貨地址",
+                            CreateDate = new DateTime(2022, 4, 8, 16, 3, 50, 391, DateTimeKind.Local).AddTicks(725),
                             Description = "訂單描述",
                             Disable = false,
                             PaymentType = 1,
@@ -138,7 +139,8 @@ namespace TuanBuy.Migrations
                         new
                         {
                             Id = 2,
-                            CreateDate = new DateTime(2022, 4, 8, 5, 4, 57, 159, DateTimeKind.Local).AddTicks(5564),
+                            Address = "送貨地址",
+                            CreateDate = new DateTime(2022, 4, 8, 16, 3, 50, 392, DateTimeKind.Local).AddTicks(6286),
                             Description = "訂單描述",
                             Disable = false,
                             PaymentType = 1,
@@ -149,13 +151,26 @@ namespace TuanBuy.Migrations
                         new
                         {
                             Id = 3,
-                            CreateDate = new DateTime(2022, 4, 8, 5, 4, 57, 159, DateTimeKind.Local).AddTicks(5600),
+                            Address = "送貨地址",
+                            CreateDate = new DateTime(2022, 4, 8, 16, 3, 50, 392, DateTimeKind.Local).AddTicks(6396),
                             Description = "訂單描述",
                             Disable = false,
                             PaymentType = 1,
                             Phone = "091234567",
                             StateId = 3,
                             UserId = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Address = "送貨地址",
+                            CreateDate = new DateTime(2022, 4, 8, 16, 3, 50, 392, DateTimeKind.Local).AddTicks(6444),
+                            Description = "Benny跟Lynn購買產品",
+                            Disable = false,
+                            PaymentType = 1,
+                            Phone = "091234567",
+                            StateId = 1,
+                            UserId = 5
                         });
                 });
 
@@ -206,6 +221,22 @@ namespace TuanBuy.Migrations
                             Count = 10,
                             Disable = false,
                             Price = 500m
+                        },
+                        new
+                        {
+                            ProductId = 5,
+                            OrderId = 4,
+                            Count = 20,
+                            Disable = false,
+                            Price = 8000m
+                        },
+                        new
+                        {
+                            ProductId = 6,
+                            OrderId = 4,
+                            Count = 40,
+                            Disable = false,
+                            Price = 1500m
                         });
                 });
 
@@ -303,10 +334,10 @@ namespace TuanBuy.Migrations
                             Id = 1,
                             Category = "食品",
                             Content = "不知道可不可以吃的貓咪",
-                            CreateTime = new DateTime(2022, 4, 8, 5, 4, 57, 158, DateTimeKind.Local).AddTicks(3844),
-                            Description = "不知道可不可以吃",
+                            CreateTime = new DateTime(2022, 4, 8, 16, 3, 50, 382, DateTimeKind.Local).AddTicks(5778),
+                            Description = "不知道可不可以吃                                                                                                        ",
                             Disable = false,
-                            EndTime = new DateTime(2022, 4, 13, 5, 4, 57, 159, DateTimeKind.Local).AddTicks(766),
+                            EndTime = new DateTime(2022, 4, 18, 16, 3, 50, 383, DateTimeKind.Local).AddTicks(945),
                             Name = "貓貓",
                             Price = 50m,
                             Total = 1000m,
@@ -316,11 +347,11 @@ namespace TuanBuy.Migrations
                         {
                             Id = 2,
                             Category = "食品",
-                            Content = "可以吃的生鮮鮭魚",
-                            CreateTime = new DateTime(2022, 4, 8, 5, 4, 57, 159, DateTimeKind.Local).AddTicks(1215),
-                            Description = "便宜好吃的鮭魚",
+                            Content = "擁有水中珍品美譽的智力鮭魚，富含對人體有益的魚油，產地捕撈後隨即低溫急速冷凍鎖住新鮮與營養，美味直送到家！",
+                            CreateTime = new DateTime(2022, 4, 8, 16, 3, 50, 388, DateTimeKind.Local).AddTicks(6067),
+                            Description = "擁有水中珍品美譽的智力鮭魚，富含對人體有益的魚油，產地捕撈後隨即低溫急速冷凍鎖住新鮮與營養，美味直送到家！              ",
                             Disable = false,
-                            EndTime = new DateTime(2022, 4, 14, 5, 4, 57, 159, DateTimeKind.Local).AddTicks(1221),
+                            EndTime = new DateTime(2022, 4, 18, 16, 3, 50, 388, DateTimeKind.Local).AddTicks(6072),
                             Name = "鮭魚",
                             Price = 50m,
                             Total = 1000m,
@@ -331,14 +362,70 @@ namespace TuanBuy.Migrations
                             Id = 3,
                             Category = "3C",
                             Content = "便宜好用ㄉ記憶體",
-                            CreateTime = new DateTime(2022, 4, 8, 5, 4, 57, 159, DateTimeKind.Local).AddTicks(1245),
-                            Description = "記憶體是要描述什麼",
+                            CreateTime = new DateTime(2022, 4, 8, 16, 3, 50, 388, DateTimeKind.Local).AddTicks(6167),
+                            Description = "記憶體是要描述什麼                                                                                                      ",
                             Disable = false,
-                            EndTime = new DateTime(2022, 4, 11, 5, 4, 57, 159, DateTimeKind.Local).AddTicks(1247),
+                            EndTime = new DateTime(2022, 4, 18, 16, 3, 50, 388, DateTimeKind.Local).AddTicks(6168),
                             Name = "記憶體",
                             Price = 300m,
                             Total = 10000m,
                             UserId = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Category = "食品",
+                            Content = "吃的到蝦仁的月亮蝦餅",
+                            CreateTime = new DateTime(2022, 4, 8, 16, 3, 50, 388, DateTimeKind.Local).AddTicks(6229),
+                            Description = "吃的到蝦仁的月亮蝦餅                                                                                                  ",
+                            Disable = false,
+                            EndTime = new DateTime(2022, 4, 18, 16, 3, 50, 388, DateTimeKind.Local).AddTicks(6231),
+                            Name = "月亮蝦餅",
+                            Price = 100m,
+                            Total = 10000m,
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Category = "食品",
+                            Content = "厚切達3公分！精選Prime極佳級，原塊現切牛肉，大理石紋路般的油花分布，讓人為之瘋狂～口感柔嫩多汁，絕對滿足想大口吃肉的你",
+                            CreateTime = new DateTime(2022, 4, 8, 16, 3, 50, 388, DateTimeKind.Local).AddTicks(6288),
+                            Description = "厚切達3公分！精選Prime極佳級，原塊現切牛肉，大理石紋路般的油花分布，讓人為之瘋狂～口感柔嫩多汁，絕對滿足想大口吃肉的你",
+                            Disable = false,
+                            EndTime = new DateTime(2022, 4, 18, 16, 3, 50, 388, DateTimeKind.Local).AddTicks(6289),
+                            Name = "Prime-原塊現切牛肉",
+                            Price = 200m,
+                            Total = 10000m,
+                            UserId = 4
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Category = "食品",
+                            Content = "這款雪糕你吃過沒？格子脆皮餅乾裡面有香甜綿密的雪糕，百吃不厭的香草口味，配上酥脆餅皮口感，絕對大滿足～還有多種口味任選",
+                            CreateTime = new DateTime(2022, 4, 8, 16, 3, 50, 388, DateTimeKind.Local).AddTicks(6369),
+                            Description = "這款雪糕你吃過沒？格子脆皮餅乾裡面有香甜綿密的雪糕，百吃不厭的香草口味，配上酥脆餅皮口感，絕對大滿足～還有多種口味任選",
+                            Disable = false,
+                            EndTime = new DateTime(2022, 4, 18, 16, 3, 50, 388, DateTimeKind.Local).AddTicks(6370),
+                            Name = "脆餅雪糕",
+                            Price = 50m,
+                            Total = 10000m,
+                            UserId = 4
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Category = "食品",
+                            Content = "堅持手工製作，外酥內Q的迷人口感，多種披薩口味任選，簡單加熱就能享用，香氣濃郁成份單純，點心宵夜絕對便利的美味～",
+                            CreateTime = new DateTime(2022, 4, 8, 16, 3, 50, 388, DateTimeKind.Local).AddTicks(6424),
+                            Description = "堅持手工製作，外酥內Q的迷人口感，多種披薩口味任選，簡單加熱就能享用，香氣濃郁成份單純，點心宵夜絕對便利的美味～",
+                            Disable = false,
+                            EndTime = new DateTime(2022, 4, 18, 16, 3, 50, 388, DateTimeKind.Local).AddTicks(6425),
+                            Name = "手工製作披薩",
+                            Price = 300m,
+                            Total = 10000m,
+                            UserId = 4
                         });
                 });
 
@@ -405,6 +492,30 @@ namespace TuanBuy.Migrations
                             Id = 3,
                             PicPath = "DEMO記憶體.jpg",
                             ProductId = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            PicPath = "DEMO月亮蝦餅.jpg",
+                            ProductId = 4
+                        },
+                        new
+                        {
+                            Id = 5,
+                            PicPath = "DEMO牛排.jpg",
+                            ProductId = 5
+                        },
+                        new
+                        {
+                            Id = 6,
+                            PicPath = "DEMO雪糕.jpg",
+                            ProductId = 6
+                        },
+                        new
+                        {
+                            Id = 7,
+                            PicPath = "DEMO披薩.jpg",
+                            ProductId = 7
                         });
                 });
 
@@ -518,6 +629,54 @@ namespace TuanBuy.Migrations
                             Email = "789@gmail.com",
                             Name = "小張",
                             NickName = "賣記憶體的小張",
+                            Password = "123456",
+                            PicPath = "637843188933582087init.jpg",
+                            Sex = 1,
+                            State = "正式會員"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Disable = false,
+                            Email = "Lynn@gmail.com",
+                            Name = "Lynn",
+                            NickName = "Lynn",
+                            Password = "123456",
+                            PicPath = "637843188933582087init.jpg",
+                            Sex = 1,
+                            State = "正式會員"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Disable = false,
+                            Email = "Benny@gmail.com",
+                            Name = "Benny",
+                            NickName = "Benny",
+                            Password = "123456",
+                            PicPath = "637843188933582087init.jpg",
+                            Sex = 1,
+                            State = "正式會員"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Disable = false,
+                            Email = "Harry@gmail.com",
+                            Name = "Harry",
+                            NickName = "Harry",
+                            Password = "123456",
+                            PicPath = "637843188933582087init.jpg",
+                            Sex = 1,
+                            State = "正式會員"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Disable = false,
+                            Email = "GGAA@gmail.com",
+                            Name = "GGAA",
+                            NickName = "GGAA",
                             Password = "123456",
                             PicPath = "637843188933582087init.jpg",
                             Sex = 1,
