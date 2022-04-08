@@ -108,22 +108,22 @@ namespace TuanBuy.Controllers
             return View();
         }
         [HttpGet]
-        public List<OrderBackMangeViewModel> TestJoin()
-        {
-            var BackOrder = new OrderManage(_dbcontext);
-            var result = BackOrder.get();
-            return result;
-        }
+        //public List<OrderBackMangeViewModel> TestJoin()
+        //{
+        //    var BackOrder = new OrderManage(_dbcontext);
+        //    var result = BackOrder.get();
+        //    return result;
+        //}
         [HttpPut]
         public IActionResult UpdateOrder([FromBody] int id, OrderDetail order)
         {
 
-            var orders = _dbcontext.OrderDetail.FirstOrDefault(x => x.Id == id);
-            if (orders != null)
-            {
-                orders.Address = order.Address;
-                orders.Phone = order.Phone;
-            }
+            //var orders = _dbcontext.OrderDetail.FirstOrDefault(x => x.Id == id);
+            //if (orders != null)
+            //{
+            //    orders.Address = order.Address;
+            //    orders.Phone = order.Phone;
+            //}
             _dbcontext.SaveChanges();
             return Ok();
             //var targetOrder = _dbcontext.OrderDetail.FirstOrDefault(x => x.Id == order.Id);
