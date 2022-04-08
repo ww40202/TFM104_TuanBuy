@@ -1,0 +1,195 @@
+﻿<script src="/VueComponent/VueDemo.js"></script>
+
+<br/>
+<br/>
+<div class="container">
+    <div class="row" id="mypd">
+        <test v-bind:user="user"></test>
+
+        <div class="col-lg-10 form-row">
+            @*商品卡從這邊動態*@
+            <div class="col-lg-4 display" v-for="item in products">
+                <div class="card"  >
+                    <img class="card-img-top" v-bind:src="item.picPath" alt="Card image" style="width: 100%">
+                    <div class="card-body">
+                        @*商品創立時間*@
+                        <h5>{{item.createTime}}</h5>
+                        @*商品名稱*@
+                        <h4 class="card-title">{{item.name}}</h4>
+                        @*商品描述*@
+                        <p class="card-text">{{item.description}}</p>
+
+
+                        <!-- 修改按鍵，按鈕綁id -->
+                        <button type="button" class="btn btn-ddd" data-toggle="modal" data-target="#exampleModal"
+                                data-whatever="" v-on:click="updateProduct($event)" v-bind:value="item.id">
+                            修改
+                        </button>
+
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">修改商品</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!--綁定form表單資料-->
+                                        <form>
+                                            <div class="form-group">
+                                                <label for="product-price"
+                                                       cproductpricelass="col-form-label">商品價錢:</label>
+                                                <input type="text" class="form-control" id="product-price" v-model="product.price">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="product-content" class="col-form-label">內容:</label>
+                                                <input type="text" class="form-control" id="product-content" v-model="product.content">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="product-describe" class="col-form-label">描述:</label>
+                                                <input type="text" class="form-control" id="product-describe" v-model="product.description">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="product-endtime" class="col-form-label">結束時間:</label>
+                                                <input type="date" class="form-control" id="product-endtime" v-model="productDate">
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">
+                                            取消
+                                        </button>
+                                        <!--觸發事件修改-->
+                                        <button type="button" class="btn btn-ddd" v-on:click="readyUpdate">修改</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 修改結束 -->
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-ddd" data-toggle="modal" data-target="#deleteModal" v-bind:value="item.id" v-on:click="getProductId($event)">
+                            刪除
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="deleteModalLabel">刪除商品</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        確定刪除?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">
+                                            取消
+                                        </button>
+                                        <!--按下按鈕觸發刪除的API-->
+                                        <button type="button" class="btn btn-ddd" v-on:click="deleteProduct">刪除</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*商品卡從這結束*@
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script>
+    var app = new Vue({
+        el: "#mypd",
+        data: {
+            products: {},
+            product: {
+                id: '',
+                price: '',
+                content: '',
+                description: '',
+                endTime: ''
+            },
+            user: {
+                name: "",
+                phone: "",
+                birth: "",
+                address: "",
+                sex: "",
+                uploadPicPath: ""
+            },
+            target: null
+        },
+        methods: {
+            //更新商品資料
+            updateProduct: function(e) {
+                let self = this;
+                let productId = e.target.value;
+                //console.log(self.product);
+                console.log("id:" + productId);
+                let target = self.products.find((i) => { return +i.id === +productId });
+                self.product = target;
+                console.log(target);
+            },
+            //按下按鈕更新資料
+            readyUpdate: function() {
+                let self = this;
+                //發送PUT請求到API修改資料
+                axios.put("/api/Products/", self.product)
+                    .then((resp) => alert("更新成功"))
+                    .catch((res) => console.log(res));
+                window.location.reload();
+
+            },
+            //取得商品的ID
+            getProductId: function(e) {
+                let self = this;
+                self.target = e.target.value;
+                alert(productId);
+            },
+            //刪除產品
+            deleteProduct: function() {
+                let self = this;
+                axios.delete("/api/Products/" + self.target)
+                    .then((res) => {
+                        console.log(res);
+                    })
+                    .catch((res) => console.log(res));
+                window.location.reload();
+            }
+        },
+        computed: {
+            productDate: {
+                get() {
+                    let self = this;
+                    return moment(self.product.endTime).format('YYYY-MM-DD');
+                },
+                set(value) {
+                    return this.product.endTime = moment(value).format('YYYY-MM-DD');
+                }
+                
+            }
+        },
+        //Vue 實體與掛載完成時執行
+        mounted: function () {
+            let self = this;
+
+            axios.get("/api/Products/MyProducts").then((resp) => {
+                self.products = resp.data;
+            });
+            axios.get("/api/MemberCenter/").then((resp) => { this.user = resp.data });
+        }
+    });
+</script>
