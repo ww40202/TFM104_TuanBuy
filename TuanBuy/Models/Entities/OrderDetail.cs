@@ -11,9 +11,9 @@ namespace TuanBuy.Models.Entities
     public class OrderDetail
     {
         //商品數量
-        public int? Count { get; set; }
+        public int Count { get; set; }
         //商品單價
-        public decimal? Price { get; set; }
+        public decimal Price { get; set; }
         //商品軟刪除
         public bool Disable { get; set; } = false;
         //關連到商品ID

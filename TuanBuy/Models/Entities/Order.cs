@@ -26,7 +26,7 @@ namespace TuanBuy.Models.Entities
         //訂單地址
         public string Address { get; set; }
         //付款種類
-        public int? PaymentType { get; set; }
+        public int PaymentType { get; set; }
         //訂單連絡電話
         public string Phone { get; set; }
 
