@@ -54,8 +54,9 @@ namespace TuanBuy.Models.Entities
 
 
 
+        #region 取得購買的訂單
 
-
+        //取得購買的訂單
         public List<OrderViewModel> GetMyOrder(int id)
         {
             var orders =
@@ -80,5 +81,9 @@ namespace TuanBuy.Models.Entities
 
             return result;
         }
+
+        #endregion
+
+
     }
 }
