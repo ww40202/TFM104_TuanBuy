@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using TuanBuy.Models;
 using TuanBuy.Models.Entities;
 using TuanBuy.Models.Interface;
@@ -82,18 +83,39 @@ namespace TuanBuy.Service
                 targetUser.Address = user.Address;
                 targetUser.Sex = user.Sex;
                 targetUser.PicPath = fileName;
+                string userjsonData = HttpContext.Session.GetString("userData");
+                if (!String.IsNullOrEmpty(userjsonData))
+                {
+                    //反序列化成List<SelectListitem>集合物件
+                    var data = Newtonsoft.Json.JsonConvert.DeserializeObject<User>(userjsonData);
+                    //將檔案名稱丟入session頭貼路徑
+                    //將使用者資訊存入session
+                    var jsonstring = JsonConvert.SerializeObject(new User
+                    {
+                        Id = data.Id,
+                        Email = data.Email,
+                        NickName = user.Name,
+                        PicPath = fileName
+                    });
+                    //清除當前session
+                    HttpContext.Session.Remove("userData");
+                    //重新設置新session
+                    HttpContext.Session.SetString("userData", jsonstring);
+                }
+                ////將使用者資訊session重新更新;
+                //var jsonstring = JsonConvert.SerializeObject(new
+                //{
+                //    user.Email,
+                //    user.NickName,
+                //    user.Id,
+                //    user.PicPath
+                //});
+                //HttpContext.Session.SetString("userData", jsonstring);
                 if (fullMember)
                 {
                     targetUser.State = UserState.正式會員.ToString();
                     //這段有問題 不能直接更改會員資料
-                    //var claims = new Claim(ClaimTypes.Role, "FullUser");
-                    //var claimsIdentity = new ClaimsIdentity();
-                    //claimsIdentity.AddClaim(claims);
-                    //var claimsPrincipal = new ClaimsPrincipal();
-                    //claimsPrincipal.AddIdentity(claimsIdentity);
-                    //HttpContext.SignInAsync(claimsPrincipal);
-                    //TODO 用回應加Cookies做?
-                    //HttpContext.Response.Cookies.Append("","");
+
                 }
             }
 
