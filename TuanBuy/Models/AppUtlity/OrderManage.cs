@@ -13,63 +13,26 @@ namespace TuanBuy.Models.Entities
         {
             _dbContext = context;
         }
-        //public List<OrderBackMangeViewModel> get()
-        //{
-        //var result = from o in _dbcontext.OrderDetail
-        //             join p in _dbcontext.Product on o.Id equals p.Id
-        //             join i in _dbcontext.Order on o.Id equals i.Id
-        //             join y in _dbcontext.User on o.Id equals y.Id
-        //             select new OrderBackMangeViewModel
-        //             {
-        //                 Address = o.Address,
-        //                 Count = o.Count,
-        //                 CreateDate = i.CreateDate,
-        //                 Phone = y.Phone,
-        //                 OrderId = o.Id,
-        //                 PaymentType = o.PaymentType,
-        //                 ProductName = p.Name,
-        //                 Total = o.Total,
-        //                 UserName = y.Name
-        //             };
-        //var result = from o in _dbcontext.OrderDetail
-        //join p in _dbcontext.Product on o.Id equals p.Id
-        //join i in _dbcontext.Order on o.Id equals i.Id
-        //join y in _dbcontext.User on i.User.Id equals y.Id
-        //select new OrderBackMangeViewModel
-        //{
-        //Address = o.Address,
-        //Count = o.Count,
-        //CreateDate = i.CreateDate,
-        //Phone = y.Phone,
-        //OrderId = o.Id,
-        ////PaymentType = o.PaymentType,
-        //ProductName = p.Name,
-        //Price=p.Price,
-        //UserName=i.User.Name
-        //};
-        //var test = result.ToList();
-        //return test;
-
-        //}
-
+        //訂單管理join
         public List<OrderBackMangeViewModel> GetOrderDetails()
         {
             var orderdetails = from orderdetail in _dbContext.OrderDetail
-                         join oder in _dbContext.Order on orderdetail.OrderId equals oder.Id
-                         join product in _dbContext.Product on orderdetail.ProductId equals product.Id
-                         join user in _dbContext.User on orderdetail.ProductId equals user.Id
-                         select new OrderBackMangeViewModel()
-                         {
-                            Address=oder.Address,
-                            Count=orderdetail.Count,
-                            CreateDate=oder.CreateDate,
-                            OrderId=orderdetail.OrderId,
-                            PaymentType=oder.PaymentType,
-                            Phone=oder.Phone,
-                            Price=orderdetail.Price,
-                            ProductName=product.Name,
-                            UserName=user.Name
-                         };
+                               join oder in _dbContext.Order on orderdetail.OrderId equals oder.Id
+                               join product in _dbContext.Product on orderdetail.ProductId equals product.Id
+                               join user in _dbContext.User on orderdetail.ProductId equals user.Id
+                               //where orderdetail.Disable == false
+                               select new OrderBackMangeViewModel()
+                               {
+                                   Address = oder.Address,
+                                   Count = orderdetail.Count,
+                                   CreateDate = oder.CreateDate,
+                                   OrderId = orderdetail.OrderId,
+                                   PaymentType = oder.PaymentType,
+                                   Phone = oder.Phone,
+                                   Price = orderdetail.Price,
+                                   ProductName = product.Name,
+                                   UserName = user.Name,
+                               };
             var result = orderdetails.ToList();
             return result;
         }
@@ -94,6 +57,7 @@ namespace TuanBuy.Models.Entities
                     Address = order.Address,
                     SellerId = seller.Id,
                     SellerName = seller.Name
+
                 };
             var result = orders.ToList();
 

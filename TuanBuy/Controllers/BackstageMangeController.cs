@@ -71,6 +71,7 @@ namespace TuanBuy.Controllers
             var result = BackOrder.GetOrderDetails();
             return result;
         }
+        //修改訂單
         [HttpPut]
         public IActionResult UpdateOrder([FromBody] OrderBackMangeViewModel order)
         {
@@ -87,11 +88,21 @@ namespace TuanBuy.Controllers
         [HttpDelete]
         public IActionResult DeleteOrder(int id)
         {
-            var user = _dbcontext.OrderDetail.FirstOrDefault(x => x.OrderId == id);
+            var user = _dbcontext.OrderDetail.Where(x => x.OrderId == id);
             if (user == null) return BadRequest();
-            user.Disable = true;
+            //user = user.Select(x => new OrderDetail() { Disable = true });
+            foreach (var item in user)
+            {
+                item.Disable=true;
+            }
             _dbcontext.SaveChanges();
             return Ok();
         }
+        //查詢
+        //public IActionResult inquireOrder(int id)
+        //{
+        //    var order = _dbcontext.OrderDetail.Select(x => x.OrderId).Distinct();
+            
+        //}
     }
 }
