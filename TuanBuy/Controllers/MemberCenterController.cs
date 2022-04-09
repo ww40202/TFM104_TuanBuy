@@ -36,6 +36,12 @@ namespace TuanBuy.Controllers
             return View();
         }
 
+        public IActionResult MyNotify()
+        {
+            return View();
+        }
+
+
         #region 我是買家我購買的商品
         //我是買家我購買的商品
         public IActionResult MyBuyProduct()
@@ -52,6 +58,8 @@ namespace TuanBuy.Controllers
         {
             return View();
         }
+
+
 
 
         //接收傳遞過來的URL去解碼判斷啟用會員
@@ -96,9 +104,8 @@ namespace TuanBuy.Controllers
 
         public IActionResult GetMyOrder()
         {
-            var claim = HttpContext.User.Claims;
-            var userEmail = claim.FirstOrDefault(a => a.Type == ClaimTypes.Email)?.Value;
-            var targetUser = _dbContext.User.FirstOrDefault(x => x.Email == userEmail);
+            var targetUser = GetTargetUser();
+
             var data = new OrderManage(_dbContext);
             if (targetUser != null)
             {
@@ -110,6 +117,14 @@ namespace TuanBuy.Controllers
                 return BadRequest();
             }
 
+        }
+
+        private User? GetTargetUser()
+        {
+            var claim = HttpContext.User.Claims;
+            var userEmail = claim.FirstOrDefault(a => a.Type == ClaimTypes.Email)?.Value;
+            var targetUser = _dbContext.User.FirstOrDefault(x => x.Email == userEmail);
+            return targetUser;
         }
     }
 }
