@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TuanBuy.Migrations
 {
-    public partial class 更新牛排 : Migration
+    public partial class _2080 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -42,91 +42,81 @@ namespace TuanBuy.Migrations
                 keyColumn: "Id",
                 keyValue: 1,
                 column: "CreateDate",
-                value: new DateTime(2022, 4, 8, 23, 50, 13, 402, DateTimeKind.Local).AddTicks(333));
+                value: new DateTime(2022, 4, 8, 22, 17, 30, 2, DateTimeKind.Local).AddTicks(7815));
 
             migrationBuilder.UpdateData(
                 table: "Order",
                 keyColumn: "Id",
                 keyValue: 2,
                 column: "CreateDate",
-                value: new DateTime(2022, 4, 8, 23, 50, 13, 403, DateTimeKind.Local).AddTicks(7470));
+                value: new DateTime(2022, 4, 8, 22, 17, 30, 4, DateTimeKind.Local).AddTicks(6649));
 
             migrationBuilder.UpdateData(
                 table: "Order",
                 keyColumn: "Id",
                 keyValue: 3,
                 column: "CreateDate",
-                value: new DateTime(2022, 4, 8, 23, 50, 13, 403, DateTimeKind.Local).AddTicks(7589));
+                value: new DateTime(2022, 4, 8, 22, 17, 30, 4, DateTimeKind.Local).AddTicks(6756));
 
             migrationBuilder.UpdateData(
                 table: "Order",
                 keyColumn: "Id",
                 keyValue: 4,
                 column: "CreateDate",
-                value: new DateTime(2022, 4, 8, 23, 50, 13, 403, DateTimeKind.Local).AddTicks(7646));
+                value: new DateTime(2022, 4, 8, 22, 17, 30, 4, DateTimeKind.Local).AddTicks(6801));
 
             migrationBuilder.UpdateData(
                 table: "Product",
                 keyColumn: "Id",
                 keyValue: 1,
                 columns: new[] { "CreateTime", "EndTime" },
-                values: new object[] { new DateTime(2022, 4, 8, 23, 50, 13, 385, DateTimeKind.Local).AddTicks(2801), new DateTime(2022, 4, 18, 23, 50, 13, 386, DateTimeKind.Local).AddTicks(83) });
+                values: new object[] { new DateTime(2022, 4, 8, 22, 17, 29, 984, DateTimeKind.Local).AddTicks(7575), new DateTime(2022, 4, 18, 22, 17, 29, 985, DateTimeKind.Local).AddTicks(4574) });
 
             migrationBuilder.UpdateData(
                 table: "Product",
                 keyColumn: "Id",
                 keyValue: 2,
                 columns: new[] { "CreateTime", "EndTime" },
-                values: new object[] { new DateTime(2022, 4, 8, 23, 50, 13, 393, DateTimeKind.Local).AddTicks(6342), new DateTime(2022, 4, 18, 23, 50, 13, 393, DateTimeKind.Local).AddTicks(6366) });
+                values: new object[] { new DateTime(2022, 4, 8, 22, 17, 29, 994, DateTimeKind.Local).AddTicks(485), new DateTime(2022, 4, 18, 22, 17, 29, 994, DateTimeKind.Local).AddTicks(505) });
 
             migrationBuilder.UpdateData(
                 table: "Product",
                 keyColumn: "Id",
                 keyValue: 3,
                 columns: new[] { "CreateTime", "EndTime" },
-                values: new object[] { new DateTime(2022, 4, 8, 23, 50, 13, 393, DateTimeKind.Local).AddTicks(6568), new DateTime(2022, 4, 18, 23, 50, 13, 393, DateTimeKind.Local).AddTicks(6569) });
+                values: new object[] { new DateTime(2022, 4, 8, 22, 17, 29, 994, DateTimeKind.Local).AddTicks(653), new DateTime(2022, 4, 18, 22, 17, 29, 994, DateTimeKind.Local).AddTicks(654) });
 
             migrationBuilder.UpdateData(
                 table: "Product",
                 keyColumn: "Id",
                 keyValue: 4,
                 columns: new[] { "CreateTime", "EndTime" },
-                values: new object[] { new DateTime(2022, 4, 8, 23, 50, 13, 393, DateTimeKind.Local).AddTicks(6653), new DateTime(2022, 4, 18, 23, 50, 13, 393, DateTimeKind.Local).AddTicks(6654) });
+                values: new object[] { new DateTime(2022, 4, 8, 22, 17, 29, 994, DateTimeKind.Local).AddTicks(717), new DateTime(2022, 4, 18, 22, 17, 29, 994, DateTimeKind.Local).AddTicks(718) });
 
             migrationBuilder.UpdateData(
                 table: "Product",
                 keyColumn: "Id",
                 keyValue: 5,
                 columns: new[] { "CreateTime", "EndTime" },
-                values: new object[] { new DateTime(2022, 4, 8, 23, 50, 13, 393, DateTimeKind.Local).AddTicks(6729), new DateTime(2022, 4, 18, 23, 50, 13, 393, DateTimeKind.Local).AddTicks(6731) });
+                values: new object[] { new DateTime(2022, 4, 8, 22, 17, 29, 994, DateTimeKind.Local).AddTicks(774), new DateTime(2022, 4, 18, 22, 17, 29, 994, DateTimeKind.Local).AddTicks(774) });
 
             migrationBuilder.UpdateData(
                 table: "Product",
                 keyColumn: "Id",
                 keyValue: 6,
                 columns: new[] { "CreateTime", "EndTime" },
-                values: new object[] { new DateTime(2022, 4, 8, 23, 50, 13, 393, DateTimeKind.Local).AddTicks(6797), new DateTime(2022, 4, 18, 23, 50, 13, 393, DateTimeKind.Local).AddTicks(6798) });
+                values: new object[] { new DateTime(2022, 4, 8, 22, 17, 29, 994, DateTimeKind.Local).AddTicks(859), new DateTime(2022, 4, 18, 22, 17, 29, 994, DateTimeKind.Local).AddTicks(860) });
 
             migrationBuilder.UpdateData(
                 table: "Product",
                 keyColumn: "Id",
                 keyValue: 7,
                 columns: new[] { "CreateTime", "EndTime" },
-                values: new object[] { new DateTime(2022, 4, 8, 23, 50, 13, 393, DateTimeKind.Local).AddTicks(6862), new DateTime(2022, 4, 18, 23, 50, 13, 393, DateTimeKind.Local).AddTicks(6864) });
-
-            migrationBuilder.InsertData(
-                table: "ProductPics",
-                columns: new[] { "Id", "PicPath", "ProductId" },
-                values: new object[] { 8, "DEMO牛排1.jpg", 5 });
+                values: new object[] { new DateTime(2022, 4, 8, 22, 17, 29, 994, DateTimeKind.Local).AddTicks(906), new DateTime(2022, 4, 18, 22, 17, 29, 994, DateTimeKind.Local).AddTicks(907) });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DeleteData(
-                table: "ProductPics",
-                keyColumn: "Id",
-                keyValue: 8);
-
             migrationBuilder.AlterColumn<decimal>(
                 name: "Price",
                 table: "OrderDetail",

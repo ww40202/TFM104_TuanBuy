@@ -3,7 +3,7 @@
 
 <div class="container"  id="app">
     <div class="row">
-        <div class="input-group">
+        <div class="input-group" style="margin-top:25px">
             <input class="form-control width100">
             <span class="input-group-btn">
                 <input class="btn btn-primary" type="submit" value="搜尋">
@@ -33,8 +33,8 @@
                                 data-whatever="">
                             修改
                         </button>
-                        <button type="button" class="btn btn-danger" v-bind:value="item.email"
-                                v-on:click="getUser($event)" data-toggle="modal" data-target="#deleteModal">
+                        <button type="button" class="btn btn-danger" v-bind:value="item.orderId"
+                                v-on:click="getOrder($event)" data-toggle="modal" data-target="#deleteModal">
                             刪除
                         </button>
                     </td>
@@ -45,7 +45,7 @@
         <!--修改使用者的對話盒-->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
-                <div class="modal-content" style="width:800px">
+                <div class="modal-content" style="width:850px;margin-left:-160px;margin-top:80px">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">修改訂單資料</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -68,55 +68,24 @@
                             </thead>
                             <tbody>
                                 <tr>                                
-                                    <th scope="row" >{{ordermanage.orderId}}</th>
+                                    <th scope="row">{{ordermanage.orderId}}</th>
                                     <th>{{ordermanage.productName}}</th>
                                     <th>{{ordermanage.count}}</th>
                                     <th>{{ordermanage.price}}</th>
-                                    <th><input style="width:200px" v-model="ordermanage.address" /></th>
-                                    <th><input style="width:105px" v-model="ordermanage.phone" /></th>
-                                    @*<th scope="row">1223324143521</th>
-                                        <td>商品城稱稱稱</td>
-                                        <td>10</td>
-                                        <td>10000</td>
-                                        <td>台北市延平北路四段28號</td>
-                                        <td>0987654321</td>*@ 
+                                    <th><input style="width:300px" v-model="ordermanage.address" /></th>
+                                    <th><input style="width:110px" v-model="ordermanage.phone" /></th>
                                 </tr>
                             </tbody>
                         </table>
-                        @*<form>
-                                <div class="form-group">
-                                    <label for="user-name"
-                                           cproductpricelass="col-form-label">姓名:</label>
-                                    <input type="text" class="form-control" id="user-name" v-model="user.name">
-                                </div>
-                                <div class="form-group">
-                                    <label for="user-birth" class="col-form-label">生日:</label>
-                                    <input type="date" class="form-control" id="user-birth" v-model="birthDate">
-                                </div>
-                                <div class="form-group">
-                                    <label for="user-phone" class="col-form-label">電話:</label>
-                                    <input type="text" class="form-control" id="user-phone" v-model="user.phone">
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-form-label">狀態:</label>
-                                    <select v-model="user.state">
-                                        <option disabled selected value="user.state"></option>
-                                        <option>未驗證</option>
-                                        <option>普通會員</option>
-                                        <option>正式會員</option>
-                                        <option>系統管理員</option>
-                                    </select>
-                                </div>
-                            </form>*@
                     </div>
                     <div class="modal-footer">
-                        <h3>總價:{{}}NTD</h3>
+                        <h3>總價:{{ordermanage.count*ordermanage.price}}NTD</h3>
                         <button type="button" class="btn btn-secondary"
                                 data-dismiss="modal">
                             取消
                         </button>
                         <!--觸發事件修改-->
-                        <button type="button" class="btn btn-ddd" >確認修改</button>
+                        <button type="button" class="btn btn-ddd" v-on:click="readyUpdate(event)">確認修改</button>
                     </div>
                 </div>
             </div>
@@ -141,7 +110,7 @@
                             取消
                         </button>
                         <!--按下按鈕觸發刪除的API-->
-                        <button type="button" class="btn btn-ddd" >刪除</button>
+                        <button type="button" class="btn btn-ddd" v-on:click="deleteUser" >刪除</button>
                     </div>
                 </div>
             </div>
@@ -166,14 +135,38 @@
                 phone: '',
                 paymentType: '',
                 price: ''
-            }
+            },
+            target: null
         },
         methods: {
             update: function (e) {
                 let self = this;
                 let orderId = e.target.value;
-                let target = self.ordermanages.find(i => { return orderId === i.orderId });
+                let target = self.ordermanages.find(i => { return orderId == i.orderId });
                 self.ordermanage = target;
+            },
+            getOrder: function (e) {
+                let self = this;
+                self.target = e.target.value;
+            },
+            readyUpdate: function () {
+                let self = this;
+                //發送PUT請求到API修改資料
+                axios.put("/BackstageMange/UpdateOrder/", self.ordermanage)
+                    .then((resp) => alert("更新成功"))
+                    .catch((res) => console.log(res.response.data));
+                window.location.reload();
+
+            },
+            deleteUser: function () {
+                let self = this;
+                axios.delete("/BackstageMange/DeleteOrder/" + self.target)
+                    .then((res) => {
+                        console.log(res);
+                    })
+                    .catch((res) => console.log(res.response.data));
+                console.log("/BackstageMange/DeleteOrder/" + self.target);
+                window.location.reload();
             }
         },
         mounted: function () {

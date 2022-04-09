@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <div class="container colerwhite mtb2rem">
+    <div class="container colerwhite mtb2rem" id="app">
         <div class="row">
             <div class="col-12 checkfont">結帳</div>
 
@@ -25,42 +25,25 @@
                 <p><input class="checkpoint" type="checkbox" name="all" onclick="check_all(this,'c')" />全選/取消</p>
             </div>
             <!-- 商品格式 -->
-            <div class="dasdP">
+            <div class="dasdP" v-for="item in productShoppings">
                 <input class="col-1 checkpointdiv checkpoint" type="checkbox" name="c" value="">
-                <img class="col-1 checkimg" src="https://beautiful666.com/images/10/2s.jpg
-                        " alt="商品圖">
+                <img class="col-1 checkimg" :src="item.productPicPath" alt="商品圖">
                 <p class="checkproduct col-5">
-                    訊商商品資訊商品資商品資訊商訊商品資商品資訊商品資訊商品資商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資
+                    {{item.productDescription}}
                 </p>
-                <p class="col-1 checauto">$499999</p>
+                <p class="col-1 checauto">${{item.productPrice}}</p>
                 <div class="col-2 checauto">
                     <span class="stepper">
-                        <button for="stepper">–</button>
-                        <input class="checkinputnumber" type="number" id="stepper" value="1" min="0" max="100" step="1" readonly>
-                        <button for="stepper">+</button>
+                        <button v-on:click="item.productCount -= 1">–</button>
+                            <span v-if="item.productCount<=0">
+                                <input class="checkinputnumber" type="number" id="stepper" :value="item.productCount=0" min="0" max="100" step="1" readonly>
+                            </span>                                 
+                            <input class="checkinputnumber" type="number" id="stepper" :value="item.productCount" v-else min="0" max="100" step="1" readonly>
+                        <button v-on:click="item.productCount += 1">+</button>
                     </span>
                 </div>
-                <p class="col-1 checauto checkcolor">$4999999</p>
-                <button class="col-1 checauto checkdelbtn">刪除</button>
-            </div>
-            <!-- 商品格式 從這段開始複製 -->
-            <div class="dasdP">
-                <input class="col-1 checkpointdiv checkpoint" type="checkbox" name="c" value="">
-                <img class="col-1 checkimg" src="https://beautiful666.com/images/10/2s.jpg
-                        " alt="商品圖">
-                <p class="checkproduct col-5">
-                    訊商商品資訊商品資商品資訊商訊商品資商品資訊商品資訊商品資商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資訊商品資
-                </p>
-                <p class="col-1 checauto">$499999</p>
-                <div class="col-2 checauto">
-                    <span class="stepper">
-                        <button for="stepper1">–</button>
-                        <input class="checkinputnumber" type="number" id="stepper1" value="1" min="0" max="100" step="1" readonly>
-                        <button for="stepper1">+</button>
-                    </span>
-                </div>
-                <p class="col-1 checauto checkcolor">$4999999</p>
-                <button class="col-1 checauto checkdelbtn">刪除</button>
+                <p class="col-1 checauto checkcolor">${{item.productPrice * item.productCount}}</p>
+                <button class="col-1 checauto checkdelbtn" v-on:click="DeleteProduct(item.productId)">刪除</button>
             </div>
             <!-- 商品格式 從這段結束複製 -->
             <div class="col-12 gprdground"></div>
@@ -143,6 +126,62 @@
 </body>
 
 </html>
+<script>
+    class ProductShopping {
+        buyerName = null;
+        buyerPhone = null;
+        buyerAddress = null;
+        productId = null;
+        productDescription = null;
+        productPicPath = null;
+        productPrice = 0;
+        productCount = 1;
+    }
+    var app = new Vue({
+        el: "#app",
+        data: {
+            productShopping: new ProductShopping(),
+            productShoppings :[],
+        },
+        methods: {
+            DeleteProduct: function (e) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Product/DelectShoppingCart",
+                    data: { productId: e },
+                    success: function (response) {
+
+                    },
+                    error: function (response) {
+                        alert(response);
+                    }
+                });
+
+            }
+        },
+        mounted: function () {
+            axios.get("/Product/GetUserShoppingCart/").then((resp) => {
+                console.log('當前使用者的購物車品項有');
+                console.log(resp);
+                for (let i = 0; i < resp.data.length; i++) {
+                    console.log
+                    var shoppingObject = new ProductShopping();
+                    shoppingObject.buyerAddress = resp.data[i].buyerAddress;
+                    shoppingObject.buyerName = resp.data[i].buyerName;
+                    shoppingObject.buyerPhone = resp.data[i].buyerPhone;
+                    shoppingObject.productDescription = resp.data[i].productDescription;
+                    shoppingObject.productId = resp.data[i].productId;
+                    shoppingObject.productPicPath = '/ProductPicture/'+ resp.data[i].productPicPath;
+                    shoppingObject.productPrice = resp.data[i].productPrice;
+                    app.productShoppings.push(shoppingObject);
+                }
+                console.log(app.productShoppings)
+            })
+        },
+    });
+</script>
+
+
 <script>
     var inc = document.getElementsByClassName("stepper");
     for (i = 0; i < inc.length; i++) {

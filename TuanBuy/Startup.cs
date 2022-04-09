@@ -47,11 +47,12 @@ namespace TuanBuy
                 {
                     opt.AppId = "320771606641457";
                     opt.AppSecret = "45c376c9d3849f844f1276971acd55f6";
-                }).AddGoogle(opt =>
-            {
-                opt.ClientId = "924568647656-4j4di1veqsi11am0tlsr09jjsssl7hcv.apps.googleusercontent.com";
-                opt.ClientSecret = "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";
-            });
+                })
+                .AddGoogle(opt =>
+                {
+                    opt.ClientId = "924568647656-4j4di1veqsi11am0tlsr09jjsssl7hcv.apps.googleusercontent.com";
+                    opt.ClientSecret = "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";
+                });
             //注入HttpContext抓使用者資料
             services.AddHttpContextAccessor();
 
@@ -77,6 +78,7 @@ namespace TuanBuy
 
             //加入Session狀態服務
             services.AddSession();
+
 
             //讓JSON裡面的中文字可以轉換過來
             services.AddControllersWithViews().AddJsonOptions(opt =>

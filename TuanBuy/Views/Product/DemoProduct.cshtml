@@ -76,7 +76,7 @@
                                 <input type="number" id="stepper" value="1" min="0" max="100" step="1" readonly>
                                 <button>+</button>
                             </span>
-                            <button type="button" class="btn btn-danger" onclick="location.href='@Url.Action("checkout","Product")'">加入團購</button>
+                            <button type="button" class="btn btn-danger"  v-on:click="AddProductToMe" >加入團購</button>
                         </div>
                     </div>
                 </div>
@@ -438,22 +438,19 @@
             AddProductToMe: function () {
                 $.ajax({
                     type: "POST",
-                    url: "/Product/AddSellerMessage",
+                    url: "/Product/AddProductOrder",
                     data: {
-                        ProductMessageId: event.target.id,
-                        SellerId: app.sellerId,
-                        MessageContent: event.target.value
+                        UserId: app.useUserId,
+                        ProductId: app.productData.productId,
                     },
                     success: function (response) {
-                        var result = app.leaveMessages.find(x => x.messageId == event.target.id);
-                        result.sellerName = app.sellerName;
-                        result.sellerReply = event.target.value;
+                        window.location.href = '/Product/checkout/';
                     },
                     error: function (response) {
                         alert(response);
                     }
                 });
-            }
+            },
         },
         mounted: function () {
             axios.get("/Product/GetProductData/" + prdid).then((resp) => {
