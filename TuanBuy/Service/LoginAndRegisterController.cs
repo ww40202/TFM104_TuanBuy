@@ -51,7 +51,12 @@ namespace TuanBuy.Service
             {
                 var claim = _httpContextAccessor.HttpContext.User.Claims.ToList();
                 if (claim.Count == 0) return "null";
-                var userName = claim.First(a => a.Type == "UserName").Value;
+                var userName = claim.FirstOrDefault(a => a.Type == "UserName")?.Value;
+                if (userName == null)
+                {
+                    userName = claim.FirstOrDefault(a =>
+                        a.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name")?.Value;
+                }
                 //var userName = Claim.Where(a => a.Type == "UserName").First().Value;
 
 
