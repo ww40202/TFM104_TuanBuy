@@ -154,7 +154,8 @@
 </html>
 
 <script>
-    var show = "@User.IsInRole("FullUser")";
+    var fullShow = "@User.IsInRole("FullUser")";
+    var nomalShow = "@User.IsInRole("User")";
     var layout = new Vue({
         el: '#layout',
         data: {
@@ -178,14 +179,23 @@
                 });
             },
             checkUser:function() {
-                if (show === "False") {
+                if (nomalShow === "True") {
                     Swal.fire({
                         icon: 'error',
                         title: '沒有權限',
-                        text: '請登入後把會員資料填寫完整！'
+                        text: '請把會員資料填寫完整！'
                     });
                     return;
-                } else {
+                }
+                if (fullShow==="False") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '請先登入',
+                        text: '請登入會員！'
+                    });
+                    return;
+                } 
+                else {
                     window.location.href = "/Product/Index";
                 }
             }

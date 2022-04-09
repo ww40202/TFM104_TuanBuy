@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -113,8 +115,26 @@ namespace TuanBuy.Service
                 //HttpContext.Session.SetString("userData", jsonstring);
                 if (fullMember)
                 {
+                    HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
                     targetUser.State = UserState.正式會員.ToString();
                     //這段有問題 不能直接更改會員資料
+                    var claims = new List<Claim>
+                    {
+                        new(ClaimTypes.Name, targetUser.NickName),
+                        new(ClaimTypes.Email, targetUser.Email),
+                        new("Userid", targetUser.Id.ToString()),
+                        new("NickName", targetUser.NickName),
+                        new("Email", targetUser.Email),
+                        new("UserName", targetUser.Name),
+                        new("PicPath",targetUser.PicPath),
+                    };
+
+                    if (targetUser.State == "普通會員") claims.Add(new Claim(ClaimTypes.Role, "User"));
+                    if (targetUser.State == "正式會員") claims.Add(new Claim(ClaimTypes.Role, "FullUser"));
+
+                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+                    HttpContext.SignInAsync(claimsPrincipal);
 
                 }
             }
