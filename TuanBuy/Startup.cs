@@ -40,6 +40,9 @@ namespace TuanBuy
                 opt.LoginPath = new PathString("/Home/Login");
                 //因權限被拒絕時進入的網址
                 opt.AccessDeniedPath= new PathString("/Home/Index");
+            }).AddFacebook(opt=> {
+                opt.AppId = "817563855882058s";
+                opt.AppSecret = "a7d3bf5e0df2b3b3dcb798011452e3b0";
             });
             //注入HttpContext抓使用者資料
             services.AddHttpContextAccessor();
@@ -66,6 +69,7 @@ namespace TuanBuy
 
             //加入Session狀態服務
             services.AddSession();
+
 
             //讓JSON裡面的中文字可以轉換過來
             services.AddControllersWithViews().AddJsonOptions(opt =>

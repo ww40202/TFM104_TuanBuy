@@ -52,7 +52,5 @@ namespace TuanBuy.Models.Entities
         public virtual ICollection<ProductMessage> ProductMessage { get; set; }
         //一個商品有多則訂單明細
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
-
-
     }
 }

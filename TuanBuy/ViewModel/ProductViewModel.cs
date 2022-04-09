@@ -75,4 +75,22 @@ namespace TuanBuy.ViewModel
         //賣家回覆訊息時間
         public DateTime ReplyDateTime { get; set; }
     }
+    public class ProductCheckViewModel
+    {
+        //產品的名稱
+        public int ProductId { get; set; }
+        //產品圖片
+        public string ProductPicPath { get; set; }
+        //產品敘述
+        public string ProductDescription { get; set; }
+        //產品單價
+        public decimal ProductPrice { get; set; }
+        //買家姓名
+        public string BuyerName { get; set; }
+        //買家電話
+        public string BuyerPhone { get; set; }
+        //買家宅配地點
+        public string BuyerAddress { get; set; }
+    }
+
 }
