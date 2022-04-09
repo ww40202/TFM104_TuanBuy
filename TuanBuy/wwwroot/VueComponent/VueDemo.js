@@ -57,7 +57,7 @@
                         <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
                             data-parent="#accordionExample">
                             <div class="collapsecard-body bgcf5">
-                                <a href="#">通知</a>
+                                <a href="/MemberCenter/MyNotify">通知</a>
                             </div>
                         </div>
                     </div>
