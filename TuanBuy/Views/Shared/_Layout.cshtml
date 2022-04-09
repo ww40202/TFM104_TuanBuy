@@ -86,7 +86,7 @@
             </div>
             <div class="col-lg-7 texthead2">
                 <p class="display headsize1">|</p>
-                <a class="display headsize" href=@Url.Action("Index","Product")>開團</a>
+                <a class="display headsize" href="#" v-on:click="">開團</a>
             </div>
             @{
                 System.Diagnostics.Debug.Assert(User.Identity != null, "User.Identity != null");
@@ -156,13 +156,19 @@
 </html>
 
 <script>
+    var show = "@User.IsInRole("FullUser")";
+
+
+
+
+
     var layout = new Vue({
         el: '#layout',
         data: {
             user: "",
-            picPath:""
+            picPath: ""
         },
-        mounted:function () {
+        mounted: function() {
             let self = this;
             axios.get("/api/LoginAndRegister/").then((resp) => {
                 this.user = resp.data;
@@ -170,14 +176,20 @@
             axios.get("/api/MemberCenter/").then((resp) => { this.picPath = resp.data });
         },
         methods: {
-            logout:function() {
-                axios.delete("/api/LoginAndRegister").then(()=>
-                {
+            logout: function() {
+                axios.delete("/api/LoginAndRegister").then(() => {
                     window.location.href = "/Home/Index";
                 });
+            },
+            checkUser:function() {
+                if (show == "False") {
+                    alert("填好");
+                    return;
+                }
+                @Url.Action("Index","Product")
             }
-        }
+    }
 
-    })
+    });
 
 </script>
