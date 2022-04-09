@@ -21,17 +21,21 @@
 <body>
 <div class="disflix" id="app">
     <div class="rew50"><a href=@Url.Action("Index","Home")><img src="~/img/Log.png" alt=""> 一起讓美好的事物發生</a></div>
-     <div class="regi">
+    <div class="regi">
         <h2>會員登入</h2>
         <label class="addp" for="email">電子郵件</label>
         <input class="addtext" type="text" name="" id="email" v-model="user.email">
-        <label class="addp" for="password"  >密碼</label>
+        <label class="addp" for="password">密碼</label>
         <input class="addtext" type="text" name="" id="password" v-model="user.password">
         <div class="registerdiv">
             <input type="submit" name="commit" value="登入" class="registerbtn" data-disable-with="登入" v-on:click="login">
         </div>
         <div class="iagree">繼續進行代表你同意<a href="">服務條款</a></div>
-        <div class="registerdiv"><a class="registerbtn2" href="">Google登入</a></div>
+        <div class="registerdiv">
+            <a class="registerbtn2" href="">Google登入</a>
+            <a class="registerbtn2" href=@Url.Action("FbLogin","Home") >FaceBook登入</a>
+        </div>
+        <div class="registerdiv">/div>
         <div class="reborder"></div>
         <a class="reloginpass" href=@Url.Action("Register","Home")>註冊</a>
         <a class="reloginpass" href=@Url.Action("ForgetPassword","Home")>忘記密碼</a>
