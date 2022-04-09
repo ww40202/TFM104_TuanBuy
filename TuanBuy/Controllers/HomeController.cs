@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Facebook;
 using TuanBuy.Models;
 
 namespace TuanBuy.Controllers
@@ -33,10 +36,39 @@ namespace TuanBuy.Controllers
             return View();
         }
 
+        public IActionResult ForgetPassword()
+        {
+            return View();
+        }
+
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+        public IActionResult FbLogin()
+        {
+            var p = new AuthenticationProperties()
+            {
+                RedirectUri = Url.Action("Response")
+            };
+            return Challenge(p, FacebookDefaults.AuthenticationScheme);
+        }
+        public async Task<IActionResult> ResponseAsync()
+        {
+            var res = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var data = res.Principal.Claims.Select(x => new
+            {
+                x.Type,
+                x.Issuer,
+                x.Value,
+                x.OriginalIssuer
+            });
+
+
+            return Json(data);
         }
     }
 }

@@ -29,7 +29,6 @@ namespace TuanBuy.Models.Entities
                     .ToList()
                     .Where(x => x.product.Id == ProductId)
                     //GroupJoin使用者
-
                     .GroupJoin(
                         _dbContext.User,
                         prd => prd.product.UserId,

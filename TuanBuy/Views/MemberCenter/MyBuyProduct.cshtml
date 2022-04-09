@@ -33,30 +33,37 @@
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                     <!-- 複製開始 -->
-                    <div class="purchaseback">
-                        <div class="purchasemg">
+                    <!--v-for="item in orderList"-->
+                    <div class="purchaseback" v-for="item in orderList">
+                        <div class="purchasemg" >
                             <div class="col-12 form-row">
                                 <div>
-                                    <p class="purchaseowner">HarryHarryHarryHarryHarry</p>
+                                    <!--賣家名稱-->
+                                    <p class="purchaseowner">團主<!--：{{item.sellerName}}--></p>
                                 </div>
                                 <div class="purchasebtnsize"><button class="purchasebtn">聊聊</button></div>
                                 <div class="purchasebtnsize"><button class="purchasebtn2">查看賣場</button></div>
                             </div>
-                            <div class="col-12 form-row purchaseimgborder">
+                            <!--訂單明細-->
+                            <div class="col-12 form-row purchaseimgborder" >
                                 <div class="col-2">
-                                    <img src="https://img.league-funny.com/imgur/148292128067.jpg"
+                                    <!--產品圖片-->
+                                    <img v-bind:src="item.productPath"
                                          alt="產品圖片">
                                 </div>
                                 <div class="col-10">
+                                    <!--產品敘述-->
                                     <div class="col-12 purchasetextbox">
-                                        產品敘述產品敘述產品敘述產品敘述產品敘述產品敘述產品敘述產品敘述產品敘述產品敘述產品敘述產品敘述產品敘述產品敘述產品敘述產品敘述產品敘述產品敘述產品敘述產品敘述產品敘述產品敘述
+                                        {{item.productDescription}}
                                     </div>
                                     <div class="purchasenumber">
+                                        <!--商品數量-->
                                         <div class="col-6 form-row">
-                                            數量
+                                            X {{item.count}}
                                         </div>
+                                        <!--商品金額-->
                                         <div class="col-6 form-row purchasecount">
-                                            $10000
+                                            ${{item.productPrice}}
                                         </div>
                                     </div>
                                 </div>
@@ -69,80 +76,7 @@
                         <div class="col-12 purchaseend"><button class="purchasebtn purchasebuybtnsize">再買一次</button></div>
                     </div>
                     <!-- 複製結束 -->
-                    <!-- 複製開始 -->
-                    <div class="purchaseback">
-                        <div class="purchasemg">
-                            <div class="col-12 form-row">
-                                <div>
-                                    <p class="purchaseowner">團主: Harry</p>
-                                </div>
-                                <div class="purchasebtnsize"><button class="purchasebtn">聊聊</button></div>
-                                <div class="purchasebtnsize"><button class="purchasebtn2">查看賣場</button></div>
-                            </div>
-                            <div class="col-12 form-row purchaseimgborder">
-                                <div class="col-2">
-                                    <img src="https://img.league-funny.com/imgur/148292128067.jpg"
-                                         alt="產品圖片">
-                                </div>
-                                <div class="col-10">
-                                    <div class="col-12 purchasetextbox">
-                                        產品敘述產品敘述產品敘述產品敘述產品敘述產品敘述產品敘述產品敘述產品敘述產品敘述產品敘述產品敘述
-                                    </div>
-                                    <div class="purchasenumber">
-                                        <div class="col-6 form-row">
-                                            數量
-                                        </div>
-                                        <div class="col-6 form-row purchasecount">
-                                            $10000
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 purchaseend">
-                                <div class="purchaseorder">訂單金額:</div>
-                                <div class="purchaseallmoney">$10000</div>
-                            </div>
-                        </div>
-                        <div class="col-12 purchaseend"><button class="purchasebtn purchasebuybtnsize">再買一次</button></div>
-                    </div>
-                    <!-- 複製結束 -->
-                    <!-- 複製開始 -->
-                    <div class="purchaseback">
-                        <div class="purchasemg">
-                            <div class="col-12 form-row">
-                                <div>
-                                    <p class="purchaseowner">團主: Harry</p>
-                                </div>
-                                <div class="purchasebtnsize"><button class="purchasebtn">聊聊</button></div>
-                                <div class="purchasebtnsize"><button class="purchasebtn2">查看賣場</button></div>
-                            </div>
-                            <div class="col-12 form-row purchaseimgborder">
-                                <div class="col-2">
-                                    <img src="https://img.league-funny.com/imgur/148292128067.jpg"
-                                         alt="產品圖片">
-                                </div>
-                                <div class="col-10">
-                                    <div class="col-12 purchasetextbox">
-                                        產品敘述產品敘述產品敘述產品敘述產品敘述產品敘述產品敘述產品敘述產品敘述產品敘述產品敘述產品敘述
-                                    </div>
-                                    <div class="purchasenumber">
-                                        <div class="col-6 form-row">
-                                            數量
-                                        </div>
-                                        <div class="col-6 form-row purchasecount">
-                                            $10000
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 purchaseend">
-                                <div class="purchaseorder">訂單金額:</div>
-                                <div class="purchaseallmoney">$10000</div>
-                            </div>
-                        </div>
-                        <div class="col-12 purchaseend"><button class="purchasebtn purchasebuybtnsize">再買一次</button></div>
-                    </div>
-                    <!-- 複製結束 -->
+
 
                 </div>
                 <div class="tab-pane fade" id="all" role="tabpanel" aria-labelledby="all-tab">所有商品</div>
@@ -159,6 +93,22 @@
     var vm = new Vue({
         el: '#app',
         data: {
+            orderList:[],
+            order: {
+                address: '',
+                count: 0,
+                description: '',
+                orderId: 0,
+                orderState: 0,
+                paymentType: 0,
+                productDescription: 0,
+                productId: 0,
+                productName: 0,
+                productPath: 0,
+                productPrice: 0,
+                sellerId: 0,
+                sellerName: ""
+            },
             user: {
                 name: "",
                 phone: "",
@@ -171,6 +121,7 @@
         mounted: function () {
             let self = this;
             axios.get("/api/MemberCenter/").then((resp) => { this.user = resp.data });
+            axios.get("/MemberCenter/GetMyOrder/").then((resp) => { this.orderList = resp.data });
         }
     });
 </script>
