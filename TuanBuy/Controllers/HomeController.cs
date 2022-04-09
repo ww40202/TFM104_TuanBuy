@@ -63,7 +63,7 @@ namespace TuanBuy.Controllers
             {
                 x.Type,
                 x.Issuer,
-                x.Subject,
+                x.Value,
                 x.OriginalIssuer
             });
 
