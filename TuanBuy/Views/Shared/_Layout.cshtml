@@ -35,7 +35,7 @@
     <!--套用vue -->
     <script src="~/js/vue.min.js"></script>
 
-    @*<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js">*@
+    @*<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>*@
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
@@ -86,15 +86,15 @@
             </div>
             <div class="col-lg-7 texthead2">
                 <p class="display headsize1">|</p>
-                <a class="display headsize" href="#" v-on:click="">開團</a>
+                <a class="display headsize" href="#" v-on:click="checkUser">開團</a>
             </div>
             @{
                 System.Diagnostics.Debug.Assert(User.Identity != null, "User.Identity != null");
                 if (User.Identity.IsAuthenticated)
                 {
-                    @if(User.IsInRole("")){
-                        Console.WriteLine("管理員");
-                    }
+                    //@if(User.IsInRole("")){
+                    //    Console.WriteLine("管理員");
+                    //}
                     <div class="col-lg-3 texthead3">
                         <a class="display headsize3" href="#"><img src="/img/Ring.jpg" alt="Ring"></a>
                         <div class="dropdown display">
@@ -150,18 +150,11 @@
 </footer>
 <!-- Footer Section End -->
 
-
-
 </body>
 </html>
 
 <script>
     var show = "@User.IsInRole("FullUser")";
-
-
-
-
-
     var layout = new Vue({
         el: '#layout',
         data: {
@@ -170,10 +163,13 @@
         },
         mounted: function() {
             let self = this;
-            axios.get("/api/LoginAndRegister/").then((resp) => {
-                this.user = resp.data;
-            });
-            axios.get("/api/MemberCenter/").then((resp) => { this.picPath = resp.data });
+            axios.get("/api/LoginAndRegister/")
+                .then((resp) => {
+                    this.user = resp.data; })
+                .catch((res)=>res.response.data);
+            axios.get("/api/MemberCenter/")
+                .then((resp) => { this.picPath = resp.data })
+                .catch((res)=>res.response.data);
         },
         methods: {
             logout: function() {
@@ -182,14 +178,20 @@
                 });
             },
             checkUser:function() {
-                if (show == "False") {
-                    alert("填好");
+                if (show === "False") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '沒有權限',
+                        text: '請登入後把會員資料填寫完整！'
+                    });
                     return;
+                } else {
+                    window.location.href = "/Product/Index";
                 }
-                @Url.Action("Index","Product")
             }
-    }
+        }
 
     });
+
 
 </script>
