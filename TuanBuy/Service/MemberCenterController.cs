@@ -86,14 +86,7 @@ namespace TuanBuy.Service
                 {
                     targetUser.State = UserState.正式會員.ToString();
                     //這段有問題 不能直接更改會員資料
-                    //var claims = new Claim(ClaimTypes.Role, "FullUser");
-                    //var claimsIdentity = new ClaimsIdentity();
-                    //claimsIdentity.AddClaim(claims);
-                    //var claimsPrincipal = new ClaimsPrincipal();
-                    //claimsPrincipal.AddIdentity(claimsIdentity);
-                    //HttpContext.SignInAsync(claimsPrincipal);
-                    //TODO 用回應加Cookies做?
-                    //HttpContext.Response.Cookies.Append("","");
+
                 }
             }
 
