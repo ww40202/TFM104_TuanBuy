@@ -145,13 +145,13 @@
         },
         methods: {
             DeleteProduct: function (e) {
-                var ProductId = e;
-                console.log(e);
+                var productId = e;
                 $.ajax({
                     type: "POST",
                     url: "/Product/DelectShoppingCart",
-                    data: productId,
+                    data: { productId: e },
                     success: function (response) {
+
                     },
                     error: function (response) {
                         alert(response);
