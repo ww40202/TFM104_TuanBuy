@@ -88,13 +88,13 @@ namespace TuanBuy.Controllers
         [HttpDelete]
         public IActionResult DeleteOrder(int id)
         {
-            var user = _dbcontext.OrderDetail.Where(x => x.OrderId == id);
+            var user = _dbcontext.OrderDetail.FirstOrDefault(x => x.OrderId == id);
             if (user == null) return BadRequest();
             //user = user.Select(x => new OrderDetail() { Disable = true });
-            foreach (var item in user)
-            {
-                item.Disable=true;
-            }
+            //foreach (var item in user)
+            //{
+            user.Disable = true;
+            //}
             _dbcontext.SaveChanges();
             return Ok();
         }
