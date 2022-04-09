@@ -99,7 +99,7 @@ namespace TuanBuy.Controllers
 
         #region 加入團購新增產品訂單
         [Authorize(Roles = "FullUser")]
-        public IActionResult AddProductOrder(int ProductId, int UserId)
+        public void AddProductOrder(int ProductId, int UserId)
         {
             var productData = (from product in _dbContext.Product
                                join productpic in _dbContext.ProductPics on product.Id equals productpic.ProductId
@@ -127,7 +127,6 @@ namespace TuanBuy.Controllers
                 HttpContext.Session.Remove("ShoppingCart");
                 //重新寫入新session
                 HttpContext.Session.SetString("ShoppingCart", JsonConvert.SerializeObject(shoppingcarts));
-                RedirectToAction("checkout");
             }
             else
             {
@@ -145,17 +144,33 @@ namespace TuanBuy.Controllers
                    },
                 });
                 HttpContext.Session.SetString("ShoppingCart", jsonstring);
-                RedirectToAction("checkout");
             }
-            return BadRequest();
         }
         #endregion
 
+        #region 刪除購物車商品
+        public void DelectShoppingCart(int productId)
+        {
+            //刪除使用者購物車商品
+            if (HttpContext.Session.GetString("ShoppingCart") != null)
+            {
+                var shoppjson = HttpContext.Session.GetString("ShoppingCart");
+                var shoppingcarts = JsonConvert.DeserializeObject<List<ProductCheckViewModel>>(shoppjson);
+                shoppingcarts.Remove(shoppingcarts.FirstOrDefault(x => x.ProductId == productId));
+                //先將先前session清除
+                HttpContext.Session.Remove("ShoppingCart");
+                //重新寫入新session
+                HttpContext.Session.SetString("ShoppingCart", JsonConvert.SerializeObject(shoppingcarts));
+            }
+        }
+         #endregion
+
 
         #region 加入團購結帳頁面
-        [Authorize(Roles = "FullUser")]
+            [Authorize(Roles = "FullUser")]
         public IActionResult checkout()
         {
+
             return View();
         }
         #endregion
@@ -258,8 +273,24 @@ namespace TuanBuy.Controllers
 
         #endregion
 
-        #region 尋找賣方商品資料
+        #region 取得當前連線使用者購物車
+        public object GetUserShoppingCart()
+        {
+            var shoppjson = HttpContext.Session.GetString("ShoppingCart");
+            if (shoppjson != null)
+            {
+                var shoppingcarts = JsonConvert.DeserializeObject<List<ProductCheckViewModel>>(shoppjson);
+                var result = shoppingcarts.Where(x => x.BuyerPhone != null && x.BuyerName !=null && x.BuyerAddress !=null);
+                return result !=null ? shoppingcarts : "使用者資料尚未填寫";
+            }
+            else
+            {
+                return "購物車為空";
+            }
+        }
+        #endregion
 
+        #region 尋找賣方商品資料
         public List<ProductViewModel> GetSellerProducts(int id)
         {
             ProductManage product = new ProductManage(_dbContext);
@@ -267,8 +298,6 @@ namespace TuanBuy.Controllers
 
             return result.ToList();
         }
-
-
         #endregion
 
     }
