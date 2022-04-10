@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Channels;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using TuanBuy.Models;
 using TuanBuy.Models.AppUtlity;
@@ -48,9 +51,18 @@ namespace TuanBuy.Service
                 Name = user.Name,
                 Password = user.Password
             };
-
+            string completeUrl = Request.GetDisplayUrl().ToString();
+            
+            //組出環境網址
+            var url = new StringBuilder();
+            url.Append(Request.Scheme); //https
+            url.Append("://");
+            url.Append(Request.Host.Value);//"localhost:5001"
+            url.Append("/MemberCenter/StartMemberState/?s=");
             var vrCode = GoEncrytion.encrytion(user.Email);
-            var body = "https://localhost:5001/MemberCenter/StartMemberState/?s=" + vrCode;
+            url.Append(vrCode);
+
+            var body = url.ToString();
             Mail.SendMail(user.Email, "TuanBuy註冊會員，啟動網址", body);
             _userRepository.Create(userEntity);
         }
