@@ -134,7 +134,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-3 textft1">
-                <a href="#"><img src="/img/Log.jpg" alt="logo"></a>
+                <a href="#"><img src="/img/Log.png" alt="logo"></a>
             </div>
             <div class="col-lg-6 textft2">
                 <a class="display headsize3" href="#">關於</a>
@@ -154,7 +154,8 @@
 </html>
 
 <script>
-    var show = "@User.IsInRole("FullUser")";
+    var fullShow = "@User.IsInRole("FullUser")";
+    var nomalShow = "@User.IsInRole("User")";
     var layout = new Vue({
         el: '#layout',
         data: {
@@ -178,14 +179,23 @@
                 });
             },
             checkUser:function() {
-                if (show === "False") {
+                if (nomalShow === "True") {
                     Swal.fire({
                         icon: 'error',
                         title: '沒有權限',
-                        text: '請登入後把會員資料填寫完整！'
+                        text: '請把會員資料填寫完整！'
                     });
                     return;
-                } else {
+                }
+                if (fullShow==="False") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '請先登入',
+                        text: '請登入會員！'
+                    });
+                    return;
+                } 
+                else {
                     window.location.href = "/Product/Index";
                 }
             }
