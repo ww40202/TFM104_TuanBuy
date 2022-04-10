@@ -91,10 +91,7 @@ namespace TuanBuy.Controllers
             var user = _dbcontext.OrderDetail.FirstOrDefault(x => x.OrderId == id);
             if (user == null) return BadRequest();
             //user = user.Select(x => new OrderDetail() { Disable = true });
-            //foreach (var item in user)
-            //{
             user.Disable = true;
-            //}
             _dbcontext.SaveChanges();
             return Ok();
         }
@@ -102,7 +99,7 @@ namespace TuanBuy.Controllers
         //public IActionResult inquireOrder(int id)
         //{
         //    var order = _dbcontext.OrderDetail.Select(x => x.OrderId).Distinct();
-            
+
         //}
     }
 }

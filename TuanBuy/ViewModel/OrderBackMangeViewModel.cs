@@ -17,5 +17,6 @@ namespace TuanBuy.ViewModel
         public string Phone { get; set; }
         public int? PaymentType { get; set; }
         public decimal Price { get; set; }
+        public bool Disable { get; set; } = false;
     }
 }

@@ -67,7 +67,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>                                
+                                <tr v-if="ordermanage.Disable!==false">                                
                                     <th scope="row">{{ordermanage.orderId}}</th>
                                     <th>{{ordermanage.productName}}</th>
                                     <th>{{ordermanage.count}}</th>
@@ -127,8 +127,8 @@
             ordermanages: [],
             ordermanage: {
                 orderId: '',
-                userName: '',
-                createDate: '',
+                userName: '', 
+                createDate: '',       //接後端資料傳到物件丟到[]
                 productName: '',
                 count: '',
                 address: '',
@@ -162,11 +162,12 @@
                 let self = this;
                 axios.delete("/BackstageMange/DeleteOrder/" + self.target)
                     .then((res) => {
+
                         console.log(res);
                     })
                     .catch((res) => console.log(res.response.data));
                 console.log("/BackstageMange/DeleteOrder/" + self.target);
-                window.location.reload();
+               /* window.location.reload();*/
             }
         },
         mounted: function () {
@@ -174,6 +175,7 @@
             axios.get("/BackstageMange/TestJoin")
                 .then((resp) => {
                     self.ordermanages = resp.data;
+                    console.log(self.ordermanages)
                 })
                 .catch((res) => {
                     console.log("錯誤訊息");
@@ -181,6 +183,5 @@
                 });
         }
     })
-
 
 </script>
