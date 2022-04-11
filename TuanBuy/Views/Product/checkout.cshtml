@@ -11,152 +11,199 @@
 </head>
 
 <body>
-    <form action="/Bank/SpgatewayPayBill" method="post">
-        <div class="container colerwhite mtb2rem" id="app">
-            <div class="row">
-                <div class="col-12 checkfont">結帳</div>
+    <div class="container colerwhite mtb2rem" id="app">
+        <div class="row">
+            <div class="col-12 checkfont">結帳</div>
 
-                <p class="display col-6 checkmg-15rem">訂單商品</p>
-                <p class="display col-1 checkmg-1">單價</p>
-                <p class="display col-1 checkmg-2">數量</p>
-                <p class="display col-1 checkmg-3">統計</p>
-                <p class="display col-1 checkmg-4">操作</p>
+            <p class="display col-6 checkmg-15rem">訂單商品</p>
+            <p class="display col-1 checkmg-1">單價</p>
+            <p class="display col-1 checkmg-2">數量</p>
+            <p class="display col-1 checkmg-3">統計</p>
+            <p class="display col-1 checkmg-4">操作</p>
 
-                <div class="col-lg-12">
-                    <p><input class="checkpoint" type="checkbox" name="all" onclick="check_all(this, 'c')" />全選/取消</p>
-                </div>
-                <!-- 商品格式 -->
-                <div class="dasdP" v-for="item in productShoppings">
-                    <input class="col-1 checkpointdiv checkpoint" type="checkbox" name="c" value="">
-                    <img class="col-1 checkimg" :src="item.productPicPath" alt="商品圖">
-                    <p class="checkproduct col-5">
-                        {{item.productDescription}}
-                    </p>
-                    <p class="col-1 checauto">${{item.productPrice}}</p>
-                    <div class="col-2 checauto">
-                        <span class="stepper">
-                            <button v-on:click="item.productCount -= 1">–</button>
-                            <span v-if="item.productCount<=0">
-                                <input class="checkinputnumber" type="number" id="stepper" :value="item.productCount=0" min="0" max="100" step="1" readonly>
-                            </span>
-                            <input class="checkinputnumber" type="number" id="stepper" :value="item.productCount" v-else min="0" max="100" step="1" readonly>
-                            <button v-on:click="item.productCount += 1">+</button>
+            <div class="col-lg-12">
+                <p>
+                    <input class="checkpoint" type="checkbox" name="all" onclick="check_all(this,'c')" />全選/取消
+                </p>
+            </div>
+            <!-- 商品格式 -->
+            <div class="dasdP" v-for="(item,index) in productShoppings">
+                <input class="col-1 checkpointdiv checkpoint" type="checkbox" name="c" value="">
+                <img class="col-1 checkimg" :src="item.productPicPath" alt="商品圖">
+                <p class="checkproduct col-5">
+                    {{item.productDescription}}
+                </p>
+                <p class="col-1 checauto">${{item.productPrice}}</p>
+                <div class="col-2 checauto">
+                    <span class="stepper">
+                        <button v-on:click="item.productCount -= 1">–</button>
+                        <span v-if="item.productCount<=0">
+                            <input class="checkinputnumber" type="number" id="stepper" :value="item.productCount=0" min="0" max="100" step="1" readonly>
                         </span>
-                    </div>
-                    <p class="col-1 checauto checkcolor">${{item.productPrice * item.productCount}}</p>
-                    <button class="col-1 checauto checkdelbtn" v-on:click="DeleteProduct(item.productId)">刪除</button>
+                        <input class="checkinputnumber" type="number" id="stepper" :value="item.productCount" v-else min="0" max="100" step="1" readonly>
+                        <button v-on:click="item.productCount += 1">+</button>
+                    </span>
                 </div>
-                <!-- 商品格式 從這段結束複製 -->
-                <div class="col-12 gprdground"></div>
-                <div class="col-6 display">
-                    <div>留言</div>
-                    <textarea class="checktextarea" name="" id="" cols="30" rows="10"
-                              placeholder="統一編號 / 管理室代收 / 電話聯絡時間..."></textarea>
-                </div>
-                <div class="col-6 display">
-                    <div>姓名</div>
-                    <p class="checktext">地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址</p>
-                    <div>電話</div>
-                    <p class="checktext">地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址</p>
-                    <div>宅配地址</div>
-                    <p class="checktext">地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址</p>
-                </div>
+                <p class="col-1 checauto checkcolor">${{productShoppingSum(index)}}</p>
+                <button class="col-1 checauto checkdelbtn" v-on:click="DeleteProduct(item.productId)">刪除</button>
+            </div>
+            <!-- 商品格式 從這段結束複製 -->
+            <div class="col-12 gprdground"></div>
+            <div class="col-6 display">
+                <div>留言</div>
+<textarea class="checktextarea" name="" id="" cols="30" rows="10"
+          placeholder="統一編號 / 管理室代收 / 電話聯絡時間..." v-model="buyerData.buyerRemark"></textarea>
+            </div>
+            <div class="col-6 display">
+                <div>姓名</div>
+                <p class="checktext">
+                    <input :value="buyerData.buyerName" />
+                </p>
+                <div>電話</div>
+                <p class="checktext">
+                    <input :value="buyerData.buyerPhone" />
+                </p>
+                <div>宅配地址</div>
+                <p class="checktext">
+                    <input :value="buyerData.buyerAddress" />
+                </p>
+            </div>
 
 
-                <div class="col-12 gprdground"></div>
+            <div class="col-12 gprdground"></div>
 
 
-                <div class="col-12">
-                    <span class="checkfont checkright">付款方式</span>
-                    <button class="checkpaystylebtn">
-                        貨到付款
-                    </button><button class="checkpaystylebtn">信用卡付款</button>
-                    <button class="checkpaystylebtn">
-                        銀行轉帳
-                    </button>
-                </div>
+            <div class="col-12">
+                <span class="checkfont checkright">付款方式</span>
+                <button class="checkpaystylebtn" v-for="(item,index) in PayType" v-on:click="checkPayType(index)">{{ item.name }}</button>
 
-                <div class="col-12 checkend checkmgbot">
-                    <div class="checkmgright">團購折價券</div>
-                    <!-- 修改 -->
-                    <button type="button" class="btn check-ddd" data-toggle="modal" data-target="#exampleModal"
-                            data-whatever="選擇折價券">
-                        選擇折價券
-                    </button>
+            </div>
 
-                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                         aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">選擇折價券</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form>
-                                        <div class="checkcostdiv">
-                                            <span>新增折價券</span>
-                                            <input class="checkcosttext" type="text">
-                                            <button class="checktextbtn">使用</button>
-                                        </div>
-                                        <div class="checkchosediv">
-                                            <img src="https://beautiful666.com/images/10/2s.jpg" alt="折價券" width="100" height="100">
-                                            <p class="checkchosep">折價券內容折折價券內容折折價券內容折折價券內容折折價券內容折折價折價券內容折折價券內容折折價券內容折折價券內容折折價券內容折券內容折折價券內容折</p>
-                                            <input class="checkcheckbox" type="checkbox" name="" id="">
-                                        </div>
-                                        <!-- 複製 -->
-                                        <div class="checkchosediv">
-                                            <img src="https://beautiful666.com/images/10/2s.jpg" alt="折價券" width="100" height="100">
-                                            <p class="checkchosep">折價券內容折折價券內容折折價券內容折折價券內容折折價券內容折折價折價券內容折折價券內容折折價券內容折折價券內容折折價券內容折券內容折折價券內容折</p>
-                                            <input class="checkcheckbox" type="checkbox" name="" id="">
-                                        </div>
-                                        <!-- 複製 -->
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                                    <button type="button" class="btn checkokbtn">選擇</button>
-                                </div>
+            <div class="col-12 checkend checkmgbot">
+                <div class="checkmgright">團購折價券</div>
+                <!-- 修改 -->
+                <button type="button" class="btn check-ddd" data-toggle="modal" data-target="#exampleModal"
+                        data-whatever="選擇折價券">
+                    選擇折價券
+                </button>
+
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">選擇折價券</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="checkcostdiv">
+                                        <span>新增折價券</span>
+                                        <input class="checkcosttext" type="text">
+                                        <button class="checktextbtn">使用</button>
+                                    </div>
+                                    <div class="checkchosediv">
+                                        <img src="https://beautiful666.com/images/10/2s.jpg" alt="折價券" width="100" height="100">
+                                        <p class="checkchosep">折價券內容折折價券內容折折價券內容折折價券內容折折價券內容折折價折價券內容折折價券內容折折價券內容折折價券內容折折價券內容折券內容折折價券內容折</p>
+                                        <input class="checkcheckbox" type="checkbox" name="" id="">
+                                    </div>
+                                    <!-- 複製 -->
+                                    <div class="checkchosediv">
+                                        <img src="https://beautiful666.com/images/10/2s.jpg" alt="折價券" width="100" height="100">
+                                        <p class="checkchosep">折價券內容折折價券內容折折價券內容折折價券內容折折價券內容折折價折價券內容折折價券內容折折價券內容折折價券內容折折價券內容折券內容折折價券內容折</p>
+                                        <input class="checkcheckbox" type="checkbox" name="" id="">
+                                    </div>
+                                    <!-- 複製 -->
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                                <button type="button" class="btn checkokbtn">選擇</button>
                             </div>
                         </div>
                     </div>
-                    <!-- 折價券結束 -->
                 </div>
-                <div class="col-12 checkend">
-                    <div class="purchaseorder">總付款金額</div><span class="purchaseallmoney">$10000</span>
-                </div>
-                <div class="col-12 checkend checkmgbot"><button class="purchasebtn purchasebuybtnsize" type="submit">下訂單</button></div>
+                <!-- 折價券結束 -->
+            </div>
+            <div class="col-12 checkend">
+                <div class="purchaseorder">總付款金額</div>
+                <span class="purchaseallmoney">${{productshoppingAddSum}}</span>
+            </div>
+            <div class="col-12 checkend checkmgbot">
+                <button class="purchasebtn purchasebuybtnsize" v-on:click="AddOrder()">下訂單</button>
             </div>
         </div>
-    </form>
+    </div>
 </body>
 
 </html>
 <script>
+    //產品相關資訊
     class ProductShopping {
-        buyerName = null;
-        buyerPhone = null;
-        buyerAddress = null;
         productId = null;
         productDescription = null;
         productPicPath = null;
         productPrice = 0;
         productCount = 1;
     }
+    //購買買家資訊
+    class BuyerData {
+        buyerId = null;
+        buyerName = null;
+        buyerPhone = null;
+        buyerAddress = null;
+        buyerRemark = null;
+    }
     var app = new Vue({
         el: "#app",
         data: {
+            buyerData: new BuyerData(),
             productShopping: new ProductShopping(),
-            productShoppings :[],
+            productShoppings: [],
+            productshoppingAddSum: 0,
+            PayType: [
+                { id: 1, name: "付款方式" },
+                { id: 2, name: "貨到付款" },
+                { id: 3, name: "信用卡付款" },
+                { id: 4, name: "銀行轉帳" },
+            ],
+            checkPayFun:null,
         },
         methods: {
             DeleteProduct: function (e) {
+                delete app.productShoppings.find(x => x.productId == e);
                 $.ajax({
                     type: "POST",
                     url: "/Product/DelectShoppingCart",
                     data: { productId: e },
+                    success: function (response) {
+                        //刪除購物車商品
+                        for (var i = 0; i < app.productShoppings.length; i++) {
+                            if (app.productShoppings[i].productId == e) {
+                                app.productShoppings.splice(i, 1);
+                            }
+                        }
+                    },
+                    error: function (response) {
+                        alert(response);
+                    }
+                });
+
+            },
+
+            AddOrder: function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/Product/AddOrder",
+                    data: {
+                        OrderDescription: app.buyerData.buyerRemark,
+                        BuyerAddress: app.buyerData.buyerAddress,
+                        Phone: app.buyerData.buyerPhone,
+                        BuyerId: app.buyerData.buyerId,
+                        PaymentType: app.checkPayFun,
+                    },
                     success: function (response) {
 
                     },
@@ -164,7 +211,10 @@
                         alert(response);
                     }
                 });
+            },
 
+            checkPayType: function (index) {
+                app.checkPayFun = index;
             }
         },
         mounted: function () {
@@ -172,19 +222,43 @@
                 console.log('當前使用者的購物車品項有');
                 console.log(resp);
                 for (let i = 0; i < resp.data.length; i++) {
-                    console.log
                     var shoppingObject = new ProductShopping();
-                    shoppingObject.buyerAddress = resp.data[i].buyerAddress;
-                    shoppingObject.buyerName = resp.data[i].buyerName;
-                    shoppingObject.buyerPhone = resp.data[i].buyerPhone;
+                    app.buyerData.buyerId = resp.data[i].buyerId;
+                    app.buyerData.buyerName = resp.data[i].buyerName;
+                    app.buyerData.buyerPhone = resp.data[i].buyerPhone;
+                    app.buyerData.buyerAddress = resp.data[i].buyerAddress;
                     shoppingObject.productDescription = resp.data[i].productDescription;
                     shoppingObject.productId = resp.data[i].productId;
-                    shoppingObject.productPicPath = '/ProductPicture/'+ resp.data[i].productPicPath;
+                    shoppingObject.productPicPath = '/ProductPicture/' + resp.data[i].productPicPath;
                     shoppingObject.productPrice = resp.data[i].productPrice;
                     app.productShoppings.push(shoppingObject);
                 }
                 console.log(app.productShoppings)
             })
+        },
+        watch: {
+            //監聽所有商品總共款金額
+            productShoppings: { // 深度監聽
+                handler(val, oldVal) {
+                    app.productshoppingAddSum = 0;
+                    for (let i = 0; i < app.productShoppings.length; i++) {
+                        app.productshoppingAddSum += app.productShoppings[i].productPrice * app.productShoppings[i].productCount;
+                    }
+
+                    // 但是這兩個值打印出來卻都是一樣的,因為它們的引用指向同一個物件/陣列
+                }, deep: true
+
+            }
+
+        },
+        computed: {
+            //計算商品單價總額
+            productShoppingSum: function () {
+                return (index) => {
+                    return app.productShoppings[index].productPrice * app.productShoppings[index].productCount
+                }
+                /*return app.productShoppings[index].productPrice * app.productShoppings[index].productCount;*/
+            },
         },
     });
 </script>
