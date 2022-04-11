@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Http;
@@ -23,12 +25,20 @@ namespace TuanBuy.Controllers
             _environment = environment;
         }
 
-        public string DemoUrl()
+        public string[] Demo()
         {
-            string url = _environment.WebRootPath;
+            var enumTypeList = Enum.GetNames(typeof(OrderType));
+            ToList<OrderType>();
+            return enumTypeList;
+        }
 
-            return url;
-
+        public List<T> ToList<T>()
+        {
+            return Enum.GetValues(typeof(T)).Cast<T>().ToList<T>();
+        }
+        public  IEnumerable<T> ToEnumerable<T>()
+        {
+            return Enum.GetValues(typeof(T)).Cast<T>();
         }
         public List<OrderViewModel> GetMyOrder(int id)
         {
@@ -73,6 +83,18 @@ namespace TuanBuy.Controllers
             }
             return myOrderDetails;
 
+        }
+
+        public enum OrderType
+        {
+            [Display(Name = "春")]
+            Spring,
+            [Display(Name = "夏")]
+            Summer,
+            [Display(Name = "秋")]
+            Autumn,
+            [Display(Name = "冬")]
+            Winter
         }
 
     }
