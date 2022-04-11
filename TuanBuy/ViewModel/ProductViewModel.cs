@@ -85,6 +85,8 @@ namespace TuanBuy.ViewModel
         public string ProductDescription { get; set; }
         //產品單價
         public decimal ProductPrice { get; set; }
+        //買家Id
+        public int BuyerId { get; set; }
         //買家姓名
         public string BuyerName { get; set; }
         //買家電話
