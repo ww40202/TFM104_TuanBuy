@@ -168,17 +168,24 @@ namespace TuanBuy.Controllers
         #endregion
 
         #region 將購物車商品加入到訂單
-        public void AddOrder(string OrderDescription,string BuyerAddress,string Phone,string PaymentType ,int BuyerId)
+        public void AddOrder(string OrderDescription,string BuyerAddress,string Phone,string PaymentType ,int BuyerId,params int[] ProductId)
         {
             using(_dbContext)
             {
                 Order order = new Order();
+                OrderDetail orderDetail = new OrderDetail();
                 order.CreateDate = DateTime.Now;
                 order.Description = OrderDescription;
                 order.Address = BuyerAddress;
+                order.StateId = 1;
                 order.PaymentType = int.Parse(PaymentType);
                 order.Phone = Phone;
                 order.UserId = BuyerId;
+                orderDetail.ProductId = 1;
+                orderDetail.Price = 100;
+                orderDetail.Count = 1;
+                orderDetail.Disable = false;
+                order.OrderDetails = orderDetail;
                 _dbContext.Order.Add(order);
                 _dbContext.SaveChanges();
             }
