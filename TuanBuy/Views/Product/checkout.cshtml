@@ -22,11 +22,12 @@
             <p class="display col-1 checkmg-4">操作</p>
 
             <div class="col-lg-12">
-                <p><input class="checkpoint" type="checkbox" name="all" onclick="check_all(this,'c')" />全選/取消</p>
+                <p>
+                </p>
             </div>
             <!-- 商品格式 -->
-            <div class="dasdP" v-for="item in productShoppings">
-                <input class="col-1 checkpointdiv checkpoint" type="checkbox" name="c" value="">
+            <div class="dasdP" v-for="(item,index) in productShoppings">
+                <input class="col-1 checkpointdiv checkpoint" type="checkbox" name="c" :value="item.productId" v-model="checkProduct">
                 <img class="col-1 checkimg" :src="item.productPicPath" alt="商品圖">
                 <p class="checkproduct col-5">
                     {{item.productDescription}}
@@ -35,26 +36,36 @@
                 <div class="col-2 checauto">
                     <span class="stepper">
                         <button v-on:click="item.productCount -= 1">–</button>
-                            <span v-if="item.productCount<=0">
-                                <input class="checkinputnumber" type="number" id="stepper" :value="item.productCount=0" min="0" max="100" step="1" readonly>
-                            </span>                                 
-                            <input class="checkinputnumber" type="number" id="stepper" :value="item.productCount" v-else min="0" max="100" step="1" readonly>
+                        <span v-if="item.productCount<=0">
+                            <input class="checkinputnumber" type="number" id="stepper" :value="item.productCount=0" min="0" max="100" step="1" readonly>
+                        </span>
+                        <input class="checkinputnumber" type="number" id="stepper" :value="item.productCount" v-else min="0" max="100" step="1" readonly>
                         <button v-on:click="item.productCount += 1">+</button>
                     </span>
                 </div>
-                <p class="col-1 checauto checkcolor">${{item.productPrice * item.productCount}}</p>
+                <p class="col-1 checauto checkcolor">${{productShoppingSum(index)}}</p>
                 <button class="col-1 checauto checkdelbtn" v-on:click="DeleteProduct(item.productId)">刪除</button>
             </div>
             <!-- 商品格式 從這段結束複製 -->
             <div class="col-12 gprdground"></div>
             <div class="col-6 display">
-                <div>留言</div><textarea class="checktextarea" name="" id="" cols="30" rows="10"
-                                       placeholder="統一編號 / 管理室代收 / 電話聯絡時間..."></textarea>
+                <div>留言</div>
+<textarea class="checktextarea" name="" id="" cols="30" rows="10"
+          placeholder="統一編號 / 管理室代收 / 電話聯絡時間..." v-model="buyerData.buyerRemark"></textarea>
             </div>
             <div class="col-6 display">
-                <div>姓名</div><p class="checktext">地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址</p>
-                <div>電話</div><p class="checktext">地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址</p>
-                <div>宅配地址</div><p class="checktext">地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址</p>
+                <div>姓名</div>
+                <p class="checktext">
+                    <input v-model="buyerData.buyerName" />
+                </p>
+                <div>電話</div>
+                <p class="checktext">
+                    <input v-model="buyerData.buyerPhone" />
+                </p>
+                <div>宅配地址</div>
+                <p class="checktext">
+                    <input v-model="buyerData.buyerAddress" />
+                </p>
             </div>
 
 
@@ -62,11 +73,9 @@
 
 
             <div class="col-12">
-                <span class="checkfont checkright">付款方式</span><button class="checkpaystylebtn">
-                    貨到付款
-                </button><button class="checkpaystylebtn">信用卡付款</button><button class="checkpaystylebtn">
-                    銀行轉帳
-                </button>
+                <span class="checkfont checkright">付款方式</span>
+                <button class="checkpaystylebtn" v-for="(item,index) in PayType" v-on:click="checkPayType(index)">{{ item.name }}</button>
+
             </div>
 
             <div class="col-12 checkend checkmgbot">
@@ -118,65 +127,164 @@
                 <!-- 折價券結束 -->
             </div>
             <div class="col-12 checkend">
-                <div class="purchaseorder">總付款金額</div><span class="purchaseallmoney">$10000</span>
+                <div class="purchaseorder">總付款金額</div>
+                <span class="purchaseallmoney">${{productshoppingAddSum}}</span>
             </div>
-            <div class="col-12 checkend checkmgbot"><button class="purchasebtn purchasebuybtnsize">下訂單</button></div>
+            <div class="col-12 checkend checkmgbot">
+                <button class="purchasebtn purchasebuybtnsize" v-on:click="AddOrder()">下訂單</button>
+            </div>
         </div>
     </div>
 </body>
 
 </html>
 <script>
+    //產品相關資訊
     class ProductShopping {
-        buyerName = null;
-        buyerPhone = null;
-        buyerAddress = null;
         productId = null;
         productDescription = null;
         productPicPath = null;
         productPrice = 0;
         productCount = 1;
     }
+    //購買買家資訊
+    class BuyerData {
+        buyerId = null;
+        buyerName = null;
+        buyerPhone = null;
+        buyerAddress = null;
+        buyerRemark = null;
+    }
     var app = new Vue({
         el: "#app",
         data: {
+            buyerData: new BuyerData(),
             productShopping: new ProductShopping(),
-            productShoppings :[],
+            productShoppings: [],
+            productshoppingAddSum: 0,
+            PayType: [
+                { id: 1, name: "付款方式" },
+                { id: 2, name: "貨到付款" },
+                { id: 3, name: "信用卡付款" },
+                { id: 4, name: "銀行轉帳" },
+            ],
+            //買家付款方式
+            checkPayFun: null,
+            //勾選想要購買的商品編號
+            checkProduct: [],
+            //勾選確認購買的相關商品資訊
+            checkProductResult :[],
         },
         methods: {
             DeleteProduct: function (e) {
+                delete app.productShoppings.find(x => x.productId == e);
                 $.ajax({
                     type: "POST",
                     url: "/Product/DelectShoppingCart",
                     data: { productId: e },
                     success: function (response) {
-
+                        //刪除購物車商品
+                        for (var i = 0; i < app.productShoppings.length; i++) {
+                            if (app.productShoppings[i].productId == e) {
+                                app.productShoppings.splice(i, 1);
+                            }
+                        }
                     },
                     error: function (response) {
                         alert(response);
                     }
                 });
 
+            },
+
+            AddOrder: function () {
+                if (app.checkPayFun != null && app.checkProduct.length>0) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/Product/AddOrder",
+                        data: {
+                            OrderDescription: app.buyerData.buyerRemark,
+                            BuyerAddress: app.buyerData.buyerAddress,
+                            Phone: app.buyerData.buyerPhone,
+                            BuyerId: app.buyerData.buyerId,
+                            PaymentType: app.checkPayFun,
+                            ProductId: app.checkProduct,
+                            shoppingCartViewModels: app.checkProductResult
+                        },
+                        success: function (response) {
+                            window.location.href = '/MemberCenter/MyBuyProduct';
+                        },
+                        error: function (response) {
+                            alert(response);
+                        }
+                    });
+                }
+                else {
+                    alert('尚未選擇商品或是選擇付款方式')
+                }
+            },
+
+            checkPayType: function (index) {
+                app.checkPayFun = index;
             }
         },
         mounted: function () {
             axios.get("/Product/GetUserShoppingCart/").then((resp) => {
-                console.log('當前使用者的購物車品項有');
-                console.log(resp);
                 for (let i = 0; i < resp.data.length; i++) {
-                    console.log
                     var shoppingObject = new ProductShopping();
-                    shoppingObject.buyerAddress = resp.data[i].buyerAddress;
-                    shoppingObject.buyerName = resp.data[i].buyerName;
-                    shoppingObject.buyerPhone = resp.data[i].buyerPhone;
+                    app.buyerData.buyerId = resp.data[i].buyerId;
+                    app.buyerData.buyerName = resp.data[i].buyerName;
+                    app.buyerData.buyerPhone = resp.data[i].buyerPhone;
+                    app.buyerData.buyerAddress = resp.data[i].buyerAddress;
                     shoppingObject.productDescription = resp.data[i].productDescription;
                     shoppingObject.productId = resp.data[i].productId;
-                    shoppingObject.productPicPath = '/ProductPicture/'+ resp.data[i].productPicPath;
+                    shoppingObject.productPicPath = '/ProductPicture/' + resp.data[i].productPicPath;
                     shoppingObject.productPrice = resp.data[i].productPrice;
                     app.productShoppings.push(shoppingObject);
                 }
-                console.log(app.productShoppings)
             })
+        },
+        watch: {
+            /*監聽所有商品總共款金額*/
+            productShoppings: { // 深度監聽
+                handler(val, oldVal) {
+                    app.productshoppingAddSum = 0;
+                    for (let x = 0; x < app.checkProduct.length; x++) {
+                        //目前選擇的產品項目
+                        let prd = app.checkProduct[x];
+                        //尋找所有購物車商品中有勾選的商品
+                        let result = app.productShoppings.find(x => x.productId == prd);
+                        app.productshoppingAddSum += (result.productPrice * result.productCount);
+                    }
+                }, deep: true
+            },
+            //找出目前勾選的產品商品總額
+            checkProduct: {
+                handler(val, oldVal) {
+                    app.checkProductResult = [];
+                    app.productshoppingAddSum = 0;
+                    let sum = 0;
+                    for (let i = 0; i < val.length; i++) {
+                        let result = app.productShoppings.find(x => x.productId == val[i]);
+                        //將選擇的商品相關資訊加入到陣列
+                        app.checkProductResult.push(result);
+                        sum = result.productCount * result.productPrice;
+                        app.productshoppingAddSum += sum;
+                        sum = 0;
+                    }
+                    console.log(app.checkProductResult);
+                }, deep: true
+            }
+
+        },
+        computed: {
+            //計算商品單價總額
+            productShoppingSum: function () {
+                return (index) => {
+                    return app.productShoppings[index].productPrice * app.productShoppings[index].productCount
+                }
+                /*return app.productShoppings[index].productPrice * app.productShoppings[index].productCount;*/
+            },
         },
     });
 </script>

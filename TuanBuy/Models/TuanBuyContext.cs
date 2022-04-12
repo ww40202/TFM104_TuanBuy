@@ -41,14 +41,16 @@ namespace TuanBuy.Models.Entities
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ChatRoomMember>().ToTable("Member_Chats");
-            modelBuilder.Entity<ChatRoomMember>().HasKey(s => new { s.MemberId, s.ChatRoomId });          
+            modelBuilder.Entity<ChatRoomMember>().HasKey(s => new { s.MemberId, s.ChatRoomId });
             //商品和訂單多對多產生訂單明細
-            modelBuilder.Entity<OrderDetail>().HasKey(s => new { s.ProductId, s.OrderId });
+            //modelBuilder.Entity<OrderDetail>().HasKey(s => new { s.Order.Id, s.OrderId });
+
+            //modelBuilder.Entity<OrderDetail>().HasOne(X => X.Order).WithOne().OnDelete(DeleteBehavior.ClientNoAction);
+
 
             modelBuilder.Entity<OrderDetail>()
                 .HasOne(od => od.Order)
-                .WithMany(o => o.OrderDetails)
-                .HasForeignKey(pt => pt.OrderId)
+                .WithOne(o => o.OrderDetails)
                 .OnDelete(DeleteBehavior.ClientNoAction);
 
             modelBuilder.Entity<OrderDetail>()

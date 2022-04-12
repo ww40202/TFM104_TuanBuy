@@ -41,6 +41,8 @@ namespace TuanBuy.Service
         //}
 
         // GET api/<MemberCenterController>/5
+
+        #region 取得使用者資料
         [HttpGet]
         public UserViewModel Get()
         {
@@ -60,6 +62,11 @@ namespace TuanBuy.Service
             return userData;
         }
 
+
+
+        #endregion
+
+        #region 更新使用者資料
         // POST api/<MemberCenterController>
         //更新使用者資料
         [HttpPost]
@@ -142,6 +149,10 @@ namespace TuanBuy.Service
             _userRepository.SaveChanges();
         }
 
+
+        #endregion
+
+        #region 更改使用者密碼
         // 更改使用者密碼
         [HttpPut]
         public void Put([FromBody] UserUpdate user)
@@ -159,6 +170,12 @@ namespace TuanBuy.Service
 
 
         // DELETE api/<MemberCenterController>/5
+
+
+        #endregion
+
+        #region 刪除使用者
+
         //軟刪除使用者
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
@@ -168,6 +185,9 @@ namespace TuanBuy.Service
             return Ok("使用者刪除成功");
         }
 
+        #endregion
+
+        #region 取得目標使用者
         private User GetTargetUser()
         {
             var claim = HttpContext.User.Claims;
@@ -175,5 +195,9 @@ namespace TuanBuy.Service
             var targetUser = _userRepository.Get(a => a.Email == userEmail);
             return targetUser;
         }
+
+
+        #endregion
+
     }
 }
