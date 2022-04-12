@@ -23,12 +23,11 @@
 
             <div class="col-lg-12">
                 <p>
-                    <input class="checkpoint" type="checkbox" name="all" onclick="check_all(this,'c')" />全選/取消
                 </p>
             </div>
             <!-- 商品格式 -->
             <div class="dasdP" v-for="(item,index) in productShoppings">
-                <input class="col-1 checkpointdiv checkpoint" type="checkbox" name="c" value="">
+                <input class="col-1 checkpointdiv checkpoint" type="checkbox" name="c" :value="item.productId" v-model="checkProduct">
                 <img class="col-1 checkimg" :src="item.productPicPath" alt="商品圖">
                 <p class="checkproduct col-5">
                     {{item.productDescription}}
@@ -57,15 +56,15 @@
             <div class="col-6 display">
                 <div>姓名</div>
                 <p class="checktext">
-                    <input :value="buyerData.buyerName" />
+                    <input v-model="buyerData.buyerName" />
                 </p>
                 <div>電話</div>
                 <p class="checktext">
-                    <input :value="buyerData.buyerPhone" />
+                    <input v-model="buyerData.buyerPhone" />
                 </p>
                 <div>宅配地址</div>
                 <p class="checktext">
-                    <input :value="buyerData.buyerAddress" />
+                    <input v-model="buyerData.buyerAddress" />
                 </p>
             </div>
 
@@ -169,7 +168,12 @@
                 { id: 3, name: "信用卡付款" },
                 { id: 4, name: "銀行轉帳" },
             ],
-            checkPayFun:null,
+            //買家付款方式
+            checkPayFun: null,
+            //勾選想要購買的商品編號
+            checkProduct: [],
+            //勾選確認購買的相關商品資訊
+            checkProductResult :[],
         },
         methods: {
             DeleteProduct: function (e) {
@@ -194,23 +198,30 @@
             },
 
             AddOrder: function () {
-                $.ajax({
-                    type: "POST",
-                    url: "/Product/AddOrder",
-                    data: {
-                        OrderDescription: app.buyerData.buyerRemark,
-                        BuyerAddress: app.buyerData.buyerAddress,
-                        Phone: app.buyerData.buyerPhone,
-                        BuyerId: app.buyerData.buyerId,
-                        PaymentType: app.checkPayFun,
-                    },
-                    success: function (response) {
-
-                    },
-                    error: function (response) {
-                        alert(response);
-                    }
-                });
+                if (app.checkPayFun != null && app.checkProduct.length>0) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/Product/AddOrder",
+                        data: {
+                            OrderDescription: app.buyerData.buyerRemark,
+                            BuyerAddress: app.buyerData.buyerAddress,
+                            Phone: app.buyerData.buyerPhone,
+                            BuyerId: app.buyerData.buyerId,
+                            PaymentType: app.checkPayFun,
+                            ProductId: app.checkProduct,
+                            shoppingCartViewModels: app.checkProductResult
+                        },
+                        success: function (response) {
+                            window.location.href = '/MemberCenter/MyBuyProduct';
+                        },
+                        error: function (response) {
+                            alert(response);
+                        }
+                    });
+                }
+                else {
+                    alert('尚未選擇商品或是選擇付款方式')
+                }
             },
 
             checkPayType: function (index) {
@@ -219,8 +230,6 @@
         },
         mounted: function () {
             axios.get("/Product/GetUserShoppingCart/").then((resp) => {
-                console.log('當前使用者的購物車品項有');
-                console.log(resp);
                 for (let i = 0; i < resp.data.length; i++) {
                     var shoppingObject = new ProductShopping();
                     app.buyerData.buyerId = resp.data[i].buyerId;
@@ -233,21 +242,38 @@
                     shoppingObject.productPrice = resp.data[i].productPrice;
                     app.productShoppings.push(shoppingObject);
                 }
-                console.log(app.productShoppings)
             })
         },
         watch: {
-            //監聽所有商品總共款金額
+            /*監聽所有商品總共款金額*/
             productShoppings: { // 深度監聽
                 handler(val, oldVal) {
                     app.productshoppingAddSum = 0;
-                    for (let i = 0; i < app.productShoppings.length; i++) {
-                        app.productshoppingAddSum += app.productShoppings[i].productPrice * app.productShoppings[i].productCount;
+                    for (let x = 0; x < app.checkProduct.length; x++) {
+                        //目前選擇的產品項目
+                        let prd = app.checkProduct[x];
+                        //尋找所有購物車商品中有勾選的商品
+                        let result = app.productShoppings.find(x => x.productId == prd);
+                        app.productshoppingAddSum += (result.productPrice * result.productCount);
                     }
-
-                    // 但是這兩個值打印出來卻都是一樣的,因為它們的引用指向同一個物件/陣列
                 }, deep: true
-
+            },
+            //找出目前勾選的產品商品總額
+            checkProduct: {
+                handler(val, oldVal) {
+                    app.checkProductResult = [];
+                    app.productshoppingAddSum = 0;
+                    let sum = 0;
+                    for (let i = 0; i < val.length; i++) {
+                        let result = app.productShoppings.find(x => x.productId == val[i]);
+                        //將選擇的商品相關資訊加入到陣列
+                        app.checkProductResult.push(result);
+                        sum = result.productCount * result.productPrice;
+                        app.productshoppingAddSum += sum;
+                        sum = 0;
+                    }
+                    console.log(app.checkProductResult);
+                }, deep: true
             }
 
         },

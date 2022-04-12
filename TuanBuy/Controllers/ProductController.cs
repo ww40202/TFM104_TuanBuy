@@ -222,7 +222,7 @@ namespace TuanBuy.Controllers
         #endregion
 
         #region 將購物車商品加入到訂單
-        public void AddOrder(string OrderDescription,string BuyerAddress,string Phone,string PaymentType ,int BuyerId,params int[] ProductId)
+        public void AddOrder(string OrderDescription,string BuyerAddress,string Phone,string PaymentType ,int BuyerId,List<ShoppingCartViewModel> shoppingCartViewModels)
         {
             using(_dbContext)
             {
@@ -235,13 +235,15 @@ namespace TuanBuy.Controllers
                 order.PaymentType = int.Parse(PaymentType);
                 order.Phone = Phone;
                 order.UserId = BuyerId;
-                orderDetail.ProductId = 1;
-                orderDetail.Price = 100;
-                orderDetail.Count = 1;
+                orderDetail.ProductId = shoppingCartViewModels[0].ProductId;
+                orderDetail.Price = shoppingCartViewModels[0].ProductPrice;
+                orderDetail.Count = shoppingCartViewModels[0].ProductCount;
                 orderDetail.Disable = false;
                 order.OrderDetails = orderDetail;
                 _dbContext.Order.Add(order);
                 _dbContext.SaveChanges();
+                //將先前session清除
+                HttpContext.Session.Remove("ShoppingCart");
             }
         }
 
