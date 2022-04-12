@@ -16,9 +16,9 @@ namespace TuanBuy.Controllers
         /// </summary>
         private BankInfoModel _bankInfoModel = new BankInfoModel
         {
-            MerchantID = "MS134170605",
-            HashKey = "BwxEe1eql1HJPqI2SQoiQDzaJHhFwtJb",
-            HashIV = "CVaUnLTCPBSAcSrP",
+            MerchantID = "MS134347960",
+            HashKey = "0nnTkr1gNjKdSbbhBBedcyaBnaVm4eI5",
+            HashIV = "C3eAKK9XZ4hxa4NP",
             ReturnURL = "http://yourWebsitUrl/Bank/SpgatewayReturn",
             NotifyURL = "http://yourWebsitUrl/Bank/SpgatewayNotify",
             CustomerURL = "http://yourWebsitUrl/Bank/SpgatewayCustomer",
@@ -46,12 +46,9 @@ namespace TuanBuy.Controllers
 
         //金流只在意付款方式、價格、訂單編號
         [HttpPost]
-        public async Task SpgatewayPayBillAsync(string ordernumber, int amount, string PayMethod)
+        public async Task SpgatewayPayBill(string ordernumber, int amount, string PayMethod)
         {
             string version = "2.0";
-            ordernumber = "111";
-            amount = 500;
-            PayMethod = "creditcard";
 
             TradeInfo tradeInfo = new TradeInfo()
             {
@@ -105,9 +102,13 @@ namespace TuanBuy.Controllers
             {
                 tradeInfo.CREDIT = 1;
             }
-            else if (PayMethod == "linePay")
+            else if (PayMethod == "VACC")
             {
-                tradeInfo.LINEPAY = 1;
+                tradeInfo.VACC = 1;
+            }
+            else if (PayMethod == "CVS")
+            {
+                tradeInfo.CVS = 1;
             }
 
             Atom<string> result = new Atom<string>()

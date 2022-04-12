@@ -135,8 +135,14 @@
             </div>
         </div>
     </div>
+    <form id="form1" action="/Bank/SpgatewayPayBill" method="post" hidden="hidden">
+        <p><input name="ordernumber" id="ordernumber" type="text" /></p>
+        <p><input name="amount" id="amount" type="number" /></p>
+        <p><input name="PayMethod" id="PayMethod" type="text" /></p>
+        <p><button type="submit" value="插入" id="send" /></p>
+        <p><div id="success"></div></p>
+    </form>
 </body>
-
 </html>
 <script>
     //產品相關資訊
@@ -163,10 +169,8 @@
             productShoppings: [],
             productshoppingAddSum: 0,
             PayType: [
-                { id: 1, name: "付款方式" },
-                { id: 2, name: "貨到付款" },
-                { id: 3, name: "信用卡付款" },
-                { id: 4, name: "銀行轉帳" },
+                { id: 0, name: "信用卡付款" },
+                { id: 1, name: "銀行轉帳" },
             ],
             //買家付款方式
             checkPayFun: null,
@@ -174,6 +178,9 @@
             checkProduct: [],
             //勾選確認購買的相關商品資訊
             checkProductResult :[],
+            ordernumber: "",
+            amount: 0,
+            payMethod: "",
         },
         methods: {
             DeleteProduct: function (e) {
@@ -212,7 +219,12 @@
                             shoppingCartViewModels: app.checkProductResult
                         },
                         success: function (response) {
-                            window.location.href = '/MemberCenter/MyBuyProduct';
+                            console.log(response)
+                            document.getElementById('ordernumber').value = response.ordernumber;
+                            document.getElementById('amount').value = response.amount;
+                            document.getElementById('PayMethod').value = response.payMethod;
+                            var btn = document.getElementById('send');
+                            btn.click();
                         },
                         error: function (response) {
                             alert(response);

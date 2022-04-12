@@ -186,7 +186,7 @@ namespace TuanBuy.Controllers
         #endregion
 
         #region 將購物車商品加入到訂單
-        public void AddOrder(string OrderDescription,string BuyerAddress,string Phone,string PaymentType ,int BuyerId,List<ShoppingCartViewModel> shoppingCartViewModels)
+        public object AddOrder(string OrderDescription,string BuyerAddress,string Phone,string PaymentType ,int BuyerId,List<ShoppingCartViewModel> shoppingCartViewModels)
         {
             using(_dbContext)
             {
@@ -208,6 +208,11 @@ namespace TuanBuy.Controllers
                 _dbContext.SaveChanges();
                 //將先前session清除
                 HttpContext.Session.Remove("ShoppingCart");
+                return new {
+                    ordernumber = order.Id.ToString(),
+                    amount = shoppingCartViewModels[0].ProductPrice * shoppingCartViewModels[0].ProductCount,
+                    PayMethod = PaymentType == "0" ? "creditcard" : "VACC" 
+                };
             }
         }
 
@@ -352,5 +357,10 @@ namespace TuanBuy.Controllers
         }
         #endregion
 
+
+        public IActionResult newebpaytest()
+        {
+            return View();
+        }
     }
 }

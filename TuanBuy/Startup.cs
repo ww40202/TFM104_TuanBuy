@@ -56,12 +56,12 @@ namespace TuanBuy
             //注入HttpContext抓使用者資料
             services.AddHttpContextAccessor();
             //設定Redis Cache
-            services.AddStackExchangeRedisCache(options =>
-            {
-                // Redis Server 的 IP 跟 Port
-                options.Configuration = "127.0.0.1:6379";
-                options.InstanceName = "TuanWeb";
-            });
+            //services.AddStackExchangeRedisCache(options =>
+            //{
+            //    // Redis Server 的 IP 跟 Port
+            //    options.Configuration = "127.0.0.1:6379";
+            //    options.InstanceName = "TuanWeb";
+            //});
 
             //弄個Swagger測試API
             services.AddSwaggerGen(c =>
