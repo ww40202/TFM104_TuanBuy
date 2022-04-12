@@ -32,7 +32,7 @@ namespace TuanBuy.Controllers
         {
             _dbContext = context;
             _environment = environment;
-            _distributedCache= distributedCache;
+            _distributedCache = distributedCache;
         }
 
         public IActionResult Index()
@@ -45,84 +45,16 @@ namespace TuanBuy.Controllers
 
         public object GetRedis()
         {
-            var claim = HttpContext.User.Claims;
-            var userEmail = claim.FirstOrDefault(a => a.Type == ClaimTypes.Email)?.Value;
-            var targetUser = _dbContext.User.FirstOrDefault(x => x.Email == userEmail);
-            var a = JsonConvert.DeserializeObject(_distributedCache.GetString(targetUser.Id.ToString()));
-           return a.ToString();
-        }
-        public class UserModel
-        {
-            public int Id { get; set; }
-            public string Name { get; set; }
+
+            string userjsonData = HttpContext.Session.GetString("userData");
+
+            //反序列化成List<SelectListitem>集合物件
+            var data = JsonConvert.DeserializeObject<User>(userjsonData);
+
+            return data;
         }
 
 
-
-
-
-        private void CheckJsonSerialization()
-        {
-            var ms = new MemoryStream();
-            var writer = new StreamWriter(ms);
-            writer.WriteLine("Test string");
-            writer.Flush();
-            ms.Position = 0;
-
-            var json = JsonConvert.SerializeObject(ms, Formatting.Indented, new MemoryStreamJsonConverter());
-            var ms2 = JsonConvert.DeserializeObject<MemoryStream>(json, new MemoryStreamJsonConverter());
-            var reader = new StreamReader(ms2);
-            var deserializedString = reader.ReadLine();
-
-            Console.Write(json);
-            Console.Write(deserializedString);
-            Console.Read();
-        }
-
-        public class ClassToCheckSerialization
-        {
-            public string StringProperty { get; set; }
-
-            [JsonConverter(typeof(MemoryStreamJsonConverter))]
-            public Stream StreamProperty { get; set; }
-        }
-        private void CheckJsonSerializationOfClass()
-        {
-            var data = new ClassToCheckSerialization();
-            var ms = new MemoryStream();
-            const string entryString = "Test string inside stream";
-            var sw = new StreamWriter(ms);
-            sw.WriteLine(entryString);
-            sw.Flush();
-            ms.Position = 0;
-            data.StreamProperty = ms;
-            var json = JsonConvert.SerializeObject(data);
-
-            var result = JsonConvert.DeserializeObject<ClassToCheckSerialization>(json);
-            var sr = new StreamReader(result.StreamProperty);
-            var stringRead = sr.ReadLine();
-            //Assert.AreEqual(entryString, stringRead);
-        }
-
-        public class MemoryStreamJsonConverter : JsonConverter
-        {
-            public override bool CanConvert(Type objectType)
-            {
-                return typeof(MemoryStream).IsAssignableFrom(objectType);
-            }
-
-            public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-            {
-                var bytes = serializer.Deserialize<byte[]>(reader);
-                return bytes != null ? new MemoryStream(bytes) : new MemoryStream();
-            }
-
-            public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-            {
-                var bytes = ((MemoryStream)value).ToArray();
-                serializer.Serialize(writer, bytes);
-            }
-        }
         #region 暫時用不到
         public string DemoUrl()
         {

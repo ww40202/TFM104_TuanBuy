@@ -23,14 +23,12 @@ namespace TuanBuy.Service
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IRepository<User> _userRepository;
-        private static IDistributedCache _distributedCache;
 
         public LoginAndRegisterController(GenericRepository<User> userRepository,
-            IHttpContextAccessor httpContextAccessor, IDistributedCache distributedCache)
+            IHttpContextAccessor httpContextAccessor)
         {
             _userRepository = userRepository;
             _httpContextAccessor = httpContextAccessor;
-            _distributedCache = distributedCache;
         }
 
         [HttpGet("{email}")]
@@ -98,8 +96,7 @@ namespace TuanBuy.Service
                 user.PicPath
             });
             HttpContext.Session.SetString("userData", jsonstring);
-            //存入redis
-            _distributedCache.SetString("userData" + user.Id.ToString(), jsonstring);
+
 
             if (user.State == "普通會員") claims.Add(new Claim(ClaimTypes.Role, "User"));
             if (user.State == "正式會員") claims.Add(new Claim(ClaimTypes.Role, "FullUser"));
@@ -121,8 +118,6 @@ namespace TuanBuy.Service
 
             //清除Session
             HttpContext.Session.Remove("userData");
-
-            _distributedCache.Remove("userData"+targetUser.Id.ToString());
 
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
