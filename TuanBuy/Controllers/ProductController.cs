@@ -168,7 +168,7 @@ namespace TuanBuy.Controllers
         #endregion
 
         #region 將購物車商品加入到訂單
-        public void AddOrder(string OrderDescription,string BuyerAddress,string Phone,string PaymentType ,int BuyerId,int ProductId)
+        public void AddOrder(string OrderDescription,string BuyerAddress,string Phone,string PaymentType ,int BuyerId,params int[] ProductId)
         {
             using(_dbContext)
             {
