@@ -10,6 +10,10 @@ namespace TuanBuy.Models.Entities
 {
     public class OrderDetail
     {
+
+        //關連到訂單ID
+        [Key]
+        public int OrderId { get; set; }
         //商品數量
         public int Count { get; set; }
         //商品單價
@@ -19,8 +23,6 @@ namespace TuanBuy.Models.Entities
         //關連到商品ID
         public int ProductId { get; set; }
         public virtual Product Product { get; set; }
-        //關連到訂單ID
-        public int OrderId { get; set; }
         public virtual Order Order { get; set; }
     }
 

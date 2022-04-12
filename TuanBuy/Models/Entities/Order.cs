@@ -36,7 +36,7 @@ namespace TuanBuy.Models.Entities
         public int UserId { get; set; }
         public virtual User User { get; set; }
         //一筆訂單有很多訂單明細
-        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        public virtual OrderDetail OrderDetails { get; set; }
 
         //訂單的付款狀態
         [ForeignKey("OrderState")]

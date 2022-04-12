@@ -26,26 +26,5 @@
     "Disable": false,
     "Price": 8000,
     "Count": 20
-  },
-  {
-    "OrderId": 4,
-    "ProductId": 6,
-    "Disable": false,
-    "Price": 1500,
-    "Count": 40
-  },
-  {
-    "OrderId": 5,
-    "ProductId": 8,
-    "Disable": false,
-    "Price": 1500,
-    "Count": 50
-  },
-  {
-    "OrderId": 6,
-    "ProductId": 8,
-    "Disable": false,
-    "Price": 1500,
-    "Count": 3
   }
 ]

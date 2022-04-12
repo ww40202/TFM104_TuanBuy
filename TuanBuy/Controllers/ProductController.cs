@@ -97,7 +97,7 @@ namespace TuanBuy.Controllers
 
         #endregion
 
-        #region 加入團購新增產品訂單
+        #region 將商品加入購物車
         [Authorize(Roles = "FullUser")]
         public void AddProductOrder(int ProductId, int UserId)
         {
@@ -119,6 +119,7 @@ namespace TuanBuy.Controllers
                     ProductPicPath = productData.productpic.PicPath,
                     ProductPrice = productData.product.Price,
                     ProductDescription = productData.product.Description,
+                    BuyerId = UserId,
                     BuyerName = userData.Name,
                     BuyerPhone = userData.Phone,
                     BuyerAddress = userData.Address
@@ -134,13 +135,14 @@ namespace TuanBuy.Controllers
                 {
                    new ProductCheckViewModel
                    {
-                      ProductId = productData.product.Id,
-                      ProductPicPath = productData.productpic.PicPath,
-                      ProductPrice = productData.product.Price,
-                      ProductDescription = productData.product.Description,
-                      BuyerName = userData.Name,
-                      BuyerPhone = userData.Phone,
-                      BuyerAddress = userData.Address
+                    ProductId = productData.product.Id,
+                    ProductPicPath = productData.productpic.PicPath,
+                    ProductPrice = productData.product.Price,
+                    ProductDescription = productData.product.Description,
+                    BuyerId = UserId,
+                    BuyerName = userData.Name,
+                    BuyerPhone = userData.Phone,
+                    BuyerAddress = userData.Address
                    },
                 });
                 HttpContext.Session.SetString("ShoppingCart", jsonstring);
@@ -163,11 +165,36 @@ namespace TuanBuy.Controllers
                 HttpContext.Session.SetString("ShoppingCart", JsonConvert.SerializeObject(shoppingcarts));
             }
         }
-         #endregion
+        #endregion
 
+        #region 將購物車商品加入到訂單
+        public void AddOrder(string OrderDescription,string BuyerAddress,string Phone,string PaymentType ,int BuyerId,params int[] ProductId)
+        {
+            using(_dbContext)
+            {
+                Order order = new Order();
+                OrderDetail orderDetail = new OrderDetail();
+                order.CreateDate = DateTime.Now;
+                order.Description = OrderDescription;
+                order.Address = BuyerAddress;
+                order.StateId = 1;
+                order.PaymentType = int.Parse(PaymentType);
+                order.Phone = Phone;
+                order.UserId = BuyerId;
+                orderDetail.ProductId = 1;
+                orderDetail.Price = 100;
+                orderDetail.Count = 1;
+                orderDetail.Disable = false;
+                order.OrderDetails = orderDetail;
+                _dbContext.Order.Add(order);
+                _dbContext.SaveChanges();
+            }
+        }
+
+        #endregion
 
         #region 加入團購結帳頁面
-            [Authorize(Roles = "FullUser")]
+        [Authorize(Roles = "FullUser")]
         public IActionResult checkout()
         {
 
