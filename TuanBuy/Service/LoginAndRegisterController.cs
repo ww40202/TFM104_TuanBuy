@@ -99,7 +99,7 @@ namespace TuanBuy.Service
             });
             HttpContext.Session.SetString("userData", jsonstring);
 
-            _distributedCache.SetString("userData", jsonstring);
+            _distributedCache.SetString(user.Id.ToString(), jsonstring);
 
             if (user.State == "普通會員") claims.Add(new Claim(ClaimTypes.Role, "User"));
             if (user.State == "正式會員") claims.Add(new Claim(ClaimTypes.Role, "FullUser"));
@@ -114,17 +114,17 @@ namespace TuanBuy.Service
         [HttpDelete]
         public void Logout()
         {
+            var claim = HttpContext.User.Claims;
+            var userEmail = claim.FirstOrDefault(a => a.Type == ClaimTypes.Email)?.Value;
+            var targetUser = _userRepository.Get(x => x.Email == userEmail);
+
+
             //清除Session
             HttpContext.Session.Remove("userData");
 
-            _distributedCache.Remove("userData");
+            _distributedCache.Remove(targetUser.Id.ToString());
 
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
-
-
-
-
-
     }
 }

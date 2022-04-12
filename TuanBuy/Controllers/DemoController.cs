@@ -6,6 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Http;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -44,8 +45,11 @@ namespace TuanBuy.Controllers
 
         public object GetRedis()
         {
-           var a = JsonConvert.DeserializeObject(_distributedCache.GetString("userData"));
-           return a;
+            var claim = HttpContext.User.Claims;
+            var userEmail = claim.FirstOrDefault(a => a.Type == ClaimTypes.Email)?.Value;
+            var targetUser = _dbContext.User.FirstOrDefault(x => x.Email == userEmail);
+            var a = JsonConvert.DeserializeObject(_distributedCache.GetString(targetUser.Id.ToString()));
+           return a.ToString();
         }
         public class UserModel
         {
