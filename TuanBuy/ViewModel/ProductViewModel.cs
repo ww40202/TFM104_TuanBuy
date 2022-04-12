@@ -44,6 +44,8 @@ namespace TuanBuy.ViewModel
         public string ProductSummary { get; set; }
         //產品目標金額
         public decimal ProductTargetPrice { get; set; }
+        //商品單價
+        public decimal ProductPrice { get; set; }
         //產品開團時間
         public DateTime ProductStartTime { get; set; }
         //開團結束時間
@@ -52,6 +54,12 @@ namespace TuanBuy.ViewModel
         public string ProductLastTime { get; set; }
         //加入團購人數
         public string Buyers { get; set; }
+        //目前團購累計金額
+        public decimal BuyersSumPrice { get; set; }
+        //百分比
+        public string Percentage { get; set; }
+        //顏色
+        public string Color { get; set; }
         //產品圖片
         public List<string> ProductPicPath { get; set; }
     }
@@ -93,6 +101,14 @@ namespace TuanBuy.ViewModel
         public string BuyerPhone { get; set; }
         //買家宅配地點
         public string BuyerAddress { get; set; }
+    }
+    //購物車加入商品ViewModel
+    public class ShoppingCartViewModel
+    {
+        public int ProductId { get; set; }
+        public int ProductCount { get; set; }
+
+        public int ProductPrice { get; set; }
     }
 
 }
