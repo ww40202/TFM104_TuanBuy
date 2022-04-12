@@ -11,10 +11,14 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
+using Org.BouncyCastle.Crypto.Tls;
+using StackExchange.Redis;
 using TuanBuy.Models;
+using TuanBuy.Models.AppUtlity;
 using TuanBuy.Models.Entities;
 using TuanBuy.Models.Interface;
 using TuanBuy.ViewModel;
+using Order = TuanBuy.Models.Entities.Order;
 
 namespace TuanBuy.Controllers
 {
@@ -25,14 +29,17 @@ namespace TuanBuy.Controllers
         private readonly IRepository<User> _userRepository;
         private readonly TuanBuyContext _dbContext;
         private static IDistributedCache _distributedCache;
+        private readonly RedisProvider _redisDb;
 
-        public ProductController(GenericRepository<Product> productsRepository, IWebHostEnvironment environment, GenericRepository<User> userRepository, TuanBuyContext dbContext, IDistributedCache distributedCache)
+        public ProductController(GenericRepository<Product> productsRepository, IWebHostEnvironment environment, GenericRepository<User> userRepository, TuanBuyContext dbContext, IDistributedCache distributedCache, RedisProvider redisDb)
         {
             _productsRepository = productsRepository;
             _environment = environment;
             _userRepository = userRepository;
             _dbContext = dbContext;
             _distributedCache= distributedCache;
+            _redisDb = redisDb;
+
         }
         //新增商品首頁
         [Authorize(Roles = "FullUser")]
@@ -115,6 +122,14 @@ namespace TuanBuy.Controllers
 
             var userData = _dbContext.User.FirstOrDefault(x => x.Id == UserId);
 
+            #region 存取至Redis
+            var claim = HttpContext.User.Claims;
+            var userId = claim.FirstOrDefault(a => "Userid" == a.Type)?.Value;
+            var db =_redisDb.GetRedisDb(2);
+            var shopCar =new Dictionary<int, int> {{ProductId, 1}};
+            db.HashSet(userId, RedisProvider.ToHashEntryArray(shopCar));
+
+            #endregion
 
             #region 原本session
             if (HttpContext.Session.GetString("ShoppingCart") != null)
@@ -181,6 +196,15 @@ namespace TuanBuy.Controllers
                 HttpContext.Session.Remove("ShoppingCart");
                 //重新寫入新session
                 HttpContext.Session.SetString("ShoppingCart", JsonConvert.SerializeObject(shoppingcarts));
+                #region 去Redis裡刪除
+                var claim = HttpContext.User.Claims;
+                var userId = claim.FirstOrDefault(a => "Userid" == a.Type)?.Value;
+                var db = _redisDb.GetRedisDb(2);
+                db.HashDelete(userId, productId);
+
+                #endregion
+
+
             }
         }
         #endregion
