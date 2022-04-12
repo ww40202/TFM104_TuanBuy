@@ -10,7 +10,7 @@ namespace TuanBuy.ViewModel
     {
         public int OrderId { get; set; }
         public string UserName { get; set; }
-        public DateTime CreateDate { get; set; }
+        public string CreateDate { get; set; }
         public string ProductName { get; set; }
         public int Count { get; set; }
         public string Address { get; set; }

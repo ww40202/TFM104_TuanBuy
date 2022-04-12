@@ -65,6 +65,7 @@ namespace TuanBuy.Controllers
         {
             return View();
         }
+        //秀出OrderManage資訊
         public List<OrderBackMangeViewModel> TestJoin()
         {
             var BackOrder = new OrderManage(_dbcontext);
@@ -99,7 +100,12 @@ namespace TuanBuy.Controllers
         //public IActionResult inquireOrder(int id)
         //{
         //    var order = _dbcontext.OrderDetail.Select(x => x.OrderId).Distinct();
+        //    var numbering = from c in _dbcontext.OrderDetail
+        //                    where c.OrderId == id
+        //                    select c;
 
         //}
+        //商品下架
+
     }
 }

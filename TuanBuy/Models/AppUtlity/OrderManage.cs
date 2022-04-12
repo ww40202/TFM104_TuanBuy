@@ -25,7 +25,7 @@ namespace TuanBuy.Models.Entities
                                {
                                    Address = oder.Address,
                                    Count = orderdetail.Count,
-                                   CreateDate = oder.CreateDate,
+                                   CreateDate = oder.CreateDate.ToString("g"),
                                    OrderId = orderdetail.OrderId,
                                    PaymentType = oder.PaymentType,
                                    Phone = oder.Phone,
