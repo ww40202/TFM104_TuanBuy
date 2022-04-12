@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Claims;
@@ -7,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 using TuanBuy.Models;
 using TuanBuy.Models.Entities;
@@ -21,12 +24,15 @@ namespace TuanBuy.Controllers
         private readonly IWebHostEnvironment _environment;
         private readonly IRepository<User> _userRepository;
         private readonly TuanBuyContext _dbContext;
-        public ProductController(GenericRepository<Product> productsRepository, IWebHostEnvironment environment, GenericRepository<User> userRepository, TuanBuyContext dbContext)
+        private static IDistributedCache _distributedCache;
+
+        public ProductController(GenericRepository<Product> productsRepository, IWebHostEnvironment environment, GenericRepository<User> userRepository, TuanBuyContext dbContext, IDistributedCache distributedCache)
         {
             _productsRepository = productsRepository;
             _environment = environment;
             _userRepository = userRepository;
             _dbContext = dbContext;
+            _distributedCache= distributedCache;
         }
         //新增商品首頁
         [Authorize(Roles = "FullUser")]
@@ -105,12 +111,18 @@ namespace TuanBuy.Controllers
                                join productpic in _dbContext.ProductPics on product.Id equals productpic.ProductId
                                where product.Id == ProductId
                                select new { product, productpic }).FirstOrDefault();
+
+
             var userData = _dbContext.User.FirstOrDefault(x => x.Id == UserId);
-            //使用者加入多個團購產品
+
+
+            #region 原本session
             if (HttpContext.Session.GetString("ShoppingCart") != null)
             {
                 var shoppjson = HttpContext.Session.GetString("ShoppingCart");
                 var shoppingcarts = JsonConvert.DeserializeObject<List<ProductCheckViewModel>>(shoppjson);
+
+
                 //將使用者資訊存入session
                 //將先前購物車紀錄加入
                 shoppingcarts.Add(new ProductCheckViewModel
@@ -124,6 +136,7 @@ namespace TuanBuy.Controllers
                     BuyerPhone = userData.Phone,
                     BuyerAddress = userData.Address
                 });
+
                 //先將先前session清除
                 HttpContext.Session.Remove("ShoppingCart");
                 //重新寫入新session
@@ -146,7 +159,12 @@ namespace TuanBuy.Controllers
                    },
                 });
                 HttpContext.Session.SetString("ShoppingCart", jsonstring);
+                
+
             }
+
+            #endregion
+
         }
         #endregion
 
@@ -306,6 +324,11 @@ namespace TuanBuy.Controllers
         public object GetUserShoppingCart()
         {
             var shoppjson = HttpContext.Session.GetString("ShoppingCart");
+
+            var claim = HttpContext.User.Claims;
+            var userEmail = claim.FirstOrDefault(a => a.Type == ClaimTypes.Email)?.Value;
+            var targetUser = _userRepository.Get(x => x.Email == userEmail);
+
             if (shoppjson != null)
             {
                 var shoppingcarts = JsonConvert.DeserializeObject<List<ProductCheckViewModel>>(shoppjson);

@@ -1,10 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Facebook;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 using TuanBuy.Models;
 using TuanBuy.Models.Entities;
@@ -48,7 +52,12 @@ namespace TuanBuy.Service
             {
                 var claim = _httpContextAccessor.HttpContext.User.Claims.ToList();
                 if (claim.Count == 0) return "null";
-                var userName = claim.First(a => a.Type == "UserName").Value;
+                var userName = claim.FirstOrDefault(a => a.Type == "UserName")?.Value;
+                if (userName == null)
+                {
+                    userName = claim.FirstOrDefault(a =>
+                        a.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name")?.Value;
+                }
                 //var userName = Claim.Where(a => a.Type == "UserName").First().Value;
 
 
@@ -87,6 +96,8 @@ namespace TuanBuy.Service
                 user.PicPath
             });
             HttpContext.Session.SetString("userData", jsonstring);
+
+
             if (user.State == "普通會員") claims.Add(new Claim(ClaimTypes.Role, "User"));
             if (user.State == "正式會員") claims.Add(new Claim(ClaimTypes.Role, "FullUser"));
 
@@ -100,8 +111,14 @@ namespace TuanBuy.Service
         [HttpDelete]
         public void Logout()
         {
+            var claim = HttpContext.User.Claims;
+            var userEmail = claim.FirstOrDefault(a => a.Type == ClaimTypes.Email)?.Value;
+            var targetUser = _userRepository.Get(x => x.Email == userEmail);
+
+
             //清除Session
             HttpContext.Session.Remove("userData");
+
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
     }

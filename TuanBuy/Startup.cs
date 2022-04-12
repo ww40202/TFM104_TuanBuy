@@ -34,23 +34,39 @@ namespace TuanBuy
         {
             services.AddControllersWithViews();
             //新增cookie驗證
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(opt =>
-            {
-                //未登入時會自動導向這個網址
-                opt.LoginPath = new PathString("/Home/Login");
-                //因權限被拒絕時進入的網址
-                opt.AccessDeniedPath= new PathString("/Home/Index");
-            }).AddFacebook(opt=> {
-                opt.AppId = "817563855882058s";
-                opt.AppSecret = "a7d3bf5e0df2b3b3dcb798011452e3b0";
-            });
+            services.AddAuthentication(opt => 
+                {
+                    opt.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                }).AddCookie(opt =>
+                {
+                    //未登入時會自動導向這個網址
+                    opt.LoginPath = new PathString("/Home/Login");
+                    //因權限被拒絕時進入的網址
+                    opt.AccessDeniedPath = new PathString("/Home/Index");
+                }).AddFacebook(opt =>
+                {
+                    opt.AppId = "320771606641457";
+                    opt.AppSecret = "45c376c9d3849f844f1276971acd55f6";
+                })
+                .AddGoogle(opt =>
+                {
+                    opt.ClientId = "924568647656-4j4di1veqsi11am0tlsr09jjsssl7hcv.apps.googleusercontent.com";
+                    opt.ClientSecret = "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";
+                });
             //注入HttpContext抓使用者資料
             services.AddHttpContextAccessor();
+            //設定Redis Cache
+            services.AddStackExchangeRedisCache(options =>
+            {
+                // Redis Server 的 IP 跟 Port
+                options.Configuration = "127.0.0.1:6379";
+                options.InstanceName = "TuanWeb";
+            });
 
             //弄個Swagger測試API
-            services.AddSwaggerGen(c => 
+            services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1",new OpenApiInfo{Title = "TuanBuy API中心",Version="v1"});
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "TuanBuy API中心", Version = "v1" });
             });
             //EF CORE Context注入
             services.AddDbContext<TuanBuyContext>(option =>

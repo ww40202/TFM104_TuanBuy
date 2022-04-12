@@ -83,7 +83,12 @@
                     alert("請將會員資料填寫完整");
                     return;
                 }
-                axios.post("/api/MemberCenter", self.user).then(() => { alert("更新成功！"); });
+                axios.post("/api/MemberCenter", self.user).then(() => {
+                    Swal.fire(
+                        '更新成功！',
+                        'success'
+                    );
+                });
             },
             dataUpdate: function () {
                 var bodyFormData = new FormData();
@@ -107,8 +112,11 @@
                     headers: { "Content-Type": "multipart/form-data" }
                 })
                     .then((resp) => {
-                        alert("儲存成功！");
-                        window.location.reload();
+                        Swal.fire(
+                            '更新成功！',
+                            '已升級成正式會員',
+                            'success'
+                        ).then((result) => {window.location.reload();});
                     })
                     .catch((resp) => alert(resp));
             },
