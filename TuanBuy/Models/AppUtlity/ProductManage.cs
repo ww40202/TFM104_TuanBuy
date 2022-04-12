@@ -91,7 +91,7 @@ namespace TuanBuy.Models.Entities
                     }
                     if (item.user.prd.product.Total == 0)
                     {
-                        demoProductViewModel.Percentage = (i / item.user.prd.product.Total) * 100 + "%";
+                        demoProductViewModel.Percentage = "100%";
                     }
                 }
                 if (item.user.prd.product.ProductPics != null)
