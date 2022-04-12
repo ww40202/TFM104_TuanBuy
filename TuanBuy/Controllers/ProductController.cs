@@ -126,8 +126,20 @@ namespace TuanBuy.Controllers
             var claim = HttpContext.User.Claims;
             var userId = claim.FirstOrDefault(a => "Userid" == a.Type)?.Value;
             var db =_redisDb.GetRedisDb(2);
-            var shopCar =new Dictionary<int, int> {{ProductId, 1}};
-            db.HashSet(userId, RedisProvider.ToHashEntryArray(shopCar));
+
+            
+            var userShopCar = RedisProvider.ConvertToDictionaryInt((db.HashGetAll(userId)));
+            if (userShopCar.ContainsKey(ProductId))
+            {
+                userShopCar[ProductId]++;
+            }
+            else
+            {
+                userShopCar.Add(ProductId,1);
+            }
+
+            var shopCar = RedisProvider.ToHashEntryArray(userShopCar);
+            db.HashSet(userId, shopCar);
 
             #endregion
 

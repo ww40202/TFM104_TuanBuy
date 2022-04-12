@@ -81,7 +81,7 @@ namespace TuanBuy.Models.AppUtlity
         #endregion
 
         #region 將Dictionary轉HashEntry[]
-        public static HashEntry[] ToHashEntryArray(Dictionary<string, string> items)
+        public static HashEntry[] ToHashEntryArray(IDictionary<string, string> items)
         {
             var entries = new HashEntry[items.Count];
             int i = 0;
@@ -91,7 +91,7 @@ namespace TuanBuy.Models.AppUtlity
             }
             return entries;
         }
-        public static HashEntry[] ToHashEntryArray(Dictionary<int, int> items)
+        public static HashEntry[] ToHashEntryArray(IDictionary<int, int> items)
         {
             var entries = new HashEntry[items.Count];
             int i = 0;

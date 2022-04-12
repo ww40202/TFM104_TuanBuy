@@ -95,10 +95,4 @@ namespace TuanBuy.ViewModel
         public string BuyerAddress { get; set; }
     }
 
-    public class ShoppingCar
-    {
-        public string Id { get; set; }
-        public int ProductId { get; set; }
-        public int Count { get; set; }
-    }
 }
