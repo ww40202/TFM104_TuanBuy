@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 using TuanBuy.Models;
 using TuanBuy.Models.Entities;
@@ -21,12 +22,15 @@ namespace TuanBuy.Controllers
         private readonly IWebHostEnvironment _environment;
         private readonly IRepository<User> _userRepository;
         private readonly TuanBuyContext _dbContext;
-        public ProductController(GenericRepository<Product> productsRepository, IWebHostEnvironment environment, GenericRepository<User> userRepository, TuanBuyContext dbContext)
+        private static IDistributedCache _distributedCache;
+
+        public ProductController(GenericRepository<Product> productsRepository, IWebHostEnvironment environment, GenericRepository<User> userRepository, TuanBuyContext dbContext, IDistributedCache distributedCache)
         {
             _productsRepository = productsRepository;
             _environment = environment;
             _userRepository = userRepository;
             _dbContext = dbContext;
+            _distributedCache= distributedCache;
         }
         //新增商品首頁
         [Authorize(Roles = "FullUser")]
@@ -105,12 +109,15 @@ namespace TuanBuy.Controllers
                                join productpic in _dbContext.ProductPics on product.Id equals productpic.ProductId
                                where product.Id == ProductId
                                select new { product, productpic }).FirstOrDefault();
+
             var userData = _dbContext.User.FirstOrDefault(x => x.Id == UserId);
             //使用者加入多個團購產品
-            if (HttpContext.Session.GetString("ShoppingCart") != null)
+            if (_distributedCache.GetString(userData.Id.ToString())!=null)
             {
-                var shoppjson = HttpContext.Session.GetString("ShoppingCart");
-                var shoppingcarts = JsonConvert.DeserializeObject<List<ProductCheckViewModel>>(shoppjson);
+                var shoppjsonM = _distributedCache.GetString(userData.Id.ToString());
+                //var shoppingcarts = JsonConvert.DeserializeObject<List<ProductCheckViewModel>>(shoppjsonM);
+                var shoppingcarts = JsonConvert.DeserializeObject<List<ProductCheckViewModel>>(shoppjsonM);
+
                 //將使用者資訊存入session
                 //將先前購物車紀錄加入
                 shoppingcarts.Add(new ProductCheckViewModel
@@ -124,29 +131,83 @@ namespace TuanBuy.Controllers
                     BuyerPhone = userData.Phone,
                     BuyerAddress = userData.Address
                 });
-                //先將先前session清除
-                HttpContext.Session.Remove("ShoppingCart");
-                //重新寫入新session
-                HttpContext.Session.SetString("ShoppingCart", JsonConvert.SerializeObject(shoppingcarts));
+                //寫入Redis
+                _distributedCache.Remove(userData.Id.ToString());
+                _distributedCache.SetString(userData.Id.ToString(), JsonConvert.SerializeObject(shoppingcarts));
             }
             else
             {
                 var jsonstring = JsonConvert.SerializeObject(new List<ProductCheckViewModel>
                 {
-                   new ProductCheckViewModel
-                   {
-                    ProductId = productData.product.Id,
-                    ProductPicPath = productData.productpic.PicPath,
-                    ProductPrice = productData.product.Price,
-                    ProductDescription = productData.product.Description,
-                    BuyerId = UserId,
-                    BuyerName = userData.Name,
-                    BuyerPhone = userData.Phone,
-                    BuyerAddress = userData.Address
-                   },
+                    new ProductCheckViewModel
+                    {
+                        ProductId = productData.product.Id,
+                        ProductPicPath = productData.productpic.PicPath,
+                        ProductPrice = productData.product.Price,
+                        ProductDescription = productData.product.Description,
+                        BuyerId = UserId,
+                        BuyerName = userData.Name,
+                        BuyerPhone = userData.Phone,
+                        BuyerAddress = userData.Address
+                    },
                 });
-                HttpContext.Session.SetString("ShoppingCart", jsonstring);
+                //寫入Redis
+                _distributedCache.SetString(userData.Id.ToString(), JsonConvert.SerializeObject(jsonstring));
             }
+
+            //#region 原本session
+            //if (HttpContext.Session.GetString("ShoppingCart") != null)
+            //{
+            //    var shoppjson = HttpContext.Session.GetString("ShoppingCart");
+            //    var shoppingcarts = JsonConvert.DeserializeObject<List<ProductCheckViewModel>>(shoppjson);
+
+
+            //    //將使用者資訊存入session
+            //    //將先前購物車紀錄加入
+            //    shoppingcarts.Add(new ProductCheckViewModel
+            //    {
+            //        ProductId = productData.product.Id,
+            //        ProductPicPath = productData.productpic.PicPath,
+            //        ProductPrice = productData.product.Price,
+            //        ProductDescription = productData.product.Description,
+            //        BuyerId = UserId,
+            //        BuyerName = userData.Name,
+            //        BuyerPhone = userData.Phone,
+            //        BuyerAddress = userData.Address
+            //    });
+            //    //寫入Redis
+            //    _distributedCache.Remove(userData.Id.ToString());
+            //    _distributedCache.SetString(userData.Id.ToString(), JsonConvert.SerializeObject(shoppingcarts));
+
+            //    //先將先前session清除
+            //    HttpContext.Session.Remove("ShoppingCart");
+            //    //重新寫入新session
+            //    HttpContext.Session.SetString("ShoppingCart", JsonConvert.SerializeObject(shoppingcarts));
+            //}
+            //else
+            //{
+            //    var jsonstring = JsonConvert.SerializeObject(new List<ProductCheckViewModel>
+            //    {
+            //       new ProductCheckViewModel
+            //       {
+            //        ProductId = productData.product.Id,
+            //        ProductPicPath = productData.productpic.PicPath,
+            //        ProductPrice = productData.product.Price,
+            //        ProductDescription = productData.product.Description,
+            //        BuyerId = UserId,
+            //        BuyerName = userData.Name,
+            //        BuyerPhone = userData.Phone,
+            //        BuyerAddress = userData.Address
+            //       },
+            //    });
+            //    HttpContext.Session.SetString("ShoppingCart", jsonstring);
+            //    //寫入Redis
+            //    _distributedCache.SetString(userData.Id.ToString(), JsonConvert.SerializeObject(jsonstring));
+
+            //}
+
+            //#endregion
+
         }
         #endregion
 
@@ -303,7 +364,13 @@ namespace TuanBuy.Controllers
         #region 取得當前連線使用者購物車
         public object GetUserShoppingCart()
         {
-            var shoppjson = HttpContext.Session.GetString("ShoppingCart");
+            //var shoppjson = HttpContext.Session.GetString("ShoppingCart");
+
+            var claim = HttpContext.User.Claims;
+            var userEmail = claim.FirstOrDefault(a => a.Type == ClaimTypes.Email)?.Value;
+            var targetUser = _userRepository.Get(x => x.Email == userEmail);
+            var shoppjson =_distributedCache.GetString(targetUser.Id.ToString());
+
             if (shoppjson != null)
             {
                 var shoppingcarts = JsonConvert.DeserializeObject<List<ProductCheckViewModel>>(shoppjson);
