@@ -216,7 +216,6 @@
                             shoppingCartViewModels: app.checkProductResult
                         },
                         success: function (response) {
-                            console.log(response)
                             document.getElementById('ordernumber').value = response.ordernumber;
                             document.getElementById('amount').value = response.amount;
                             document.getElementById('PayMethod').value = response.payMethod;

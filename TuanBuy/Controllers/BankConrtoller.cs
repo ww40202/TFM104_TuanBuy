@@ -86,13 +86,13 @@ namespace TuanBuy.Controllers
                 // 商店備註
                 OrderComment = null,
                 // 信用卡 一次付清啟用(1=啟用、0或者未有此參數=不啟用)
-                CREDIT = null,
+                CREDIT = 1,
                 // WEBATM啟用(1=啟用、0或者未有此參數，即代表不開啟)
                 WEBATM = null,
                 // ATM 轉帳啟用(1=啟用、0或者未有此參數，即代表不開啟)
-                VACC = null,
+                VACC = 1,
                 // 超商代碼繳費啟用(1=啟用、0或者未有此參數，即代表不開啟)(當該筆訂單金額小於 30 元或超過 2 萬元時，即使此參數設定為啟用，MPG 付款頁面仍不會顯示此支付方式選項。)
-                CVS = null,
+                CVS = 1,
                 // 超商條碼繳費啟用(1=啟用、0或者未有此參數，即代表不開啟)(當該筆訂單金額小於 20 元或超過 4 萬元時，即使此參數設定為啟用，MPG 付款頁面仍不會顯示此支付方式選項。)
                 BARCODE = null,
                 LINEPAY = null
@@ -126,7 +126,7 @@ namespace TuanBuy.Controllers
             List<KeyValuePair<string, string>> tradeData = LambdaUtil.ModelToKeyValuePairList<TradeInfo>(tradeInfo);
             // 將List<KeyValuePair<string, string>> 轉換為 key1=Value1&key2=Value2&key3=Value3...
             var tradeQueryPara = string.Join("&", tradeData.Select(x => $"{x.Key}={x.Value}"));
-            tradeQueryPara = tradeQueryPara + "&SAMSUNGPAY=1&ANDROIDPAY=1";
+            tradeQueryPara = tradeQueryPara;
             // AES 加密
             inputModel.TradeInfo = CryptoUtil.EncryptAESHex(tradeQueryPara, _bankInfoModel.HashKey, _bankInfoModel.HashIV);
             // SHA256 加密
