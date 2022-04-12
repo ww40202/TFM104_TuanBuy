@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Facebook;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 using TuanBuy.Models;
 using TuanBuy.Models.Entities;
@@ -22,12 +23,14 @@ namespace TuanBuy.Service
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IRepository<User> _userRepository;
+        private static IDistributedCache _distributedCache;
 
         public LoginAndRegisterController(GenericRepository<User> userRepository,
-            IHttpContextAccessor httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor, IDistributedCache distributedCache)
         {
             _userRepository = userRepository;
             _httpContextAccessor = httpContextAccessor;
+            _distributedCache = distributedCache;
         }
 
         [HttpGet("{email}")]
@@ -95,6 +98,9 @@ namespace TuanBuy.Service
                 user.PicPath
             });
             HttpContext.Session.SetString("userData", jsonstring);
+
+            _distributedCache.SetString("userData", jsonstring);
+
             if (user.State == "普通會員") claims.Add(new Claim(ClaimTypes.Role, "User"));
             if (user.State == "正式會員") claims.Add(new Claim(ClaimTypes.Role, "FullUser"));
 
@@ -110,6 +116,9 @@ namespace TuanBuy.Service
         {
             //清除Session
             HttpContext.Session.Remove("userData");
+
+            _distributedCache.Remove("userData");
+
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
 
