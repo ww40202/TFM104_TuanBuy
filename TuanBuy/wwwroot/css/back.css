@@ -20,11 +20,33 @@
     pointer-events: none;
     color: #aaa;
 }
-
-.search1 {
-    margin-left: 920px;
+.form-control {
+width:250px!important;
 }
-
+.search1 {
+    margin-left: 730px;
+}
+.border-radius {
+    border-radius: 10px!important;
+}
 .pagination {
     margin-left: 450px;
+}
+.Closes {
+    background-color: transparent;
+    border:0;
+}
+.aaa > thead {
+    vertical-align: bottom;
+    background-color: #212529 !important;
+}
+
+.bbb > :not(:last-child) > :last-child > * {
+    border-bottom-color: currentColor;
+    color: white;
+    font-size: 16px;
+}
+
+.ss {
+    background-color: #F5F5F5;
 }
