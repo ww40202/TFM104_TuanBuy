@@ -16,7 +16,7 @@ namespace TuanBuy.Models.AppUtlity
             //var smtpAuthUser = "lynnmaxwell0706@gmail.com";
             //var smtpAuthPassword = "wzczifrrnisecpmi";
             var smtpAuthUser = "tfm104.tuanbuy@gmail.com";
-            var smtpAuthPassword = "bjfnmtcocpsgeojj";
+            var smtpAuthPassword = "hfsatcwygrkrwomp";
 
 
 

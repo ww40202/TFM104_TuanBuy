@@ -16,14 +16,23 @@ namespace TuanBuy.Models.AppUtlity
         public static IConfiguration getConfiguration(params string[] settings)
         {
             //使用工廠模式 手動產生
+                
             var builder = new ConfigurationBuilder().SetBasePath(System.IO.Directory.GetCurrentDirectory());
             //走訪配置幾個
             foreach (string filename in settings)
             {
                 builder.AddJsonFile(filename);
-            }
+            }   
             //去要一個組態物件      
             return builder.Build();
+        }
+
+        //傳遞Timestamp 長整數 轉換成DateTime結構
+        public static DateTime convertLongToDateTime(long timestamp)
+        {
+            TimeSpan time = TimeSpan.FromMilliseconds(timestamp);
+            DateTime curDate = new DateTime(1970, 1, 1) + time;
+            return curDate;
         }
     }
 }

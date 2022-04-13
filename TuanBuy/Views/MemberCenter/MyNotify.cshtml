@@ -2,7 +2,9 @@
 
 <div class="container mtb2rem" id="app">
     <div class="row">
+
         <test v-bind:user="user"></test>
+
         <div class="col-lg-10 acccolor">
             <div>
                 <p class="display acpabord aldrd">標示為已讀</p>
@@ -29,23 +31,23 @@
             </div>
         </div>
     </div>
-
-    <script>
-        var vm = new Vue({
-            el: '#app',
-            data: {
-                user: {
-                    name: "",
-                    phone: "",
-                    birth: "",
-                    address: "",
-                    sex: "",
-                    uploadPicPath: ""
-                }
-            },
-            mounted: function () {
-                let self = this;
-                axios.get("/api/MemberCenter/").then((resp) => { this.user = resp.data });
+</div>
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            user: {
+                name: "",
+                phone: "",
+                birth: "",
+                address: "",
+                sex: "",
+                uploadPicPath: ""
             }
-        });
-    </script>
+        },
+        mounted: function () {
+            let self = this;
+            axios.get("/api/MemberCenter/").then((resp) => { this.user = resp.data });
+        }
+    });
+</script>

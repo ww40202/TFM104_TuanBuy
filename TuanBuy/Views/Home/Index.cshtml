@@ -108,6 +108,8 @@
     </div>
 </body>
 <script>
+
+
     //測試資料
     // var testData = {
     //    list:[
@@ -133,14 +135,14 @@
             let self = this;
             axios.get("/api/Products").then((resp) => {
                 self.products = resp.data;
+                console.log(self.products);
             });
-        },
-        
-    : {
-            getStyle(data) {
-                const style={}
-                return style;
-            }
         }
+        //{
+        //    getStyle(data) {
+        //        const style={}
+        //        return style;
+        //    }
+        //}
     });
 </script>

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Claims;
@@ -7,11 +9,16 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
+using Org.BouncyCastle.Crypto.Tls;
+using StackExchange.Redis;
 using TuanBuy.Models;
+using TuanBuy.Models.AppUtlity;
 using TuanBuy.Models.Entities;
 using TuanBuy.Models.Interface;
 using TuanBuy.ViewModel;
+using Order = TuanBuy.Models.Entities.Order;
 
 namespace TuanBuy.Controllers
 {
@@ -21,12 +28,18 @@ namespace TuanBuy.Controllers
         private readonly IWebHostEnvironment _environment;
         private readonly IRepository<User> _userRepository;
         private readonly TuanBuyContext _dbContext;
-        public ProductController(GenericRepository<Product> productsRepository, IWebHostEnvironment environment, GenericRepository<User> userRepository, TuanBuyContext dbContext)
+        private static IDistributedCache _distributedCache;
+        private readonly RedisProvider _redisDb;
+
+        public ProductController(GenericRepository<Product> productsRepository, IWebHostEnvironment environment, GenericRepository<User> userRepository, TuanBuyContext dbContext, IDistributedCache distributedCache, RedisProvider redisDb)
         {
             _productsRepository = productsRepository;
             _environment = environment;
             _userRepository = userRepository;
             _dbContext = dbContext;
+            _distributedCache= distributedCache;
+            _redisDb = redisDb;
+
         }
         //新增商品首頁
         [Authorize(Roles = "FullUser")]
@@ -97,20 +110,46 @@ namespace TuanBuy.Controllers
 
         #endregion
 
-        #region 加入團購新增產品訂單
+        #region 將商品加入購物車
         [Authorize(Roles = "FullUser")]
-        public IActionResult AddProductOrder(int ProductId, int UserId)
+        public void AddProductOrder(int ProductId, int UserId)
         {
             var productData = (from product in _dbContext.Product
                                join productpic in _dbContext.ProductPics on product.Id equals productpic.ProductId
                                where product.Id == ProductId
                                select new { product, productpic }).FirstOrDefault();
+
+
             var userData = _dbContext.User.FirstOrDefault(x => x.Id == UserId);
-            //使用者加入多個團購產品
+
+            #region 存取至Redis
+            var claim = HttpContext.User.Claims;
+            var userId = claim.FirstOrDefault(a => "Userid" == a.Type)?.Value;
+            var db = _redisDb.GetRedisDb(2);
+
+
+            var userShopCar = RedisProvider.ConvertToDictionaryInt((db.HashGetAll(userId)));
+            if (userShopCar.ContainsKey(ProductId))
+            {
+                userShopCar[ProductId]++;
+            }
+            else
+            {
+                userShopCar.Add(ProductId, 1);
+            }
+
+            var shopCar = RedisProvider.ToHashEntryArray(userShopCar);
+            db.HashSet(userId, shopCar);
+
+            #endregion
+
+            #region 原本session
             if (HttpContext.Session.GetString("ShoppingCart") != null)
             {
                 var shoppjson = HttpContext.Session.GetString("ShoppingCart");
                 var shoppingcarts = JsonConvert.DeserializeObject<List<ProductCheckViewModel>>(shoppjson);
+
+
                 //將使用者資訊存入session
                 //將先前購物車紀錄加入
                 shoppingcarts.Add(new ProductCheckViewModel
@@ -119,15 +158,16 @@ namespace TuanBuy.Controllers
                     ProductPicPath = productData.productpic.PicPath,
                     ProductPrice = productData.product.Price,
                     ProductDescription = productData.product.Description,
+                    BuyerId = UserId,
                     BuyerName = userData.Name,
                     BuyerPhone = userData.Phone,
                     BuyerAddress = userData.Address
                 });
+
                 //先將先前session清除
                 HttpContext.Session.Remove("ShoppingCart");
                 //重新寫入新session
                 HttpContext.Session.SetString("ShoppingCart", JsonConvert.SerializeObject(shoppingcarts));
-                RedirectToAction("checkout");
             }
             else
             {
@@ -135,27 +175,90 @@ namespace TuanBuy.Controllers
                 {
                    new ProductCheckViewModel
                    {
-                      ProductId = productData.product.Id,
-                      ProductPicPath = productData.productpic.PicPath,
-                      ProductPrice = productData.product.Price,
-                      ProductDescription = productData.product.Description,
-                      BuyerName = userData.Name,
-                      BuyerPhone = userData.Phone,
-                      BuyerAddress = userData.Address
+                    ProductId = productData.product.Id,
+                    ProductPicPath = productData.productpic.PicPath,
+                    ProductPrice = productData.product.Price,
+                    ProductDescription = productData.product.Description,
+                    BuyerId = UserId,
+                    BuyerName = userData.Name,
+                    BuyerPhone = userData.Phone,
+                    BuyerAddress = userData.Address
                    },
                 });
                 HttpContext.Session.SetString("ShoppingCart", jsonstring);
-                RedirectToAction("checkout");
+                
+
             }
-            return BadRequest();
+
+            #endregion
+
         }
         #endregion
 
+        #region 刪除購物車商品
+        public void DelectShoppingCart(int productId)
+        {
+            //刪除使用者購物車商品
+            if (HttpContext.Session.GetString("ShoppingCart") != null)
+            {
+                var shoppjson = HttpContext.Session.GetString("ShoppingCart");
+                var shoppingcarts = JsonConvert.DeserializeObject<List<ProductCheckViewModel>>(shoppjson);
+                shoppingcarts.Remove(shoppingcarts.FirstOrDefault(x => x.ProductId == productId));
+                //先將先前session清除
+                HttpContext.Session.Remove("ShoppingCart");
+                //重新寫入新session
+                HttpContext.Session.SetString("ShoppingCart", JsonConvert.SerializeObject(shoppingcarts));
+                #region 去Redis裡刪除
+                var claim = HttpContext.User.Claims;
+                var userId = claim.FirstOrDefault(a => "Userid" == a.Type)?.Value;
+                var db = _redisDb.GetRedisDb(2);
+                db.HashDelete(userId, productId);
+
+                #endregion
+
+
+            }
+        }
+        #endregion
+
+        #region 將購物車商品加入到訂單
+        public object AddOrder(string OrderDescription,string BuyerAddress,string Phone,string PaymentType ,int BuyerId,List<ShoppingCartViewModel> shoppingCartViewModels)
+        {
+            using(_dbContext)
+            {
+                Order order = new Order();
+                OrderDetail orderDetail = new OrderDetail();
+                order.CreateDate = DateTime.Now;
+                order.Description = OrderDescription;
+                order.Address = BuyerAddress;
+                order.StateId = 1;
+                order.PaymentType = int.Parse(PaymentType);
+                order.Phone = Phone;
+                order.UserId = BuyerId;
+                orderDetail.ProductId = shoppingCartViewModels[0].ProductId;
+                orderDetail.Price = shoppingCartViewModels[0].ProductPrice;
+                orderDetail.Count = shoppingCartViewModels[0].ProductCount;
+                orderDetail.Disable = false;
+                order.OrderDetails = orderDetail;
+                _dbContext.Order.Add(order);
+                _dbContext.SaveChanges();
+                //將先前session清除
+                HttpContext.Session.Remove("ShoppingCart");
+                return new {
+                    ordernumber = order.Id.ToString(),
+                    amount = shoppingCartViewModels[0].ProductPrice * shoppingCartViewModels[0].ProductCount,
+                    PayMethod = PaymentType == "0" ? "creditcard" : "VACC" 
+                };
+            }
+        }
+
+        #endregion
 
         #region 加入團購結帳頁面
         [Authorize(Roles = "FullUser")]
         public IActionResult checkout()
         {
+
             return View();
         }
         #endregion
@@ -258,8 +361,29 @@ namespace TuanBuy.Controllers
 
         #endregion
 
-        #region 尋找賣方商品資料
+        #region 取得當前連線使用者購物車
+        public object GetUserShoppingCart()
+        {
+            var shoppjson = HttpContext.Session.GetString("ShoppingCart");
 
+            var claim = HttpContext.User.Claims;
+            var userEmail = claim.FirstOrDefault(a => a.Type == ClaimTypes.Email)?.Value;
+            var targetUser = _userRepository.Get(x => x.Email == userEmail);
+
+            if (shoppjson != null)
+            {
+                var shoppingcarts = JsonConvert.DeserializeObject<List<ProductCheckViewModel>>(shoppjson);
+                var result = shoppingcarts.Where(x => x.BuyerPhone != null && x.BuyerName !=null && x.BuyerAddress !=null);
+                return result !=null ? shoppingcarts : "使用者資料尚未填寫";
+            }
+            else
+            {
+                return "購物車為空";
+            }
+        }
+        #endregion
+
+        #region 尋找賣方商品資料
         public List<ProductViewModel> GetSellerProducts(int id)
         {
             ProductManage product = new ProductManage(_dbContext);
@@ -267,9 +391,12 @@ namespace TuanBuy.Controllers
 
             return result.ToList();
         }
-
-
         #endregion
 
+
+        public IActionResult newebpaytest()
+        {
+            return View();
+        }
     }
 }

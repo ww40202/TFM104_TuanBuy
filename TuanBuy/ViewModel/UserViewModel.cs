@@ -35,4 +35,12 @@ namespace TuanBuy.ViewModel
         正式會員,
         系統管理員
     }
+
+    public class UserData
+    {
+        public string Email { get; set; }
+        public string NickName { get; set; }
+        public int Id { get; set; }
+        public string PicPath { get; set; }
+    }
 }
