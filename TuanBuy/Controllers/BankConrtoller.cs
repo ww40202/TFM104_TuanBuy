@@ -16,9 +16,9 @@ namespace TuanBuy.Controllers
         /// </summary>
         private BankInfoModel _bankInfoModel = new BankInfoModel
         {
-            MerchantID = "MS134170605",
-            HashKey = "BwxEe1eql1HJPqI2SQoiQDzaJHhFwtJb",
-            HashIV = "CVaUnLTCPBSAcSrP",
+            MerchantID = "MS134347960",
+            HashKey = "0nnTkr1gNjKdSbbhBBedcyaBnaVm4eI5",
+            HashIV = "C3eAKK9XZ4hxa4NP",
             ReturnURL = "http://yourWebsitUrl/Bank/SpgatewayReturn",
             NotifyURL = "http://yourWebsitUrl/Bank/SpgatewayNotify",
             CustomerURL = "http://yourWebsitUrl/Bank/SpgatewayCustomer",
@@ -46,12 +46,9 @@ namespace TuanBuy.Controllers
 
         //金流只在意付款方式、價格、訂單編號
         [HttpPost]
-        public async Task SpgatewayPayBillAsync(string ordernumber, int amount, string PayMethod)
+        public async Task SpgatewayPayBill(string ordernumber, int amount, string PayMethod)
         {
             string version = "2.0";
-            ordernumber = "111";
-            amount = 500;
-            PayMethod = "creditcard";
 
             TradeInfo tradeInfo = new TradeInfo()
             {
@@ -89,13 +86,13 @@ namespace TuanBuy.Controllers
                 // 商店備註
                 OrderComment = null,
                 // 信用卡 一次付清啟用(1=啟用、0或者未有此參數=不啟用)
-                CREDIT = null,
+                CREDIT = 1,
                 // WEBATM啟用(1=啟用、0或者未有此參數，即代表不開啟)
                 WEBATM = null,
                 // ATM 轉帳啟用(1=啟用、0或者未有此參數，即代表不開啟)
-                VACC = null,
+                VACC = 1,
                 // 超商代碼繳費啟用(1=啟用、0或者未有此參數，即代表不開啟)(當該筆訂單金額小於 30 元或超過 2 萬元時，即使此參數設定為啟用，MPG 付款頁面仍不會顯示此支付方式選項。)
-                CVS = null,
+                CVS = 1,
                 // 超商條碼繳費啟用(1=啟用、0或者未有此參數，即代表不開啟)(當該筆訂單金額小於 20 元或超過 4 萬元時，即使此參數設定為啟用，MPG 付款頁面仍不會顯示此支付方式選項。)
                 BARCODE = null,
                 LINEPAY = null
@@ -105,9 +102,13 @@ namespace TuanBuy.Controllers
             {
                 tradeInfo.CREDIT = 1;
             }
-            else if (PayMethod == "linePay")
+            else if (PayMethod == "VACC")
             {
-                tradeInfo.LINEPAY = 1;
+                tradeInfo.VACC = 1;
+            }
+            else if (PayMethod == "CVS")
+            {
+                tradeInfo.CVS = 1;
             }
 
             Atom<string> result = new Atom<string>()
@@ -125,7 +126,7 @@ namespace TuanBuy.Controllers
             List<KeyValuePair<string, string>> tradeData = LambdaUtil.ModelToKeyValuePairList<TradeInfo>(tradeInfo);
             // 將List<KeyValuePair<string, string>> 轉換為 key1=Value1&key2=Value2&key3=Value3...
             var tradeQueryPara = string.Join("&", tradeData.Select(x => $"{x.Key}={x.Value}"));
-            tradeQueryPara = tradeQueryPara + "&SAMSUNGPAY=1&ANDROIDPAY=1";
+            tradeQueryPara = tradeQueryPara;
             // AES 加密
             inputModel.TradeInfo = CryptoUtil.EncryptAESHex(tradeQueryPara, _bankInfoModel.HashKey, _bankInfoModel.HashIV);
             // SHA256 加密

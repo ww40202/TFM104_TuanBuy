@@ -52,7 +52,8 @@ namespace TuanBuy.Models.Entities
                 demoProductViewModel.ProductSummary = item.user.prd.product.Content;
                 demoProductViewModel.ProductCategory = item.user.prd.product.Category;
                 demoProductViewModel.ProductDescription = item.user.prd.product.Description;
-                demoProductViewModel.ProductTargetPrice = item.user.prd.product.Price;
+                demoProductViewModel.ProductTargetPrice = item.user.prd.product.Total;
+                demoProductViewModel.ProductPrice = item.user.prd.product.Price;
                 demoProductViewModel.ProductStartTime = item.user.prd.product.CreateTime;
                 demoProductViewModel.ProductEndTime = item.user.prd.product.EndTime;
                 //開團日期及結束日期差計算
@@ -66,6 +67,32 @@ namespace TuanBuy.Models.Entities
                 if (item.user.prd.product.OrderDetails != null)
                 {
                     demoProductViewModel.Buyers = item.user.prd.product.OrderDetails.Count.ToString();
+                    //將目前團購累計金額傳入
+                    foreach(var buyesSumPrice in item.user.prd.product.OrderDetails)
+                    {
+                        demoProductViewModel.BuyersSumPrice += (buyesSumPrice.Price*buyesSumPrice.Count);
+                    }
+                    //透過目前團購金額在後端進行進度條及金額百分比計算
+                    var i = demoProductViewModel.BuyersSumPrice;
+                    if (i != 0 && item.user.prd.product.Total != 0)
+                    {
+                        var a = (i / item.user.prd.product.Total) * 100;
+                        if (a >= 100)
+                        {
+                            a = 100;
+                        }
+                        demoProductViewModel.Color = GetBarColor.GetColor(a);
+                        demoProductViewModel.Percentage = a + "%";
+                    }
+                    else
+                    {
+                        demoProductViewModel.Percentage = "0%";
+
+                    }
+                    if (item.user.prd.product.Total == 0)
+                    {
+                        demoProductViewModel.Percentage = "100%";
+                    }
                 }
                 if (item.user.prd.product.ProductPics != null)
                 {

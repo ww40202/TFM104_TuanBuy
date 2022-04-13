@@ -135,6 +135,7 @@
             let self = this;
             axios.get("/api/Products").then((resp) => {
                 self.products = resp.data;
+                console.log(self.products);
             });
         }
         //{

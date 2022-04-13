@@ -34,7 +34,7 @@
                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                     <!-- 複製開始 -->
                     <!--v-for="item in orderList"-->
-                    <div class="purchaseback" v-for="item in orderList">
+                    <div class="purchaseback" v-for="(item,index) in orderList">
                         <div class="purchasemg" >
                             <div class="col-12 form-row">
                                 <div>
@@ -70,7 +70,7 @@
                             </div>
                             <div class="col-12 purchaseend">
                                 <div class="purchaseorder">訂單金額:</div>
-                                <div class="purchaseallmoney">$10000</div>
+                                <div class="purchaseallmoney">${{productShoppingSum(index)}}</div>
                             </div>
                         </div>
                         <div class="col-12 purchaseend"><button class="purchasebtn purchasebuybtnsize">再買一次</button></div>
@@ -122,6 +122,15 @@
             let self = this;
             axios.get("/api/MemberCenter/").then((resp) => { this.user = resp.data });
             axios.get("/MemberCenter/GetMyOrder/").then((resp) => { this.orderList = resp.data });
-        }
+        },
+        computed: {
+            //計算商品單價總額
+            productShoppingSum: function () {
+                return (index) => {
+                    return vm.orderList[index].productPrice * vm.orderList[index].count
+                }
+                /*return app.productShoppings[index].productPrice * app.productShoppings[index].productCount;*/
+            },
+        },
     });
 </script>

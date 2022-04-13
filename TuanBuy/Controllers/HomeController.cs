@@ -114,7 +114,8 @@ namespace TuanBuy.Controllers
                             new("UserName", user.Name),
                             new("PicPath",user.PicPath),
                         };
-                        //將使用者資訊存入session
+                        //將使用者資訊存入
+                        //
                         var jsonstring = JsonConvert.SerializeObject(new
                         {
                             user.Email,
