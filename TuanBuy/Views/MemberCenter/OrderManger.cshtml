@@ -1,7 +1,32 @@
-﻿
-@{
-    ViewData["Title"] = "OrderManger";
-}
+﻿<script src="/VueComponent/VueDemo.js"></script>
 
-<h1>OrderManger</h1>
 
+<div class="container">
+    <div class="row" id="app">
+        <test v-bind:user="user"></test>
+    </div>
+</div>
+
+
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            user: {
+                name: "",
+                PicPath: ""
+            }
+        },
+        methods: {
+        },
+        mounted: function () {
+            let self = this;
+            //抓取Url資訊
+            axios.get("/api/MemberCenter/").then((resp) => { this.user = resp.data });
+
+        },
+        computed: {
+        }
+    });
+
+</script>
