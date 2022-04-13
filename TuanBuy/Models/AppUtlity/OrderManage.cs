@@ -20,18 +20,19 @@ namespace TuanBuy.Models.Entities
                                join oder in _dbContext.Order on orderdetail.OrderId equals oder.Id
                                join product in _dbContext.Product on orderdetail.ProductId equals product.Id
                                join user in _dbContext.User on orderdetail.ProductId equals user.Id
-                               //where orderdetail.Disable == false
+                               where orderdetail.Disable == false
                                select new OrderBackMangeViewModel()
                                {
                                    Address = oder.Address,
                                    Count = orderdetail.Count,
-                                   CreateDate = oder.CreateDate,
+                                   CreateDate = oder.CreateDate.ToString("g"),
                                    OrderId = orderdetail.OrderId,
                                    PaymentType = oder.PaymentType,
                                    Phone = oder.Phone,
                                    Price = orderdetail.Price,
                                    ProductName = product.Name,
                                    UserName = user.Name,
+                                   Disable = orderdetail.Disable
                                };
             var result = orderdetails.ToList();
             return result;

@@ -65,6 +65,7 @@ namespace TuanBuy.Models.Bank.Utlity
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex);
                 //LogUtil.WriteLog(ex);
             }
 
