@@ -123,23 +123,23 @@ namespace TuanBuy.Controllers
             var userData = _dbContext.User.FirstOrDefault(x => x.Id == UserId);
 
             #region 存取至Redis
-            var claim = HttpContext.User.Claims;
-            var userId = claim.FirstOrDefault(a => "Userid" == a.Type)?.Value;
-            var db =_redisDb.GetRedisDb(2);
+            //var claim = HttpContext.User.Claims;
+            //var userId = claim.FirstOrDefault(a => "Userid" == a.Type)?.Value;
+            //var db =_redisDb.GetRedisDb(2);
 
             
-            var userShopCar = RedisProvider.ConvertToDictionaryInt((db.HashGetAll(userId)));
-            if (userShopCar.ContainsKey(ProductId))
-            {
-                userShopCar[ProductId]++;
-            }
-            else
-            {
-                userShopCar.Add(ProductId,1);
-            }
+            //var userShopCar = RedisProvider.ConvertToDictionaryInt((db.HashGetAll(userId)));
+            //if (userShopCar.ContainsKey(ProductId))
+            //{
+            //    userShopCar[ProductId]++;
+            //}
+            //else
+            //{
+            //    userShopCar.Add(ProductId,1);
+            //}
 
-            var shopCar = RedisProvider.ToHashEntryArray(userShopCar);
-            db.HashSet(userId, shopCar);
+            //var shopCar = RedisProvider.ToHashEntryArray(userShopCar);
+            //db.HashSet(userId, shopCar);
 
             #endregion
 
@@ -209,10 +209,10 @@ namespace TuanBuy.Controllers
                 //重新寫入新session
                 HttpContext.Session.SetString("ShoppingCart", JsonConvert.SerializeObject(shoppingcarts));
                 #region 去Redis裡刪除
-                var claim = HttpContext.User.Claims;
-                var userId = claim.FirstOrDefault(a => "Userid" == a.Type)?.Value;
-                var db = _redisDb.GetRedisDb(2);
-                db.HashDelete(userId, productId);
+                //var claim = HttpContext.User.Claims;
+                //var userId = claim.FirstOrDefault(a => "Userid" == a.Type)?.Value;
+                //var db = _redisDb.GetRedisDb(2);
+                //db.HashDelete(userId, productId);
 
                 #endregion
 

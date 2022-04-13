@@ -102,15 +102,15 @@ namespace TuanBuy.Service
 
             #region 將使用者資訊存入redis
 
-            var db = _redisDb.GetRedisDb(1);
-            var redisUser = new UserData()
-            {
-                Email =user.Email,
-                NickName = user.NickName,
-                Id = user.Id,
-                PicPath = user.PicPath
-            };
-            db.HashSet(user.Id.ToString(),RedisProvider.ToHashEntries(redisUser));
+            //var db = _redisDb.GetRedisDb(1);
+            //var redisUser = new UserData()
+            //{
+            //    Email =user.Email,
+            //    NickName = user.NickName,
+            //    Id = user.Id,
+            //    PicPath = user.PicPath
+            //};
+            //db.HashSet(user.Id.ToString(),RedisProvider.ToHashEntries(redisUser));
 
             #endregion
 
@@ -135,8 +135,8 @@ namespace TuanBuy.Service
 
             #region 移除Redis中的使用者資料
 
-            var db = _redisDb.GetRedisDb(1);
-            db.KeyDelete(targetUser.Id.ToString());
+            //var db = _redisDb.GetRedisDb(1);
+            //db.KeyDelete(targetUser.Id.ToString());
 
 
             #endregion
