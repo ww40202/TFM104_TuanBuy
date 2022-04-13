@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Http;
+using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Claims;
 using System.Text;
@@ -17,6 +18,7 @@ using Newtonsoft.Json;
 using Org.BouncyCastle.Asn1.Ocsp;
 using StackExchange.Redis;
 using Topic.Hubs;
+using TuanBuy.Models.AppUtlity;
 using TuanBuy.Models.Entities;
 using TuanBuy.ViewModel;
 
@@ -27,20 +29,46 @@ namespace TuanBuy.Controllers
         private readonly TuanBuyContext _dbContext;
         private readonly IWebHostEnvironment _environment;
         private static IDistributedCache _distributedCache;
+        private readonly RedisProvider _mydb;
 
-        public DemoController(TuanBuyContext context, IWebHostEnvironment environment, IDistributedCache distributedCache)
+        public DemoController(TuanBuyContext context, IWebHostEnvironment environment, IDistributedCache distributedCache, RedisProvider Mydb)
         {
             _dbContext = context;
             _environment = environment;
             _distributedCache = distributedCache;
+            _mydb = Mydb;
         }
+
+        public class Users {
+            public string Name { get; set; }
+            public int Age { get; set; }
+        }
+
 
         public IActionResult Index()
         {
 
+            var user = new Users() {Name = "小王", Age = 20};
+            var json = JsonConvert.SerializeObject(user);
+            var bytes = Encoding.UTF8.GetBytes(json);
+            _distributedCache.Set("test",bytes);
+
+            var a =Encoding.UTF8.GetString(_distributedCache.Get("test"));
+            var yes =JsonConvert.DeserializeObject<Users>(a);
+
+            var db = _mydb.GetRedisDb(0);
+          var ricoID = "1";
+
+            db.HashSet(ricoID, RedisProvider.ToHashEntries(user));
+
+            var c = db.HashGetAll(ricoID);
+            var dd = RedisProvider.ConvertFromRedis<Users>(c);
             return View();
-
-
+        }
+        public static Dictionary<String, Object> parse(byte[] json)
+        {
+            string jsonStr = Encoding.UTF8.GetString(json);
+            return JsonConvert.DeserializeObject<Dictionary<String, Object>>(jsonStr);
         }
 
         public object GetRedis()
@@ -53,6 +81,7 @@ namespace TuanBuy.Controllers
 
             return data;
         }
+
 
 
         #region 暫時用不到

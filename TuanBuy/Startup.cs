@@ -13,11 +13,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.OpenApi.Models;
 using TuanBuy.Models;
 using TuanBuy.Models.Entities;
 using TuanBuy.Models.Interface;
 using Topic.Hubs;
+using TuanBuy.Models.AppUtlity;
 
 namespace TuanBuy
 {
@@ -56,13 +59,13 @@ namespace TuanBuy
             //注入HttpContext抓使用者資料
             services.AddHttpContextAccessor();
             //設定Redis Cache
-            //services.AddStackExchangeRedisCache(options =>
-            //{
-            //    // Redis Server 的 IP 跟 Port
-            //    options.Configuration = "127.0.0.1:6379";
-            //    options.InstanceName = "TuanWeb";
-            //});
-
+            services.AddStackExchangeRedisCache(options =>
+            {
+                // Redis Server 的 IP 跟 Port
+                options.Configuration = "127.0.0.1:6379";
+                options.InstanceName = "TuanWeb_";
+            });
+            services.AddSingleton<RedisProvider>();
             //弄個Swagger測試API
             services.AddSwaggerGen(c =>
             {
@@ -84,7 +87,10 @@ namespace TuanBuy
             services.AddSignalR();
 
             //加入Session狀態服務
-            services.AddSession();
+            services.AddSession(config =>
+            {
+                config.IdleTimeout = TimeSpan.FromDays(1);
+            });
 
 
             //讓JSON裡面的中文字可以轉換過來

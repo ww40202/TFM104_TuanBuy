@@ -4,15 +4,16 @@
 
 <div class="container" id="userMange">
     <div class="row">
-        <div class="input-group">
-            <input class="form-control width100">
-            <span class="input-group-btn">
-                <input class="btn btn-primary" type="submit" value="搜尋">
-            </span>
+        <div class="ordertitle">訂單管理</div>
+        <div class="search1">
+            <div class="form-group has-search">
+                <span class="fa fa-search form-control-feedback"></span>
+                <input type="text" class="form-control" placeholder="Search" >
+            </div>
         </div>
 
-        <table class="table table-striped col-gl-12 dropdown">
-            <thead>
+        <table class="table table-striped col-gl-12 dropdown table-hover">
+            <thead class="thead-dark">
                 <tr>
                     <th scope="col">使用者Email</th>
                     <th scope="col">會員名稱</th>
@@ -39,7 +40,7 @@
                 </tr>
             </tbody>
         </table>
-
+ 
         <!--修改使用者的對話盒-->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -60,16 +61,16 @@
                             </div>
                             <div class="form-group">
                                 <label for="user-birth" class="col-form-label">生日:</label>
-                                <input type="date" class="form-control" id="user-birth" v-model="birthDate" >
+                                <input type="date" class="form-control" id="user-birth" v-model="birthDate">
                             </div>
                             <div class="form-group">
                                 <label for="user-phone" class="col-form-label">電話:</label>
-                                <input type="text" class="form-control" id="user-phone"  v-model="user.phone">
+                                <input type="text" class="form-control" id="user-phone" v-model="user.phone">
                             </div>
                             <div class="form-group">
                                 <label class="col-form-label">狀態:</label>
                                 <select v-model="user.state">
-                                    <option  disabled selected value="user.state" ></option>
+                                    <option disabled selected value="user.state"></option>
                                     <option>未驗證</option>
                                     <option>普通會員</option>
                                     <option>正式會員</option>
@@ -89,7 +90,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!--刪除使用者的對話盒-->
         <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -114,7 +115,7 @@
                 </div>
             </div>
         </div>
-        
+
 
     </div>
 </div>

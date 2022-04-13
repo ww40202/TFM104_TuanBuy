@@ -35,8 +35,10 @@ namespace TuanBuy.Models.Entities
         public virtual DbSet<ChatMessages> ChatMessages { get; set; }
 
         public virtual DbSet<ProductSellerReply> ProductSellerReplies { get; set; }
-  
+
         public virtual DbSet<OrderState> OrderState { get; set; }
+
+        public virtual DbSet<LineMember> LineMember { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
