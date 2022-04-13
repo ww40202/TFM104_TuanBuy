@@ -105,12 +105,12 @@ namespace TuanBuy.Service
             var db = _redisDb.GetRedisDb(1);
             var redisUser = new UserData()
             {
-                Email =user.Email,
+                Email = user.Email,
                 NickName = user.NickName,
                 Id = user.Id,
                 PicPath = user.PicPath
             };
-            db.HashSet(user.Id.ToString(),RedisProvider.ToHashEntries(redisUser));
+            db.HashSet(user.Id.ToString(), RedisProvider.ToHashEntries(redisUser));
 
             #endregion
 

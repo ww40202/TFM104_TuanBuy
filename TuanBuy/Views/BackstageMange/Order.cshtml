@@ -1,27 +1,40 @@
 ﻿
 
 
-<div class="container"  id="app">
-    <div class="row">
-        <div class="input-group" style="margin-top:25px">
-            <input class="form-control width100">
-            <span class="input-group-btn">
-                <input class="btn btn-primary" type="submit" value="搜尋">
-            </span>
-        </div>
+<link rel="stylesheet" href="~/css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="~/css/font-awesome.min.css" type="text/css">
+<link rel="stylesheet" href="~/css/style.css" type="text/css">
+<link rel="stylesheet" href="~/css/mystyle.css">
+<link rel="stylesheet" href="~/css/back.css">
+<script src="~/js/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-        <table class="table table-striped col-gl-12 dropdown">
-            <thead>
+
+<div class="container" id="app">
+
+    <div class="row">
+        <div class="ordertitle">訂單管理</div>
+        <div class="search1">
+            <div class="form-group has-search">
+                <span class="fa fa-search form-control-feedback"></span>
+                <input type="text" class="form-control" placeholder="Search" v-model="search">
+            </div>
+        </div>
+        <table class="table table-striped col-gl-12 dropdown table-hover">
+            <thead class="thead-dark">
                 <tr>
                     <th scope="col">訂單編號</th>
                     <th scope="col">客戶ID</th>
                     <th scope="col">商品名稱</th>
                     <th scope="col">付款方式</th>
                     <th scope="col">訂單日期</th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="item in ordermanages">
+                <!--分頁設定-->
+                <tr v-for="item in ordermanages.slice(pageStart, pageStart + countOfPage)">
                     <th scope="row">{{item.orderId}}</th>
                     <td>{{item.userName}}</td>
                     <td>{{item.productName}}</td>
@@ -41,6 +54,18 @@
                 </tr>
             </tbody>
         </table>
+        <!--分頁-->
+        <div class="container">
+            <ul class="pagination">
+                <li class="page-item" v-bind:class="{'disabled': (currPage === 1)}"
+                    @@click.prevent="setPage(currPage-1)"><a class="page-link" href="#">Previous</a></li>
+                <li v-for="n in totalPage"
+                    v-bind:class="{'active': (currPage === (n))}"
+                    @@click.prevent="setPage(n)"><a class="page-link" href="#">{{n}}</a></li>
+                <li class="page-item" v-bind:class="{'disabled': (currPage === totalPage)}"
+                    @@click.prevent="setPage(currPage+1)"><a class="page-link" href="#">Next</a></li>
+            </ul>
+        </div>
 
         <!--修改使用者的對話盒-->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -67,7 +92,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>                                
+                                <tr v-if="ordermanage.Disable!==false">
                                     <th scope="row">{{ordermanage.orderId}}</th>
                                     <th>{{ordermanage.productName}}</th>
                                     <th>{{ordermanage.count}}</th>
@@ -110,7 +135,7 @@
                             取消
                         </button>
                         <!--按下按鈕觸發刪除的API-->
-                        <button type="button" class="btn btn-ddd" v-on:click="deleteUser" >刪除</button>
+                        <button type="button" class="btn btn-ddd" v-on:click="deleteUser">刪除</button>
                     </div>
                 </div>
             </div>
@@ -124,11 +149,12 @@
     var app = new Vue({
         el: "#app",
         data: {
+            ordermanagesearch:[],
             ordermanages: [],
             ordermanage: {
                 orderId: '',
                 userName: '',
-                createDate: '',
+                createDate: '',       //接後端資料傳到物件丟到[]
                 productName: '',
                 count: '',
                 address: '',
@@ -136,7 +162,20 @@
                 paymentType: '',
                 price: ''
             },
-            target: null
+            search: '',
+            target: null,
+            currPage: 1,                //起始頁設定
+            countOfPage: 3              //每頁要幾筆
+        },
+        //設定分頁
+        computed: {
+            pageStart: function () {
+                return (this.currPage - 1) * this.countOfPage;                 //當前頁面的起始筆數
+            },
+            totalPage: function () {
+                return Math.ceil(this.ordermanages.length / this.countOfPage);  //陣列長度除以每頁設定的筆數
+            },
+
         },
         methods: {
             update: function (e) {
@@ -162,18 +201,40 @@
                 let self = this;
                 axios.delete("/BackstageMange/DeleteOrder/" + self.target)
                     .then((res) => {
+
                         console.log(res);
                     })
                     .catch((res) => console.log(res.response.data));
                 console.log("/BackstageMange/DeleteOrder/" + self.target);
-                window.location.reload();
+                /* window.location.reload();*/
+            },
+            setPage: function (idx) {
+                if (idx <= 0 || idx > this.totalPage) {       //限制頁數
+                    return;
+                }
+                this.currPage = idx;
+            },
+            ordermanages: function () {
+                var search = this.search;
+
+                if (search) {
+                    return this.ordermanages.filter(function (ordermanage) {
+                        return Object.keys(ordermanage).some(function (key) {
+                            return String(ordermanage[key]).toLowerCase().indexOf(search) > -1
+                        })
+                    })
+                }
+
+                return this.ordermanage;
             }
+        
         },
         mounted: function () {
             let self = this;
             axios.get("/BackstageMange/TestJoin")
                 .then((resp) => {
                     self.ordermanages = resp.data;
+                    console.log(self.ordermanages)
                 })
                 .catch((res) => {
                     console.log("錯誤訊息");
@@ -181,6 +242,5 @@
                 });
         }
     })
-
 
 </script>
