@@ -32,7 +32,7 @@ namespace TuanBuy.Service
         [Route("Line/webhook")]
         [HttpPost]
         [Consumes("application/json")]
-        public void ReceiveMessage([FromBody] Models.Line.WebHookEventData data)
+        public void ReceiveMessage([FromBody] WebHookEventData data)
         {
             //先取出type(判斷WebHook)
             string type = data.events[0].type;
