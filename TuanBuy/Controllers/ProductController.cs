@@ -123,11 +123,6 @@ namespace TuanBuy.Controllers
             var userData = _dbContext.User.FirstOrDefault(x => x.Id == UserId);
 
             #region 存取至Redis
-
-            
-            //var userShopCar = RedisProvider.ConvertToDictionaryInt((db.HashGetAll(userId)));
-            //if (userShopCar.ContainsKey(ProductId))
-            //{
             var claim = HttpContext.User.Claims;
             var userId = claim.FirstOrDefault(a => "Userid" == a.Type)?.Value;
             var db = _redisDb.GetRedisDb(2);
