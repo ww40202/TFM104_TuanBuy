@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -39,6 +41,8 @@ namespace TuanBuy.Service
         //}
 
         // GET api/<MemberCenterController>/5
+
+        #region 取得使用者資料
         [HttpGet]
         public UserViewModel Get()
         {
@@ -58,6 +62,11 @@ namespace TuanBuy.Service
             return userData;
         }
 
+
+
+        #endregion
+
+        #region 更新使用者資料
         // POST api/<MemberCenterController>
         //更新使用者資料
         [HttpPost]
@@ -113,22 +122,37 @@ namespace TuanBuy.Service
                 //HttpContext.Session.SetString("userData", jsonstring);
                 if (fullMember)
                 {
+                    HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
                     targetUser.State = UserState.正式會員.ToString();
                     //這段有問題 不能直接更改會員資料
-                    //var claims = new Claim(ClaimTypes.Role, "FullUser");
-                    //var claimsIdentity = new ClaimsIdentity();
-                    //claimsIdentity.AddClaim(claims);
-                    //var claimsPrincipal = new ClaimsPrincipal();
-                    //claimsPrincipal.AddIdentity(claimsIdentity);
-                    //HttpContext.SignInAsync(claimsPrincipal);
-                    //TODO 用回應加Cookies做?
-                    //HttpContext.Response.Cookies.Append("","");
+                    var claims = new List<Claim>
+                    {
+                        new(ClaimTypes.Name, targetUser.NickName),
+                        new(ClaimTypes.Email, targetUser.Email),
+                        new("Userid", targetUser.Id.ToString()),
+                        new("NickName", targetUser.NickName),
+                        new("Email", targetUser.Email),
+                        new("UserName", targetUser.Name),
+                        new("PicPath",targetUser.PicPath),
+                    };
+
+                    if (targetUser.State == "普通會員") claims.Add(new Claim(ClaimTypes.Role, "User"));
+                    if (targetUser.State == "正式會員") claims.Add(new Claim(ClaimTypes.Role, "FullUser"));
+
+                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+                    HttpContext.SignInAsync(claimsPrincipal);
+
                 }
             }
 
             _userRepository.SaveChanges();
         }
 
+
+        #endregion
+
+        #region 更改使用者密碼
         // 更改使用者密碼
         [HttpPut]
         public void Put([FromBody] UserUpdate user)
@@ -146,6 +170,12 @@ namespace TuanBuy.Service
 
 
         // DELETE api/<MemberCenterController>/5
+
+
+        #endregion
+
+        #region 刪除使用者
+
         //軟刪除使用者
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
@@ -155,6 +185,9 @@ namespace TuanBuy.Service
             return Ok("使用者刪除成功");
         }
 
+        #endregion
+
+        #region 取得目標使用者
         private User GetTargetUser()
         {
             var claim = HttpContext.User.Claims;
@@ -162,5 +195,9 @@ namespace TuanBuy.Service
             var targetUser = _userRepository.Get(a => a.Email == userEmail);
             return targetUser;
         }
+
+
+        #endregion
+
     }
 }

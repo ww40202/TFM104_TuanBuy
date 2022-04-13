@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Facebook;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -48,7 +51,12 @@ namespace TuanBuy.Service
             {
                 var claim = _httpContextAccessor.HttpContext.User.Claims.ToList();
                 if (claim.Count == 0) return "null";
-                var userName = claim.First(a => a.Type == "UserName").Value;
+                var userName = claim.FirstOrDefault(a => a.Type == "UserName")?.Value;
+                if (userName == null)
+                {
+                    userName = claim.FirstOrDefault(a =>
+                        a.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name")?.Value;
+                }
                 //var userName = Claim.Where(a => a.Type == "UserName").First().Value;
 
 
@@ -104,5 +112,10 @@ namespace TuanBuy.Service
             HttpContext.Session.Remove("userData");
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
+
+
+
+
+
     }
 }

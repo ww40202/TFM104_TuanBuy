@@ -17,7 +17,7 @@ namespace TuanBuy.Models.Entities
         [Required]
         public string Password { get; set; }
 
-        public string NickName { get; set; } = "別名";
+        public string NickName { get; set; } = "暱稱";
         public string Name { get; set; }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
@@ -34,6 +34,5 @@ namespace TuanBuy.Models.Entities
         public virtual ICollection<Order> Order { get; set; }
         public virtual ICollection<Product> Product { get; set; }
         public virtual ICollection<ChatRoomMember> ChatRoom { get; set; }
-        
     }
 }
