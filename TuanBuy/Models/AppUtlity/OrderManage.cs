@@ -13,7 +13,7 @@ namespace TuanBuy.Models.Entities
         {
             _dbContext = context;
         }
-        //產品管理join
+        //產品管理join  撈出上架
         public List<ProductBackMangeViewModel> GetProduct()
         {
             var product = from products in _dbContext.Product
@@ -21,12 +21,28 @@ namespace TuanBuy.Models.Entities
                           where products.Disable == false
                           select new ProductBackMangeViewModel()
                           {
-                              PicPath = Productpics.PicPath,
+                              PicPath = "./ProductPicture/" + Productpics.PicPath,
                               Price = products.Price,
                               ProductId = products.Id,
                               ProductName = products.Name
                           };
             var result = product.ToList();
+            return result;
+        }
+        //產品管理join  撈出下架
+        public List<ProductBackMangeViewModel> GetProductdown()
+        {
+            var productdown = from products in _dbContext.Product
+                          join Productpics in _dbContext.ProductPics on products.Id equals Productpics.Id
+                          where products.Disable == true
+                          select new ProductBackMangeViewModel()
+                          {
+                              PicPath = "./ProductPicture/" + Productpics.PicPath,
+                              Price = products.Price,
+                              ProductId = products.Id,
+                              ProductName = products.Name
+                          };
+            var result = productdown.ToList();
             return result;
         }
 

@@ -3,10 +3,6 @@
     Layout = null;
 }
 
-
-@{
-    Layout = null;
-}
 <!DOCTYPE html>
 <html>
 <head>
@@ -188,7 +184,7 @@
                 <!-- Page Header-->
                 <header class="bg-white shadow-sm px-4 py-3 z-index-20">
                     <div class="container-fluid px-0">
-                        <h2 class="mb-0 p-1">會員管理</h2>
+                        <h2 class="mb-0 p-1">商品管理</h2>
                     </div>
                 </header>
                 <!-- Breadcrumb-->
@@ -197,18 +193,22 @@
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb mb-0 py-3">
                                 <li class="breadcrumb-item"><a class="fw-light" href="index.html">Home</a></li>
-                                <li class="breadcrumb-item active fw-light" aria-current="page">會員管理</li>
+                                <li class="breadcrumb-item active fw-light" aria-current="page">商品管理</li>
                             </ol>
                         </nav>
                     </div>
                 </div>
-                <div class="container " id="productMange">
+
+                <div class="container " id="productMangeup">
                     <div class="row ss">
-                        <div class="search1">
-                            <div class="form-group has-search">
-                                <span class="fa fa-search form-control-feedback"></span>
-                                <input type="text" class="form-control" placeholder="Search" v-model="search">
+                        <div class="row1">
+                            <div class="search2">
+                                <div class="form-group has-search">
+                                    <span class="fa fa-search form-control-feedback"></span>
+                                    <input type="text" class="form-control" placeholder="Search" v-model="search">
+                                </div>
                             </div>
+                            <button class="search2 updown">上/下架</button>
                         </div>
                         <table class="table table-striped col-gl-4 dropdown table-hover aaa bbb">
                             <thead class="thead-dark">
@@ -233,20 +233,13 @@
                                                 data-whatever="">
                                             上架
                                         </button>
-                                        <button type="button" class="btn btn-outline-danger" v-bind:value="item.productId"
-                                                v-on:click="getOrder($event)" data-toggle="modal" data-target="#deleteModal">
-                                            下架
-                                        </button>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
-                        <!--分頁-->
-                       
-                        <!--修改使用者的對話盒-->
-                       
 
-                        <!--刪除使用者的對話盒-->
+                        <!--上架產品對話盒-->
+                        <!--刪除產品對話盒-->
                         <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
@@ -265,13 +258,11 @@
                                             取消
                                         </button>
                                         <!--按下按鈕觸發刪除的API-->
-                                        <button type="button" class="btn btn-ddd" v-on:click="deleteUser">刪除</button>
+                                        <button type="button" class="btn btn-ddd" @*v-on:click="deleteUser"*@>刪除</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
                 <!-- Page Footer-->
@@ -329,9 +320,10 @@
 </body>
 </html>
 
+
 <script>
     var app = new Vue({
-        el: "#productMange",
+        el: "#productMangeup",
         data: {
             products: [],
             product: {
@@ -340,44 +332,41 @@
                 price: '',
                 picPath: ''
             },
+            search: '',
             target: null,
             currPage: 1,
             countOfPage: 6
         },
         methods: {
-            //update: function (e) {
-            //    let self = this;
-            //    let productId = e.target.value;
-            //    let target = self.products.find(i => { return productId == i.productId });
-            //    self.product = target;
-            //},
-            getOrder: function (e) {
-                let self = this;
-                self.target = e.target.value;
-            },
-            deleteUser: function () {
-                let self = this;
-                axios.delete("/BackstageMange/ProductDown/" + self.target)
-                    .then((res) => {
+                //getOrder: function (e) {
+                //    let self = this;
+                //    self.target = e.target.value;
+                //},
+                //deleteUser: function () {
+                //    let self = this;
+                //    axios.delete("/BackstageMange/ProductUp/" + self.target)
+                //        .then((res) => {
 
-                        console.log(res);
-                    })
-                    .catch((res) => console.log(res.response.data));
-                console.log("/BackstageMange/ProductDown/" + self.target);
-                 window.location.reload();
+                //            console.log(res);
+                //        })
+                //        .catch((res) => console.log(res.response.data));
+                //    console.log("/BackstageMange/ProductUp/" + self.target);
+                //    window.location.reload();
+                //},
+
             },
-        },
-        mounted: function () {
-            let self = this;
-            axios.get("/BackstageMange/ProductJoin")
-                .then((resp) => {
-                    self.products = resp.data;
-                    console.log(self.products)
-                })
-                .catch((res) => {
-                    console.log("錯誤訊息");
-                    console.log(res.response.data)
-                });
-        }
+            mounted: function () {
+                let self = this;
+                axios.get("/BackstageMange/ProductJoinup")
+                    .then((resp) => {
+                        self.products = resp.data;
+                        console.log(self.products)
+                    })
+                    .catch((res) => {
+                        console.log("錯誤訊息");
+                        console.log(res.response.data)
+                    });
+            }
+        
     });
 </script>

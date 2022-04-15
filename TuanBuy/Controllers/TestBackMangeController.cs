@@ -20,7 +20,11 @@ namespace TuanBuy.Controllers
         {
             return View();
         }
-        public IActionResult ProductMange()
+        public IActionResult ProductMangedown()
+        {
+            return View();
+        }
+        public IActionResult ProductMangeup()
         {
             return View();
         }
