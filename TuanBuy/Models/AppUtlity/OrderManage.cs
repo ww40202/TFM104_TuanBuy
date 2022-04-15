@@ -19,13 +19,13 @@ namespace TuanBuy.Models.Entities
         {
             var product = from products in _dbContext.Product
                           join Productpics in _dbContext.ProductPics on products.Id equals Productpics.Id
-                          where products.Disable == false
                           select new ProductBackMangeViewModel()
                           {
-                              PicPath = "./ProductPicture/" + Productpics.PicPath,
+                              PicPath = "/ProductPicture/" + Productpics.PicPath,
                               Price = products.Price,
                               ProductId = products.Id,
-                              ProductName = products.Name
+                              ProductName = products.Name,
+                              Disable = products.Disable
                           };
             var result = product.ToList();
             return result;
@@ -41,7 +41,8 @@ namespace TuanBuy.Models.Entities
                               PicPath = "./ProductPicture/" + Productpics.PicPath,
                               Price = products.Price,
                               ProductId = products.Id,
-                              ProductName = products.Name
+                              ProductName = products.Name,
+                              Disable = products.Disable
                           };
             var result = productdown.ToList();
             return result;
