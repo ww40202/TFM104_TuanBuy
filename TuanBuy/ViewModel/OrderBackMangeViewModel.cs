@@ -29,4 +29,12 @@ namespace TuanBuy.ViewModel
 
         public string PicPath { get; set; }
     }
+    public class ProductBackMangeViewMode2
+    {
+        public int ProductId { get; set; }
+        public string ProductName { get; set; }
+        public decimal Price { get; set; }
+
+        public string PicPath { get; set; }
+    }
 }
