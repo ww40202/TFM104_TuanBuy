@@ -342,7 +342,8 @@
             },
             target: null,
             currPage: 1,
-            countOfPage: 6
+            countOfPage: 6,
+            search:''
         },
         methods: {
             //update: function (e) {
@@ -372,11 +373,11 @@
             axios.get("/BackstageMange/ProductJoin")
                 .then((resp) => {
                     self.products = resp.data;
-                    console.log(self.products)
+                    console.log(self.products);
                 })
                 .catch((res) => {
                     console.log("錯誤訊息");
-                    console.log(res.response.data)
+                    console.log(res.response.data);
                 });
         }
     });

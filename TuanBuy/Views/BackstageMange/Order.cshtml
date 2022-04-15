@@ -18,8 +18,7 @@
         <div class="search1">
             <div class="form-group has-search">
                 <span class="fa fa-search form-control-feedback"></span>
-                <input type="text" class="form-control" placeholder="Search" v-model="search">
-            </div>
+                <input type="text" class="form-control" placeholder="Search" v-model="search"> 
         </div>
         <table class="table table-striped col-gl-12 dropdown table-hover">
             <thead class="thead-dark">
@@ -218,11 +217,11 @@
                 var search = this.search;                                 //收尋
 
                 if (search) {
-                    return this.ordermanages.filter(function (ordermanage) {
-                        return Object.keys(ordermanage).some(function (key) {
-                            return String(ordermanage[key]).toLowerCase().indexOf(search) > -1     
-                        })
-                    })
+                    return this.ordermanages.filter(function(ordermanage) {
+                        return Object.keys(ordermanage).some(function(key) {
+                            return String(ordermanage[key]).toLowerCase().indexOf(search) > -1;
+                        });
+                    });
                 }
 
                 return this.ordermanage;
@@ -234,11 +233,11 @@
             axios.get("/BackstageMange/TestJoin")
                 .then((resp) => {
                     self.ordermanages = resp.data;
-                    console.log(self.ordermanages)
+                    console.log(self.ordermanages);
                 })
                 .catch((res) => {
                     console.log("錯誤訊息");
-                    console.log(res.response.data)
+                    console.log(res.response.data);
                 });
         }
     })
