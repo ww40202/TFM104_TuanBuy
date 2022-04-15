@@ -58,6 +58,7 @@
         methods: {
             login:function() {
                 let self = this;
+                console.log("1234")
                 axios.post("/api/LoginAndRegister", self.user).then((resp) => {
                     console.log(resp);
                     if (resp.data === "登入成功") {
@@ -69,7 +70,8 @@
                         return;
                     }
                     alert("帳號密碼錯誤");
-                });
+                })
+                    .catch((res) => { console.log(res.data) });
             }
         }
     })

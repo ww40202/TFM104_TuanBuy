@@ -59,6 +59,10 @@ namespace TuanBuy.Controllers
             return View();
         }
 
+        public IActionResult OrderManger()
+        {
+            return View();
+        }
 
 
 
