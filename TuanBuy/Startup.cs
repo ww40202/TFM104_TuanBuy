@@ -86,6 +86,9 @@ namespace TuanBuy
             //調用websingnalr服務
             services.AddSignalR();
 
+            // Add services to the container.
+            services.AddHttpClient();
+
             //加入Session狀態服務
             services.AddSession(config =>
             {
