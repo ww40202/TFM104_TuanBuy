@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 using Newtonsoft.Json;
 using TuanBuy.Models.AppUtlity;
 using TuanBuy.Models.Entities;
@@ -186,5 +187,55 @@ namespace TuanBuy.Service
             string res = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
             Console.WriteLine($"Res：{res}");
         }
+
+        public void LinePushMessage()
+        {
+            //設計HttpClient for .net framework
+            //1建構一個HttpClient物件
+            HttpClient client = new HttpClient();
+            //設定服務位址(line send push Mssage)
+            String urlString = "https://api.line.me/v2/bot/message/push";
+            client.BaseAddress = new Uri(urlString);
+            //需要進行Header Authorization
+            client.DefaultRequestHeaders.Authorization =
+                new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", "KAvTOeGvQOxfbd8baVHkJaHuFwWuQE6puk5dsNS8CrmjEp6hhOY+kZC00/IhI0BHocPD9QveYllD9wXAwgbFRaKO8xEr2WDcOEXrwO2Lz0hc0EJKODdHtNwqA21TyoaRBz22XGhXtZh00dxehl7z/gdB04t89/1O/w1cDnyilFU=");
+            //建構Push Message物件
+            PushMessageData pushMessageData = new PushMessageData()
+            {
+                to = "U35de2fbf9d2a6d87e9d5e21877664ac2",
+                messages = new Message[]
+                {
+                    new Message()
+                    {
+                        type="text",
+                        text=$"我來了 來自服務通知...{DateTime.Now} "
+                    }
+                }
+            };
+            //序列化成Json字串
+            String jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(pushMessageData);
+
+            //建構HttpContent物件
+            HttpContent content = new StringContent(jsonString);
+            //設定Header Content-Type
+            content.Headers.ContentType =
+                new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+            //正式提出請求採用Post
+            HttpResponseMessage response =
+                client.PostAsync("", content).GetAwaiter().GetResult();
+
+        };
+        public class PushMessageData
+        {
+            public string to { get; set; }
+            public Message[] messages { get; set; }
+        }
+
+        public class Message
+        {
+            public string type { get; set; }
+            public string text { get; set; }
+        }
+    }
     }
 }
