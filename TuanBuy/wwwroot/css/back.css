@@ -24,10 +24,17 @@
 width:250px!important;
 }
 .search1 {
-    margin-left: 730px;
+    margin-bottom:10px;
+   margin-top:40px;
+}
+.form-group {
+margin-top:10px;
+}
+.form-control {
+border-radius:10px!important;
 }
 .border-radius {
-    border-radius: 10px!important;
+    border-radius: 10px !important;
 }
 .pagination {
     margin-left: 450px;
@@ -38,7 +45,8 @@ width:250px!important;
 }
 .aaa > thead {
     vertical-align: bottom;
-    background-color: #212529 !important;
+    background-color: #343a40 !important;
+    border-color: #454d55;
 }
 
 .bbb > :not(:last-child) > :last-child > * {

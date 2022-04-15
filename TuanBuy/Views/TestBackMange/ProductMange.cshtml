@@ -3,6 +3,10 @@
     Layout = null;
 }
 
+
+@{
+    Layout = null;
+}
 <!DOCTYPE html>
 <html>
 <head>
@@ -143,21 +147,21 @@
                             </svg>Home
                         </a>
                     </li>
-                    <li class="sidebar-item ">
+                    <li class="sidebar-item">
                         <a class="sidebar-link" href="tables.html">
                             <svg class="svg-icon svg-icon-sm svg-icon-heavy me-xl-2">
                                 <use xlink:href="#portfolio-grid-1"> </use>
                             </svg>UserManger
                         </a>
                     </li>
-                    <li class="sidebar-item active">
+                    <li class="sidebar-item ">
                         <a class="sidebar-link" href="tables.html">
                             <svg class="svg-icon svg-icon-sm svg-icon-heavy me-xl-2">
                                 <use xlink:href="#portfolio-grid-1"> </use>
                             </svg>OrderManger
                         </a>
                     </li>
-                    <li class="sidebar-item">
+                    <li class="sidebar-item active">
                         <a class="sidebar-link" href="tables.html">
                             <svg class="svg-icon svg-icon-sm svg-icon-heavy me-xl-2">
                                 <use xlink:href="#portfolio-grid-1"> </use>
@@ -184,7 +188,7 @@
                 <!-- Page Header-->
                 <header class="bg-white shadow-sm px-4 py-3 z-index-20">
                     <div class="container-fluid px-0">
-                        <h2 class="mb-0 p-1">訂單管理</h2>
+                        <h2 class="mb-0 p-1">會員管理</h2>
                     </div>
                 </header>
                 <!-- Breadcrumb-->
@@ -193,12 +197,12 @@
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb mb-0 py-3">
                                 <li class="breadcrumb-item"><a class="fw-light" href="index.html">Home</a></li>
-                                <li class="breadcrumb-item active fw-light" aria-current="page">訂單管理</li>
+                                <li class="breadcrumb-item active fw-light" aria-current="page">會員管理</li>
                             </ol>
                         </nav>
                     </div>
                 </div>
-                <div class="container " id="app">
+                <div class="container " id="productMange">
                     <div class="row ss">
                         <div class="search1">
                             <div class="form-group has-search">
@@ -209,106 +213,47 @@
                         <table class="table table-striped col-gl-4 dropdown table-hover aaa bbb">
                             <thead class="thead-dark">
                                 <tr>
-                                    <th scope="col">訂單編號</th>
-                                    <th scope="col">客戶ID</th>
+                                    <th scope="col">編號</th>
+                                    <th scope="col">商品圖</th>
                                     <th scope="col">商品名稱</th>
-                                    <th scope="col">付款方式</th>
-                                    <th scope="col">訂單日期</th>
+                                    <th scope="col">價格</th>
                                     <th scope="col"></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <!--分頁設定-->
-                                <tr v-for="item in ordermanages.slice(pageStart, pageStart + countOfPage)">
-                                    <th scope="row">{{item.orderId}}</th>
-                                    <td>{{item.userName}}</td>
+                                <tr v-for="item in products">
+                                    <th scope="row">{{item.productId}}</th>
+                                    <td>{{item.picPath}}</td>
                                     <td>{{item.productName}}</td>
-                                    <td>{{item.paymentType}}</td>
-                                    <td>{{item.createDate}}</td>
+                                    <td>{{item.price}}</td>
                                     <td>
-                                        <button type="button" class="btn btn-secondary" v-bind:value="item.orderId"
+                                        <button type="button" class="btn btn-outline-success" v-bind:value="item.productId"
                                                 v-on:click="update($event)" data-toggle="modal" data-target="#exampleModal"
                                                 data-whatever="">
-                                            修改
+                                            上架
                                         </button>
-                                        <button type="button" class="btn btn-danger" v-bind:value="item.orderId"
+                                        <button type="button" class="btn btn-outline-danger" v-bind:value="item.productId"
                                                 v-on:click="getOrder($event)" data-toggle="modal" data-target="#deleteModal">
-                                            刪除
+                                            下架
                                         </button>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                         <!--分頁-->
-                        <div class="container">
-                            <ul class="pagination">
-                                <li class="page-item" v-bind:class="{'disabled': (currPage === 1)}"
-                                    @@click.prevent="setPage(currPage-1)"><a class="page-link" href="#">Previous</a></li>
-                                <li v-for="n in totalPage"
-                                    v-bind:class="{'active': (currPage === (n))}"
-                                    @@click.prevent="setPage(n)"><a class="page-link" href="#">{{n}}</a></li>
-                                <li class="page-item" v-bind:class="{'disabled': (currPage === totalPage)}"
-                                    @@click.prevent="setPage(currPage+1)"><a class="page-link" href="#">Next</a></li>
-                            </ul>
-                        </div>
-
+                       
                         <!--修改使用者的對話盒-->
-                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content" style="width:850px;margin-left:-160px;margin-top:80px">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">修改訂單資料</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Closes" style="background-color: transparent; border:0px;">
-                                            <span style="font-size: 1.5rem; font-weight: 700; opacity: .5;" aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <!--綁定form表單資料-->
-                                        <table class="table table-striped col-gl-12 dropdown">
-                                            <thead>
-                                                <tr>
-                                                    <th class="orderitem" scope="col">訂單編號</th>
-                                                    <th class="orderitem" scope="col">商品名稱</th>
-                                                    <th class="orderitem" scope="col">數量</th>
-                                                    <th class="orderitem1" scope="col">金額</th>
-                                                    <th class="orderitem1" scope="col">地址</th>
-                                                    <th class="orderitem1" scope="col">電話</th>
-
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr v-if="ordermanage.Disable!==false">
-                                                    <th scope="row">{{ordermanage.orderId}}</th>
-                                                    <th>{{ordermanage.productName}}</th>
-                                                    <th>{{ordermanage.count}}</th>
-                                                    <th>{{ordermanage.price}}</th>
-                                                    <th><input style="width:300px" v-model="ordermanage.address" /></th>
-                                                    <th><input style="width:110px" v-model="ordermanage.phone" /></th>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <h3>總價:{{ordermanage.count*ordermanage.price}}NTD</h3>
-                                        <button type="button" class="btn btn-secondary"
-                                                data-dismiss="modal">
-                                            取消
-                                        </button>
-                                        <!--觸發事件修改-->
-                                        <button type="button" class="btn btn-ddd" v-on:click="readyUpdate(event)" style="background-color: #007bff; color: #fff">確認修改</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                       
 
                         <!--刪除使用者的對話盒-->
                         <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document" style="margin-top:120px">
+                            <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="deleteModalLabel">刪除使用者</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="background-color: transparent; border:0px;">
-                                            <span style="font-size: 1.5rem; font-weight: 700; line-height: 1; opacity: .5; " aria-hidden="true">&times;</span>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
                                     <div class="modal-body">
@@ -320,7 +265,7 @@
                                             取消
                                         </button>
                                         <!--按下按鈕觸發刪除的API-->
-                                        <button type="button" class="btn btn-danger" v-on:click="deleteUser">刪除</button>
+                                        <button type="button" class="btn btn-ddd" v-on:click="deleteUser">刪除</button>
                                     </div>
                                 </div>
                             </div>
@@ -384,102 +329,55 @@
 </body>
 </html>
 
-
 <script>
     var app = new Vue({
-        el: "#app",
+        el: "#productMange",
         data: {
-            ordermanages: [],
-            ordermanage: {
-                orderId: '',
-                userName: '',
-                createDate: '',       //接後端資料傳到物件丟到[]
+            products: [],
+            product: {
+                productId: '',
                 productName: '',
-                count: '',
-                address: '',
-                phone: '',
-                paymentType: '',
-                price: ''
+                price: '',
+                picPath: ''
             },
-            search: '',
             target: null,
-            currPage: 1,                //起始頁設定
-            countOfPage: 6              //每頁要幾筆
-        },
-        //設定分頁
-        computed: {
-            pageStart: function () {
-                return (this.currPage - 1) * this.countOfPage;                 //當前頁面的起始筆數
-            },
-            totalPage: function () {
-                return Math.ceil(this.ordermanages.length / this.countOfPage);  //陣列長度除以每頁設定的筆數
-            },
-
+            currPage: 1,
+            countOfPage: 6
         },
         methods: {
-            update: function (e) {
-                let self = this;
-                let orderId = e.target.value;
-                let target = self.ordermanages.find(i => { return orderId == i.orderId });
-                self.ordermanage = target;
-            },
+            //update: function (e) {
+            //    let self = this;
+            //    let productId = e.target.value;
+            //    let target = self.products.find(i => { return productId == i.productId });
+            //    self.product = target;
+            //},
             getOrder: function (e) {
                 let self = this;
                 self.target = e.target.value;
             },
-            readyUpdate: function () {
-                let self = this;
-                //發送PUT請求到API修改資料
-                axios.put("/BackstageMange/UpdateOrder/", self.ordermanage)
-                    .then((resp) => alert("更新成功"))
-                    .catch((res) => console.log(res.response.data));
-                window.location.reload();
-
-            },
             deleteUser: function () {
                 let self = this;
-                axios.delete("/BackstageMange/DeleteOrder/" + self.target)
+                axios.delete("/BackstageMange/ProductDown/" + self.target)
                     .then((res) => {
 
                         console.log(res);
                     })
                     .catch((res) => console.log(res.response.data));
-                console.log("/BackstageMange/DeleteOrder/" + self.target);
-                /* window.location.reload();*/
+                console.log("/BackstageMange/ProductDown/" + self.target);
+                 window.location.reload();
             },
-            setPage: function (idx) {
-                if (idx <= 0 || idx > this.totalPage) {       //限制頁數
-                    return;
-                }
-                this.currPage = idx;
-            }
-            //ordermanages: function () {
-            //    var search = this.search;
-
-            //    if (search) {
-            //        return this.ordermanages.filter(function (ordermanage) {
-            //            return Object.keys(ordermanage).some(function (key) {
-            //                return String(ordermanage[key]).toLowerCase().indexOf(search) > -1
-            //            })
-            //        })
-            //    }
-
-            //    return this.ordermanage;
-            //}
-
         },
         mounted: function () {
             let self = this;
-            axios.get("/BackstageMange/TestJoin")
+            axios.get("/BackstageMange/ProductJoin")
                 .then((resp) => {
-                    self.ordermanages = resp.data;
-                    console.log(self.ordermanages)
+                    self.products = resp.data;
+                    console.log(self.products)
                 })
                 .catch((res) => {
                     console.log("錯誤訊息");
                     console.log(res.response.data)
                 });
         }
-    })
-
+    });
 </script>

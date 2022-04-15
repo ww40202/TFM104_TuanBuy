@@ -13,6 +13,23 @@ namespace TuanBuy.Models.Entities
         {
             _dbContext = context;
         }
+        //產品管理join
+        public List<ProductBackMangeViewModel> GetProduct()
+        {
+            var product = from products in _dbContext.Product
+                          join Productpics in _dbContext.ProductPics on products.Id equals Productpics.Id
+                          where products.Disable == false
+                          select new ProductBackMangeViewModel()
+                          {
+                              PicPath = Productpics.PicPath,
+                              Price = products.Price,
+                              ProductId = products.Id,
+                              ProductName = products.Name
+                          };
+            var result = product.ToList();
+            return result;
+        }
+
         //訂單管理join
         public List<OrderBackMangeViewModel> GetOrderDetails()
         {

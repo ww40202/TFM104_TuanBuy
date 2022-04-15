@@ -215,12 +215,12 @@
                 this.currPage = idx;
             },
             ordermanages: function () {
-                var search = this.search;
+                var search = this.search;                                 //收尋
 
                 if (search) {
                     return this.ordermanages.filter(function (ordermanage) {
                         return Object.keys(ordermanage).some(function (key) {
-                            return String(ordermanage[key]).toLowerCase().indexOf(search) > -1
+                            return String(ordermanage[key]).toLowerCase().indexOf(search) > -1     
                         })
                     })
                 }
