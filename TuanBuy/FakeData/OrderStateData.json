@@ -1,15 +1,15 @@
 [
   {
     "StateId": 1,
-    "State": "購物車"
+    "State": "待付款"
   },
   {
     "StateId": 2,
-    "State": "未付款"
+    "State": "待出貨"
   },
   {
     "StateId": 3,
-    "State": "已付款"
+    "State": "待收貨"
   },
   {
     "StateId": 4,
@@ -17,6 +17,6 @@
   },
   {
     "StateId": 5,
-    "State": "取消"
+    "State": "不成立"
   }
 ]
