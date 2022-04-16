@@ -628,7 +628,8 @@ justify-content: center; */
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     white-space: normal;
-    width: 45%;
+    width: 25%;
+    margin:0 1%;
 }
 
 .check-chose-p2 {
@@ -639,15 +640,15 @@ justify-content: center; */
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     white-space: normal;
-    width: 20%;
+    width: 18%;
     color: #ee4d2d;
-    margin-left:3%
+    margin: 0 1%;
 }
 
 .checkcheckbox {
     width: 16px;
     height: 16px;
-    margin: auto .5rem;
+/*    margin: auto .5rem;*/
 }
 
 
