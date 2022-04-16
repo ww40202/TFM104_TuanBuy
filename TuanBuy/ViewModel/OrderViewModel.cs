@@ -34,4 +34,20 @@ namespace TuanBuy.ViewModel
         //訂單狀態
         public int OrderState { get; set; }
     }
+
+    public class SellerOrderViewModel
+    {
+        //訂單ID
+        public int OrderId { get; set; }
+        //商品名稱
+        public string ProductName { get; set; }
+        //訂單金額
+        public decimal Total { get; set; }
+        //訂單日期
+        public string OrderDateTime { get; set; }
+        //出貨地址
+        public string Address { get; set; }
+        //買家姓名
+        public string BuyerName { get; set; }
+    }
 }

@@ -36,7 +36,7 @@
     "PaymentType": 1,
     "Phone": "091234567",
     "UserId": 5,
-    "StateId": 1,
+    "StateId": 2,
     "Address": "送貨地址"
   },
   {
@@ -46,17 +46,47 @@
     "PaymentType": 1,
     "Phone": "0987654",
     "UserId": 5,
-    "StateId": 1,
+    "StateId": 2,
     "Address": "送貨地址"
   },
   {
     "Id": 6,
     "Disable": false,
-    "Description": "Linn跟Harry購買產品",
+    "Description": "Lynn跟Harry購買產品",
     "PaymentType": 1,
     "Phone": "0987654",
     "UserId": 4,
-    "StateId": 1,
+    "StateId": 2,
+    "Address": "送貨地址"
+  },
+  {
+    "Id": 7,
+    "Disable": false,
+    "Description": "Harry跟Lynn購買產品",
+    "PaymentType": 1,
+    "Phone": "0987654",
+    "UserId": 6,
+    "StateId": 2,
+    "Address": "送貨地址"
+  },
+  {
+    "Id": 8,
+    "Disable": false,
+    "Description": "小王跟Lynn購買產品",
+    "PaymentType": 1,
+    "Phone": "0987654",
+    "UserId": 1,
+    "StateId": 2,
+    "Address": "送貨地址"
+  },
+  {
+    "Id": 9,
+    "Disable": false,
+    "Description": "小明跟Lynn購買產品",
+    "PaymentType": 1,
+    "Phone": "0987654",
+    "UserId": 2,
+    "StateId": 2,
     "Address": "送貨地址"
   }
 ]

@@ -106,7 +106,42 @@ namespace TuanBuy.Controllers
 
         //}
 
-        //商品下架
+        //產品管理撈出上架商品
+        public List<ProductBackMangeViewModel> ProductJoin()
+        {
+            var BackOrder = new OrderManage(_dbcontext);
+            var result = BackOrder.GetProduct();
+            return result;
+        }
 
+        //產品下架
+        [HttpDelete]
+        public IActionResult ProductDown(int id)
+        {
+            var user = _dbcontext.Product.FirstOrDefault(x=>x.Id==id);
+            if (user == null) return BadRequest();
+            //user = user.Select(x => new OrderDetail() { Disable = true });
+            user.Disable = true;
+            _dbcontext.SaveChanges();
+            return Ok();
+        }
+        //產品管理撈出下架商品
+        public List<ProductBackMangeViewModel> ProductJoinup()
+        {
+            var BackOrder = new OrderManage(_dbcontext);
+            var result = BackOrder.GetProductdown();
+            return result;
+        }
+        //產品上架
+        [HttpDelete]
+        public IActionResult ProductUp(int id)
+        {
+            var user = _dbcontext.Product.FirstOrDefault(x => x.Id == id);
+            if (user == null) return BadRequest();
+            //user = user.Select(x => new OrderDetail() { Disable = true });
+            user.Disable = false;
+            _dbcontext.SaveChanges();
+            return Ok();
+        }
     }
 }

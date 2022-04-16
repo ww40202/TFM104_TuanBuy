@@ -1247,8 +1247,8 @@ direction: ltr;
     font-size: 1.5rem;
 }
 
-.registerbtn:focus {
-    color: black;
+.registerbtn:hover {
+    color: #007bff;
 }
 
 .iagree {
@@ -2172,8 +2172,31 @@ p,
     white-space: nowrap;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     white-space: normal;
     height: 55%;
 }
+
+.forgetpassbtn {
+    font-weight: 700;
+    color: #e78e50;
+    display: inline-block;
+    background-color: transparent;
+    border-width: 1px;
+    border-style: solid;
+    border-color: initial;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: .75rem 1.5rem;
+    line-height: 1em;
+    opacity: .9;
+    white-space: nowrap;
+    transform: translateZ(0);
+    margin-top: 1rem;
+    font-size: 1.5rem;
+}
+
+    .forgetpassbtn:hover {
+        color: #007bff;
+    }

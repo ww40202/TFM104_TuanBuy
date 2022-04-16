@@ -1,0 +1,191 @@
+﻿
+@{
+    Layout = "_BackstageLayout";
+}
+
+
+<!--我的css-->
+<link rel="stylesheet" href="~/css/back.css">
+
+<div class="content-inner w-100 ss" id="productMange">
+    <!-- Page Header-->
+    <header class="bg-white shadow-sm px-4 py-3 z-index-20">
+        <div class="container-fluid px-0">
+            <h2 class="mb-0 p-1">商品管理</h2>
+        </div>
+    </header>
+    <!-- Breadcrumb-->
+    <div class="bg-white">
+        <div class="container-fluid">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0 py-3">
+                    <li class="breadcrumb-item">
+                        <a class="fw-light" href="index.html">Home</a>
+                    </li>
+                    <li class="breadcrumb-item active fw-light" aria-current="page">商品管理</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="container " id="productMange">
+        <div class="row ss">
+            <div class="row1">
+                <div class="search2">
+                    <div class="form-group has-search">
+                        <span class="fa fa-search form-control-feedback"></span>
+                        <input type="text" class="form-control" placeholder="Search" v-model="search">
+                    </div>
+                </div>
+                <button class="search2 updown" v-model="Disable" v-on:click="UpdateDisable">上/下架</button>
+            </div>
+            <table class="table table-striped col-gl-4 dropdown table-hover aaa bbb">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">編號</th>
+                        <th scope="col">商品圖</th>
+                        <th scope="col">商品名稱</th>
+                        <th scope="col">價格</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                <!--分頁設定-->
+                <tr v-for="item in products" v-if="item.disable==Disable && search=='' || item.productName==search">
+                    <th scope="row">{{item.productId}}</th>
+                    <td>
+                        <img :src="item.picPath" style="width:150px;height:150px;" />
+                    </td>
+                    <td>{{item.productName}}</td>
+                    <td>{{item.price}}</td>
+
+                    <td v-if="Disable">
+                        <button type="button" class="btn btn-outline-success" v-bind:value="item.productId"
+                                v-on:click="update($event)" data-toggle="modal" data-target="#exampleModal"
+                                data-whatever="">
+                            上架
+                        </button>
+                    </td>
+                    <td v-else>
+                        <button type="button" class="btn btn-outline-danger" v-bind:value="item.productId"
+                                v-on:click="getOrder($event)" data-toggle="modal" data-target="#deleteModal">
+                            下架
+                        </button>
+                    </td>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <!--產品下架對話盒-->
+            <!--下架產品的對話盒-->
+            <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel">刪除使用者</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            確定刪除?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary"
+                                    data-dismiss="modal">
+                                取消
+                            </button>
+                            <!--按下按鈕觸發刪除的API-->
+                            <button type="button" class="btn btn-ddd" v-on:click="deleteUser">刪除</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Page Footer-->
+    <footer class="position-absolute bottom-0 bg-darkBlue text-white text-center py-3 w-100 text-xs" id="footer">
+        <div class="container-fluid">
+            <div class="row gy-2">
+                <div class="col-sm-6 text-sm-start">
+                    <p class="mb-0">Your company &copy; 2017-2021</p>
+                </div>
+                <div class="col-sm-6 text-sm-end">
+                    <p class="mb-0">
+                        Design by
+                        <a href="https://bootstrapious.com/p/admin-template" class="text-white text-decoration-none">Bootstrapious</a>
+                    </p>
+                    <!-- Please do not remove the backlink to us unless you support further theme's development at https://bootstrapious.com/donate. It is part of the license conditions. Thank you for understanding :)-->
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+
+
+<script>
+    var app = new Vue({
+        el: "#productMange",
+        data: {
+            products: [],
+            product: {
+                productId: '',
+                productName: '',
+                price: '',
+                picPath: '',
+                disable: false,
+                butdisable: false,
+            },
+            target: null,
+            currPage: 1,
+            countOfPage: 6,
+            search: '',
+            Disable: false,
+        },
+
+        methods: {
+            getOrder: function (e) {
+                let self = this;
+                self.target = e.target.value;
+            },
+            deleteUser: function () {
+                let self = this;
+                axios.delete("/BackstageMange/ProductDown/" + self.target)
+                    .then((res) => {
+
+                        console.log(res);
+                    })
+                    .catch((res) => console.log(res.response.data));
+                console.log("/BackstageMange/ProductDown/" + self.target);
+                window.location.reload();
+            },
+            UpdateDisable: function () {
+                app.Disable = app.Disable ? false : true;
+            }
+
+        },
+        mounted: function () {
+            let self = this;
+            axios.get("/BackstageMange/ProductJoin")
+                .then((resp) => {
+                    self.products = resp.data;
+                    console.log(self.products);
+                })
+                .catch((res) => {
+                    console.log("錯誤訊息");
+                    console.log(res.response.data);
+                });
+        },
+        //watch: {
+        //    search: { // 深度監聽
+        //         handler(val, oldVal) {
+        //            console.log(app.search);
+        //            console.log(app.products)
+        //        }, deep: true,
+        //         immediate:true
+        //    },
+        //}
+    });
+</script>
