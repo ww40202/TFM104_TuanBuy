@@ -1,0 +1,36 @@
+﻿<script src="/VueComponent/VueDemo.js"></script>
+
+
+<div class="container mtb2rem" id="app">
+    <div class="row">
+
+        <test v-bind:user="user"></test>
+
+        
+    </div>
+</div>
+
+
+
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            user: {
+                name: "",
+                PicPath: ""
+            }
+        },
+        methods: {
+        },
+        mounted: function () {
+            let self = this;
+            //抓取Url資訊
+            axios.get("/api/MemberCenter/").then((resp) => { this.user = resp.data });
+
+        },
+        computed: {
+        }
+    });
+
+</script>

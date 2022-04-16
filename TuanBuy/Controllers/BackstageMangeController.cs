@@ -14,12 +14,12 @@ namespace TuanBuy.Controllers
         {
             _dbcontext = context;
         }
-        // GET: BackstageMangeController
+        // 會員後台管理首頁
         public ActionResult Index()
         {
             return View();
         }
-
+        #region 會員管理
         public List<UserBackMange> GetUsers()
         {
             var ableUsers = _dbcontext.User.Where(x => x.Disable == false);
@@ -58,79 +58,90 @@ namespace TuanBuy.Controllers
             _dbcontext.SaveChanges();
             return Ok();
         }
+        #endregion
 
 
-
-        // GET: BackstageMangeController/Edit/5
-        public ActionResult Edit(int id)
+        public IActionResult Order()
         {
             return View();
         }
-
-        // POST: BackstageMangeController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        //秀出OrderManage資訊
+        public List<OrderBackMangeViewModel> TestJoin()
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var BackOrder = new OrderManage(_dbcontext);
+            var result = BackOrder.GetOrderDetails();
+            return result;
+        }
+        //修改訂單
+        [HttpPut]
+        public IActionResult UpdateOrder([FromBody] OrderBackMangeViewModel order)
+        {
+
+            var orders = _dbcontext.Order.FirstOrDefault(x => x.Id == order.OrderId);
+            if (orders == null) return BadRequest();
+            orders.Address = order.Address;
+            orders.Phone = order.Phone;
+            _dbcontext.SaveChanges();
+            return Ok();
+
+        }
+        //刪除訂單
+        [HttpDelete]
+        public IActionResult DeleteOrder(int id)
+        {
+            var user = _dbcontext.OrderDetail.FirstOrDefault(x => x.OrderId == id);
+            if (user == null) return BadRequest();
+            //user = user.Select(x => new OrderDetail() { Disable = true });
+            user.Disable = true;
+            _dbcontext.SaveChanges();
+            return Ok();
+        }
+        //查詢
+        //public IActionResult inquireOrder(int id)
+        //{
+        //    var order = _dbcontext.OrderDetail.Select(x => x.OrderId).Distinct();
+        //    var numbering = from c in _dbcontext.OrderDetail
+        //                    where c.OrderId == id
+        //                    select c;
+
+        //}
+
+        //產品管理撈出上架商品
+        public List<ProductBackMangeViewModel> ProductJoin()
+        {
+            var BackOrder = new OrderManage(_dbcontext);
+            var result = BackOrder.GetProduct();
+            return result;
         }
 
-        // GET: BackstageMangeController/Delete/5
-        public ActionResult Delete(int id)
+        //產品下架
+        [HttpDelete]
+        public IActionResult ProductDown(int id)
         {
-            return View();
+            var user = _dbcontext.Product.FirstOrDefault(x=>x.Id==id);
+            if (user == null) return BadRequest();
+            //user = user.Select(x => new OrderDetail() { Disable = true });
+            user.Disable = true;
+            _dbcontext.SaveChanges();
+            return Ok();
         }
-
-        // POST: BackstageMangeController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        //產品管理撈出下架商品
+        public List<ProductBackMangeViewModel> ProductJoinup()
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var BackOrder = new OrderManage(_dbcontext);
+            var result = BackOrder.GetProductdown();
+            return result;
         }
-        //訂單管理
-        //public IActionResult Order()
-        //{
-        //    return View();
-        //}
-        //[HttpGet]
-        //public List<OrderBackMangeViewModel>  TestJoin()
-        //{
-        //    var BackOrder = new OrderManage(_dbcontext);
-        //    var result = BackOrder.get();
-        //    return result;
-        //}
-        ////public  List<OrderBackMangeViewModel> GetOrder()
-        //{
-        //    var order=_dbcontext.OrderDetail.ToList();
-        //    return (order);
-        //}
-        //public List<UserBackMange> GetUsers()
-        //{
-        //    var ableUsers = _dbcontext.User.Where(x => x.Disable == false);
-
-        //    return ableUsers.Select(u => new UserBackMange
-        //    {
-        //        Name = u.Name,
-        //        Email = u.Email,
-        //        State = u.State,
-        //        Birth = u.Birth,
-        //        Phone = u.Phone
-        //    }).ToList();
-        //}
+        //產品上架
+        [HttpDelete]
+        public IActionResult ProductUp(int id)
+        {
+            var user = _dbcontext.Product.FirstOrDefault(x => x.Id == id);
+            if (user == null) return BadRequest();
+            //user = user.Select(x => new OrderDetail() { Disable = true });
+            user.Disable = false;
+            _dbcontext.SaveChanges();
+            return Ok();
+        }
     }
 }

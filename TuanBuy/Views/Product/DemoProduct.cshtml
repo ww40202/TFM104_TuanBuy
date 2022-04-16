@@ -1,4 +1,4 @@
-﻿<!--倉俊寫的 後端志輝-->
+﻿<!--昌浚寫的 後端志輝-->
 <link rel="stylesheet" href="~/css/image.css" type="text/css">
 <body class="colerwhite">
     <div class="container" id="app">
@@ -52,9 +52,10 @@
                     <div class="price">
                         <div class="price">目標金額NT${{productData.productTargetPrice}}</div>
                         <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
-                                 aria-valuemin="0" aria-valuemax="100">25%</div>
+                            <div class="progress-bar" role="progressbar" v-bind:style="{width:productData.percentage,borderColor:productData.color}" aria-valuenow="25"
+                                 aria-valuemin="0" aria-valuemax="100">{{productData.percentage}}</div>
                         </div>
+                        <div class="price">單價NT${{productData.productPrice}}</div>
                         <div class="line">
                             <div class="nav nav-list"></div>
                         </div>
@@ -76,7 +77,7 @@
                                 <input type="number" id="stepper" value="1" min="0" max="100" step="1" readonly>
                                 <button>+</button>
                             </span>
-                            <button type="button" class="btn btn-danger" onclick="location.href='@Url.Action("checkout","Product")'">加入團購</button>
+                            <button type="button" class="btn btn-danger" v-on:click="AddProductToMe">加入團購</button>
                         </div>
                     </div>
                 </div>
@@ -306,6 +307,8 @@
     class ProductData {
         productId = 0;
         buyers = 0;
+        buyersSumPrice = 0;
+        buyersSumPricePT = 0;
         productCategory = '';
         productDescription = '';
         productEndTime = '';
@@ -313,12 +316,15 @@
         productStartTime = '';
         productSummary = '';
         productTargetPrice = 0;
+        productPrice = 0;
         productTitle = '';
         productPicPath = [];
         sellerhref = '';
         sellerChatHref = '';
         seller = '';
         sellerId = 0;
+        percentage = null;
+        color = null;
     }
     class Message {
         messageId = 0;
@@ -438,22 +444,19 @@
             AddProductToMe: function () {
                 $.ajax({
                     type: "POST",
-                    url: "/Product/AddSellerMessage",
+                    url: "/Product/AddProductOrder",
                     data: {
-                        ProductMessageId: event.target.id,
-                        SellerId: app.sellerId,
-                        MessageContent: event.target.value
+                        UserId: app.useUserId,
+                        ProductId: app.productData.productId,
                     },
                     success: function (response) {
-                        var result = app.leaveMessages.find(x => x.messageId == event.target.id);
-                        result.sellerName = app.sellerName;
-                        result.sellerReply = event.target.value;
+                        window.location.href = '/Product/checkout/';
                     },
                     error: function (response) {
                         alert(response);
                     }
                 });
-            }
+            },
         },
         mounted: function () {
             axios.get("/Product/GetProductData/" + prdid).then((resp) => {
@@ -468,11 +471,15 @@
                 this.productData.productLastTime = resp.data.productLastTime;
                 this.productData.productSummary = resp.data.productSummary;
                 this.productData.productTargetPrice = resp.data.productTargetPrice;
+                this.productData.productPrice = resp.data.productPrice;
                 this.productData.productTitle = resp.data.productTitle;
                 this.productData.sellerhref = '/MemberCenter/mystoresell/' + resp.data.sellerId;
                 this.productData.sellerChatHref = '/Member/AddChatRoom/' + resp.data.sellerId;
                 this.productData.seller = resp.data.seller;
                 this.productData.sellerId = resp.data.sellerId;
+                this.productData.buyersSumPrice = resp.data.buyersSumPrice;
+                this.productData.color = resp.data.color;
+                this.productData.percentage = resp.data.percentage;
                 app.sellerId = resp.data.sellerId;
                 app.sellerName = resp.data.seller
                 for (var item in resp.data.productPicPath) {
@@ -481,13 +488,23 @@
                 console.log(app.sellerId);
                 console.log(app.useUserId);
             }),
-                axios.get("/Member/GetOnlineMember/").then((resp) => {
+
+            axios.get("/Member/GetOnlineMember/").then((resp) => {
                     app.useUserId = resp.data.id;
                     app.userUserPicPath = '/MemberPicture/' + resp.data.picPath;
                     app.userUserName = resp.data.nickName;
                     console.log(resp);
                 }),
                 console.log(this.productData);
+        },
+        computed: {
+            //計算商品單價總額
+            productShoppingSum: function () {
+                return (index) => {
+                    return app.productShoppings[index].productPrice * app.productShoppings[index].productCount
+                }
+                /*return app.productShoppings[index].productPrice * app.productShoppings[index].productCount;*/
+            },
         },
     });
 

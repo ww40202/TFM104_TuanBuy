@@ -1,12 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Facebook;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 using TuanBuy.Models;
+using TuanBuy.Models.AppUtlity;
 using TuanBuy.Models.Entities;
 using TuanBuy.Models.Interface;
 using TuanBuy.ViewModel;
@@ -19,12 +24,14 @@ namespace TuanBuy.Service
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IRepository<User> _userRepository;
+        private readonly RedisProvider _redisDb;
 
         public LoginAndRegisterController(GenericRepository<User> userRepository,
-            IHttpContextAccessor httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor, RedisProvider redisDb)
         {
             _userRepository = userRepository;
             _httpContextAccessor = httpContextAccessor;
+            _redisDb = redisDb;
         }
 
         [HttpGet("{email}")]
@@ -48,7 +55,12 @@ namespace TuanBuy.Service
             {
                 var claim = _httpContextAccessor.HttpContext.User.Claims.ToList();
                 if (claim.Count == 0) return "null";
-                var userName = claim.First(a => a.Type == "UserName").Value;
+                var userName = claim.FirstOrDefault(a => a.Type == "UserName")?.Value;
+                if (userName == null)
+                {
+                    userName = claim.FirstOrDefault(a =>
+                        a.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name")?.Value;
+                }
                 //var userName = Claim.Where(a => a.Type == "UserName").First().Value;
 
 
@@ -87,9 +99,26 @@ namespace TuanBuy.Service
                 user.PicPath
             });
             HttpContext.Session.SetString("userData", jsonstring);
+
+            #region 將使用者資訊存入redis
+
+            var db = _redisDb.GetRedisDb(1);
+            var redisUser = new UserData()
+            {
+                Email = user.Email,
+                NickName = user.NickName,
+                Id = user.Id,
+                PicPath = user.PicPath
+            };
+            db.HashSet(user.Id.ToString(), RedisProvider.ToHashEntries(redisUser));
+
+            #endregion
+
+
+
             if (user.State == "普通會員") claims.Add(new Claim(ClaimTypes.Role, "User"));
             if (user.State == "正式會員") claims.Add(new Claim(ClaimTypes.Role, "FullUser"));
-
+            if (user.State == "系統管理員") claims.Add(new Claim(ClaimTypes.Role, "SystemAdmin"));
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
             HttpContext.SignInAsync(claimsPrincipal);
@@ -100,8 +129,21 @@ namespace TuanBuy.Service
         [HttpDelete]
         public void Logout()
         {
+            var claim = HttpContext.User.Claims;
+            var userEmail = claim.FirstOrDefault(a => a.Type == ClaimTypes.Email)?.Value;
+            var targetUser = _userRepository.Get(x => x.Email == userEmail);
+
+            #region 移除Redis中的使用者資料
+
+            var db = _redisDb.GetRedisDb(1);
+            db.KeyDelete(targetUser.Id.ToString());
+
+
+            #endregion
+
             //清除Session
             HttpContext.Session.Remove("userData");
+
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
     }

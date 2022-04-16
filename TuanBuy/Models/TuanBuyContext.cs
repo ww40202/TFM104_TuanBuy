@@ -35,22 +35,24 @@ namespace TuanBuy.Models.Entities
         public virtual DbSet<ChatMessages> ChatMessages { get; set; }
 
         public virtual DbSet<ProductSellerReply> ProductSellerReplies { get; set; }
-  
+
         public virtual DbSet<OrderState> OrderState { get; set; }
+
+        public virtual DbSet<LineMember> LineMember { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ChatRoomMember>().ToTable("Member_Chats");
             modelBuilder.Entity<ChatRoomMember>().HasKey(s => new { s.MemberId, s.ChatRoomId });
-            
-
-
             //商品和訂單多對多產生訂單明細
-            modelBuilder.Entity<OrderDetail>().HasKey(s => new { s.ProductId, s.OrderId });
+            //modelBuilder.Entity<OrderDetail>().HasKey(s => new { s.Order.Id, s.OrderId });
+
+            //modelBuilder.Entity<OrderDetail>().HasOne(X => X.Order).WithOne().OnDelete(DeleteBehavior.ClientNoAction);
+
+
             modelBuilder.Entity<OrderDetail>()
                 .HasOne(od => od.Order)
-                .WithMany(o => o.OrderDetails)
-                .HasForeignKey(pt => pt.OrderId)
+                .WithOne(o => o.OrderDetails)
                 .OnDelete(DeleteBehavior.ClientNoAction);
 
             modelBuilder.Entity<OrderDetail>()
@@ -59,9 +61,9 @@ namespace TuanBuy.Models.Entities
                 .HasForeignKey(pt => pt.ProductId)
                 .OnDelete(DeleteBehavior.ClientNoAction);
 
-
+            #region 假資料去FakeData資料夾裡面的json檔案新增
             //使用者資料
-            var userJsonData = File.ReadAllText(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)+ @"/FakeData/UserData.json",Encoding.UTF8);
+            var userJsonData = File.ReadAllText(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"/FakeData/UserData.json", Encoding.UTF8);
             IList<User> users = JsonConvert.DeserializeObject<IList<User>>(userJsonData);
             modelBuilder.Entity<User>().HasData(users);
 
@@ -89,6 +91,11 @@ namespace TuanBuy.Models.Entities
             var orderDetailJsonData = File.ReadAllText(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"/FakeData/OrderDetailJson.json", Encoding.UTF8);
             IList<OrderDetail> orderDetail = JsonConvert.DeserializeObject<IList<OrderDetail>>(orderDetailJsonData);
             modelBuilder.Entity<OrderDetail>().HasData(orderDetail);
+
+
+            #endregion
+
+
 
 
             base.OnModelCreating(modelBuilder);
