@@ -115,7 +115,7 @@ namespace TuanBuy.Service
             #endregion
 
 
-
+            claims.Add(new Claim(ClaimTypes.Role, "HelloMember"));
             if (user.State == "普通會員") claims.Add(new Claim(ClaimTypes.Role, "User"));
             if (user.State == "正式會員") claims.Add(new Claim(ClaimTypes.Role, "FullUser"));
             if (user.State == "系統管理員") claims.Add(new Claim(ClaimTypes.Role, "SystemAdmin"));

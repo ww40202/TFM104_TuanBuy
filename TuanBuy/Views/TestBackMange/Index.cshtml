@@ -155,32 +155,32 @@
 </div>
 
 <script>
-    var layout = new Vue({
-        el: '#navBar',
-        data: {
-            user: "",
-            picPath: ""
-        },
-        mounted: function () {
-            let self = this;
-            axios.get("/api/LoginAndRegister/")
-                .then((resp) => {
-                    this.user = resp.data;
-                })
-                .catch((res) => res.response.data);
-            axios.get("/api/MemberCenter/")
-                .then((resp) => { this.picPath = resp.data })
-                .catch((res) => res.response.data);
-        },
-        methods: {
-            logout: function () {
-                axios.delete("/api/LoginAndRegister").then(() => {
-                    window.location.href = "/Home/Index";
-                });
-            }
-        }
+    //var layout = new Vue({
+    //    el: '#navBar',
+    //    data: {
+    //        user: "",
+    //        picPath: ""
+    //    },
+    //    mounted: function () {
+    //        let self = this;
+    //        axios.get("/api/LoginAndRegister/")
+    //            .then((resp) => {
+    //                this.user = resp.data;
+    //            })
+    //            .catch((res) => res.response.data);
+    //        axios.get("/api/MemberCenter/")
+    //            .then((resp) => { this.picPath = resp.data })
+    //            .catch((res) => res.response.data);
+    //    },
+    //    methods: {
+    //        logout: function () {
+    //            axios.delete("/api/LoginAndRegister").then(() => {
+    //                window.location.href = "/Home/Index";
+    //            });
+    //        }
+    //    }
 
-    });
+    //});
 
 </script>
 
