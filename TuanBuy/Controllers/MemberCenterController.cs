@@ -13,8 +13,8 @@ using TuanBuy.ViewModel;
 
 namespace TuanBuy.Controllers
 {
-    //[Authorize(Roles = "User")]
-    //[Authorize(Roles = "FullUser")]
+
+    [Authorize(Roles = "User")]
     public class MemberCenterController : Controller
     {
         private readonly IRepository<User> _userRepository;
@@ -106,6 +106,7 @@ namespace TuanBuy.Controllers
         }
         #endregion
 
+        #region 取得我購買的商品訂單
         public IActionResult GetMyOrder()
         {
             var targetUser = GetTargetUser();
@@ -122,6 +123,29 @@ namespace TuanBuy.Controllers
             }
 
         }
+
+        #endregion
+
+        #region 取得賣家的訂單
+        public IActionResult GetSellerOrder()
+        {
+            var targetUser = GetTargetUser();
+
+            var data = new OrderManage(_dbContext);
+            if (targetUser != null)
+            {
+                var result = data.GetSellerOrder(targetUser.Id);
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest();
+            }
+
+        }
+        #endregion
+
+
 
         private User? GetTargetUser()
         {

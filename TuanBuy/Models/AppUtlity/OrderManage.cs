@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TuanBuy.Controllers;
 using TuanBuy.ViewModel;
 
 namespace TuanBuy.Models.Entities
@@ -112,11 +113,74 @@ namespace TuanBuy.Models.Entities
                 };
                 if (item.myOrderDetail.product.Id == item.pic.ProductId)
                 {
-                    myOrderDetail.ProductPath = "/productpicture/" +item.pic.PicPath;
+                    myOrderDetail.ProductPath = "/productpicture/" + item.pic.PicPath;
                 }
                 myOrderDetails.Add(myOrderDetail);
             }
             return myOrderDetails;
+        }
+
+        //撈出會員中心賣家的待出貨商品
+        public List<SellerOrderViewModel> GetSellerOrder(int id)
+        {
+            var result = (
+                from user in _dbContext.User
+                where user.Id == id
+                join product in _dbContext.Product on user.Id equals product.UserId
+                where product.Disable == false
+                join orderDetail in _dbContext.OrderDetail on product.Id equals orderDetail.ProductId
+                join order in _dbContext.Order on orderDetail.OrderId equals order.Id
+                where order.StateId >= 2
+                select new { order, orderDetail, product }).ToList();
+            var orderList = new List<SellerOrderViewModel>();
+
+            var buyer =
+                (from orders in result
+                 join user in _dbContext.User on orders.order.UserId equals user.Id
+                 select user).ToList();
+
+            #region 這段不行 莫名其妙
+            //foreach (var item in result)
+            //{
+            //    foreach (var user in buyer)
+            //    {
+            //        if (user.Id == item.order.UserId)
+            //        {
+            //            orderList.Add(new SellerOrderViewModel()
+            //            {
+            //                OrderId = item.order.Id,
+            //                OrderDateTime = item.order.CreateDate.ToString("yyyy-MM-dd"),
+            //                ProductName = item.product.Name,
+            //                Total = item.orderDetail.Count * item.orderDetail.Price,
+            //                Address = item.order.Address,
+            //                BuyerName = user.Name
+            //            });
+            //        }
+            //    }
+            //}
+            #endregion
+            //OK
+            foreach (var item in result)
+            {
+                var sellerOrder = new SellerOrderViewModel()
+                {
+                    OrderId = item.order.Id,
+                    OrderDateTime = item.order.CreateDate.ToString("yyyy-MM-dd"),
+                    ProductName = item.product.Name,
+                    Total = item.orderDetail.Count * item.orderDetail.Price,
+                    Address = item.order.Address
+                };
+                foreach (var user in buyer)
+                {
+                    if (user.Id == item.order.Id)
+                    {
+                        sellerOrder.BuyerName = user.Name;
+                    }
+                }
+                orderList.Add(sellerOrder);
+            }
+
+            return orderList;
         }
     }
 }

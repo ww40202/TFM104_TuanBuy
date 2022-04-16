@@ -263,11 +263,11 @@
             axios.get("/BackstageMange/TestJoin")
                 .then((resp) => {
                     self.ordermanages = resp.data;
-                    console.log(self.ordermanages)
+                    console.log(self.ordermanages);
                 })
                 .catch((res) => {
                     console.log("錯誤訊息");
-                    console.log(res.response.data)
+                    console.log(res.response.data);
                 });
         }
     })

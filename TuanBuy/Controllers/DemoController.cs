@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
@@ -9,11 +10,14 @@ using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Razor.Language.Intermediate;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.OpenApi.Extensions;
 using Newtonsoft.Json;
 using Org.BouncyCastle.Asn1.Ocsp;
 using StackExchange.Redis;
@@ -21,6 +25,7 @@ using Topic.Hubs;
 using TuanBuy.Models.AppUtlity;
 using TuanBuy.Models.Entities;
 using TuanBuy.ViewModel;
+using Order = StackExchange.Redis.Order;
 
 namespace TuanBuy.Controllers
 {
@@ -39,30 +44,82 @@ namespace TuanBuy.Controllers
             _mydb = Mydb;
         }
 
-        public class Users {
+        #region Enum取DisplayName
+
+        public List<string> TestEnum()
+        {
+            Season test = new Season();
+            var a = GetDisplayNames(test);
+
+            return a;
+        }
+        public List<string> GetDisplayNames(Enum enm)
+        {
+            var type = enm.GetType();
+            var displayNames = new List<string>();
+            var names = Enum.GetNames(type);
+            foreach (var name in names)
+            {
+                var field = type.GetField(name);
+                var fds = field.GetCustomAttributes(typeof(DisplayAttribute), true);
+
+                if (fds.Length == 0)
+                {
+                    displayNames.Add(name);
+                }
+                foreach (DisplayAttribute fd in fds)
+                {
+                    displayNames.Add(fd.Name);
+                }
+            }
+            return displayNames;
+        }
+        enum Season
+        {
+            [Display(Name = "春")]
+            Spring,
+            [Display(Name = "夏")]
+            Summer,
+            [Display(Name = "秋")]
+            Autumn,
+            [Display(Name = "冬")]
+            Winter
+        }
+
+
+        #endregion
+
+        public class Users
+        {
             public string Name { get; set; }
             public int Age { get; set; }
         }
 
 
+
         public IActionResult Index()
         {
 
-            var user = new Users() {Name = "小王", Age = 20};
+            var user = new Users() { Name = "小王", Age = 20 };
             var json = JsonConvert.SerializeObject(user);
             var bytes = Encoding.UTF8.GetBytes(json);
-            _distributedCache.Set("test",bytes);
+            _distributedCache.Set("test", bytes);
 
-            var a =Encoding.UTF8.GetString(_distributedCache.Get("test"));
-            var yes =JsonConvert.DeserializeObject<Users>(a);
+            var a = Encoding.UTF8.GetString(_distributedCache.Get("test"));
+            var yes = JsonConvert.DeserializeObject<Users>(a);
 
             var db = _mydb.GetRedisDb(0);
-          var ricoID = "1";
+            var ricoID = "1";
 
             db.HashSet(ricoID, RedisProvider.ToHashEntries(user));
 
             var c = db.HashGetAll(ricoID);
             var dd = RedisProvider.ConvertFromRedis<Users>(c);
+            return View();
+        }
+
+        public IActionResult TestFav()
+        {
             return View();
         }
         public static Dictionary<String, Object> parse(byte[] json)
@@ -81,7 +138,94 @@ namespace TuanBuy.Controllers
 
             return data;
         }
+        //List<SellerOrderViewModel>
+        public List<SellerOrderViewModel> SellerOrder()
+        {
+            var tarUser = GetTargetUser();
+            var result = (
+                from user in _dbContext.User
+                where user.Id == tarUser.Id
+                join product in _dbContext.Product on user.Id equals product.UserId
+                where product.Disable == false
+                join orderDetail in _dbContext.OrderDetail on product.Id equals orderDetail.ProductId
+                join order in _dbContext.Order on orderDetail.OrderId equals order.Id
+                where order.StateId >= 2
+                select new { order, orderDetail, product }).ToList();
+            var orderList = new List<SellerOrderViewModel>();
 
+            var buyer =
+                (from orders in result
+                 join user in _dbContext.User on orders.order.UserId equals user.Id
+                 select user).ToList();
+
+            #region 這段不行 莫名其妙
+            //foreach (var item in result)
+            //{
+            //    foreach (var user in buyer)
+            //    {
+            //        if (user.Id == item.order.UserId)
+            //        {
+            //            orderList.Add(new SellerOrderViewModel()
+            //            {
+            //                OrderId = item.order.Id,
+            //                OrderDateTime = item.order.CreateDate.ToString("yyyy-MM-dd"),
+            //                ProductName = item.product.Name,
+            //                Total = item.orderDetail.Count * item.orderDetail.Price,
+            //                Address = item.order.Address,
+            //                BuyerName = user.Name
+            //            });
+            //        }
+            //    }
+            //}
+            #endregion
+            //OK
+            foreach (var item in result)
+            {
+                var sellerOrder = new SellerOrderViewModel()
+                {
+                    OrderId = item.order.Id,
+                    OrderDateTime = item.order.CreateDate.ToString("yyyy-MM-dd"),
+                    ProductName = item.product.Name,
+                    Total = item.orderDetail.Count * item.orderDetail.Price,
+                    Address = item.order.Address
+                };
+                foreach (var user in buyer)
+                {
+                    if (user.Id == item.order.UserId)
+                    {
+                        sellerOrder.BuyerName = user.Name;
+                    }
+                }
+                orderList.Add(sellerOrder);
+            }
+
+            return orderList;
+        }
+        private User GetTargetUser()
+        {
+            var claim = HttpContext.User.Claims;
+            var userEmail = claim.FirstOrDefault(a => a.Type == ClaimTypes.Email)?.Value;
+
+            var targetUser = _dbContext.User.FirstOrDefault(a => a.Email == userEmail);
+
+
+            return targetUser;
+        }
+        public class SellerOrderViewModel
+        {
+            //訂單ID
+            public int OrderId { get; set; }
+            //商品名稱
+            public string ProductName { get; set; }
+            //訂單金額
+            public decimal Total { get; set; }
+            //訂單日期
+            public string OrderDateTime { get; set; }
+            //出貨地址
+            public string Address { get; set; }
+            //買家姓名
+            public string BuyerName { get; set; }
+        }
 
 
         #region 暫時用不到
