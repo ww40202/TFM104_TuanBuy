@@ -273,10 +273,10 @@
             let self = this;
             axios.get("/api/LoginAndRegister/")
                 .then((resp) => {
-                    this.user = resp.data; })
+                    self.user = resp.data; })
                 .catch((res)=>res.response.data);
             axios.get("/api/MemberCenter/")
-                .then((resp) => { this.picPath = resp.data })
+                .then((resp) => { self.picPath = resp.data })
                 .catch((res)=>res.response.data);
         },
         methods: {
