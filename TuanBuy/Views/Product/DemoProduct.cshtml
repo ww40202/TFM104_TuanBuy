@@ -5,7 +5,8 @@
         overflow: visible;
         width: 60px;
     }
-    svg #heart {
+
+        svg #heart {
             transform-origin: center;
             animation: animateHeartOut 0.3s linear forwards;
         }
@@ -319,7 +320,7 @@
                         <div class="price">
                             單價NT${{productData.productPrice}}
                             <!--測試按鈕-->
-                            <input type="checkbox" id="checkbox" />
+                            <input type="checkbox" id="checkbox" v-on:click="addFavicon($event)" />
                             <label for="checkbox">
                                 <svg id="heart-svg" viewBox="467 392 58 57" xmlns="http://www.w3.org/2000/svg">
                                     <g id="Group" fill="none" fill-rule="evenodd" transform="translate(467 392)">
@@ -606,222 +607,247 @@
     </div>
 </body>
 <script>
-    const options = {
-        year: 'numeric',    // 年: 使用4位數
-        month: '2-digit',   // 月: 使用2數位
-        day: '2-digit',     // 日: 使用2數位
-        hour12: false,      // 12小時制: 不使用
-    };
-    //抓取Url資訊
-    let str = window.location.pathname.split("/");
-    /*抓取Url id*/
-    let prdid = str[str.length - 1];
-    class ProductData {
-        productId = 0;
-        buyers = 0;
-        buyersSumPrice = 0;
-        buyersSumPricePT = 0;
-        productCategory = '';
-        productDescription = '';
-        productEndTime = '';
-        productLastTime = '';
-        productStartTime = '';
-        productSummary = '';
-        productTargetPrice = 0;
-        productPrice = 0;
-        productTitle = '';
-        productPicPath = [];
-        sellerhref = '';
-        sellerChatHref = '';
-        seller = '';
-        sellerId = 0;
-        percentage = null;
-        color = null;
-    }
-    class Message {
-        messageId = 0;
-        messageName = '';
-        messagePicPaht = '';
-        messageDateTime = '';
-        messageContent = '';
-        sellerName = '';
-        sellerReply = '';
-        replyDateTime = '';
-    }
-    var app = new Vue({
-        el: "#app",
-        data: {
-            productData: new ProductData(),
-            messageSendContent: '',
-            useUserId: null,
-            userUserPicPath: null,
-            userUserName:null,
-            sellerId: null,
-            sellerName :null,
-            leaveMessages: [],
-        },
-        methods: {
-            getMessage: function () {
-                console.log('點擊取得留言');
-                $.ajax({
-                    type: "get",
-                    url: "/Product/GetProductMessage?id=" + this.productData.productId,
-                    success: function (response) {
-                        //將先前留言清空
-                        app.leaveMessages = [];
-                        console.log(response);
-                        for (let i = 0; i < response.length; i++) {
-                            var messageObject = new Message();
-                            messageObject.messageId = response[i].messageId;
-                            messageObject.messageDateTime = new Date(response[i].messageDateTime).toLocaleString();
-                            messageObject.messageContent = response[i].messageContent;
-                            messageObject.messageName = response[i].messageName;
-                            messageObject.messagePicPaht = '/MemberPicture/' + response[i].messagePicPaht;
-                            messageObject.replyDateTime = new Date(response[i].replyDateTime).toLocaleString();
-                            messageObject.sellerReply = response[i].sellerReply;
-                            messageObject.sellerName = response[i].sellerName;
-                            app.leaveMessages.push(messageObject);
+        const options = {
+            year: 'numeric',    // 年: 使用4位數
+            month: '2-digit',   // 月: 使用2數位
+            day: '2-digit',     // 日: 使用2數位
+            hour12: false,      // 12小時制: 不使用
+        };
+        //抓取Url資訊
+        let str = window.location.pathname.split("/");
+        /*抓取Url id*/
+        let prdid = str[str.length - 1];
+        class ProductData {
+            productId = 0;
+            buyers = 0;
+            buyersSumPrice = 0;
+            buyersSumPricePT = 0;
+            productCategory = '';
+            productDescription = '';
+            productEndTime = '';
+            productLastTime = '';
+            productStartTime = '';
+            productSummary = '';
+            productTargetPrice = 0;
+            productPrice = 0;
+            productTitle = '';
+            productPicPath = [];
+            sellerhref = '';
+            sellerChatHref = '';
+            seller = '';
+            sellerId = 0;
+            percentage = null;
+            color = null;
+        }
+        class Message {
+            messageId = 0;
+            messageName = '';
+            messagePicPaht = '';
+            messageDateTime = '';
+            messageContent = '';
+            sellerName = '';
+            sellerReply = '';
+            replyDateTime = '';
+        }
+        var app = new Vue({
+            el: "#app",
+            data: {
+                productData: new ProductData(),
+                messageSendContent: '',
+                useUserId: null,
+                userUserPicPath: null,
+                userUserName:null,
+                sellerId: null,
+                sellerName :null,
+                leaveMessages: [],
+            },
+            methods: {
+                getMessage: function () {
+                    console.log('點擊取得留言');
+                    $.ajax({
+                        type: "get",
+                        url: "/Product/GetProductMessage?id=" + this.productData.productId,
+                        success: function (response) {
+                            //將先前留言清空
+                            app.leaveMessages = [];
+                            console.log(response);
+                            for (let i = 0; i < response.length; i++) {
+                                var messageObject = new Message();
+                                messageObject.messageId = response[i].messageId;
+                                messageObject.messageDateTime = new Date(response[i].messageDateTime).toLocaleString();
+                                messageObject.messageContent = response[i].messageContent;
+                                messageObject.messageName = response[i].messageName;
+                                messageObject.messagePicPaht = '/MemberPicture/' + response[i].messagePicPaht;
+                                messageObject.replyDateTime = new Date(response[i].replyDateTime).toLocaleString();
+                                messageObject.sellerReply = response[i].sellerReply;
+                                messageObject.sellerName = response[i].sellerName;
+                                app.leaveMessages.push(messageObject);
+                            }
+                            console.log(app.leaveMessages);
+                        },
+                        error: function (response) {
+                            alert(response);
                         }
-                        console.log(app.leaveMessages);
-                    },
-                    error: function (response) {
-                        alert(response);
-                    }
-                });
-            },
+                    });
+                },
 
-            sendMessage: function () {
-                $.ajax({
-                    type: "POST",
-                    url: "/Product/AddProductMessage",
-                    data: {
-                        ProductId: app.productData.productId,
-                        UserId: app.useUserId,
-                        MessageContent: app.messageSendContent
-                    },
-                    success: function (response) {
-                        var leaveObject = new Message();
-                        leaveObject.messageContent = app.messageSendContent;
-                        leaveObject.messageName = app.userUserName;
-                        leaveObject.messagePicPaht = app.userUserPicPath;
-                        //將資料存入陣列第一個元素 unshift
-                        app.leaveMessages.unshift(leaveObject);
-                        app.messageSendContent = '';
-                    },
-                    error: function (response) {
-                        alert(response);
-                    }
-                });
-            },
+                sendMessage: function () {
+                    $.ajax({
+                        type: "POST",
+                        url: "/Product/AddProductMessage",
+                        data: {
+                            ProductId: app.productData.productId,
+                            UserId: app.useUserId,
+                            MessageContent: app.messageSendContent
+                        },
+                        success: function (response) {
+                            var leaveObject = new Message();
+                            leaveObject.messageContent = app.messageSendContent;
+                            leaveObject.messageName = app.userUserName;
+                            leaveObject.messagePicPaht = app.userUserPicPath;
+                            //將資料存入陣列第一個元素 unshift
+                            app.leaveMessages.unshift(leaveObject);
+                            app.messageSendContent = '';
+                        },
+                        error: function (response) {
+                            alert(response);
+                        }
+                    });
+                },
 
-            sendSellerReply: function (event,index) {
-                console.log(event.target);
-                console.log(app.leaveMessages);
-                $.ajax({
-                    type: "POST",
-                    url: "/Product/AddSellerMessage",
-                    data: {
-                        ProductMessageId: event.target.id,
-                        SellerId: app.sellerId,
-                        MessageContent: event.target.value
-                    },
-                    success: function (response) {
-                        var result = app.leaveMessages.find(x => x.messageId == event.target.id);
-                        result.sellerName = app.sellerName;
-                        result.sellerReply = event.target.value;
-                    },
-                    error: function (response) {
-                        alert(response);
+                sendSellerReply: function (event,index) {
+                    console.log(event.target);
+                    console.log(app.leaveMessages);
+                    $.ajax({
+                        type: "POST",
+                        url: "/Product/AddSellerMessage",
+                        data: {
+                            ProductMessageId: event.target.id,
+                            SellerId: app.sellerId,
+                            MessageContent: event.target.value
+                        },
+                        success: function (response) {
+                            var result = app.leaveMessages.find(x => x.messageId == event.target.id);
+                            result.sellerName = app.sellerName;
+                            result.sellerReply = event.target.value;
+                        },
+                        error: function (response) {
+                            alert(response);
+                        }
+                    });
+                },
+                AddChat: function () {
+                    $.ajax({
+                        type: "POST",
+                        url: "/Member/AddChatRoom",
+                        data: {
+                            SellerId: app.sellerId,
+                            MemberId: app.useUserId
+                        },
+                        success: function (response) {
+                            window.location.href = '/Member/chatRoom/';
+                        },
+                        error: function (response) {
+                            alert(response);
+                        }
+                    });
+                },
+                AddProductToMe: function () {
+                    $.ajax({
+                        type: "POST",
+                        url: "/Product/AddProductOrder",
+                        data: {
+                            UserId: app.useUserId,
+                            ProductId: app.productData.productId,
+                        },
+                        success: function (response) {
+                            window.location.href = '/Product/checkout/';
+                        },
+                        error: function (response) {
+                            alert(response);
+                        }
+                    });
+                },
+                //撈取是否對這商品收藏然後點擊
+                addFavicon: function(event) { 
+                    if (event.isTrusted) {
+                        axios.get("/Product/AddFavicon?id=" + prdid)
+                            .then(res => {
+                                if (res.data == true) {
+                                    console.log("收藏完成");
+                                    //document.getElementById("checkbox").click();
+                                }
+                                else {
+                                    console.log("已移除收藏");
+                                    // document.getElementById("checkbox").click();
+                                }
+                            })
+                            .catch(res => console.log(res.data));
                     }
-                });
-            },
-            AddChat: function () {
-                $.ajax({
-                    type: "POST",
-                    url: "/Member/AddChatRoom",
-                    data: {
-                        SellerId: app.sellerId,
-                        MemberId: app.useUserId
-                    },
-                    success: function (response) {
-                        window.location.href = '/Member/chatRoom/';
-                    },
-                    error: function (response) {
-                        alert(response);
-                    }
-                });
-            },
-            AddProductToMe: function () {
-                $.ajax({
-                    type: "POST",
-                    url: "/Product/AddProductOrder",
-                    data: {
-                        UserId: app.useUserId,
-                        ProductId: app.productData.productId,
-                    },
-                    success: function (response) {
-                        window.location.href = '/Product/checkout/';
-                    },
-                    error: function (response) {
-                        alert(response);
-                    }
-                });
-            },
-            //撈取是否對這商品收藏然後點擊
-            checkFavicon: function() {
-                document.getElementById("checkbox").click();
-            }
-        },
-        mounted: function () {
-            axios.get("/Product/GetProductData/" + prdid).then((resp) => {
-                console.log(resp);
-                this.productData.productId = resp.data.id;
-                if (resp.data.buyers !== null) { this.productData.buyers = resp.data.buyers; }
-                this.productData.productCategory = resp.data.productCategory;
-                this.productData.productDescription = resp.data.productDescription;
-                this.productData.productId = resp.data.id;
-                this.productData.productStartTime = new Intl.DateTimeFormat('zh-TW', options).format(new Date(resp.data.productStartTime));
-                this.productData.productEndTime = new Intl.DateTimeFormat('zh-TW', options).format(new Date(resp.data.productEndTime));
-                this.productData.productLastTime = resp.data.productLastTime;
-                this.productData.productSummary = resp.data.productSummary;
-                this.productData.productTargetPrice = resp.data.productTargetPrice;
-                this.productData.productPrice = resp.data.productPrice;
-                this.productData.productTitle = resp.data.productTitle;
-                this.productData.sellerhref = '/MemberCenter/mystoresell/' + resp.data.sellerId;
-                this.productData.sellerChatHref = '/Member/AddChatRoom/' + resp.data.sellerId;
-                this.productData.seller = resp.data.seller;
-                this.productData.sellerId = resp.data.sellerId;
-                this.productData.buyersSumPrice = resp.data.buyersSumPrice;
-                this.productData.color = resp.data.color;
-                this.productData.percentage = resp.data.percentage;
-                app.sellerId = resp.data.sellerId;
-                app.sellerName = resp.data.seller
-                for (var item in resp.data.productPicPath) {
-                    this.productData.productPicPath.push(resp.data.productPicPath[item]);
+                    //https://localhost:5001/Product/CheckFavicon?id=7
                 }
-                console.log(app.sellerId);
-                console.log(app.useUserId);
-            }),
-
-            axios.get("/Member/GetOnlineMember/").then((resp) => {
-                    app.useUserId = resp.data.id;
-                    app.userUserPicPath = '/MemberPicture/' + resp.data.picPath;
-                    app.userUserName = resp.data.nickName;
-                    console.log(resp);
-                }),
-                console.log(this.productData);
-        },
-        computed: {
-            //計算商品單價總額
-            productShoppingSum: function () {
-                return (index) => {
-                    return app.productShoppings[index].productPrice * app.productShoppings[index].productCount
-                }
-                /*return app.productShoppings[index].productPrice * app.productShoppings[index].productCount;*/
             },
-        },
-        selected: true,
-    });
+            mounted: function () {
+                axios.get("/Product/GetProductData/" + prdid).then((resp) => {
+                        console.log(resp);
+                        this.productData.productId = resp.data.id;
+                        if (resp.data.buyers !== null) {
+                            this.productData.buyers = resp.data.buyers;
+                        }
+                        this.productData.productCategory = resp.data.productCategory;
+                        this.productData.productDescription = resp.data.productDescription;
+                        this.productData.productId = resp.data.id;
+                        this.productData.productStartTime = new Intl.DateTimeFormat('zh-TW', options).format(new Date(resp.data.productStartTime));
+                        this.productData.productEndTime = new Intl.DateTimeFormat('zh-TW', options).format(new Date(resp.data.productEndTime));
+                        this.productData.productLastTime = resp.data.productLastTime;
+                        this.productData.productSummary = resp.data.productSummary;
+                        this.productData.productTargetPrice = resp.data.productTargetPrice;
+                        this.productData.productPrice = resp.data.productPrice;
+                        this.productData.productTitle = resp.data.productTitle;
+                        this.productData.sellerhref = '/MemberCenter/mystoresell/' + resp.data.sellerId;
+                        this.productData.sellerChatHref = '/Member/AddChatRoom/' + resp.data.sellerId;
+                        this.productData.seller = resp.data.seller;
+                        this.productData.sellerId = resp.data.sellerId;
+                        this.productData.buyersSumPrice = resp.data.buyersSumPrice;
+                        this.productData.color = resp.data.color;
+                        this.productData.percentage = resp.data.percentage;
+                        app.sellerId = resp.data.sellerId;
+                        app.sellerName = resp.data.seller
+                        for (var item in resp.data.productPicPath) {
+                            this.productData.productPicPath.push(resp.data.productPicPath[item]);
+                        }
+                        console.log(app.sellerId);
+                        console.log(app.useUserId);
+                    }),
+                    axios.get("/Member/GetOnlineMember/").then((resp) => {
+                        app.useUserId = resp.data.id;
+                        app.userUserPicPath = '/MemberPicture/' + resp.data.picPath;
+                        app.userUserName = resp.data.nickName;
+                        console.log(resp);
+                    }),
+                    axios.get("/Product/CheckFavicon?id=" + prdid)
+                        .then(res => {
+                            console.log(res.data);
+                            if (res.data == true) {
+                                //console.log("確認有收藏");
+                                document.getElementById("checkbox").click();
+                            } else {
+                                //console.log("沒有收藏");
+                            }
+                        }),
+                    console.log(this.productData);
+            },
+            computed: {
+                //計算商品單價總額
+                productShoppingSum: function () {
+                    return (index) => {
+                        return app.productShoppings[index].productPrice * app.productShoppings[index].productCount
+                    }
+                    /*return app.productShoppings[index].productPrice * app.productShoppings[index].productCount;*/
+                },
+            },
+            selected: true,
+        });
 
 </script>
 
