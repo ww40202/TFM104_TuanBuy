@@ -46,6 +46,7 @@ namespace TuanBuy.ViewModel
 
     public class UserVouchers
     {
+        public Guid VouchersId { get; set; }
         //優惠卷圖片
         public string VouchersPicPath { get; set; }
         //優惠卷標題
