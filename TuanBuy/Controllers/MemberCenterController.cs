@@ -14,8 +14,6 @@ using TuanBuy.ViewModel;
 namespace TuanBuy.Controllers
 {
     [Authorize(Roles = "User")]
-    [Authorize(Roles = "FullUser")]
-    [Authorize(Roles = "SystemAdmin")]
     public class MemberCenterController : Controller
     {
         private readonly IRepository<User> _userRepository;
