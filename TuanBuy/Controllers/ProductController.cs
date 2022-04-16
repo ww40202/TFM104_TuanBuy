@@ -112,6 +112,7 @@ namespace TuanBuy.Controllers
 
         #region 將商品加入購物車
         [Authorize(Roles = "FullUser")]
+        [Authorize(Roles = "SystemAdmin")]
         public void AddProductOrder(int ProductId, int UserId)
         {
             var productData = (from product in _dbContext.Product
@@ -256,6 +257,8 @@ namespace TuanBuy.Controllers
 
         #region 加入團購結帳頁面
         [Authorize(Roles = "FullUser")]
+        [Authorize(Roles = "SystemAdmin")]
+
         public IActionResult checkout()
         {
 
@@ -267,6 +270,8 @@ namespace TuanBuy.Controllers
 
         //等待開團商品頁
         [Authorize(Roles = "FullUser")]
+        [Authorize(Roles = "SystemAdmin")]
+
         public IActionResult WaitingProduct()
         {
             return View();
@@ -279,6 +284,8 @@ namespace TuanBuy.Controllers
 
         //已開團商品頁
         [Authorize(Roles = "FullUser")]
+        [Authorize(Roles = "SystemAdmin")]
+
         public IActionResult ReadyProduct()
         {
             return View();
@@ -289,6 +296,7 @@ namespace TuanBuy.Controllers
         //新增商品
         [HttpPost]
         [Authorize(Roles = "FullUser")]
+        [Authorize(Roles = "SystemAdmin")]
         public IActionResult PostProduct(AddProductViewModel product)
         {
             if (product.PicPath == null)
