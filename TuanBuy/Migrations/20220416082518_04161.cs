@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TuanBuy.Migrations
 {
-    public partial class _015 : Migration
+    public partial class _04161 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -291,9 +291,9 @@ namespace TuanBuy.Migrations
                     { 1, null, null, null, false, "123@gmail.com", null, "小王", "賣貓的小王", "123456", null, "637843188933582087init.jpg", 1, "正式會員" },
                     { 2, null, null, null, false, "456@gmail.com", null, "小明", "賣鮭魚的小明", "123456", null, "637843188933582087init.jpg", 1, "正式會員" },
                     { 3, null, null, null, false, "789@gmail.com", null, "小張", "賣記憶體的小張", "123456", null, "637843188933582087init.jpg", 1, "正式會員" },
-                    { 4, null, null, null, false, "Lynn@gmail.com", null, "Lynn", "Lynn", "123456", null, "637843188933582087init.jpg", 1, "正式會員" },
-                    { 5, null, null, null, false, "Benny@gmail.com", null, "Benny", "Benny", "123456", null, "637843188933582087init.jpg", 1, "正式會員" },
-                    { 6, null, null, null, false, "Harry@gmail.com", null, "Harry", "Harry", "123456", null, "637843188933582087init.jpg", 1, "正式會員" },
+                    { 4, null, null, null, false, "Lynn@gmail.com", null, "Lynn", "Lynn", "123456", null, "637843188933582087init.jpg", 1, "系統管理員" },
+                    { 5, null, null, null, false, "Benny@gmail.com", null, "Benny", "Benny", "123456", null, "637843188933582087init.jpg", 1, "系統管理員" },
+                    { 6, null, null, null, false, "Harry@gmail.com", null, "Harry", "Harry", "123456", null, "637843188933582087init.jpg", 1, "系統管理員" },
                     { 7, null, null, null, false, "GGAA@gmail.com", null, "GGAA", "GGAA", "123456", null, "637843188933582087init.jpg", 1, "正式會員" }
                 });
 
@@ -302,15 +302,15 @@ namespace TuanBuy.Migrations
                 columns: new[] { "Id", "Address", "CreateDate", "Description", "Disable", "PaymentType", "Phone", "StateId", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "送貨地址", new DateTime(2022, 4, 16, 10, 8, 1, 708, DateTimeKind.Local).AddTicks(7744), "訂單描述", false, 1, "091234567", 1, 1 },
-                    { 8, "送貨地址", new DateTime(2022, 4, 16, 10, 8, 1, 710, DateTimeKind.Local).AddTicks(8882), "小王跟Lynn購買產品", false, 1, "0987654", 2, 1 },
-                    { 5, "送貨地址", new DateTime(2022, 4, 16, 10, 8, 1, 710, DateTimeKind.Local).AddTicks(8737), "Benny跟Harry購買產品", false, 1, "0987654", 2, 5 },
-                    { 2, "送貨地址", new DateTime(2022, 4, 16, 10, 8, 1, 710, DateTimeKind.Local).AddTicks(8541), "訂單描述", false, 1, "091234567", 2, 2 },
-                    { 9, "送貨地址", new DateTime(2022, 4, 16, 10, 8, 1, 710, DateTimeKind.Local).AddTicks(8924), "小明跟Lynn購買產品", false, 1, "0987654", 2, 2 },
-                    { 4, "送貨地址", new DateTime(2022, 4, 16, 10, 8, 1, 710, DateTimeKind.Local).AddTicks(8693), "Benny跟Lynn購買產品", false, 1, "091234567", 2, 5 },
-                    { 3, "送貨地址", new DateTime(2022, 4, 16, 10, 8, 1, 710, DateTimeKind.Local).AddTicks(8645), "訂單描述", false, 1, "091234567", 3, 3 },
-                    { 7, "送貨地址", new DateTime(2022, 4, 16, 10, 8, 1, 710, DateTimeKind.Local).AddTicks(8840), "Harry跟Lynn購買產品", false, 1, "0987654", 2, 6 },
-                    { 6, "送貨地址", new DateTime(2022, 4, 16, 10, 8, 1, 710, DateTimeKind.Local).AddTicks(8789), "Lynn跟Harry購買產品", false, 1, "0987654", 2, 4 }
+                    { 1, "送貨地址", new DateTime(2022, 4, 16, 16, 25, 18, 303, DateTimeKind.Local).AddTicks(8981), "訂單描述", false, 1, "091234567", 1, 1 },
+                    { 8, "送貨地址", new DateTime(2022, 4, 16, 16, 25, 18, 305, DateTimeKind.Local).AddTicks(6391), "小王跟Lynn購買產品", false, 1, "0987654", 2, 1 },
+                    { 5, "送貨地址", new DateTime(2022, 4, 16, 16, 25, 18, 305, DateTimeKind.Local).AddTicks(6227), "Benny跟Harry購買產品", false, 1, "0987654", 2, 5 },
+                    { 2, "送貨地址", new DateTime(2022, 4, 16, 16, 25, 18, 305, DateTimeKind.Local).AddTicks(6057), "訂單描述", false, 1, "091234567", 2, 2 },
+                    { 9, "送貨地址", new DateTime(2022, 4, 16, 16, 25, 18, 305, DateTimeKind.Local).AddTicks(6427), "小明跟Lynn購買產品", false, 1, "0987654", 2, 2 },
+                    { 4, "送貨地址", new DateTime(2022, 4, 16, 16, 25, 18, 305, DateTimeKind.Local).AddTicks(6189), "Benny跟Lynn購買產品", false, 1, "091234567", 2, 5 },
+                    { 3, "送貨地址", new DateTime(2022, 4, 16, 16, 25, 18, 305, DateTimeKind.Local).AddTicks(6148), "訂單描述", false, 1, "091234567", 3, 3 },
+                    { 7, "送貨地址", new DateTime(2022, 4, 16, 16, 25, 18, 305, DateTimeKind.Local).AddTicks(6353), "Harry跟Lynn購買產品", false, 1, "0987654", 2, 6 },
+                    { 6, "送貨地址", new DateTime(2022, 4, 16, 16, 25, 18, 305, DateTimeKind.Local).AddTicks(6269), "Lynn跟Harry購買產品", false, 1, "0987654", 2, 4 }
                 });
 
             migrationBuilder.InsertData(
@@ -318,14 +318,14 @@ namespace TuanBuy.Migrations
                 columns: new[] { "Id", "Category", "Content", "CreateTime", "Description", "Disable", "EndTime", "Name", "Price", "Total", "UserId" },
                 values: new object[,]
                 {
-                    { 7, "食品", "堅持手工製作，外酥內Q的迷人口感，多種披薩口味任選，簡單加熱就能享用，香氣濃郁成份單純，點心宵夜絕對便利的美味～", new DateTime(2022, 4, 16, 10, 8, 1, 699, DateTimeKind.Local).AddTicks(7288), "堅持手工製作，外酥內Q的迷人口感，多種披薩口味任選，簡單加熱就能享用，香氣濃郁成份單純，點心宵夜絕對便利的美味～", false, new DateTime(2022, 4, 26, 10, 8, 1, 699, DateTimeKind.Local).AddTicks(7290), "手工製作披薩", 300m, 10000m, 4 },
-                    { 6, "食品", "這款雪糕你吃過沒？格子脆皮餅乾裡面有香甜綿密的雪糕，百吃不厭的香草口味，配上酥脆餅皮口感，絕對大滿足～還有多種口味任選", new DateTime(2022, 4, 16, 10, 8, 1, 699, DateTimeKind.Local).AddTicks(7234), "這款雪糕你吃過沒？格子脆皮餅乾裡面有香甜綿密的雪糕，百吃不厭的香草口味，配上酥脆餅皮口感，絕對大滿足～還有多種口味任選", false, new DateTime(2022, 4, 26, 10, 8, 1, 699, DateTimeKind.Local).AddTicks(7235), "脆餅雪糕", 50m, 10000m, 4 },
-                    { 4, "食品", "吃的到蝦仁的月亮蝦餅", new DateTime(2022, 4, 16, 10, 8, 1, 699, DateTimeKind.Local).AddTicks(7110), "吃的到蝦仁的月亮蝦餅                                                                                                  ", false, new DateTime(2022, 4, 26, 10, 8, 1, 699, DateTimeKind.Local).AddTicks(7111), "月亮蝦餅", 100m, 10000m, 3 },
-                    { 3, "3C", "便宜好用ㄉ記憶體", new DateTime(2022, 4, 16, 10, 8, 1, 699, DateTimeKind.Local).AddTicks(7038), "記憶體是要描述什麼                                                                                                      ", false, new DateTime(2022, 4, 26, 10, 8, 1, 699, DateTimeKind.Local).AddTicks(7040), "記憶體", 300m, 10000m, 3 },
-                    { 2, "食品", "擁有水中珍品美譽的智力鮭魚，富含對人體有益的魚油，產地捕撈後隨即低溫急速冷凍鎖住新鮮與營養，美味直送到家！", new DateTime(2022, 4, 16, 10, 8, 1, 699, DateTimeKind.Local).AddTicks(6731), "擁有水中珍品美譽的智力鮭魚，富含對人體有益的魚油，產地捕撈後隨即低溫急速冷凍鎖住新鮮與營養，美味直送到家！              ", false, new DateTime(2022, 4, 26, 10, 8, 1, 699, DateTimeKind.Local).AddTicks(6879), "鮭魚", 50m, 1000m, 2 },
-                    { 1, "食品", "不知道可不可以吃的貓咪", new DateTime(2022, 4, 16, 10, 8, 1, 690, DateTimeKind.Local).AddTicks(8065), "不知道可不可以吃                                                                                                        ", false, new DateTime(2022, 4, 26, 10, 8, 1, 691, DateTimeKind.Local).AddTicks(5829), "貓貓", 50m, 1000m, 1 },
-                    { 5, "食品", "厚切達3公分！精選Prime極佳級，原塊現切牛肉，大理石紋路般的油花分布，讓人為之瘋狂～口感柔嫩多汁，絕對滿足想大口吃肉的你", new DateTime(2022, 4, 16, 10, 8, 1, 699, DateTimeKind.Local).AddTicks(7176), "厚切達3公分！精選Prime極佳級，原塊現切牛肉，大理石紋路般的油花分布，讓人為之瘋狂～口感柔嫩多汁，絕對滿足想大口吃肉的你", false, new DateTime(2022, 4, 26, 10, 8, 1, 699, DateTimeKind.Local).AddTicks(7177), "Prime-原塊現切牛肉", 200m, 10000m, 4 },
-                    { 8, "食品", "堅持手工製作，外酥內Q的迷人口感，多種披薩口味任選，簡單加熱就能享用，香氣濃郁成份單純，點心宵夜絕對便利的美味～", new DateTime(2022, 4, 16, 10, 8, 1, 699, DateTimeKind.Local).AddTicks(7402), "堅持手工製作，外酥內Q的迷人口感，多種披薩口味任選，簡單加熱就能享用，香氣濃郁成份單純，點心宵夜絕對便利的美味～", false, new DateTime(2022, 4, 26, 10, 8, 1, 699, DateTimeKind.Local).AddTicks(7404), "魔法仗", 300m, 20000m, 6 }
+                    { 7, "食品", "堅持手工製作，外酥內Q的迷人口感，多種披薩口味任選，簡單加熱就能享用，香氣濃郁成份單純，點心宵夜絕對便利的美味～", new DateTime(2022, 4, 16, 16, 25, 18, 300, DateTimeKind.Local).AddTicks(4927), "堅持手工製作，外酥內Q的迷人口感，多種披薩口味任選，簡單加熱就能享用，香氣濃郁成份單純，點心宵夜絕對便利的美味～", false, new DateTime(2022, 4, 26, 16, 25, 18, 300, DateTimeKind.Local).AddTicks(4928), "手工製作披薩", 300m, 10000m, 4 },
+                    { 6, "食品", "這款雪糕你吃過沒？格子脆皮餅乾裡面有香甜綿密的雪糕，百吃不厭的香草口味，配上酥脆餅皮口感，絕對大滿足～還有多種口味任選", new DateTime(2022, 4, 16, 16, 25, 18, 300, DateTimeKind.Local).AddTicks(4879), "這款雪糕你吃過沒？格子脆皮餅乾裡面有香甜綿密的雪糕，百吃不厭的香草口味，配上酥脆餅皮口感，絕對大滿足～還有多種口味任選", false, new DateTime(2022, 4, 26, 16, 25, 18, 300, DateTimeKind.Local).AddTicks(4880), "脆餅雪糕", 50m, 10000m, 4 },
+                    { 4, "食品", "吃的到蝦仁的月亮蝦餅", new DateTime(2022, 4, 16, 16, 25, 18, 300, DateTimeKind.Local).AddTicks(4739), "吃的到蝦仁的月亮蝦餅                                                                                                  ", false, new DateTime(2022, 4, 26, 16, 25, 18, 300, DateTimeKind.Local).AddTicks(4740), "月亮蝦餅", 100m, 10000m, 3 },
+                    { 3, "3C", "便宜好用ㄉ記憶體", new DateTime(2022, 4, 16, 16, 25, 18, 300, DateTimeKind.Local).AddTicks(4678), "記憶體是要描述什麼                                                                                                      ", false, new DateTime(2022, 4, 26, 16, 25, 18, 300, DateTimeKind.Local).AddTicks(4679), "記憶體", 300m, 10000m, 3 },
+                    { 2, "食品", "擁有水中珍品美譽的智力鮭魚，富含對人體有益的魚油，產地捕撈後隨即低溫急速冷凍鎖住新鮮與營養，美味直送到家！", new DateTime(2022, 4, 16, 16, 25, 18, 300, DateTimeKind.Local).AddTicks(4535), "擁有水中珍品美譽的智力鮭魚，富含對人體有益的魚油，產地捕撈後隨即低溫急速冷凍鎖住新鮮與營養，美味直送到家！              ", false, new DateTime(2022, 4, 26, 16, 25, 18, 300, DateTimeKind.Local).AddTicks(4554), "鮭魚", 50m, 1000m, 2 },
+                    { 1, "食品", "不知道可不可以吃的貓咪", new DateTime(2022, 4, 16, 16, 25, 18, 292, DateTimeKind.Local).AddTicks(4610), "不知道可不可以吃                                                                                                        ", false, new DateTime(2022, 4, 26, 16, 25, 18, 293, DateTimeKind.Local).AddTicks(4198), "貓貓", 50m, 1000m, 1 },
+                    { 5, "食品", "厚切達3公分！精選Prime極佳級，原塊現切牛肉，大理石紋路般的油花分布，讓人為之瘋狂～口感柔嫩多汁，絕對滿足想大口吃肉的你", new DateTime(2022, 4, 16, 16, 25, 18, 300, DateTimeKind.Local).AddTicks(4793), "厚切達3公分！精選Prime極佳級，原塊現切牛肉，大理石紋路般的油花分布，讓人為之瘋狂～口感柔嫩多汁，絕對滿足想大口吃肉的你", false, new DateTime(2022, 4, 26, 16, 25, 18, 300, DateTimeKind.Local).AddTicks(4794), "Prime-原塊現切牛肉", 200m, 10000m, 4 },
+                    { 8, "食品", "堅持手工製作，外酥內Q的迷人口感，多種披薩口味任選，簡單加熱就能享用，香氣濃郁成份單純，點心宵夜絕對便利的美味～", new DateTime(2022, 4, 16, 16, 25, 18, 300, DateTimeKind.Local).AddTicks(4973), "堅持手工製作，外酥內Q的迷人口感，多種披薩口味任選，簡單加熱就能享用，香氣濃郁成份單純，點心宵夜絕對便利的美味～", false, new DateTime(2022, 4, 26, 16, 25, 18, 300, DateTimeKind.Local).AddTicks(4974), "魔法仗", 300m, 20000m, 6 }
                 });
 
             migrationBuilder.InsertData(

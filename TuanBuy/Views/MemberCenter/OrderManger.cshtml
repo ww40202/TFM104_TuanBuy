@@ -1,12 +1,101 @@
-﻿<script src="/VueComponent/VueDemo.js"></script>
+﻿
+<script src="/VueComponent/VueDemo.js"></script>
 
 
 <div class="container mtb2rem" id="app">
     <div class="row">
 
         <test v-bind:user="user"></test>
+        <div class="col-lg-10 purchasecolor">
+            <ul id="myTab" role="tablist" class="nav nav-tabs">
+                <li class="nav-item">
+                    <a id="all-tallab" data-toggle="tab" href="#all" role="tab" aria-controls="all" aria-selected="false" class="nav-link active">訂單</a>
+                </li>
+                <li class="nav-item">
+                    <a id="product1-tab" data-toggle="tab" href="#product1" role="tab" aria-controls="product1" aria-selected="false" class="nav-link">已處理</a>
+                </li>
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                <div id="all" role="tabpanel" aria-labelledby="all-tab" class="tab-pane fade show active">
+                    <!---->
+                    <div class="purchaseback">
+                        <div class="order-list-header">
+                            <span class="order-list-item-product">商品</span>
+                            <span class="order-list-item-count">數量</span>
+                            <span class="order-list-item-total">付款金額</span>
+                            <span class="order-list-item-status">訂單日期</span>
+                            <span class="order-list-item-address">運送地址</span>
+                            <span class="order-list-item-message">備註</span>
+                        </div>
+                        @*訂單從這動態綁定*@
+                        <div class="order-item-header">
+                            <span>買家名稱買家名稱買家名稱<i class="fa fa-comments-o order-message-btn" aria-hidden="true"></i></span>
+                            <span>訂單編號1234567890<button class="order-btn">出貨</button></span>
 
-        
+                        </div>
+                        <div class="order-detail">
+                            <span class="order-detail-product">
+                                擁有水中珍品美譽的智力鮭魚，富含對人體有益的魚油，產地捕撈後隨即低溫急速冷凍鎖住新鮮與營養，美味直送到家！
+                            </span>
+                            <span class="order-detail-count">x3</span>
+                            <span class="order-detail-total">999999</span>
+                            <span class="order-detail-status">2022/4/16</span>
+                            <span class="order-detail-address">台北市中山區南京東路三段224號1F</span>
+                            <span class="order-detail-message">不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜</span>
+                        </div>
+                        @*訂單動態綁定結束*@
+                        @*訂單從這動態綁定*@
+                        <div class="order-item-header">
+                            <span>買家名稱買家名稱買家名稱<i class="fa fa-comments-o order-message-btn" aria-hidden="true"></i></span>
+                            <span>訂單編號1234567890<button class="order-btn">出貨</button></span>
+
+                        </div>
+                        <div class="order-detail">
+                            <span class="order-detail-product">
+                                擁有水中珍品美譽的智力鮭魚，富含對人體有益的魚油，產地捕撈後隨即低溫急速冷凍鎖住新鮮與營養，美味直送到家！
+                            </span>
+                            <span class="order-detail-count">x3</span>
+                            <span class="order-detail-total">999999</span>
+                            <span class="order-detail-status">2022/4/16</span>
+                            <span class="order-detail-address">台北市中山區南京東路三段224號1F</span>
+                            <span class="order-detail-message">不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜</span>
+                        </div>
+                        @*訂單動態綁定結束*@
+                    </div>
+
+                </div>
+                <div id="product1" role="tabpanel" aria-labelledby="product1-tab" class="tab-pane fade">
+                    <!---->
+                    <div class="purchaseback">
+                        <div class="order-list-header">
+                            <span class="order-list-item-product">商品</span>
+                            <span class="order-list-item-count">數量</span>
+                            <span class="order-list-item-total">付款金額</span>
+                            <span class="order-list-item-status">訂單日期</span>
+                            <span class="order-list-item-address">運送地址</span>
+                            <span class="order-list-item-message">備註</span>
+                        </div>
+                        @*已處理從這動態綁定*@
+                        <div class="order-item-header">
+                            <span>買家名稱買家名稱買家名稱<i class="fa fa-comments-o order-message-btn" aria-hidden="true"></i></span>
+                            <span class="order-span-padding">訂單編號1234567890</span>
+
+                        </div>
+                        <div class="order-detail">
+                            <span class="order-detail-product">
+                                擁有水中珍品美譽的智力鮭魚，富含對人體有益的魚油，產地捕撈後隨即低溫急速冷凍鎖住新鮮與營養，美味直送到家！
+                            </span>
+                            <span class="order-detail-count">x3</span>
+                            <span class="order-detail-total">999999</span>
+                            <span class="order-detail-status">2022/4/16</span>
+                            <span class="order-detail-address">台北市中山區南京東路三段224號1F</span>
+                            <span class="order-detail-message">不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜</span>
+                        </div>
+                        @*已處理動態綁定結束*@
+                    </div>
+                </div>
+        </div>
+
     </div>
 </div>
 

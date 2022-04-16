@@ -13,6 +13,7 @@ using TuanBuy.ViewModel;
 
 namespace TuanBuy.Controllers
 {
+
     [Authorize(Roles = "User")]
     public class MemberCenterController : Controller
     {
