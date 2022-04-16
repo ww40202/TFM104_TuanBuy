@@ -344,15 +344,15 @@ namespace TuanBuy.Models.Entities
         #endregion
 
         #region
-        public UserVouchers GetUserVoucher(int UserId)
-        {
-            //using(_dbContext)
-            //{
-            //    var result = _dbContext.
+        //public UserVouchers GetUserVoucher(int UserId)
+        //{
+        //    //using(_dbContext)
+        //    //{
+        //    //    var result = _dbContext.
 
-            //}
-            //return 
-        }
+        //    //}
+        //    //return 
+        //}
         #endregion
     }
 }
