@@ -65,7 +65,16 @@ border-radius:10px!important;
  
 }
 .updown {
-    margin-top: 12px!important;
-    margin-left:20px;
-
+    margin-top: 12px !important;
+    margin-left: 20px;
+    /*background-color: #1C1CFF;*/ /* Green */
+    border: 1px solid green;
+    color: white;
+    padding: 7px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    float: left;
 }

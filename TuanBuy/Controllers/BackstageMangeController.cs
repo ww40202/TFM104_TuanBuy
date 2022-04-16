@@ -125,13 +125,13 @@ namespace TuanBuy.Controllers
             _dbcontext.SaveChanges();
             return Ok();
         }
-        //產品管理撈出下架商品
-        public List<ProductBackMangeViewModel> ProductJoinup()
-        {
-            var BackOrder = new OrderManage(_dbcontext);
-            var result = BackOrder.GetProductdown();
-            return result;
-        }
+        ////產品管理撈出下架商品
+        //public List<ProductBackMangeViewModel> ProductJoinup()
+        //{
+        //    var BackOrder = new OrderManage(_dbcontext);
+        //    var result = BackOrder.GetProductdown();
+        //    return result;
+        //}
         //產品上架
         [HttpDelete]
         public IActionResult ProductUp(int id)
