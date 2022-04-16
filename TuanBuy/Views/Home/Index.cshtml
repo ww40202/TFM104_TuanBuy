@@ -38,56 +38,27 @@
                 </a>
             </div>
         </div>
-    </div>
 
 
-    <!-- 熱門按鈕 -->
-    <div class="container">
-        <div class="mt4 bt pt3 tc mb3 mb0-l bb">
-            <div class="db nowrap overflow-auto pb3 pt1">
-                <a class="f6 ph3 pv2 b link mid-gray mh1" style="cursor:pointer" v-on:click="filterClass(event)" id="精選">精選</a>
-                <a class="f6 ph3 pv2 b link mid-gray mh1" style="cursor:pointer" v-on:click="filterClass(event)" id="乾糧">乾糧</a>
-                <a class="f6 ph3 pv2 b link mid-gray mh1" style="cursor:pointer" v-on:click="filterClass(event)" id="票卷">票卷</a>
-                <a class="f6 ph3 pv2 b link mid-gray mh1" style="cursor:pointer" v-on:click="filterClass(event)" id="美食">美食</a>
-                <a class="f6 ph3 pv2 b link mid-gray mh1" style="cursor:pointer" v-on:click="filterClass(event)" id="用品">用品</a>
-                <a class="f6 ph3 pv2 b link mid-gray mh1" style="cursor:pointer" v-on:click="filterClass(event)" id="3C">3C</a>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- 商品卡 -->
-    @*https://picsum.photos/300/150*@
-
-
-    <div class="container" id="productCard">
-        <div class="row">
-            <div class="col-md-4" v-for="item in products">
-                <div class="card ">
-                    <a v-bind:href="item.href">
-                        <img class="card-img-top"
-                             v-bind:src="item.picPath"
-                             alt="Card image" style="width: 100%" width="320" height="200">
-                        <div class="card-body">
-
-                            @*商品創立時間*@
-                            <h5>{{item.createTime}}</h5>
-                            @*商品名稱*@
-                            <h4 class="card-title">{{item.name}}</h4>
-                            @*商品描述*@
-                            <p class="card-text">{{item.description}}</p>
-                            <div class="progressbargreen" v-bind:style="{width:item.percentage,borderColor:item.color}"></div>
-                            <div class="bridto"></div>
-
-                            <div class="ntless">NT${{item.total}}</div>
-                            <span class="fday">
-                                <i class="material-icons lessicon">timelapse</i> 剩下 {{item.lastTime}}
-                            </span>
-                        </div>
-                    </a>
+        <!-- 熱門按鈕 -->
+        <div class="container">
+            <div class="mt4 bt pt3 tc mb3 mb0-l bb">
+                <div class="db nowrap overflow-auto pb3 pt1">
+                    <a class="f6 ph3 pv2 b link mid-gray mh1" style="cursor:pointer" v-on:click="filterClass(event)" id="精選">精選</a>
+                    <a class="f6 ph3 pv2 b link mid-gray mh1" style="cursor:pointer" v-on:click="filterClass(event)" id="乾糧">乾糧</a>
+                    <a class="f6 ph3 pv2 b link mid-gray mh1" style="cursor:pointer" v-on:click="filterClass(event)" id="票卷">票卷</a>
+                    <a class="f6 ph3 pv2 b link mid-gray mh1" style="cursor:pointer" v-on:click="filterClass(event)" id="美食">美食</a>
+                    <a class="f6 ph3 pv2 b link mid-gray mh1" style="cursor:pointer" v-on:click="filterClass(event)" id="用品">用品</a>
+                    <a class="f6 ph3 pv2 b link mid-gray mh1" style="cursor:pointer" v-on:click="filterClass(event)" id="3C">3C</a>
                 </div>
             </div>
         </div>
+
+
+        <!-- 商品卡 -->
+        @*https://picsum.photos/300/150*@
+
+
         <br />
         <br />
         <br />
