@@ -48,6 +48,7 @@ namespace TuanBuy.Controllers
         }
 
 
+
         public IActionResult Index()
         {
 
@@ -66,6 +67,11 @@ namespace TuanBuy.Controllers
 
             var c = db.HashGetAll(ricoID);
             var dd = RedisProvider.ConvertFromRedis<Users>(c);
+            return View();
+        }
+
+        public IActionResult TestFav()
+        {
             return View();
         }
         public static Dictionary<String, Object> parse(byte[] json)
