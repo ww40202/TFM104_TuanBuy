@@ -625,10 +625,23 @@ justify-content: center; */
     white-space: nowrap;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     white-space: normal;
-    width: 80%;
+    width: 45%;
+}
+
+.check-chose-p2 {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    white-space: normal;
+    width: 20%;
+    color: #ee4d2d;
+    margin-left:3%
 }
 
 .checkcheckbox {
@@ -2398,4 +2411,13 @@ p,
     border-radius: .25rem;
     min-height: 30rem;
     padding:0;
+}
+
+.card-img-top{
+    height:200px;
+    width:300px;
+}
+
+.mt2rem {
+    margin-top: 2rem;
 }
