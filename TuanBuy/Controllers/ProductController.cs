@@ -398,5 +398,32 @@ namespace TuanBuy.Controllers
         {
             return View();
         }
+
+        #region 會員輸入優惠碼增加優惠卷方法
+        public void AddVoucher(int UserId,Guid VoucherId)
+        {
+            using (_dbContext)
+            {
+                UserVoucher user = new UserVoucher();
+                user.VoucherId = VoucherId;
+                user.MemberId = UserId;
+                _dbContext.UserVouchers.Add(user);
+                _dbContext.SaveChanges();
+            }
+        }
+        #endregion
+
+        #region 抓取該使用者會員優惠卷
+        public void GetUserVoucher(int UserId)
+        {
+            using(_dbContext)
+            {
+                //TODO
+                UserVouchers userVouchers = new UserVouchers();
+                
+
+            }
+        }
+        #endregion
     }
 }

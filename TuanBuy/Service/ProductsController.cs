@@ -163,6 +163,25 @@ namespace TuanBuy.Service
                     }
                     i.Color = GetBarColor.GetColor(a);
                     i.Percentage = a + "%";
+
+                    if(a>=60)
+                    {
+                        var s = new ProductViewModel();
+                        s.Id = p.Id;
+                        s.Name = p.Name;
+                        s.Description = p.Description;
+                        s.Content = p.Content;
+                        s.Category = "精選";
+                        s.PicPath = p.PicPath;
+                        s.LastTime = timeSpan.Days + "天";
+                        s.Price = p.Price;
+                        s.Total = i.Total;
+                        s.Href = p.Href;
+                        s.TargetPrice = p.TargetPrice;
+                        s.Color = i.Color;
+                        s.Percentage = i.Percentage;
+                        result.Add(s);
+                    }
                 }
                 else
                 {
@@ -173,6 +192,7 @@ namespace TuanBuy.Service
                 {
                     i.Percentage = "100%";
                 }
+
                 result.Add(i);
             }
 
