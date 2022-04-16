@@ -491,6 +491,7 @@ footer {
     /* align-items: center;
 justify-content: center; */
     display: flex;
+    margin:.5rem;
 }
 
 .checkpoint {
@@ -554,6 +555,10 @@ justify-content: center; */
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     white-space: normal;
+    min-width: 41%;
+    min-height: 80px;
+    width: 785px;
+    max-width: 45%;
 }
 
 
@@ -952,15 +957,20 @@ border: 0;
 }
 
 .purchaseback {
-    margin: 1% 0;
-    padding: 1% 0;
     background-color: white;
+    border-top: 1.5px solid #f6f6f6;
+    min-height:30rem;
 }
 
 .purchasecolor {
     border-radius: .25rem;
     height: 100%;
     width: 100%;
+}
+
+.purchasemg {
+    margin: 1rem 0;
+    border-bottom: 2px solid #f6f6f6
 }
 
 
@@ -2200,3 +2210,192 @@ p,
     .forgetpassbtn:hover {
         color: #007bff;
     }
+
+    .cardmgtp{
+        margin-top:15px;
+    }
+
+.order-list-header {
+    display: flex;
+    padding: 12px 16px;
+    background: #f6f6f6;
+    border-radius: 4px;
+    color: #757575;
+    font-size: 14px;
+    border: 1px solid #e8e8e8;
+    margin:1rem;
+}
+
+.order-list-item-product {
+    margin-right: 16px;
+    min-width: 230px;
+    max-width: 230px;
+    -webkit-box-flex: 1;
+    flex: 1;
+}
+
+.order-list-item-count {
+    margin-right: 16px;
+    min-width: 40px;
+    max-width: 40px;
+}
+
+.order-list-item-total {
+    margin-right: 16px;
+    min-width: 80px;
+    max-width: 80px;
+}
+
+.order-list-item-status {
+    margin-right: 16px;
+    min-width: 80px;
+    max-width: 80px;
+}
+
+.order-list-item-address {
+    margin-right: 16px;
+    color: #333;
+    word-break: break-all;
+    min-width: 150px;
+    max-width: 150px;
+}
+
+.order-list-item-message {
+    min-width: 200px;
+    max-width: 200px;
+}
+
+.order-item-header {
+    padding: 0 16px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    /*    width: 100%;*/
+    height: 40px;
+    border-bottom: 1px solid #e8e8e8;
+    background-color: hsla(0,0%,96%,.5);
+    margin: 0 1rem;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+}
+
+.order-detail {
+    display: flex;
+    padding: 12px 16px;
+    background: #FFF;
+    border-radius: 4px;
+    color: #666;
+    font-size: 14px;
+    border: 1px solid #e8e8e8;
+    margin: 0 1rem 1rem 1rem;
+    min-height:90px
+}
+
+.order-div{
+    border:2px solid #666;
+    display:block;
+}
+
+.order-detail-product {
+    margin-right: 16px;
+    min-width: 230px;
+    max-width: 230px;
+    -webkit-box-flex: 1;
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    white-space: normal;
+}
+
+.order-detail-count {
+    margin-right: 16px;
+    min-width: 40px;
+    max-width: 40px;
+}
+
+.order-detail-total {
+    margin-right: 16px;
+    min-width: 80px;
+    max-width: 80px;
+}
+
+.order-detail-status {
+    margin-right: 16px;
+    min-width: 80px;
+    max-width: 80px;
+}
+
+.order-detail-address {
+    margin-right: 16px;
+    color: #333;
+    word-break: break-all;
+    min-width: 150px;
+    max-width: 150px;
+}
+
+.order-detail-message {
+    min-width: 200px;
+    max-width: 200px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    white-space: normal;
+}
+
+.order-btn{
+    color:white;
+    background-color:crimson;
+    border:0;
+    font-weight:700;
+    margin-left:1rem;
+    border-radius:2px;
+    font-size:18px;
+}
+
+.order-message-btn {
+    color: darkorange;
+    margin-left: 10px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.order-span-padding{
+    padding:4rem;
+}
+
+.notify-read{
+    display:flex;
+    justify-content:right;
+    border-bottom:1px solid #f6f6f6;
+    min-height:3rem;
+}
+
+.notify-read-btn{
+    border:0;
+    background-color:transparent;
+    margin:auto .5rem;
+}
+
+.notify-alldiv {
+    background-color: white;
+    border-radius: .25rem;
+    min-height: 30rem;
+    padding:0;
+}
