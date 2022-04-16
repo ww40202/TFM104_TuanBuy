@@ -163,25 +163,6 @@ namespace TuanBuy.Service
                     }
                     i.Color = GetBarColor.GetColor(a);
                     i.Percentage = a + "%";
-
-                    if(a>=60)
-                    {
-                        var s = new ProductViewModel();
-                        s.Id = p.Id;
-                        s.Name = p.Name;
-                        s.Description = p.Description;
-                        s.Content = p.Content;
-                        s.Category = "精選";
-                        s.PicPath = p.PicPath;
-                        s.LastTime = timeSpan.Days + "天";
-                        s.Price = p.Price;
-                        s.Total = i.Total;
-                        s.Href = p.Href;
-                        s.TargetPrice = p.TargetPrice;
-                        s.Color = i.Color;
-                        s.Percentage = i.Percentage;
-                        result.Add(s);
-                    }
                 }
                 else
                 {
@@ -194,6 +175,72 @@ namespace TuanBuy.Service
                 }
 
                 result.Add(i);
+            }
+
+            return result;
+
+        }
+
+
+        [Route("HotProducts")]
+        [HttpGet]
+        public ActionResult<IEnumerable<ProductViewModel>> GetHotProducts()
+        {
+            var products = GetAllProducts().OrderByDescending(x => x.Id);
+            var orderDetails =
+                (from orderDetail in _dbContext.OrderDetail
+                     //where (products.Select(x => x.Id)).Contains(orderDetail.ProductId)
+                 select new { orderdetail = orderDetail }).ToList();
+            var result = new List<ProductViewModel>();
+            foreach (var p in products)
+            {
+                var i = new ProductViewModel();
+                i.Id = p.Id;
+                i.Name = p.Name;
+                i.Description = p.Description;
+                i.Content = p.Content;
+                i.Category = p.Category;
+                i.PicPath = p.PicPath;
+                TimeSpan timeSpan = p.EndTime.Subtract(DateTime.Now).Duration();
+                i.LastTime = timeSpan.Days + "天";
+                i.Price = p.Price;
+                i.Total = 0;
+                i.Href = p.Href;
+                i.TargetPrice = p.TargetPrice;
+                i.Color = "#3366a9";
+                foreach (var orderDetail in orderDetails)
+                {
+                    if (orderDetail.orderdetail.ProductId == p.Id)
+                    {
+                        i.Total += orderDetail.orderdetail.Count * p.Price;
+                    }
+                }
+
+                if (i.Total != null && i.Total != 0 && i.TargetPrice != 0)
+                {
+                    var a = (i.Total / i.TargetPrice) * 100;
+                    if (a >= 100)
+                    {
+                        a = 100;
+                    }
+                    i.Color = GetBarColor.GetColor(a);
+                    i.Percentage = a + "%";
+
+                    if (a >= 60)
+                    {
+                        i.Category = "精選";
+                        result.Add(i);
+                    }
+                }
+                else
+                {
+                    i.Percentage = "0%";
+
+                }
+                if (i.TargetPrice == 0)
+                {
+                    i.Percentage = "100%";
+                }
             }
 
             return result;

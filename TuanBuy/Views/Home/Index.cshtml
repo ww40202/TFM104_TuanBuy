@@ -44,6 +44,7 @@
         <div class="container">
             <div class="mt4 bt pt3 tc mb3 mb0-l bb">
                 <div class="db nowrap overflow-auto pb3 pt1">
+                    <a class="f6 ph3 pv2 b link mid-gray mh1" style="cursor:pointer" v-on:click="filterClass(event)" id="全部">全部</a>
                     <a class="f6 ph3 pv2 b link mid-gray mh1" style="cursor:pointer" v-on:click="filterClass(event)" id="精選">精選</a>
                     <a class="f6 ph3 pv2 b link mid-gray mh1" style="cursor:pointer" v-on:click="filterClass(event)" id="乾糧">乾糧</a>
                     <a class="f6 ph3 pv2 b link mid-gray mh1" style="cursor:pointer" v-on:click="filterClass(event)" id="票卷">票卷</a>
@@ -69,7 +70,7 @@
 
         <div class="container">
             <div class="row">
-                <div class="col-md-4" v-for="item in products" v-if="item.category=='精選' && search=='' || item.category ==search ">
+                <div class="col-md-4" v-for="item in products" v-if="search=='' || item.category ==search">
                     <div class="card ">
                         <a v-bind:href="item.href">
                             <img class="card-img-top"
@@ -89,6 +90,32 @@
                                 <div class="ntless">NT${{item.total}}</div>
                                 <span class="fday">
                                     <i class="material-icons lessicon">timelapse</i> 剩下 {{item.lastTime}}
+                                </span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                @*熱門商品陣列*@
+                <div class="col-md-4" v-for="items in hotProducts" v-if="search=='精選' || items.category ==search ">
+                    <div class="card ">
+                        <a v-bind:href="items.href">
+                            <img class="card-img-top"
+                                 v-bind:src="items.picPath"
+                                 alt="Card image" style="width: 100%" width="320" height="200">
+                            <div class="card-body">
+
+                                @*商品創立時間*@
+                                <h5>{{items.createTime}}</h5>
+                                @*商品名稱*@
+                                <h4 class="card-title">{{items.name}}</h4>
+                                @*商品描述*@
+                                <p class="card-text">{{items.description}}</p>
+                                <div class="progressbargreen" v-bind:style="{width:items.percentage,borderColor:items.color}"></div>
+                                <div class="bridto"></div>
+
+                                <div class="ntless">NT${{items.total}}</div>
+                                <span class="fday">
+                                    <i class="material-icons lessicon">timelapse</i> 剩下 {{items.lastTime}}
                                 </span>
                             </div>
                         </a>
@@ -138,13 +165,15 @@
         data: {
             //data: testData,
             products: [],
-            search:'',
+            search: '',
+            hotProducts:[],
         },
         methods: {
             filterClass: function (event) {
                 app.search = event.target.id;
-                console.log(event.target.id);
-                console.log(app.products);
+                if (event.target.id == '全部') {
+                    app.search = '';
+                }
             }
         },
         mounted: function () {
@@ -153,7 +182,13 @@
                 self.products = resp.data;
                 /*self.products.category = parseFloat(resp.data.percentage) >= parseFloat("60%") ? '精選' : resp.data.category;*/
                 console.log(self.products);
-            });
+            }),
+                //取得精選商品
+                axios.get("/api/Products/HotProducts").then((resp) => {
+                    app.hotProducts = resp.data;
+                    /*self.products.category = parseFloat(resp.data.percentage) >= parseFloat("60%") ? '精選' : resp.data.category;*/
+                    console.log(self.hotProducts);
+                });
         }
         //{
         //    getStyle(data) {
