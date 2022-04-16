@@ -37,7 +37,7 @@ namespace TuanBuy.Controllers
             _environment = environment;
             _userRepository = userRepository;
             _dbContext = dbContext;
-            _distributedCache= distributedCache;
+            _distributedCache = distributedCache;
             _redisDb = redisDb;
 
         }
@@ -90,11 +90,11 @@ namespace TuanBuy.Controllers
         #endregion 
 
         #region 新增產品頁留言
-        public IActionResult AddProductMessage(int ProductId,int UserId,string MessageContent)
+        public IActionResult AddProductMessage(int ProductId, int UserId, string MessageContent)
         {
-            ProductManage product = new ProductManage(_dbContext);              
+            ProductManage product = new ProductManage(_dbContext);
             //新增商品頁留言
-            product.AddProductMessage(ProductId,UserId,MessageContent);
+            product.AddProductMessage(ProductId, UserId, MessageContent);
             return Ok();
         }
         #endregion
@@ -111,8 +111,7 @@ namespace TuanBuy.Controllers
         #endregion
 
         #region 將商品加入購物車
-        //[Authorize(Roles = "FullUser")]
-        //[Authorize(Roles = "SystemAdmin")]
+        [Authorize(Roles = "FullUser")]
         public void AddProductOrder(int ProductId, int UserId)
         {
             var productData = (from product in _dbContext.Product
@@ -123,26 +122,7 @@ namespace TuanBuy.Controllers
 
             var userData = _dbContext.User.FirstOrDefault(x => x.Id == UserId);
 
-            #region 存取至Redis
-            var claim = HttpContext.User.Claims;
-            var userId = claim.FirstOrDefault(a => "Userid" == a.Type)?.Value;
-            var db = _redisDb.GetRedisDb(2);
 
-
-            var userShopCar = RedisProvider.ConvertToDictionaryInt((db.HashGetAll(userId)));
-            if (userShopCar.ContainsKey(ProductId))
-            {
-                userShopCar[ProductId]++;
-            }
-            else
-            {
-                userShopCar.Add(ProductId, 1);
-            }
-
-            var shopCar = RedisProvider.ToHashEntryArray(userShopCar);
-            db.HashSet(userId, shopCar);
-
-            #endregion
 
             #region 原本session
             if (HttpContext.Session.GetString("ShoppingCart") != null)
@@ -187,7 +167,7 @@ namespace TuanBuy.Controllers
                    },
                 });
                 HttpContext.Session.SetString("ShoppingCart", jsonstring);
-                
+
 
             }
 
@@ -195,6 +175,64 @@ namespace TuanBuy.Controllers
 
         }
         #endregion
+
+        #region 確認收藏、加入收藏、瀏覽收藏Redis
+
+        public bool CheckFavicon(int id)
+        {
+            var claim = HttpContext.User.Claims;
+            var userId = claim.FirstOrDefault(a => "Userid" == a.Type)?.Value;
+
+            if (userId == null) return false;
+            var db = _redisDb.GetRedisDb(2);
+            var userShopCar = RedisProvider.ConvertToDictionaryInt((db.HashGetAll(userId)));
+            var check = userShopCar.ContainsKey(id);
+
+            return check;
+        }
+        public bool AddFavicon(int id)
+        {
+            var claim = HttpContext.User.Claims;
+            var userId = claim.FirstOrDefault(a => "Userid" == a.Type)?.Value;
+            if (userId == null) return false;
+
+            var db = _redisDb.GetRedisDb(2);
+            bool check;
+
+            var userShopCar = RedisProvider.ConvertToDictionaryInt((db.HashGetAll(userId)));
+            if (userShopCar.ContainsKey(id))
+            {
+                db.HashDelete(userId, id);
+                check = false;
+                //userShopCar[productId]++;
+            }
+            else
+            {
+                userShopCar.Add(id, 1);
+                var shopCar = RedisProvider.ToHashEntryArray(userShopCar);
+                db.HashSet(userId, shopCar);
+                check = true;
+            }
+
+            return check;
+
+        }
+
+        public object GetAllFavicon()
+        {
+            var claim = HttpContext.User.Claims;
+            var userId = claim.FirstOrDefault(a => "Userid" == a.Type)?.Value;
+            var db = _redisDb.GetRedisDb(2);
+           
+            var userShopCar = RedisProvider.ConvertToDictionaryInt((db.HashGetAll(userId)));
+            var keyList = userShopCar.Select(i => i.Key).ToList();
+            var productList = _dbContext.Product.Where(x => keyList.Contains(x.Id)).ToList();
+            return productList;
+        }
+
+
+        #endregion
+
 
         #region 刪除購物車商品
         public void DelectShoppingCart(int productId)
@@ -209,13 +247,7 @@ namespace TuanBuy.Controllers
                 HttpContext.Session.Remove("ShoppingCart");
                 //重新寫入新session
                 HttpContext.Session.SetString("ShoppingCart", JsonConvert.SerializeObject(shoppingcarts));
-                #region 去Redis裡刪除
-                var claim = HttpContext.User.Claims;
-                var userId = claim.FirstOrDefault(a => "Userid" == a.Type)?.Value;
-                var db = _redisDb.GetRedisDb(2);
-                db.HashDelete(userId, productId);
 
-                #endregion
 
 
             }
@@ -223,9 +255,9 @@ namespace TuanBuy.Controllers
         #endregion
 
         #region 將購物車商品加入到訂單
-        public object AddOrder(string OrderDescription,string BuyerAddress,string Phone,string PaymentType ,int BuyerId,List<ShoppingCartViewModel> shoppingCartViewModels)
+        public object AddOrder(string OrderDescription, string BuyerAddress, string Phone, string PaymentType, int BuyerId, List<ShoppingCartViewModel> shoppingCartViewModels)
         {
-            using(_dbContext)
+            using (_dbContext)
             {
                 Order order = new Order();
                 OrderDetail orderDetail = new OrderDetail();
@@ -245,10 +277,11 @@ namespace TuanBuy.Controllers
                 _dbContext.SaveChanges();
                 //將先前session清除
                 HttpContext.Session.Remove("ShoppingCart");
-                return new {
+                return new
+                {
                     ordernumber = order.Id.ToString(),
                     amount = shoppingCartViewModels[0].ProductPrice * shoppingCartViewModels[0].ProductCount,
-                    PayMethod = PaymentType == "0" ? "creditcard" : "VACC" 
+                    PayMethod = PaymentType == "0" ? "creditcard" : "VACC"
                 };
             }
         }
@@ -256,8 +289,7 @@ namespace TuanBuy.Controllers
         #endregion
 
         #region 加入團購結帳頁面
-        //[Authorize(Roles = "FullUser")]
-        //[Authorize(Roles = "SystemAdmin")]
+        [Authorize(Roles = "FullUser")]
         public IActionResult checkout()
         {
 
@@ -269,8 +301,6 @@ namespace TuanBuy.Controllers
 
         //等待開團商品頁
         [Authorize(Roles = "FullUser")]
-        [Authorize(Roles = "SystemAdmin")]
-
         public IActionResult WaitingProduct()
         {
             return View();
@@ -283,8 +313,6 @@ namespace TuanBuy.Controllers
 
         //已開團商品頁
         [Authorize(Roles = "FullUser")]
-        [Authorize(Roles = "SystemAdmin")]
-
         public IActionResult ReadyProduct()
         {
             return View();
@@ -295,7 +323,6 @@ namespace TuanBuy.Controllers
         //新增商品
         [HttpPost]
         [Authorize(Roles = "FullUser")]
-        [Authorize(Roles = "SystemAdmin")]
         public IActionResult PostProduct(AddProductViewModel product)
         {
             if (product.PicPath == null)
@@ -380,8 +407,8 @@ namespace TuanBuy.Controllers
             if (shoppjson != null)
             {
                 var shoppingcarts = JsonConvert.DeserializeObject<List<ProductCheckViewModel>>(shoppjson);
-                var result = shoppingcarts.Where(x => x.BuyerPhone != null && x.BuyerName !=null && x.BuyerAddress !=null);
-                return result !=null ? shoppingcarts : "使用者資料尚未填寫";
+                var result = shoppingcarts.Where(x => x.BuyerPhone != null && x.BuyerName != null && x.BuyerAddress != null);
+                return result != null ? shoppingcarts : "使用者資料尚未填寫";
             }
             else
             {
@@ -394,7 +421,7 @@ namespace TuanBuy.Controllers
         public List<ProductViewModel> GetSellerProducts(int id)
         {
             ProductManage product = new ProductManage(_dbContext);
-            var result =product.GetSellerProducts(id);
+            var result = product.GetSellerProducts(id);
 
             return result.ToList();
         }
