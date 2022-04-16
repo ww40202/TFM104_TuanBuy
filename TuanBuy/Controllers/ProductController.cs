@@ -111,8 +111,8 @@ namespace TuanBuy.Controllers
         #endregion
 
         #region 將商品加入購物車
-        [Authorize(Roles = "FullUser")]
-        [Authorize(Roles = "SystemAdmin")]
+        //[Authorize(Roles = "FullUser")]
+        //[Authorize(Roles = "SystemAdmin")]
         public void AddProductOrder(int ProductId, int UserId)
         {
             var productData = (from product in _dbContext.Product
@@ -256,9 +256,8 @@ namespace TuanBuy.Controllers
         #endregion
 
         #region 加入團購結帳頁面
-        [Authorize(Roles = "FullUser")]
-        [Authorize(Roles = "SystemAdmin")]
-
+        //[Authorize(Roles = "FullUser")]
+        //[Authorize(Roles = "SystemAdmin")]
         public IActionResult checkout()
         {
 
