@@ -19,8 +19,12 @@ namespace TuanBuy.Models.Entities
         public string VoucherDescribe { get; set; }
         //折價卷圖片
         public string PicPath { get; set; }
+        //折價卷優惠敘述
+        public string DiscountDescribe { get; set; }
         //折價卷折數
         public decimal VouchersDiscount { get; set; }
+        //折價卷可使用金額
+        public decimal VouchersAvlAmount { get; set; }
 
         public virtual ICollection<UserVoucher> UserVouchers { get; set; }
     }

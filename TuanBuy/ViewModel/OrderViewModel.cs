@@ -8,7 +8,7 @@ namespace TuanBuy.ViewModel
     public class OrderViewModel
     {
         //訂單ID
-        public int OrderId { get; set; }
+        public string OrderId { get; set; }
         //訂單備註
         public string Description { get; set; }
         //商品ID
@@ -38,7 +38,7 @@ namespace TuanBuy.ViewModel
     public class SellerOrderViewModel
     {
         //訂單ID
-        public int OrderId { get; set; }
+        public string OrderId { get; set; }
         //商品名稱
         public string ProductName { get; set; }
         //商品描述

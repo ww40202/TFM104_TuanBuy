@@ -139,68 +139,68 @@ namespace TuanBuy.Controllers
             return data;
         }
         //List<SellerOrderViewModel>
-        public List<SellerOrderViewModel> SellerOrder()
-        {
-            var tarUser = GetTargetUser();
-            var result = (
-                from user in _dbContext.User
-                where user.Id == tarUser.Id
-                join product in _dbContext.Product on user.Id equals product.UserId
-                where product.Disable == false
-                join orderDetail in _dbContext.OrderDetail on product.Id equals orderDetail.ProductId
-                join order in _dbContext.Order on orderDetail.OrderId equals order.Id
-                where order.StateId >= 2
-                select new { order, orderDetail, product }).ToList();
-            var orderList = new List<SellerOrderViewModel>();
+        //public List<SellerOrderViewModel> SellerOrder()
+        //{
+        //    var tarUser = GetTargetUser();
+        //    var result = (
+        //        from user in _dbContext.User
+        //        where user.Id == tarUser.Id
+        //        join product in _dbContext.Product on user.Id equals product.UserId
+        //        where product.Disable == false
+        //        join orderDetail in _dbContext.OrderDetail on product.Id equals orderDetail.ProductId
+        //        join order in _dbContext.Order on orderDetail.OrderId equals order.Id
+        //        where order.StateId >= 2
+        //        select new { order, orderDetail, product }).ToList();
+        //    var orderList = new List<SellerOrderViewModel>();
 
-            var buyer =
-                (from orders in result
-                 join user in _dbContext.User on orders.order.UserId equals user.Id
-                 select user).ToList();
+        //    var buyer =
+        //        (from orders in result
+        //         join user in _dbContext.User on orders.order.UserId equals user.Id
+        //         select user).ToList();
 
-            #region 這段不行 莫名其妙
-            //foreach (var item in result)
-            //{
-            //    foreach (var user in buyer)
-            //    {
-            //        if (user.Id == item.order.UserId)
-            //        {
-            //            orderList.Add(new SellerOrderViewModel()
-            //            {
-            //                OrderId = item.order.Id,
-            //                OrderDateTime = item.order.CreateDate.ToString("yyyy-MM-dd"),
-            //                ProductName = item.product.Name,
-            //                Total = item.orderDetail.Count * item.orderDetail.Price,
-            //                Address = item.order.Address,
-            //                BuyerName = user.Name
-            //            });
-            //        }
-            //    }
-            //}
-            #endregion
-            //OK
-            foreach (var item in result)
-            {
-                var sellerOrder = new SellerOrderViewModel()
-                {
-                    OrderId = item.order.Id,
-                    OrderDateTime = item.order.CreateDate.ToString("yyyy-MM-dd"),
-                    ProductName = item.product.Name,
-                    Total = item.orderDetail.Count * item.orderDetail.Price,
-                    Address = item.order.Address
-                };
-                foreach (var user in buyer)
-                {
-                    if (user.Id == item.order.UserId)
-                    {
-                        sellerOrder.BuyerName = user.Name;
-                    }
-                }
-                orderList.Add(sellerOrder);
-            }
+        //    #region 這段不行 莫名其妙
+        //    //foreach (var item in result)
+        //    //{
+        //    //    foreach (var user in buyer)
+        //    //    {
+        //    //        if (user.Id == item.order.UserId)
+        //    //        {
+        //    //            orderList.Add(new SellerOrderViewModel()
+        //    //            {
+        //    //                OrderId = item.order.Id,
+        //    //                OrderDateTime = item.order.CreateDate.ToString("yyyy-MM-dd"),
+        //    //                ProductName = item.product.Name,
+        //    //                Total = item.orderDetail.Count * item.orderDetail.Price,
+        //    //                Address = item.order.Address,
+        //    //                BuyerName = user.Name
+        //    //            });
+        //    //        }
+        //    //    }
+        //    //}
+        //    #endregion
+        //    //OK
+        //    foreach (var item in result)
+        //    {
+        //        var sellerOrder = new SellerOrderViewModel()
+        //        {
+        //            OrderId = item.order.Id,
+        //            OrderDateTime = item.order.CreateDate.ToString("yyyy-MM-dd"),
+        //            ProductName = item.product.Name,
+        //            Total = item.orderDetail.Count * item.orderDetail.Price,
+        //            Address = item.order.Address
+        //        };
+        //        foreach (var user in buyer)
+        //        {
+        //            if (user.Id == item.order.UserId)
+        //            {
+        //                sellerOrder.BuyerName = user.Name;
+        //            }
+        //        }
+        //        orderList.Add(sellerOrder);
+        //    }
 
-            return orderList;
-        }
+        //    return orderList;
+        //}
         private User GetTargetUser()
         {
             var claim = HttpContext.User.Claims;
@@ -214,7 +214,7 @@ namespace TuanBuy.Controllers
         public class SellerOrderViewModel
         {
             //訂單ID
-            public int OrderId { get; set; }
+            public Guid OrderId { get; set; }
             //商品名稱
             public string ProductName { get; set; }
             //訂單金額
@@ -236,50 +236,50 @@ namespace TuanBuy.Controllers
             return url;
 
         }
-        public List<OrderViewModel> GetMyOrder(int id)
-        {
-            //撈出使用者訂單
-            var orders =
-                (from order in _dbContext.Order
-                 where order.UserId == id
-                 join orderDetail in _dbContext.OrderDetail on order.Id equals orderDetail.OrderId
-                 join product in _dbContext.Product on orderDetail.ProductId equals product.Id
-                 join seller in _dbContext.User on product.UserId equals seller.Id
-                 select new { order, product, orderDetail, seller }).ToList();
-            //拿使用者訂單去找每個產品的圖片
-            var productPics =
-                    from myOrderDetail in orders
-                    join pic in _dbContext.ProductPics on myOrderDetail.product.Id equals pic.ProductId into pics
-                    select new { myOrderDetail, pic = pics.First() };
+        //public List<OrderViewModel> GetMyOrder(int id)
+        //{
+        //    //撈出使用者訂單
+        //    var orders =
+        //        (from order in _dbContext.Order
+        //         where order.UserId == id
+        //         join orderDetail in _dbContext.OrderDetail on order.Id equals orderDetail.OrderId
+        //         join product in _dbContext.Product on orderDetail.ProductId equals product.Id
+        //         join seller in _dbContext.User on product.UserId equals seller.Id
+        //         select new { order, product, orderDetail, seller }).ToList();
+        //    //拿使用者訂單去找每個產品的圖片
+        //    var productPics =
+        //            from myOrderDetail in orders
+        //            join pic in _dbContext.ProductPics on myOrderDetail.product.Id equals pic.ProductId into pics
+        //            select new { myOrderDetail, pic = pics.First() };
 
-            var myOrderDetails = new List<OrderViewModel>();
+        //    var myOrderDetails = new List<OrderViewModel>();
 
-            foreach (var item in productPics)
-            {
-                var myOrderDetail = new OrderViewModel()
-                {
-                    OrderId = item.myOrderDetail.order.Id,
-                    OrderState = item.myOrderDetail.order.StateId,
-                    Description = item.myOrderDetail.order.Description,
-                    Count = item.myOrderDetail.orderDetail.Count,
-                    PaymentType = item.myOrderDetail.order.PaymentType,
-                    Address = item.myOrderDetail.order.Address,
-                    SellerId = item.myOrderDetail.seller.Id,
-                    SellerName = item.myOrderDetail.seller.Name,
-                    ProductName = item.myOrderDetail.product.Name,
-                    ProductDescription = item.myOrderDetail.product.Description,
-                    ProductPrice = item.myOrderDetail.product.Price,
-                    ProductId = item.myOrderDetail.product.Id
-                };
-                if (item.myOrderDetail.product.Id == item.pic.ProductId)
-                {
-                    myOrderDetail.ProductPath = item.pic.PicPath;
-                }
-                myOrderDetails.Add(myOrderDetail);
-            }
-            return myOrderDetails;
+        //    foreach (var item in productPics)
+        //    {
+        //        var myOrderDetail = new OrderViewModel()
+        //        {
+        //            OrderId = item.myOrderDetail.order.Id,
+        //            OrderState = item.myOrderDetail.order.StateId,
+        //            Description = item.myOrderDetail.order.Description,
+        //            Count = item.myOrderDetail.orderDetail.Count,
+        //            PaymentType = item.myOrderDetail.order.PaymentType,
+        //            Address = item.myOrderDetail.order.Address,
+        //            SellerId = item.myOrderDetail.seller.Id,
+        //            SellerName = item.myOrderDetail.seller.Name,
+        //            ProductName = item.myOrderDetail.product.Name,
+        //            ProductDescription = item.myOrderDetail.product.Description,
+        //            ProductPrice = item.myOrderDetail.product.Price,
+        //            ProductId = item.myOrderDetail.product.Id
+        //        };
+        //        if (item.myOrderDetail.product.Id == item.pic.ProductId)
+        //        {
+        //            myOrderDetail.ProductPath = item.pic.PicPath;
+        //        }
+        //        myOrderDetails.Add(myOrderDetail);
+        //    }
+        //    return myOrderDetails;
 
-        }
+        //}
 
 
         #endregion

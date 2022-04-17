@@ -150,7 +150,7 @@ namespace TuanBuy.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult GoShipping(int id)
+        public IActionResult GoShipping(string id)
         {
             var targetOrder = _dbContext.Order.FirstOrDefault(o => o.Id == id);
             if (targetOrder != null) targetOrder.StateId = 3;

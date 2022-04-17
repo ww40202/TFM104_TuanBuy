@@ -343,16 +343,58 @@ namespace TuanBuy.Models.Entities
         }
         #endregion
 
-        #region
-        //public UserVouchers GetUserVoucher(int UserId)
-        //{
-        //    //using(_dbContext)
-        //    //{
-        //    //    var result = _dbContext.
-
-        //    //}
-        //    //return 
-        //}
+        #region 會員輸入優惠碼增加優惠卷方法
+        public List<UserVouchersViewModel> AddVoucher(int UserId, string VoucherName)
+        {
+            using (_dbContext)
+            {
+                var result = _dbContext.Vouchers.FirstOrDefault(x => x.VoucherName == VoucherName);
+                if(result!=null)
+                {
+                    UserVoucher user = new UserVoucher();                   
+                    user.VoucherId = result.Id;
+                    user.MemberId = UserId;
+                    try
+                    {
+                        _dbContext.UserVouchers.Add(user);
+                        _dbContext.SaveChanges();
+                        //返回剛才新增優惠卷資料
+                        var userVouchers = GetUserVoucher(UserId);
+                        return userVouchers;
+                    }
+                    catch(Exception ex)
+                    {
+                        Console.WriteLine(ex);
+                    }                   
+                }
+            }
+            return null;
+        }
         #endregion
+
+        #region 取得使用者優惠卷
+        public List<UserVouchersViewModel> GetUserVoucher(int UserId)
+        {
+            using (_dbContext)
+            {
+                var userVouchers = from user in _dbContext.UserVouchers
+                             join vouccher in _dbContext.Vouchers on user.VoucherId equals vouccher.Id
+                             where user.MemberId == UserId
+                             select new UserVouchersViewModel() { 
+                                 VouchersTitle = vouccher.VoucherName,
+                                 VouchersDescribe = vouccher.VoucherDescribe,
+                                 VouchersDiscount = vouccher.VouchersDiscount,
+                                 VouchersId = vouccher.Id,
+                                 VouchersPicPath = vouccher.PicPath,
+                                 DiscountDescribe = vouccher.DiscountDescribe,
+                                 VouchersAvlAmount = vouccher.VouchersAvlAmount,
+                             };
+                var result = userVouchers.ToList();
+                return result;
+            }
+        }
+        #endregion
+
+
     }
 }
