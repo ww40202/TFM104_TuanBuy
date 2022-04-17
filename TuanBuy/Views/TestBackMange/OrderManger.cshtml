@@ -44,7 +44,7 @@
                 </thead>
                 <tbody>
                     <!--分頁設定-->
-                    <tr v-for="item in ordermanages.slice(pageStart, pageStart + countOfPage)"v-if="search=='' || item.orderId==search || item.userName==search || item.productName==search">
+                    <tr v-for="item in ordermanages.slice(pageStart, pageStart + countOfPage)">
                         <th scope="row">{{item.orderId}}</th>
                         <td>{{item.userName}}</td>
                         <td>{{item.productName}}</td>
@@ -65,7 +65,7 @@
                 </tbody>
             </table>
             <!--分頁-->
-            <div> class="container">
+            <div class="container">
                 <ul class="pagination">
                     <li class="page-item" v-bind:class="{'disabled': (currPage === 1)}"
                         @@click.prevent="setPage(currPage-1)"><a class="page-link" href="#">Previous</a></li>
@@ -204,6 +204,7 @@
             totalPage: function () {
                 return Math.ceil(this.ordermanages.length / this.countOfPage);  //陣列長度除以每頁設定的筆數
             },
+
         },
         methods: {
             update: function (e) {
@@ -241,7 +242,21 @@
                     return;
                 }
                 this.currPage = idx;
-            },
+            }
+            //ordermanages: function () {
+            //    var search = this.search;
+
+            //    if (search) {
+            //        return this.ordermanages.filter(function (ordermanage) {
+            //            return Object.keys(ordermanage).some(function (key) {
+            //                return String(ordermanage[key]).toLowerCase().indexOf(search) > -1
+            //            })
+            //        })
+            //    }
+
+            //    return this.ordermanage;
+            //}
+
         },
         mounted: function () {
             let self = this;

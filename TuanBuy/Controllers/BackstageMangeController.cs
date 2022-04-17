@@ -96,6 +96,15 @@ namespace TuanBuy.Controllers
             _dbcontext.SaveChanges();
             return Ok();
         }
+        //查詢
+        //public IActionResult inquireOrder(int id)
+        //{
+        //    var order = _dbcontext.OrderDetail.Select(x => x.OrderId).Distinct();
+        //    var numbering = from c in _dbcontext.OrderDetail
+        //                    where c.OrderId == id
+        //                    select c;
+
+        //}
 
         //產品管理撈出上架商品
         public List<ProductBackMangeViewModel> ProductJoin()
@@ -105,7 +114,7 @@ namespace TuanBuy.Controllers
             return result;
         }
 
-        //產品上下架
+        //產品下架
         [HttpDelete]
         public IActionResult ProductDown(int id)
         {
@@ -116,6 +125,14 @@ namespace TuanBuy.Controllers
             _dbcontext.SaveChanges();
             return Ok();
         }
+        //產品管理撈出下架商品
+        public List<ProductBackMangeViewModel> ProductJoinup()
+        {
+            var BackOrder = new OrderManage(_dbcontext);
+            var result = BackOrder.GetProductdown();
+            return result;
+        }
+        //產品上架
         [HttpDelete]
         public IActionResult ProductUp(int id)
         {

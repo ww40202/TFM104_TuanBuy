@@ -26,10 +26,17 @@ namespace TuanBuy.ViewModel
         public int ProductId { get; set; }
         public string ProductName { get; set; }
         public decimal Price { get; set; }
-        public bool Disable { get; set; }
-        public string PicPath { get; set; }
-        public string Category { get; set; }
-        public decimal Total { get; set; }
-    }
 
+        public string PicPath { get; set; }
+
+        public bool Disable { get; set; }
+    }
+    public class ProductBackMangeViewMode2
+    {
+        public int ProductId { get; set; }
+        public string ProductName { get; set; }
+        public decimal Price { get; set; }
+
+        public string PicPath { get; set; }
+    }
 }
