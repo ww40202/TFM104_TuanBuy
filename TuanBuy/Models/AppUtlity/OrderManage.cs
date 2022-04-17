@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MailKit.Search;
 using TuanBuy.Controllers;
 using TuanBuy.ViewModel;
 
@@ -128,7 +129,11 @@ namespace TuanBuy.Models.Entities
             return myOrderDetails;
         }
 
-        //撈出會員中心賣家的待出貨商品
+        /// <summary>
+        /// 撈出會員中心賣家的待出貨商品
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public List<SellerOrderViewModel> GetSellerOrder(int id)
         {
             var result = (
@@ -192,7 +197,8 @@ namespace TuanBuy.Models.Entities
                 orderList.Add(sellerOrder);
             }
 
-            return orderList;
+            
+            return orderList.OrderBy(x => x.CreateTime).ToList();
         }
     }
 }
