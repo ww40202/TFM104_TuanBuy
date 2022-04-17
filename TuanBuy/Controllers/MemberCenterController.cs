@@ -145,8 +145,16 @@ namespace TuanBuy.Controllers
         }
         #endregion
 
+        /// <summary>
+        /// 出貨
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public IActionResult GoShipping(int id)
+        {
 
-
+            return Ok();
+        }
         private User? GetTargetUser()
         {
             var claim = HttpContext.User.Claims;

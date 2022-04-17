@@ -41,6 +41,10 @@ namespace TuanBuy.ViewModel
         public int OrderId { get; set; }
         //商品名稱
         public string ProductName { get; set; }
+        //商品描述
+        public string ProductDescription { get; set; }
+        //訂單描述
+        public string OrderDescription { get; set; }
         //訂單金額
         public decimal Total { get; set; }
         //訂單日期

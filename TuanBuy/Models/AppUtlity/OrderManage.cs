@@ -168,11 +168,13 @@ namespace TuanBuy.Models.Entities
                     OrderDateTime = item.order.CreateDate.ToString("yyyy-MM-dd"),
                     ProductName = item.product.Name,
                     Total = item.orderDetail.Count * item.orderDetail.Price,
-                    Address = item.order.Address
+                    Address = item.order.Address,
+                    ProductDescription = item.product.Description,
+                    OrderDescription = item.order.Description
                 };
                 foreach (var user in buyer)
                 {
-                    if (user.Id == item.order.Id)
+                    if (user.Id == item.order.UserId)
                     {
                         sellerOrder.BuyerName = user.Name;
                     }

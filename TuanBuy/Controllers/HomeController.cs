@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using TuanBuy.Models;
 using TuanBuy.Models.AppUtlity;
+using TuanBuy.Models.Bank.Extensions;
 using TuanBuy.Models.Entities;
 using TuanBuy.Service;
 using TuanBuy.ViewModel;
@@ -74,7 +75,7 @@ namespace TuanBuy.Controllers
             return Challenge(p, GoogleDefaults.AuthenticationScheme);
         }
 
-        //註冊使用者
+
         public async Task<IActionResult> ResponseAsync()
         {
             var res = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -88,6 +89,12 @@ namespace TuanBuy.Controllers
                 x.Value,
                 x.OriginalIssuer
             });
+
+            var test =
+                res.Principal.Claims.Select(x => new KeyValuePair<string, string>(x.Type, x.Value)).ToList();
+
+            test.GetValueByKey("emailaddress");
+            test.GetValueByKey("name");
 
 
 
@@ -158,6 +165,8 @@ namespace TuanBuy.Controllers
 
             return View("Index");
         }
+
+
     }
 }
 
