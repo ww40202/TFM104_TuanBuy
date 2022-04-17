@@ -4,7 +4,7 @@
 }
 
 
-        <div class="content-inner w-100">
+        <div class="content-inner w-100" id="app">
           <!-- Page Header-->
           <header class="bg-white shadow-sm px-4 py-3 z-index-20">
             <div class="container-fluid px-0">
@@ -36,22 +36,33 @@
                           <div class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="closeCard1"><a class="dropdown-item py-1 px-3 remove" href="#"> <i class="fas fa-times"></i>Close</a><a class="dropdown-item py-1 px-3 edit" href="#"> <i class="fas fa-cog"></i>Edit</a></div>
                         </div>
                       </div>
-                      <h3 class="h4 mb-0">Basic Form</h3>
+                      <h3 class="h4 mb-0">新增優惠卷</h3>
                     </div>
                     <div class="card-body">
-                      <p class="text-sm">Lorem ipsum dolor sit amet consectetur.</p>
-                      <form>
-                        <div class="mb-3">
-                          <label class="form-label" for="exampleInputEmail1">Email address</label>
-                          <input class="form-control" id="exampleInputEmail1" type="email" aria-describedby="emailHelp">
-                          <div class="form-text" id="emailHelp">We'll never share your email with anyone else.</div>
-                        </div>
-                        <div class="mb-3">
-                          <label class="form-label" for="exampleInputPassword1">Password</label>
-                          <input class="form-control" id="exampleInputPassword1" type="password">
-                        </div>
-                        <button class="btn btn-primary" type="submit">Submit</button>
-                      </form>
+                            <p class="text-sm">新增優惠卷種類供使用者兌換使用</p>
+                            <div class="mb-3">
+                                <label class="form-label">優惠卷兌換名稱</label>
+                                <input class="form-control" id="exampleInputEmail1" type="text" v-model="vouchers.voucherName">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="exampleInputPassword1">優惠卷廣告描述</label>
+                                <input class="form-control" id="exampleInputPassword1" type="tel" v-model="vouchers.voucherDescribe">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="exampleInputPassword1">折價描述</label>
+                                <input class="form-control" id="exampleInputPassword1" type="tel" v-model="vouchers.discountDescribe">
+                                <div class="form-text">如:滿399折50等.</div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="exampleInputPassword1">折扣金額</label>
+                                <input class="form-control" id="exampleInputPassword1" type="number" min="0" v-model="vouchers.vouchersDiscount">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="exampleInputPassword1">折扣金額條件</label>
+                                <input class="form-control" id="exampleInputPassword1" type="number" min="0" v-model="vouchers.vouchersAvlAmount">
+                                <div class="form-text">可設定多少金額即可達到折扣條件.</div>
+                            </div>
+                            <button class="btn btn-primary" type="button" v-on:click="AddVoucher()">建立</button>
                     </div>
                   </div>
                 </div>
@@ -437,3 +448,56 @@
             </div>
           </footer>
         </div>
+
+<script>
+    class Vouchers {
+        voucherName = '';
+        voucherDescribe = '';
+        discountDescribe = '';
+        vouchersDiscount = 0;
+        vouchersAvlAmount = 0;
+    }
+    var app = new Vue({
+        el: '#app',
+        data: {
+            user: "",
+            picPath: "",
+            vouchers: new Vouchers(),
+        },
+        mounted: function () {
+
+        },
+        methods: {
+            AddVoucher: function () {
+                //判斷資料是否有填寫完
+                for (let i in app.vouchers) {
+                    if (app.vouchers[i] === '' || app.vouchers[i] == 0) {
+                        alert("資料請填寫完整");
+                        break;
+                    }
+                    else {
+                        //資料若都有填寫送出優惠卷表單
+                        $.ajax({
+                            type: "POST",
+                            url: "/BackstageMange/AddVouchers",
+                            data: {
+                                VouchersTitle: app.vouchers.voucherName,
+                                VouchersDescribe: app.vouchers.voucherDescribe,
+                                DiscountDescribe: app.vouchers.discountDescribe,
+                                VouchersDiscount: app.vouchers.vouchersDiscount,
+                                VouchersAvlAmount: app.vouchers.vouchersAvlAmount,
+                            },
+                            success: function (response) {
+                                alert('優惠卷新增成功');
+                            },
+                            error: function (response) {
+                                alert('發生例外錯誤');
+                            }
+                        });
+                        break;
+                    }
+                }
+            },
+        }
+    });
+</script>
