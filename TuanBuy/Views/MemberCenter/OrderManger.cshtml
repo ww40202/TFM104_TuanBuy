@@ -28,10 +28,10 @@
                             <span class="order-list-item-message">備註</span>
                         </div>
                         @*訂單從這動態綁定*@
-                        <div v-for="item in orders" v-if="item.orderState ==2">
+                        <div v-for="item,index in orders" v-if="item.orderState ==2">
                             <div class="order-item-header">
                                 <span>買家：{{item.buyerName}}<i class="fa fa-comments-o order-message-btn" aria-hidden="true"></i></span>
-                                <span>訂單編號：{{item.orderId}}<button class="order-btn" v-bind:id="item.orderId" v-on:click="goShipping(item.orderId)">出貨</button></span>
+                                <span>訂單編號：{{item.orderId}}<button class="order-btn" v-bind:id="item.orderId" v-on:click="goShipping(item.orderId,index)">出貨</button></span>
 
                             </div>
                             <div class="order-detail">
@@ -102,7 +102,7 @@
             }
         },
         methods: {
-            goShipping:function (e) {
+            goShipping:function (e,index) {
                 let self = this;
                 self.test.id = e;
                 //axios.post("/MemberCenter/GoShipping", {Id:e}).then((resp) => { this.user = resp.data });
@@ -115,10 +115,10 @@
                     },
                     success: function (response) {
                         console.log(response);
+                        console.log(index);
                         if (response == "訂單狀態已被改變") {
-                            let target = orders.find(x => x.id == e);
-                            terget.orderState = 3;
-                         }
+                            self.orders[index].orderState = 3;
+                        }
                     },
                     error: function (response) {
                         alert(response);
