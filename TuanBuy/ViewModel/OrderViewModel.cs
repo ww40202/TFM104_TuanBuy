@@ -43,6 +43,8 @@ namespace TuanBuy.ViewModel
         public string ProductName { get; set; }
         //商品描述
         public string ProductDescription { get; set; }
+        //商品數量
+        public string ProductCount { get; set; }
         //訂單描述
         public string OrderDescription { get; set; }
         //訂單金額
@@ -53,5 +55,8 @@ namespace TuanBuy.ViewModel
         public string Address { get; set; }
         //買家姓名
         public string BuyerName { get; set; }
+        //訂單狀態
+        public int OrderState { get; set; }
+
     }
 }

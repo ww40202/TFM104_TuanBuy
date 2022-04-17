@@ -28,7 +28,7 @@
                             <span class="order-list-item-message">備註</span>
                         </div>
                         @*訂單從這動態綁定*@
-                        <div v-for="item in orders">
+                        <div v-for="item in orders" v-if="item.orderState ==2">
                             <div class="order-item-header">
                                 <span>買家：{{item.buyerName}}<i class="fa fa-comments-o order-message-btn" aria-hidden="true"></i></span>
                                 <span>訂單編號：{{item.orderId}}<button class="order-btn" v-bind:id="item.orderId" v-on:click="goShipping(item.orderId)">出貨</button></span>
@@ -38,29 +38,12 @@
                                 <span class="order-detail-product">
                                     {{item.productDescription}}
                                 </span>
-                                <span class="order-detail-count">x3</span>
+                                <span class="order-detail-count">{{item.productCount}}</span>
                                 <span class="order-detail-total">{{item.total}}</span>
                                 <span class="order-detail-status">{{item.orderDateTime}}</span>
                                 <span class="order-detail-address">{{item.address}}</span>
                                 <span class="order-detail-message">{{item.orderDescription}}</span>
                             </div>
-                        </div>
-                        @*訂單動態綁定結束*@
-                        @*訂單從這動態綁定*@
-                        <div class="order-item-header">
-                            <span>買家名稱買家名稱買家名稱<i class="fa fa-comments-o order-message-btn" aria-hidden="true"></i></span>
-                            <span>訂單編號1234567890<button class="order-btn">出貨</button></span>
-
-                        </div>
-                        <div class="order-detail">
-                            <span class="order-detail-product">
-                                擁有水中珍品美譽的智力鮭魚，富含對人體有益的魚油，產地捕撈後隨即低溫急速冷凍鎖住新鮮與營養，美味直送到家！
-                            </span>
-                            <span class="order-detail-count">x3</span>
-                            <span class="order-detail-total">999999</span>
-                            <span class="order-detail-status">2022/4/16</span>
-                            <span class="order-detail-address">台北市中山區南京東路三段224號1F</span>
-                            <span class="order-detail-message">不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜</span>
                         </div>
                         @*訂單動態綁定結束*@
                     </div>
@@ -77,23 +60,25 @@
                             <span class="order-list-item-address">運送地址</span>
                             <span class="order-list-item-message">備註</span>
                         </div>
-                        @*已處理從這動態綁定*@
-                        <div class="order-item-header">
-                            <span>買家名稱買家名稱買家名稱<i class="fa fa-comments-o order-message-btn" aria-hidden="true"></i></span>
-                            <span class="order-span-padding">訂單編號1234567890</span>
+                        <div v-for="item in orders" v-if="item.orderState >2">
+                            @*已處理從這動態綁定*@
+                            <div class="order-item-header">
+                                <span>買家：{{item.buyerName}}<i class="fa fa-comments-o order-message-btn" aria-hidden="true"></i></span>
+                                <span class="order-span-padding">訂單編號：{{item.orderId}}</span>
+                            </div>
+                            <div class="order-detail">
+                                <span class="order-detail-product">
+                                    {{item.productDescription}}
+                                </span>
+                                <span class="order-detail-count">{{item.productCount}}</span>
+                                <span class="order-detail-total">{{item.total}}</span>
+                                <span class="order-detail-status">{{item.orderDateTime}}</span>
+                                <span class="order-detail-address">{{item.address}}</span>
+                                <span class="order-detail-message">{{item.orderDescription}}</span>
+                            </div>
 
+                            @*已處理動態綁定結束*@
                         </div>
-                        <div class="order-detail">
-                            <span class="order-detail-product">
-                                擁有水中珍品美譽的智力鮭魚，富含對人體有益的魚油，產地捕撈後隨即低溫急速冷凍鎖住新鮮與營養，美味直送到家！
-                            </span>
-                            <span class="order-detail-count">x3</span>
-                            <span class="order-detail-total">999999</span>
-                            <span class="order-detail-status">2022/4/16</span>
-                            <span class="order-detail-address">台北市中山區南京東路三段224號1F</span>
-                            <span class="order-detail-message">不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜不要香菜</span>
-                        </div>
-                        @*已處理動態綁定結束*@
                     </div>
                 </div>
             </div>
@@ -120,8 +105,28 @@
             goShipping:function (e) {
                 let self = this;
                 self.test.id = e;
-                axios.post("/MemberCenter/GoShipping", self.test).then((resp) => { this.user = resp.data });
+                //axios.post("/MemberCenter/GoShipping", {Id:e}).then((resp) => { this.user = resp.data });
+
+                $.ajax({
+                    type: "POST",
+                    url: "/MemberCenter/GoShipping",
+                    data: {
+                        Id: e
+                    },
+                    success: function (response) {
+                        console.log(response);
+                        if (response == "訂單狀態已被改變") {
+                            let target = orders.find(x => x.id == e);
+                            terget.orderState = 3;
+                         }
+                    },
+                    error: function (response) {
+                        alert(response);
+                    }
+                });
+
             }
+
         },
         mounted: function () {
             let self = this;

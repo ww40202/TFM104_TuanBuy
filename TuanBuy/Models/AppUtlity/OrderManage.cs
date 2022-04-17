@@ -170,7 +170,9 @@ namespace TuanBuy.Models.Entities
                     Total = item.orderDetail.Count * item.orderDetail.Price,
                     Address = item.order.Address,
                     ProductDescription = item.product.Description,
-                    OrderDescription = item.order.Description
+                    OrderDescription = item.order.Description,
+                    OrderState = item.order.StateId,
+                    ProductCount = item.orderDetail.Count
                 };
                 foreach (var user in buyer)
                 {
