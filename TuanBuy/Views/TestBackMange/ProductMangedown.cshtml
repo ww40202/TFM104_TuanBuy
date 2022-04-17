@@ -6,10 +6,6 @@
 
 <!--我的css-->
 <link rel="stylesheet" href="~/css/back.css">
-<link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="/resources/demos/style.css">
-<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
 
 <div class="content-inner w-100 ss" id="productMange">
     <!-- Page Header-->
@@ -41,7 +37,7 @@
                         <input type="text" class="form-control" placeholder="Search" v-model="search">
                     </div>
                 </div>
-                <button class="search2 updown btn btn-info" v-on:click="UpdateDisable">上/下架</button>
+                <button class="search2 updown" v-model="Disable" v-on:click="UpdateDisable">上/下架</button>
             </div>
             <table class="table table-striped col-gl-4 dropdown table-hover aaa bbb">
                 <thead class="thead-dark">
@@ -103,15 +99,15 @@
             <!--下架產品的對話盒-->
             <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
-                    <div class="modal-content" style="margin-top:200px;">
+                    <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="deleteModalLabel">下架商品</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="background-color: transparent; border: 0px;">
-                                <span style="font-size: 1.5rem; font-weight: 700; opacity: .5;" aria-hidden="true">&times;</span>
+                            <h5 class="modal-title" id="deleteModalLabel">刪除使用者</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            確定下架?
+                            確定刪除?
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
@@ -119,34 +115,7 @@
                                 取消
                             </button>
                             <!--按下按鈕觸發刪除的API-->
-                            <button type="button" class="btn btn-danger" data-dismiss="modal" v-on:click="productDown">下架</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--產品上架對話盒-->
-            <div class="modal fade" id="deleteModa2" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content" style="margin-top:200px;">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="deleteModalLabel">上架商品</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="background-color: transparent; border: 0px;">
-                                <span style="font-size: 1.5rem; font-weight: 700; opacity: .5;" aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            確定上架?
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary"
-                                    data-dismiss="modal">
-                                取消
-                            </button>
-                            <!--按下按鈕觸發刪除的API-->
-                            <button type="button" class="btn btn-success"
-                                    data-dismiss="modal" v-on:click="productUp">
-                                上架
-                            </button>
+                            <button type="button" class="btn btn-ddd" v-on:click="deleteUser">刪除</button>
                         </div>
                     </div>
                 </div>
@@ -225,13 +194,15 @@
                 content: '',
                 category:'',
                 disable: false,
+                butdisable: false,
             },
             target: null,
-            search: '',
-            Disable: false,
             currPage: 1,
             countOfPage: 6,
+            search: '',
+            Disable: false,
         },
+
         methods: {
             update: function (e) {
                 let self = this;
@@ -240,68 +211,25 @@
                 self.product = target;
             },
             //下架商品
-            getProduct: function (e) {
+            getOrder: function (e) {
                 let self = this;
                 self.target = e.target.value;
             },
-            productDown: function () {
+            deleteUser: function () {
                 let self = this;
-
                 axios.delete("/BackstageMange/ProductDown/" + self.target)
                     .then((res) => {
-                        var deleteIndex = self.products.findIndex(function (obj) {      //不跳轉頁面刪除畫面內容
-                            if (obj.productId == self.target) {
-                                return true;
-                            } else {
-                                return false;
-                            }
 
-
-                        });
-                        self.products[deleteIndex].disable = true;              
-
-//                        self.products.splice(deleteIndex, 1);
                         console.log(res);
                     })
                     .catch((res) => console.log(res.response.data));
-
-
                 console.log("/BackstageMange/ProductDown/" + self.target);
-                /*window.location.reload();*/
+                window.location.reload();
             },
-            //上架商品
-            getProductup: function (e) {
-                let self = this;
-                self.target = e.target.value;
-                console.log(e.target.value);
-                
-            },
-            productUp: function () {
-                let self = this;
-
-                axios.delete("/BackstageMange/ProductUp/" + self.target)
-                    .then((res) => {
-                        var deleteIndex = self.products.findIndex(function (obj) {
-                            if (obj.productId == self.target) {
-                                return true;
-                            } else {
-                                return false;
-                            }                          
-                        });
-
-                        self.products[deleteIndex].disable = false;
-                        //self.products.splice(deleteIndex, 1);                 //移除陣列
-                        //console.log(res);
-                    })
-                    .catch((res) => console.log(res.response.data));
-                console.log("/BackstageMange/ProductUp/" + self.target);
-
-            },
-            //變化上下架按鈕
             UpdateDisable: function () {
                 app.Disable = app.Disable ? false : true;
-               
-            },
+            }
+
         },
         mounted: function () {
             let self = this;
@@ -315,6 +243,14 @@
                     console.log(res.response.data);
                 });
         },
-
+        //watch: {
+        //    search: { // 深度監聽
+        //         handler(val, oldVal) {
+        //            console.log(app.search);
+        //            console.log(app.products)
+        //        }, deep: true,
+        //         immediate:true
+        //    },
+        //}
     });
 </script>

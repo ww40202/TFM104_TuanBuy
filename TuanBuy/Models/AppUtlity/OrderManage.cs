@@ -38,8 +38,23 @@ namespace TuanBuy.Models.Entities
             var result = product.ToList();
             return result;
         }
-      
-
+        //產品管理join  撈出下架
+        public List<ProductBackMangeViewModel> GetProductdown()
+        {
+            var productdown = from products in _dbContext.Product
+                          join Productpics in _dbContext.ProductPics on products.Id equals Productpics.Id
+                          where products.Disable == true
+                          select new ProductBackMangeViewModel()
+                          {
+                              PicPath = "./ProductPicture/" + Productpics.PicPath,
+                              Price = products.Price,
+                              ProductId = products.Id,
+                              ProductName = products.Name,
+                              Disable = products.Disable
+                          };
+            var result = productdown.ToList();
+            return result;
+        }
 
         //訂單管理join
         public List<OrderBackMangeViewModel> GetOrderDetails()
@@ -161,11 +176,15 @@ namespace TuanBuy.Models.Entities
                     OrderDateTime = item.order.CreateDate.ToString("yyyy-MM-dd"),
                     ProductName = item.product.Name,
                     Total = item.orderDetail.Count * item.orderDetail.Price,
-                    Address = item.order.Address
+                    Address = item.order.Address,
+                    ProductDescription = item.product.Description,
+                    OrderDescription = item.order.Description,
+                    OrderState = item.order.StateId,
+                    ProductCount = item.orderDetail.Count
                 };
                 foreach (var user in buyer)
                 {
-                    if (user.Id == item.order.Id)
+                    if (user.Id == item.order.UserId)
                     {
                         sellerOrder.BuyerName = user.Name;
                     }
