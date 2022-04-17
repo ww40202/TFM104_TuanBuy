@@ -286,12 +286,14 @@
         },
         mounted: function () {
             axios.get("/Product/GetUserShoppingCart/").then((resp) => {
+                console.log(resp);
                 for (let i = 0; i < resp.data.length; i++) {
                     var shoppingObject = new ProductShopping();
                     app.buyerData.buyerId = resp.data[i].buyerId;
                     app.buyerData.buyerName = resp.data[i].buyerName;
                     app.buyerData.buyerPhone = resp.data[i].buyerPhone;
                     app.buyerData.buyerAddress = resp.data[i].buyerAddress;
+                    shoppingObject.productCount = resp.data[i].productCount;
                     shoppingObject.productDescription = resp.data[i].productDescription;
                     shoppingObject.productId = resp.data[i].productId;
                     shoppingObject.productPicPath = '/ProductPicture/' + resp.data[i].productPicPath;

@@ -125,25 +125,33 @@ namespace TuanBuy.Controllers
 
 
             #region 原本session
-            if (HttpContext.Session.GetString("ShoppingCart") != null)
+            if (HttpContext.Session.GetString("ShoppingCart") != null) 
             {
                 var shoppjson = HttpContext.Session.GetString("ShoppingCart");
                 var shoppingcarts = JsonConvert.DeserializeObject<List<ProductCheckViewModel>>(shoppjson);
 
-
-                //將使用者資訊存入session
-                //將先前購物車紀錄加入
-                shoppingcarts.Add(new ProductCheckViewModel
+                //如果購物車商品重複則只重新加數量不加商品
+                if(shoppingcarts.Any(x=>x.ProductId== ProductId))
                 {
-                    ProductId = productData.product.Id,
-                    ProductPicPath = productData.productpic.PicPath,
-                    ProductPrice = productData.product.Price,
-                    ProductDescription = productData.product.Description,
-                    BuyerId = UserId,
-                    BuyerName = userData.Name,
-                    BuyerPhone = userData.Phone,
-                    BuyerAddress = userData.Address
-                });
+                    shoppingcarts.FirstOrDefault(x => x.ProductId == ProductId).ProductCount += 1;
+                }
+                else
+                {
+                    //將使用者資訊存入session
+                    //將先前購物車紀錄加入
+                    shoppingcarts.Add(new ProductCheckViewModel
+                    {
+                        ProductId = productData.product.Id,
+                        ProductPicPath = productData.productpic.PicPath,
+                        ProductPrice = productData.product.Price,
+                        ProductDescription = productData.product.Description,
+                        BuyerId = UserId,
+                        BuyerName = userData.Name,
+                        BuyerPhone = userData.Phone,
+                        BuyerAddress = userData.Address
+                    });
+                }
+
 
                 //先將先前session清除
                 HttpContext.Session.Remove("ShoppingCart");
