@@ -88,15 +88,15 @@ namespace TuanBuy.Models.Entities
             IList<ProductPic> productPathetic = JsonConvert.DeserializeObject<IList<ProductPic>>(productPicJsonData);
             modelBuilder.Entity<ProductPic>().HasData(productPathetic);
 
-            //訂單資料
-            var orderJsonData = File.ReadAllText(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"/FakeData/OrderJson.json", Encoding.UTF8);
-            IList<Order> Orders = JsonConvert.DeserializeObject<IList<Order>>(orderJsonData);
-            modelBuilder.Entity<Order>().HasData(Orders);
+            ////訂單資料
+            //var orderJsonData = File.ReadAllText(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"/FakeData/OrderJson.json", Encoding.UTF8);
+            //IList<Order> Orders = JsonConvert.DeserializeObject<IList<Order>>(orderJsonData);
+            //modelBuilder.Entity<Order>().HasData(Orders);
 
-            //訂單明細資料
-            var orderDetailJsonData = File.ReadAllText(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"/FakeData/OrderDetailJson.json", Encoding.UTF8);
-            IList<OrderDetail> orderDetail = JsonConvert.DeserializeObject<IList<OrderDetail>>(orderDetailJsonData);
-            modelBuilder.Entity<OrderDetail>().HasData(orderDetail);
+            ////訂單明細資料
+            //var orderDetailJsonData = File.ReadAllText(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"/FakeData/OrderDetailJson.json", Encoding.UTF8);
+            //IList<OrderDetail> orderDetail = JsonConvert.DeserializeObject<IList<OrderDetail>>(orderDetailJsonData);
+            //modelBuilder.Entity<OrderDetail>().HasData(orderDetail);
 
 
             #endregion

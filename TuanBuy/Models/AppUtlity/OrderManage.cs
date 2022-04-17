@@ -172,7 +172,7 @@ namespace TuanBuy.Models.Entities
                 };
                 foreach (var user in buyer)
                 {
-                    if (user.Id == item.order.Id)
+                    if (user.Id == item.order.UserId)
                     {
                         sellerOrder.BuyerName = user.Name;
                     }
