@@ -127,7 +127,7 @@ namespace TuanBuy.Service
             var products = GetAllProducts().OrderByDescending(x=>x.Id);
             var orderDetails =
                 (from orderDetail in _dbContext.OrderDetail
-                 //where (products.Select(x => x.Id)).Contains(orderDetail.ProductId)
+                    //where (products.Select(x => x.Id)).Contains(orderDetail.ProductId)
                  select new {orderdetail = orderDetail }).ToList();
             var result = new List<ProductViewModel>();
             foreach (var p in products)
@@ -294,7 +294,7 @@ namespace TuanBuy.Service
         //抓取全部商品
         private List<ProductViewModel> GetAllProducts()
         {
-            var product = _dbContext.Product.ToList().GroupJoin(
+            var product = _dbContext.Product.Where(x=>x.Disable ==false).ToList().GroupJoin(
                 _dbContext.ProductPics.ToList(),
                 product => product,
                 productPic => productPic.Product,
