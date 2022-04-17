@@ -311,6 +311,7 @@
                     <p>{{productData.productDescription}}</p>
                     <div class="price">
                         <div class="price">目標金額NT${{productData.productTargetPrice}}</div>
+                        <div class="price">目前累積金額NT{{productData.buyersSumPrice}}</div>
                         <div class="progress">
                             <div class="progress-bar" role="progressbar" v-bind:style="{width:productData.percentage,borderColor:productData.color}" aria-valuenow="25"
                                  aria-valuemin="0" aria-valuemax="100">
@@ -365,12 +366,8 @@
                                 </svg>
                             </label>
                             <!--測試按鈕-->
-
                         </div>
 
-                        <div class="line">
-                            <div class="nav nav-list"></div>
-                        </div>
                         <div class="purchase">
                             <span>參與團購人數</span>
                             <span>{{productData.buyers}}</span>

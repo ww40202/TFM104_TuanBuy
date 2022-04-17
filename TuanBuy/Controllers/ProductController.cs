@@ -125,25 +125,33 @@ namespace TuanBuy.Controllers
 
 
             #region 原本session
-            if (HttpContext.Session.GetString("ShoppingCart") != null)
+            if (HttpContext.Session.GetString("ShoppingCart") != null) 
             {
                 var shoppjson = HttpContext.Session.GetString("ShoppingCart");
                 var shoppingcarts = JsonConvert.DeserializeObject<List<ProductCheckViewModel>>(shoppjson);
 
-
-                //將使用者資訊存入session
-                //將先前購物車紀錄加入
-                shoppingcarts.Add(new ProductCheckViewModel
+                //如果購物車商品重複則只重新加數量不加商品
+                if(shoppingcarts.Any(x=>x.ProductId== ProductId))
                 {
-                    ProductId = productData.product.Id,
-                    ProductPicPath = productData.productpic.PicPath,
-                    ProductPrice = productData.product.Price,
-                    ProductDescription = productData.product.Description,
-                    BuyerId = UserId,
-                    BuyerName = userData.Name,
-                    BuyerPhone = userData.Phone,
-                    BuyerAddress = userData.Address
-                });
+                    shoppingcarts.FirstOrDefault(x => x.ProductId == ProductId).ProductCount += 1;
+                }
+                else
+                {
+                    //將使用者資訊存入session
+                    //將先前購物車紀錄加入
+                    shoppingcarts.Add(new ProductCheckViewModel
+                    {
+                        ProductId = productData.product.Id,
+                        ProductPicPath = productData.productpic.PicPath,
+                        ProductPrice = productData.product.Price,
+                        ProductDescription = productData.product.Description,
+                        BuyerId = UserId,
+                        BuyerName = userData.Name,
+                        BuyerPhone = userData.Phone,
+                        BuyerAddress = userData.Address
+                    });
+                }
+
 
                 //先將先前session清除
                 HttpContext.Session.Remove("ShoppingCart");
@@ -255,21 +263,22 @@ namespace TuanBuy.Controllers
         #endregion
 
         #region 將購物車商品加入到訂單
-        public object AddOrder(string OrderDescription, string BuyerAddress, string Phone, string PaymentType, int BuyerId, List<ShoppingCartViewModel> shoppingCartViewModels)
+        public object AddOrder(List<ShoppingCartViewModel> shoppingCartViewModels, AddOrderViewModel addOrderViewModel)
         {
             using (_dbContext)
             {
                 Order order = new Order();
                 OrderDetail orderDetail = new OrderDetail();
                 order.CreateDate = DateTime.Now;
-                order.Description = OrderDescription;
-                order.Address = BuyerAddress;
+                order.Description = addOrderViewModel.OrderDescription;
+                order.Address = addOrderViewModel.BuyerAddress;
                 order.StateId = 1;
-                order.PaymentType = int.Parse(PaymentType);
-                order.Phone = Phone;
-                order.UserId = BuyerId;
+                order.PaymentType = int.Parse(addOrderViewModel.PaymentType);
+                order.Phone = addOrderViewModel.Phone;
+                order.UserId = addOrderViewModel.BuyerId;
                 orderDetail.ProductId = shoppingCartViewModels[0].ProductId;
-                orderDetail.Price = shoppingCartViewModels[0].ProductPrice;
+                //直接存取總金額
+                orderDetail.Price = addOrderViewModel.VouchersSum;
                 orderDetail.Count = shoppingCartViewModels[0].ProductCount;
                 orderDetail.Disable = false;
                 order.OrderDetails = orderDetail;
@@ -281,7 +290,7 @@ namespace TuanBuy.Controllers
                 {
                     ordernumber = order.Id.ToString(),
                     amount = shoppingCartViewModels[0].ProductPrice * shoppingCartViewModels[0].ProductCount,
-                    PayMethod = PaymentType == "0" ? "creditcard" : "VACC"
+                    PayMethod = addOrderViewModel.PaymentType == "0" ? "creditcard" : "VACC"
                 };
             }
         }
@@ -433,30 +442,28 @@ namespace TuanBuy.Controllers
             return View();
         }
 
-        #region 會員輸入優惠碼增加優惠卷方法
-        public void AddVoucher(int UserId,Guid VoucherId)
+        #region 會員輸入優惠碼增加優惠卷方法並且返回新增的優惠卷
+        public object AddVoucher(int UserId,string VoucherName)
         {
-            using (_dbContext)
+            ProductManage product = new ProductManage(_dbContext);
+            var result = product.AddVoucher(UserId, VoucherName);
+            if(result!=null)
             {
-                UserVoucher user = new UserVoucher();
-                user.VoucherId = VoucherId;
-                user.MemberId = UserId;
-                _dbContext.UserVouchers.Add(user);
-                _dbContext.SaveChanges();
+                return result;
+            }
+            else
+            {
+                return BadRequest();
             }
         }
         #endregion
 
         #region 抓取該使用者會員優惠卷
-        public void GetUserVoucher(int UserId)
+        public List<UserVouchersViewModel> GetUserVoucher(int UserId)
         {
-            using(_dbContext)
-            {
-                //TODO
-                UserVouchers userVouchers = new UserVouchers();
-                
-
-            }
+            ProductManage product = new ProductManage(_dbContext);
+            var result = product.GetUserVoucher(UserId);
+            return result;
         }
         #endregion
     }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -80,7 +81,7 @@ namespace TuanBuy.Controllers
         }
         //刪除訂單
         [HttpDelete]
-        public IActionResult DeleteOrder(int id)
+        public IActionResult DeleteOrder(string id)
         {
             var user = _dbcontext.OrderDetail.FirstOrDefault(x => x.OrderId == id);
             if (user == null) return BadRequest();
