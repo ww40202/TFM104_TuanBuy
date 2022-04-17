@@ -343,6 +343,16 @@ namespace TuanBuy.Models.Entities
         }
         #endregion
 
+        #region
+        //public UserVouchers GetUserVoucher(int UserId)
+        //{
+        //    //using(_dbContext)
+        //    //{
+        //    //    var result = _dbContext.
 
+        //    //}
+        //    //return 
+        //}
+        #endregion
     }
 }

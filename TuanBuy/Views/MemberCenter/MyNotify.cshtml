@@ -1,13 +1,26 @@
-﻿<script src="/VueComponent/VueDemo.js"></script>
+﻿
+<script src="/VueComponent/VueDemo.js"></script>
 
 <div class="container mtb2rem" id="app">
     <div class="row">
 
         <test v-bind:user="user"></test>
 
-        <div class="col-lg-10 acccolor">
-            <div>
-                <p class="display acpabord aldrd">標示為已讀</p>
+        <div class="col-lg-10 notify-alldiv">
+            <div class="notify-read">
+                <button class="notify-read-btn">標示為已讀</button>
+            </div>
+            <div class="notifymgbt">
+                <div class="col-2 form-row display">
+                    <img src="https://img.league-funny.com/imgur/148292128067.jpg"
+                         alt="">
+                </div>
+                <div class="col-6 form-row display">
+                    <p>通知的文字內容通知的文字內容通知的文字內容</p>
+                </div>
+                <div class="col-4 form-row display notifyright">
+                    <button class="notifybtn">查看更多</button>
+                </div>
             </div>
             <div class="notifymgbt">
                 <div class="col-2 form-row display">
@@ -17,17 +30,9 @@
                 <div class="col-6 form-row display">
                     <p>通知的文字內容</p>
                 </div>
-                <div class="col-4 form-row display notifyright"><button class="notifybtn">查看更多</button></div>
-            </div>
-            <div class="notifymgbt">
-                <div class="col-2 form-row display">
-                    <img src="https://img.league-funny.com/imgur/148292128067.jpg"
-                         alt="">
+                <div class="col-4 form-row display notifyright">
+                    <button class="notifybtn">查看更多</button>
                 </div>
-                <div class="col-6 form-row display">
-                    <p>通知的文字內容</p>
-                </div>
-                <div class="col-4 form-row display notifyright"><button class="notifybtn">查看更多</button></div>
             </div>
         </div>
     </div>

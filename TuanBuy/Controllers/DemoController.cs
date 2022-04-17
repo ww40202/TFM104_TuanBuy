@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
@@ -13,8 +14,10 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Razor.Language.Intermediate;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.OpenApi.Extensions;
 using Newtonsoft.Json;
 using Org.BouncyCastle.Asn1.Ocsp;
 using StackExchange.Redis;
@@ -41,11 +44,57 @@ namespace TuanBuy.Controllers
             _mydb = Mydb;
         }
 
+        #region Enum取DisplayName
+
+        public List<string> TestEnum()
+        {
+            Season test = new Season();
+            var a = GetDisplayNames(test);
+
+            return a;
+        }
+        public List<string> GetDisplayNames(Enum enm)
+        {
+            var type = enm.GetType();
+            var displayNames = new List<string>();
+            var names = Enum.GetNames(type);
+            foreach (var name in names)
+            {
+                var field = type.GetField(name);
+                var fds = field.GetCustomAttributes(typeof(DisplayAttribute), true);
+
+                if (fds.Length == 0)
+                {
+                    displayNames.Add(name);
+                }
+                foreach (DisplayAttribute fd in fds)
+                {
+                    displayNames.Add(fd.Name);
+                }
+            }
+            return displayNames;
+        }
+        enum Season
+        {
+            [Display(Name = "春")]
+            Spring,
+            [Display(Name = "夏")]
+            Summer,
+            [Display(Name = "秋")]
+            Autumn,
+            [Display(Name = "冬")]
+            Winter
+        }
+
+
+        #endregion
+
         public class Users
         {
             public string Name { get; set; }
             public int Age { get; set; }
         }
+
 
 
         public IActionResult Index()
@@ -66,6 +115,11 @@ namespace TuanBuy.Controllers
 
             var c = db.HashGetAll(ricoID);
             var dd = RedisProvider.ConvertFromRedis<Users>(c);
+            return View();
+        }
+
+        public IActionResult TestFav()
+        {
             return View();
         }
         public static Dictionary<String, Object> parse(byte[] json)
@@ -137,7 +191,7 @@ namespace TuanBuy.Controllers
                 };
                 foreach (var user in buyer)
                 {
-                    if (user.Id == item.order.Id)
+                    if (user.Id == item.order.UserId)
                     {
                         sellerOrder.BuyerName = user.Name;
                     }

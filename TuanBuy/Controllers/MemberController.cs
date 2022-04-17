@@ -141,6 +141,8 @@ namespace TuanBuy.Controllers
 
         #region 將賣家加入聊天室
         [Authorize(Roles = "FullUser")]
+        [Authorize(Roles = "SystemAdmin")]
+
         public IActionResult AddChatRoom(int SellerId,int MemberId)
         {
             if(SellerId!=0 && MemberId !=0)

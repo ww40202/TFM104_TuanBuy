@@ -82,7 +82,7 @@
                 <div class="checkmgright">團購折價券</div>
                 <!-- 修改 -->
                 <button type="button" class="btn check-ddd" data-toggle="modal" data-target="#exampleModal"
-                        data-whatever="選擇折價券">
+                        data-whatever="選擇折價券" v-on:click="GetVoucher()">
                     選擇折價券
                 </button>
 
@@ -97,25 +97,25 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form>
                                     <div class="checkcostdiv">
                                         <span>新增折價券</span>
                                         <input class="checkcosttext" type="text">
-                                        <button class="checktextbtn">使用</button>
+                                        <button class="checktextbtn" v-on:click="AddVoucher()">使用</button>
                                     </div>
                                     <div class="checkchosediv">
                                         <img src="https://beautiful666.com/images/10/2s.jpg" alt="折價券" width="100" height="100">
-                                        <p class="checkchosep">折價券內容折折價券內容折折價券內容折折價券內容折折價券內容折折價折價券內容折折價券內容折折價券內容折折價券內容折折價券內容折券內容折折價券內容折</p>
+                                        <p class="checkchosep">折$50低消$399折$50低消$399折$50低消$399折$50低消$399折$50低消$399折$50低消$399折$50低消$399折$50低消$399</p>
+                                        <p class="check-chose-p2">已折抵$500</p>
                                         <input class="checkcheckbox" type="checkbox" name="" id="">
                                     </div>
                                     <!-- 複製 -->
                                     <div class="checkchosediv">
                                         <img src="https://beautiful666.com/images/10/2s.jpg" alt="折價券" width="100" height="100">
-                                        <p class="checkchosep">折價券內容折折價券內容折折價券內容折折價券內容折折價券內容折折價折價券內容折折價券內容折折價券內容折折價券內容折折價券內容折券內容折折價券內容折</p>
+                                        <p class="checkchosep">折$50低消$399折$50低消$399折$50低消$399折$50低消$399折$50低消$399折$50低消$399折$50低消$399折$50低消$399</p>
+                                        <p class="check-chose-p2">已折抵$50已折抵$50已折抵$50</p>
                                         <input class="checkcheckbox" type="checkbox" name="" id="">
                                     </div>
                                     <!-- 複製 -->
-                                </form>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
@@ -136,15 +136,33 @@
         </div>
     </div>
     <form id="form1" action="/Bank/SpgatewayPayBill" method="post" hidden="hidden">
-        <p><input name="ordernumber" id="ordernumber" type="text" /></p>
-        <p><input name="amount" id="amount" type="number" /></p>
-        <p><input name="PayMethod" id="PayMethod" type="text" /></p>
-        <p><button type="submit" value="插入" id="send" /></p>
-        <p><div id="success"></div></p>
+        <p>
+            <input name="ordernumber" id="ordernumber" type="text" />
+        </p>
+        <p>
+            <input name="amount" id="amount" type="number" />
+        </p>
+        <p>
+            <input name="PayMethod" id="PayMethod" type="text" />
+        </p>
+        <p>
+            <button type="submit" value="插入" id="send" />
+        </p>
+        <p>
+            <div id="success"></div>
+        </p>
     </form>
 </body>
 </html>
 <script>
+    //使用者折價卷
+    class Vouchers {
+        Id = 0;
+        VoucherName = null;
+        VoucherDescribe = null;
+        PicPath = null;
+        VouchersDiscount = 0;
+    }
     //產品相關資訊
     class ProductShopping {
         productId = null;
@@ -177,7 +195,8 @@
             //勾選想要購買的商品編號
             checkProduct: [],
             //勾選確認購買的相關商品資訊
-            checkProductResult :[],
+            checkProductResult: [],
+            couponCode :'',
         },
         methods: {
             DeleteProduct: function (e) {
@@ -202,7 +221,7 @@
             },
 
             AddOrder: function () {
-                if (app.checkPayFun != null && app.checkProduct.length>0) {
+                if (app.checkPayFun != null && app.checkProduct.length > 0) {
                     $.ajax({
                         type: "POST",
                         url: "/Product/AddOrder",
@@ -234,6 +253,40 @@
 
             checkPayType: function (index) {
                 app.checkPayFun = index;
+            },
+
+            AddVoucher: function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/Product/AddVoucher",
+                    data: {
+                        UserId: app.buyerData.buyerId,
+                        VoucherId:'c42b2fbd-1e53-489c-bf89-6a0b154b10c3',
+                    },
+                    success: function (response) {
+
+                    },
+                    error: function (response) {
+                        alert(response);
+                    }
+                });
+            },
+
+            GetVoucher: function () {
+                console.log('取得使用者折價卷');
+                $.ajax({
+                    type: "POST",
+                    url: "/Product/GetUserVoucher",
+                    data: {
+                        UserId: app.buyerData.buyerId,
+                    },
+                    success: function (response) {
+
+                    },
+                    error: function (response) {
+                        alert(response);
+                    }
+                });
             }
         },
         mounted: function () {

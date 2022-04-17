@@ -262,6 +262,7 @@
 
 <script>
     var fullShow = "@User.IsInRole("FullUser")";
+    var helloMember = "@User.IsInRole("HelloMember")";
     var nomalShow = "@User.IsInRole("User")";
     var layout = new Vue({
         el: '#layout',
@@ -273,10 +274,10 @@
             let self = this;
             axios.get("/api/LoginAndRegister/")
                 .then((resp) => {
-                    this.user = resp.data; })
+                    self.user = resp.data; })
                 .catch((res)=>res.response.data);
             axios.get("/api/MemberCenter/")
-                .then((resp) => { this.picPath = resp.data })
+                .then((resp) => { self.picPath = resp.data })
                 .catch((res)=>res.response.data);
         },
         methods: {
@@ -286,19 +287,19 @@
                 });
             },
             checkUser:function() {
-                if (nomalShow === "True") {
+                if (helloMember === "False") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '需要登入',
+                        text: '請先登入網站會員！'
+                    });
+                    return;
+                }
+                if (fullShow === "False") {
                     Swal.fire({
                         icon: 'error',
                         title: '沒有權限',
                         text: '請把會員資料填寫完整！'
-                    });
-                    return;
-                }
-                if (fullShow==="False") {
-                    Swal.fire({
-                        icon: 'error',
-                        title: '請先登入',
-                        text: '請登入會員！'
                     });
                     return;
                 }
