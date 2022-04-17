@@ -130,5 +130,26 @@ namespace TuanBuy.Controllers
             return Ok();
         }
         #endregion
+
+        [HttpPost]
+        #region 後台新增優惠卷
+        public object AddVouchers(UserVouchersViewModel userVouchersViewModel)
+        {
+            using(_dbcontext)
+            {
+                Voucher voucher = new Voucher() { 
+                    VoucherName = userVouchersViewModel.VouchersTitle,
+                    VoucherDescribe = userVouchersViewModel.VouchersDescribe,
+                    DiscountDescribe = userVouchersViewModel.DiscountDescribe,
+                    VouchersDiscount = userVouchersViewModel.VouchersDiscount,
+                    VouchersAvlAmount = userVouchersViewModel.VouchersAvlAmount
+                };
+                _dbcontext.Vouchers.Add(voucher);
+                _dbcontext.SaveChanges();
+                return Ok();
+            }
+        }
+
+        #endregion
     }
 }
