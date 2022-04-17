@@ -227,7 +227,7 @@
                         },
                         success: function (response) {
                             document.getElementById('ordernumber').value = response.ordernumber;
-                            document.getElementById('amount').value = response.amount;
+                            document.getElementById('amount').value = app.productshoppingAddSum;
                             document.getElementById('PayMethod').value = response.payMethod;
                             var btn = document.getElementById('send');
                             btn.click();
@@ -282,6 +282,19 @@
                         alert(response);
                     }
                 });
+            },
+
+            //檢查使用者有沒有套用優惠卷
+            checkUserVoucher: function () {
+                //檢查使用者目前有沒有套用優惠卷
+                for (let i = 0; i < app.checkVouchers.length; i++) {
+                    let result = app.vouchersData.find(x => x.vouchersId == app.checkVouchers[i])
+                    console.log(result);
+                    if (app.productshoppingAddSum > result.vouchersAvlAmount) {
+                        let sum = app.productshoppingAddSum - result.vouchersDiscount;
+                        app.productshoppingAddSum = sum;
+                    }
+                }
             }
         },
         mounted: function () {
@@ -315,9 +328,13 @@
                         app.productshoppingAddSum += (result.productPrice * result.productCount);
                         //預存上一次折扣前的總額
                         app.vouchersSum = app.productshoppingAddSum;
+
+                        //檢查使用者目前有沒有套用優惠卷
+                        app.checkUserVoucher();
                     }
                 }, deep: true
             },
+
             //找出目前勾選的產品商品總額
             checkProduct: {
                 handler(val, oldVal) {
@@ -327,15 +344,20 @@
                     for (let i = 0; i < val.length; i++) {
                         let result = app.productShoppings.find(x => x.productId == val[i]);
                         //將選擇的商品相關資訊加入到陣列
-                        app.checkProductResult.push(result);
+                        app.checkProductResult.push(result);                       
                         sum = result.productCount * result.productPrice;
                         app.productshoppingAddSum += sum;
                         //預存待會可能使用折價卷的金額
+                        //預存上一次折扣前的總額
+                        app.vouchersSum = app.productshoppingAddSum;
                         sum = 0;
+                        //檢查使用者目前有沒有套用優惠卷
+                        app.checkUserVoucher();
                     }
                     console.log(app.checkProductResult);
                 }, deep: true
             },
+
             //使用者套用的優惠卷
             checkVouchers: {
                 handler(val, oldVal) {
@@ -344,12 +366,7 @@
                     //先將預存金額賦予給目前總金額
                     app.productshoppingAddSum = app.vouchersSum;
                     //從使用者勾選的優惠卷陣列中扣除
-                    for (let i = 0; i < app.checkVouchers.length; i++) {
-                        console.log(app.checkVouchers[i])
-                        let result = app.vouchersData.find(x => x.vouchersId == app.checkVouchers[i])
-                            let sum = app.productshoppingAddSum - result.vouchersDiscount;
-                            app.productshoppingAddSum = sum;
-                    }
+                    app.checkUserVoucher();
                 }, deep: true
             }
         },
