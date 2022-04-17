@@ -10,8 +10,8 @@ using TuanBuy.Models.Entities;
 namespace TuanBuy.Migrations
 {
     [DbContext(typeof(TuanBuyContext))]
-    [Migration("20220416190634_0416lyn")]
-    partial class _0416lyn
+    [Migration("20220417125346_04170")]
+    partial class _04170
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -114,10 +114,8 @@ namespace TuanBuy.Migrations
 
             modelBuilder.Entity("TuanBuy.Models.Entities.Order", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
@@ -154,9 +152,9 @@ namespace TuanBuy.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = "1",
                             Address = "送貨地址",
-                            CreateDate = new DateTime(2022, 4, 17, 3, 6, 34, 88, DateTimeKind.Local).AddTicks(5424),
+                            CreateDate = new DateTime(2022, 4, 17, 20, 53, 46, 69, DateTimeKind.Local).AddTicks(1900),
                             Description = "訂單描述",
                             Disable = false,
                             PaymentType = 1,
@@ -166,9 +164,9 @@ namespace TuanBuy.Migrations
                         },
                         new
                         {
-                            Id = 2,
+                            Id = "2",
                             Address = "送貨地址",
-                            CreateDate = new DateTime(2022, 4, 17, 3, 6, 34, 89, DateTimeKind.Local).AddTicks(9818),
+                            CreateDate = new DateTime(2022, 4, 17, 20, 53, 46, 70, DateTimeKind.Local).AddTicks(6083),
                             Description = "訂單描述",
                             Disable = false,
                             PaymentType = 1,
@@ -178,9 +176,9 @@ namespace TuanBuy.Migrations
                         },
                         new
                         {
-                            Id = 3,
+                            Id = "3",
                             Address = "送貨地址",
-                            CreateDate = new DateTime(2022, 4, 17, 3, 6, 34, 89, DateTimeKind.Local).AddTicks(9923),
+                            CreateDate = new DateTime(2022, 4, 17, 20, 53, 46, 70, DateTimeKind.Local).AddTicks(6172),
                             Description = "訂單描述",
                             Disable = false,
                             PaymentType = 1,
@@ -190,9 +188,9 @@ namespace TuanBuy.Migrations
                         },
                         new
                         {
-                            Id = 4,
+                            Id = "4",
                             Address = "送貨地址",
-                            CreateDate = new DateTime(2022, 4, 17, 3, 6, 34, 89, DateTimeKind.Local).AddTicks(9979),
+                            CreateDate = new DateTime(2022, 4, 17, 20, 53, 46, 70, DateTimeKind.Local).AddTicks(6227),
                             Description = "Benny跟Lynn購買產品",
                             Disable = false,
                             PaymentType = 1,
@@ -202,9 +200,9 @@ namespace TuanBuy.Migrations
                         },
                         new
                         {
-                            Id = 5,
+                            Id = "5",
                             Address = "送貨地址",
-                            CreateDate = new DateTime(2022, 4, 17, 3, 6, 34, 90, DateTimeKind.Local).AddTicks(30),
+                            CreateDate = new DateTime(2022, 4, 17, 20, 53, 46, 70, DateTimeKind.Local).AddTicks(6280),
                             Description = "Benny跟Harry購買產品",
                             Disable = false,
                             PaymentType = 1,
@@ -214,9 +212,9 @@ namespace TuanBuy.Migrations
                         },
                         new
                         {
-                            Id = 6,
+                            Id = "6",
                             Address = "送貨地址",
-                            CreateDate = new DateTime(2022, 4, 17, 3, 6, 34, 90, DateTimeKind.Local).AddTicks(87),
+                            CreateDate = new DateTime(2022, 4, 17, 20, 53, 46, 70, DateTimeKind.Local).AddTicks(6339),
                             Description = "Lynn跟Harry購買產品",
                             Disable = false,
                             PaymentType = 1,
@@ -226,9 +224,9 @@ namespace TuanBuy.Migrations
                         },
                         new
                         {
-                            Id = 7,
+                            Id = "7",
                             Address = "送貨地址",
-                            CreateDate = new DateTime(2022, 4, 17, 3, 6, 34, 90, DateTimeKind.Local).AddTicks(149),
+                            CreateDate = new DateTime(2022, 4, 17, 20, 53, 46, 70, DateTimeKind.Local).AddTicks(6395),
                             Description = "Harry跟Lynn購買產品",
                             Disable = false,
                             PaymentType = 1,
@@ -238,9 +236,9 @@ namespace TuanBuy.Migrations
                         },
                         new
                         {
-                            Id = 8,
+                            Id = "8",
                             Address = "送貨地址",
-                            CreateDate = new DateTime(2022, 4, 17, 3, 6, 34, 90, DateTimeKind.Local).AddTicks(202),
+                            CreateDate = new DateTime(2022, 4, 17, 20, 53, 46, 70, DateTimeKind.Local).AddTicks(6446),
                             Description = "小王跟Lynn購買產品",
                             Disable = false,
                             PaymentType = 1,
@@ -250,9 +248,9 @@ namespace TuanBuy.Migrations
                         },
                         new
                         {
-                            Id = 9,
+                            Id = "9",
                             Address = "送貨地址",
-                            CreateDate = new DateTime(2022, 4, 17, 3, 6, 34, 90, DateTimeKind.Local).AddTicks(248),
+                            CreateDate = new DateTime(2022, 4, 17, 20, 53, 46, 70, DateTimeKind.Local).AddTicks(6503),
                             Description = "小明跟Lynn購買產品",
                             Disable = false,
                             PaymentType = 1,
@@ -264,8 +262,8 @@ namespace TuanBuy.Migrations
 
             modelBuilder.Entity("TuanBuy.Models.Entities.OrderDetail", b =>
                 {
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
+                    b.Property<string>("OrderId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Count")
                         .HasColumnType("int");
@@ -288,7 +286,7 @@ namespace TuanBuy.Migrations
                     b.HasData(
                         new
                         {
-                            OrderId = 1,
+                            OrderId = "1",
                             Count = 18,
                             Disable = false,
                             Price = 500m,
@@ -296,7 +294,7 @@ namespace TuanBuy.Migrations
                         },
                         new
                         {
-                            OrderId = 2,
+                            OrderId = "2",
                             Count = 10,
                             Disable = false,
                             Price = 1000m,
@@ -304,7 +302,7 @@ namespace TuanBuy.Migrations
                         },
                         new
                         {
-                            OrderId = 3,
+                            OrderId = "3",
                             Count = 10,
                             Disable = false,
                             Price = 500m,
@@ -312,7 +310,7 @@ namespace TuanBuy.Migrations
                         },
                         new
                         {
-                            OrderId = 4,
+                            OrderId = "4",
                             Count = 20,
                             Disable = false,
                             Price = 8000m,
@@ -320,7 +318,7 @@ namespace TuanBuy.Migrations
                         },
                         new
                         {
-                            OrderId = 5,
+                            OrderId = "5",
                             Count = 10,
                             Disable = false,
                             Price = 1000m,
@@ -328,7 +326,7 @@ namespace TuanBuy.Migrations
                         },
                         new
                         {
-                            OrderId = 6,
+                            OrderId = "6",
                             Count = 5,
                             Disable = false,
                             Price = 1000m,
@@ -336,7 +334,7 @@ namespace TuanBuy.Migrations
                         },
                         new
                         {
-                            OrderId = 7,
+                            OrderId = "7",
                             Count = 20,
                             Disable = false,
                             Price = 1000m,
@@ -344,7 +342,7 @@ namespace TuanBuy.Migrations
                         },
                         new
                         {
-                            OrderId = 8,
+                            OrderId = "8",
                             Count = 20,
                             Disable = false,
                             Price = 1000m,
@@ -352,7 +350,7 @@ namespace TuanBuy.Migrations
                         },
                         new
                         {
-                            OrderId = 9,
+                            OrderId = "9",
                             Count = 20,
                             Disable = false,
                             Price = 1000m,
@@ -454,10 +452,10 @@ namespace TuanBuy.Migrations
                             Id = 1,
                             Category = "美食",
                             Content = "不知道可不可以吃的貓咪",
-                            CreateTime = new DateTime(2022, 4, 17, 3, 6, 34, 78, DateTimeKind.Local).AddTicks(4193),
+                            CreateTime = new DateTime(2022, 4, 17, 20, 53, 46, 60, DateTimeKind.Local).AddTicks(1872),
                             Description = "不知道可不可以吃                                                                                                        ",
                             Disable = false,
-                            EndTime = new DateTime(2022, 4, 27, 3, 6, 34, 79, DateTimeKind.Local).AddTicks(332),
+                            EndTime = new DateTime(2022, 4, 27, 20, 53, 46, 60, DateTimeKind.Local).AddTicks(7299),
                             Name = "貓貓",
                             Price = 50m,
                             Total = 1000m,
@@ -468,10 +466,10 @@ namespace TuanBuy.Migrations
                             Id = 2,
                             Category = "美食",
                             Content = "擁有水中珍品美譽的智力鮭魚，富含對人體有益的魚油，產地捕撈後隨即低溫急速冷凍鎖住新鮮與營養，美味直送到家！",
-                            CreateTime = new DateTime(2022, 4, 17, 3, 6, 34, 85, DateTimeKind.Local).AddTicks(5594),
+                            CreateTime = new DateTime(2022, 4, 17, 20, 53, 46, 66, DateTimeKind.Local).AddTicks(3535),
                             Description = "擁有水中珍品美譽的智力鮭魚，富含對人體有益的魚油，產地捕撈後隨即低溫急速冷凍鎖住新鮮與營養，美味直送到家！              ",
                             Disable = false,
-                            EndTime = new DateTime(2022, 4, 27, 3, 6, 34, 85, DateTimeKind.Local).AddTicks(5613),
+                            EndTime = new DateTime(2022, 4, 27, 20, 53, 46, 66, DateTimeKind.Local).AddTicks(3543),
                             Name = "鮭魚",
                             Price = 50m,
                             Total = 1000m,
@@ -482,10 +480,10 @@ namespace TuanBuy.Migrations
                             Id = 3,
                             Category = "3C",
                             Content = "便宜好用ㄉ記憶體",
-                            CreateTime = new DateTime(2022, 4, 17, 3, 6, 34, 85, DateTimeKind.Local).AddTicks(5731),
+                            CreateTime = new DateTime(2022, 4, 17, 20, 53, 46, 66, DateTimeKind.Local).AddTicks(3648),
                             Description = "記憶體是要描述什麼                                                                                                      ",
                             Disable = false,
-                            EndTime = new DateTime(2022, 4, 27, 3, 6, 34, 85, DateTimeKind.Local).AddTicks(5732),
+                            EndTime = new DateTime(2022, 4, 27, 20, 53, 46, 66, DateTimeKind.Local).AddTicks(3649),
                             Name = "記憶體",
                             Price = 300m,
                             Total = 10000m,
@@ -496,10 +494,10 @@ namespace TuanBuy.Migrations
                             Id = 4,
                             Category = "美食",
                             Content = "吃的到蝦仁的月亮蝦餅",
-                            CreateTime = new DateTime(2022, 4, 17, 3, 6, 34, 85, DateTimeKind.Local).AddTicks(5798),
+                            CreateTime = new DateTime(2022, 4, 17, 20, 53, 46, 66, DateTimeKind.Local).AddTicks(3715),
                             Description = "吃的到蝦仁的月亮蝦餅                                                                                                  ",
                             Disable = false,
-                            EndTime = new DateTime(2022, 4, 27, 3, 6, 34, 85, DateTimeKind.Local).AddTicks(5799),
+                            EndTime = new DateTime(2022, 4, 27, 20, 53, 46, 66, DateTimeKind.Local).AddTicks(3716),
                             Name = "月亮蝦餅",
                             Price = 100m,
                             Total = 10000m,
@@ -510,10 +508,10 @@ namespace TuanBuy.Migrations
                             Id = 5,
                             Category = "美食",
                             Content = "厚切達3公分！精選Prime極佳級，原塊現切牛肉，大理石紋路般的油花分布，讓人為之瘋狂～口感柔嫩多汁，絕對滿足想大口吃肉的你",
-                            CreateTime = new DateTime(2022, 4, 17, 3, 6, 34, 85, DateTimeKind.Local).AddTicks(5863),
+                            CreateTime = new DateTime(2022, 4, 17, 20, 53, 46, 66, DateTimeKind.Local).AddTicks(3775),
                             Description = "厚切達3公分！精選Prime極佳級，原塊現切牛肉，大理石紋路般的油花分布，讓人為之瘋狂～口感柔嫩多汁，絕對滿足想大口吃肉的你",
                             Disable = false,
-                            EndTime = new DateTime(2022, 4, 27, 3, 6, 34, 85, DateTimeKind.Local).AddTicks(5864),
+                            EndTime = new DateTime(2022, 4, 27, 20, 53, 46, 66, DateTimeKind.Local).AddTicks(3776),
                             Name = "Prime-原塊現切牛肉",
                             Price = 200m,
                             Total = 10000m,
@@ -524,10 +522,10 @@ namespace TuanBuy.Migrations
                             Id = 6,
                             Category = "美食",
                             Content = "這款雪糕你吃過沒？格子脆皮餅乾裡面有香甜綿密的雪糕，百吃不厭的香草口味，配上酥脆餅皮口感，絕對大滿足～還有多種口味任選",
-                            CreateTime = new DateTime(2022, 4, 17, 3, 6, 34, 85, DateTimeKind.Local).AddTicks(5920),
+                            CreateTime = new DateTime(2022, 4, 17, 20, 53, 46, 66, DateTimeKind.Local).AddTicks(3833),
                             Description = "這款雪糕你吃過沒？格子脆皮餅乾裡面有香甜綿密的雪糕，百吃不厭的香草口味，配上酥脆餅皮口感，絕對大滿足～還有多種口味任選",
                             Disable = false,
-                            EndTime = new DateTime(2022, 4, 27, 3, 6, 34, 85, DateTimeKind.Local).AddTicks(5921),
+                            EndTime = new DateTime(2022, 4, 27, 20, 53, 46, 66, DateTimeKind.Local).AddTicks(3834),
                             Name = "脆餅雪糕",
                             Price = 50m,
                             Total = 10000m,
@@ -538,10 +536,10 @@ namespace TuanBuy.Migrations
                             Id = 7,
                             Category = "美食",
                             Content = "堅持手工製作，外酥內Q的迷人口感，多種披薩口味任選，簡單加熱就能享用，香氣濃郁成份單純，點心宵夜絕對便利的美味～",
-                            CreateTime = new DateTime(2022, 4, 17, 3, 6, 34, 85, DateTimeKind.Local).AddTicks(5974),
+                            CreateTime = new DateTime(2022, 4, 17, 20, 53, 46, 66, DateTimeKind.Local).AddTicks(3889),
                             Description = "堅持手工製作，外酥內Q的迷人口感，多種披薩口味任選，簡單加熱就能享用，香氣濃郁成份單純，點心宵夜絕對便利的美味～",
                             Disable = false,
-                            EndTime = new DateTime(2022, 4, 27, 3, 6, 34, 85, DateTimeKind.Local).AddTicks(5975),
+                            EndTime = new DateTime(2022, 4, 27, 20, 53, 46, 66, DateTimeKind.Local).AddTicks(3890),
                             Name = "手工製作披薩",
                             Price = 300m,
                             Total = 10000m,
@@ -552,10 +550,10 @@ namespace TuanBuy.Migrations
                             Id = 8,
                             Category = "乾糧",
                             Content = "堅持手工製作，外酥內Q的迷人口感，多種披薩口味任選，簡單加熱就能享用，香氣濃郁成份單純，點心宵夜絕對便利的美味～",
-                            CreateTime = new DateTime(2022, 4, 17, 3, 6, 34, 85, DateTimeKind.Local).AddTicks(6030),
+                            CreateTime = new DateTime(2022, 4, 17, 20, 53, 46, 66, DateTimeKind.Local).AddTicks(3945),
                             Description = "堅持手工製作，外酥內Q的迷人口感，多種披薩口味任選，簡單加熱就能享用，香氣濃郁成份單純，點心宵夜絕對便利的美味～",
                             Disable = false,
-                            EndTime = new DateTime(2022, 4, 27, 3, 6, 34, 85, DateTimeKind.Local).AddTicks(6031),
+                            EndTime = new DateTime(2022, 4, 27, 20, 53, 46, 66, DateTimeKind.Local).AddTicks(3946),
                             Name = "魔法仗",
                             Price = 300m,
                             Total = 20000m,
@@ -856,6 +854,9 @@ namespace TuanBuy.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("DiscountDescribe")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PicPath")
                         .HasColumnType("nvarchar(max)");
 
@@ -864,6 +865,9 @@ namespace TuanBuy.Migrations
 
                     b.Property<string>("VoucherName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("VouchersAvlAmount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("VouchersDiscount")
                         .HasColumnType("decimal(18,2)");
