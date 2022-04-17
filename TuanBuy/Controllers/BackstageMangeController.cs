@@ -15,11 +15,7 @@ namespace TuanBuy.Controllers
         {
             _dbcontext = context;
         }
-        // 會員後台管理首頁
-        public ActionResult Index()
-        {
-            return View();
-        }
+
         #region 會員管理
         public List<UserBackMange> GetUsers()
         {
@@ -62,10 +58,7 @@ namespace TuanBuy.Controllers
         #endregion
 
 
-        public IActionResult Order()
-        {
-            return View();
-        }
+        #region 訂單管理
         //秀出OrderManage資訊
         public List<OrderBackMangeViewModel> TestJoin()
         {
@@ -97,16 +90,8 @@ namespace TuanBuy.Controllers
             _dbcontext.SaveChanges();
             return Ok();
         }
-        //查詢
-        //public IActionResult inquireOrder(int id)
-        //{
-        //    var order = _dbcontext.OrderDetail.Select(x => x.OrderId).Distinct();
-        //    var numbering = from c in _dbcontext.OrderDetail
-        //                    where c.OrderId == id
-        //                    select c;
-
-        //}
-
+        #endregion
+        #region 產品管理
         //產品管理撈出上架商品
         public List<ProductBackMangeViewModel> ProductJoin()
         {
@@ -144,5 +129,6 @@ namespace TuanBuy.Controllers
             _dbcontext.SaveChanges();
             return Ok();
         }
+        #endregion
     }
 }

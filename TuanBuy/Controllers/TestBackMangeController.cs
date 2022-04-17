@@ -28,5 +28,10 @@ namespace TuanBuy.Controllers
         {
             return View();
         }
+
+        public IActionResult BackService()
+        {
+            return View();
+        }
     }
 }
