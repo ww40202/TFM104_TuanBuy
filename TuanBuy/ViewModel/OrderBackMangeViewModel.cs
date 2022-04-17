@@ -28,6 +28,8 @@ namespace TuanBuy.ViewModel
         public decimal Price { get; set; }
         public bool Disable { get; set; }
         public string PicPath { get; set; }
+        public string Category { get; set; }
+        public decimal Total { get; set; }
     }
 
 }

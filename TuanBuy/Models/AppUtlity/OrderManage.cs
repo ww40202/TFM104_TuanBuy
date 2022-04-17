@@ -25,6 +25,8 @@ namespace TuanBuy.Models.Entities
                               Price = products.Price,
                               ProductId = products.Id,
                               ProductName = products.Name,
+                              Category=products.Category,
+                              Total=products.Total,
                               Disable = products.Disable
                           };
             var result = product.ToList();
