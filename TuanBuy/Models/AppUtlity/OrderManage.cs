@@ -25,28 +25,15 @@ namespace TuanBuy.Models.Entities
                               Price = products.Price,
                               ProductId = products.Id,
                               ProductName = products.Name,
+                              Category=products.Category,
+                              Total=products.Total,
                               Disable = products.Disable
                           };
             var result = product.ToList();
             return result;
         }
-        //產品管理join  撈出下架
-        public List<ProductBackMangeViewModel> GetProductdown()
-        {
-            var productdown = from products in _dbContext.Product
-                          join Productpics in _dbContext.ProductPics on products.Id equals Productpics.Id
-                          where products.Disable == true
-                          select new ProductBackMangeViewModel()
-                          {
-                              PicPath = "./ProductPicture/" + Productpics.PicPath,
-                              Price = products.Price,
-                              ProductId = products.Id,
-                              ProductName = products.Name,
-                              Disable = products.Disable
-                          };
-            var result = productdown.ToList();
-            return result;
-        }
+      
+
 
         //訂單管理join
         public List<OrderBackMangeViewModel> GetOrderDetails()

@@ -24,9 +24,5 @@ namespace TuanBuy.Controllers
         {
             return View();
         }
-        public IActionResult ProductMangeup()
-        {
-            return View();
-        }
     }
 }
