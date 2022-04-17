@@ -18,15 +18,21 @@ namespace TuanBuy.Models.Entities
         public List<ProductBackMangeViewModel> GetProduct()
         {
             var product = from products in _dbContext.Product
-                          join Productpics in _dbContext.ProductPics on products.Id equals Productpics.Id
+                          join productpics in _dbContext.ProductPics on products.Id equals productpics.Id
+                          join users  in _dbContext.User on products.Id equals users.Id
                           select new ProductBackMangeViewModel()
                           {
-                              PicPath = "/ProductPicture/" + Productpics.PicPath,
+                              PicPath = "/ProductPicture/" + productpics.PicPath,
                               Price = products.Price,
                               ProductId = products.Id,
                               ProductName = products.Name,
                               Category=products.Category,
                               Total=products.Total,
+                              CreateTime=products.CreateTime.ToString("g"),
+                              EndTime=products.EndTime.ToString("g"),
+                              Content=products.Content,
+                              Description=products.Description,
+                              UserName=users.Name,
                               Disable = products.Disable
                           };
             var result = product.ToList();

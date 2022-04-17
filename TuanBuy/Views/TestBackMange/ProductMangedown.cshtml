@@ -49,9 +49,11 @@
                         <th scope="col">編號</th>
                         <th scope="col">商品圖</th>
                         <th scope="col">商品名稱</th>
+                        <th scope="col">團主</th>
                         <th scope="col">價格</th>
                         <th scope="col">達標金額</th>
-                        <th scope="col">類別</th>
+                        <th scope="col">開始日期</th>
+                        <th scope="col">結束日期</th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
@@ -63,12 +65,14 @@
                             <img :src="item.picPath" style="width:80px;height:80px;" />
                         </td>
                         <td>{{item.productName}}</td>
+                        <td>{{item.userName}}</td>
                         <td>{{item.price}}</td>
                         <td>{{item.total}}</td>
-                        <td>{{item.category}}</td>
+                        <td>{{item.createTime}}</td>
+                        <td>{{item.endTime}}</td>
 
                         <td v-if="Disable">
-                            <button type="button" class="btn btn-secondary" v-bind:value="item.email"
+                            <button type="button" class="btn btn-secondary" v-bind:value="item.productId"
                                     v-on:click="update($event)" data-toggle="modal" data-target="#exampleModal"
                                     data-whatever="">
                                 內容資訊
@@ -80,7 +84,7 @@
                             </button>
                         </td>
                         <td v-else>
-                            <button type="button" class="btn btn-secondary" v-bind:value="item.email"
+                            <button type="button" class="btn btn-secondary" v-bind:value="item.productId"
                                     v-on:click="update($event)" data-toggle="modal" data-target="#exampleModal"
                                     data-whatever="">
                                 內容資訊
@@ -154,7 +158,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">修改使用者資料</h5>
+                    <h5 class="modal-title dialogtitle" id="exampleModalLabel">商品資訊</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="background-color: transparent; border:0px;">
                         <span style="font-size: 1.5rem; font-weight: 700; opacity: .5;" aria-hidden="true">&times;</span>
                     </button>
@@ -162,24 +166,27 @@
                 <div class="modal-body">
                     <!--綁定form表單資料-->
                     <form>
-                        <div class="form-group">
-                            <label for="user-name"
-                                   cproductpricelass="col-form-label">商品簡述:</label>
-                            <p></p>
+                        <div>
+                            <label for="user-name"class="content"
+                                   cproductpricelass="col-form-label">類別: {{product.category}}</label>
                         </div>
                         <div class="form-group">
-                            <label for="user-birth" class="col-form-label">商品描述:</label>
-                            <input type="date" class="form-control" id="user-birth" @*v-model="birthDate"*@>
+                            <label for="user-name" class="content"
+                                   cproductpricelass="col-form-label">商品內容:</label>
+                            <p class="contenttext">{{product.content}}</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="user-birth" class="content" >商品描述:</label>
+                            <p class="contenttext">{{product.description}}</p>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary"
                             data-dismiss="modal">
-                        取消
+                        關閉
                     </button>
                     <!--觸發事件修改-->
-                    <button type="button" class="btn btn-ddd" @*v-on:click="readyUpdate"*@ style="background-color: #007bff; color: #fff">確認修改</button>
                 </div>
             </div>
         </div>
@@ -214,8 +221,9 @@
                 productName: '',
                 price: '',
                 picPath: '',
-                category: '',
-                total:'',
+                description: '',
+                content: '',
+                category:'',
                 disable: false,
             },
             target: null,
@@ -225,6 +233,12 @@
             countOfPage: 6,
         },
         methods: {
+            update: function (e) {
+                let self = this;
+                let productId = e.target.value;
+                let target = self.products.find(i => { return productId == i.productId });
+                self.product = target;
+            },
             //下架商品
             getProduct: function (e) {
                 let self = this;

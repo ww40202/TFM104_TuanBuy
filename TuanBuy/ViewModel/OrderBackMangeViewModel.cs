@@ -29,7 +29,12 @@ namespace TuanBuy.ViewModel
         public bool Disable { get; set; }
         public string PicPath { get; set; }
         public string Category { get; set; }
+        public string CreateTime { get; set; }
+        public string EndTime { get; set; }
+        public string Description { get; set; }
+        public string Content { get; set; }
         public decimal Total { get; set; }
+        public string UserName { get; set; }
     }
 
 }
