@@ -112,5 +112,18 @@ namespace TuanBuy.ViewModel
 
         public int ProductPrice { get; set; }
     }
+    public class AddOrderViewModel
+    {
+        public string OrderDescription { get; set; }
 
+        public string BuyerAddress { get; set; }
+
+        public string Phone { get; set; }
+
+        public string PaymentType { get; set; }
+
+        public int BuyerId { get; set; }
+
+        public int VouchersSum { get; set; }
+    }
 }

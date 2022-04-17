@@ -223,7 +223,8 @@
                             BuyerId: app.buyerData.buyerId,
                             PaymentType: app.checkPayFun,
                             ProductId: app.checkProduct,
-                            shoppingCartViewModels: app.checkProductResult
+                            shoppingCartViewModels: app.checkProductResult,
+                            VouchersSum: app.productshoppingAddSum,
                         },
                         success: function (response) {
                             document.getElementById('ordernumber').value = response.ordernumber;

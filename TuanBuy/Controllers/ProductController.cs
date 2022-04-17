@@ -263,21 +263,22 @@ namespace TuanBuy.Controllers
         #endregion
 
         #region 將購物車商品加入到訂單
-        public object AddOrder(string OrderDescription, string BuyerAddress, string Phone, string PaymentType, int BuyerId, List<ShoppingCartViewModel> shoppingCartViewModels)
+        public object AddOrder(List<ShoppingCartViewModel> shoppingCartViewModels, AddOrderViewModel addOrderViewModel)
         {
             using (_dbContext)
             {
                 Order order = new Order();
                 OrderDetail orderDetail = new OrderDetail();
                 order.CreateDate = DateTime.Now;
-                order.Description = OrderDescription;
-                order.Address = BuyerAddress;
+                order.Description = addOrderViewModel.OrderDescription;
+                order.Address = addOrderViewModel.BuyerAddress;
                 order.StateId = 1;
-                order.PaymentType = int.Parse(PaymentType);
-                order.Phone = Phone;
-                order.UserId = BuyerId;
+                order.PaymentType = int.Parse(addOrderViewModel.PaymentType);
+                order.Phone = addOrderViewModel.Phone;
+                order.UserId = addOrderViewModel.BuyerId;
                 orderDetail.ProductId = shoppingCartViewModels[0].ProductId;
-                orderDetail.Price = shoppingCartViewModels[0].ProductPrice;
+                //直接存取總金額
+                orderDetail.Price = addOrderViewModel.VouchersSum;
                 orderDetail.Count = shoppingCartViewModels[0].ProductCount;
                 orderDetail.Disable = false;
                 order.OrderDetails = orderDetail;
@@ -289,7 +290,7 @@ namespace TuanBuy.Controllers
                 {
                     ordernumber = order.Id.ToString(),
                     amount = shoppingCartViewModels[0].ProductPrice * shoppingCartViewModels[0].ProductCount,
-                    PayMethod = PaymentType == "0" ? "creditcard" : "VACC"
+                    PayMethod = addOrderViewModel.PaymentType == "0" ? "creditcard" : "VACC"
                 };
             }
         }

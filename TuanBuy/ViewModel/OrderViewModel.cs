@@ -59,4 +59,6 @@ namespace TuanBuy.ViewModel
         public int OrderState { get; set; }
 
     }
+
+
 }
