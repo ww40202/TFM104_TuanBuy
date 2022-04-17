@@ -145,8 +145,18 @@ namespace TuanBuy.Controllers
         }
         #endregion
 
-
-
+        /// <summary>
+        /// 出貨
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public IActionResult GoShipping(int id)
+        {
+            var targetOrder = _dbContext.Order.FirstOrDefault(o => o.Id == id);
+            if (targetOrder != null) targetOrder.StateId = 3;
+            _dbContext.SaveChanges();
+            return Ok("訂單狀態已被改變");
+        }
         private User? GetTargetUser()
         {
             var claim = HttpContext.User.Claims;
