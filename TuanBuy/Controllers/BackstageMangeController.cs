@@ -92,7 +92,7 @@ namespace TuanBuy.Controllers
         }
         #endregion
         #region 產品管理
-        //產品管理撈出上架商品
+        //撈出所有產品資料
         public List<ProductBackMangeViewModel> ProductJoin()
         {
             var BackOrder = new OrderManage(_dbcontext);
@@ -111,13 +111,7 @@ namespace TuanBuy.Controllers
             _dbcontext.SaveChanges();
             return Ok();
         }
-        //產品管理撈出下架商品
-        public List<ProductBackMangeViewModel> ProductJoinup()
-        {
-            var BackOrder = new OrderManage(_dbcontext);
-            var result = BackOrder.GetProductdown();
-            return result;
-        }
+
         //產品上架
         [HttpDelete]
         public IActionResult ProductUp(int id)
@@ -130,6 +124,29 @@ namespace TuanBuy.Controllers
             return Ok();
         }
         #endregion
+
+        //後台首頁
+        public HomeBackMangeViewModel Homeinformation()
+        {
+            var usercount = _dbcontext.User.Count();
+            //var productcount = _dbcontext.Product.Count();
+            var productcount = _dbcontext.Product.Where(x => x.Disable == false).Count();
+            var processOrder = _dbcontext.Order.Where(x => x.StateId == 2).Count();
+            var finishOrder = _dbcontext.Order.Where(x => x.StateId == 4).Count();
+            
+            HomeBackMangeViewModel homeBackMangeViewModel = new HomeBackMangeViewModel() { 
+                UserCount= usercount,
+                ProductCount = productcount,
+                ProcessOrder = processOrder,
+                FinishOrder = finishOrder
+            };
+            return homeBackMangeViewModel;
+            //var productcount = _dbcontext.Product.Count(x => x.Id == productCount);
+            //var orderstate = _dbcontext.OrderState.
+
+
+        }
+
 
         [HttpPost]
         #region 後台新增優惠卷

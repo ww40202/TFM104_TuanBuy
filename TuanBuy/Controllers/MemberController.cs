@@ -12,6 +12,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Topic.Hubs;
 using TuanBuy.Models;
+using TuanBuy.Models.AppUtlity;
 using TuanBuy.Models.Entities;
 using TuanBuy.ViewModel;
 
