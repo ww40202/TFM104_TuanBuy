@@ -248,13 +248,5 @@ namespace TuanBuy.Models
             //_dbContext.SaveChanges();
         }
         #endregion
-
-        #region 新增聊天室群聊
-        public void AddMultipleChatRoom(Guid chatRoomId)
-        {
-
-
-        }
-        #endregion
     }
 }

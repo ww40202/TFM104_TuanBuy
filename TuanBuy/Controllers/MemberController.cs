@@ -148,7 +148,6 @@ namespace TuanBuy.Controllers
         {
             if(SellerId!=0 && MemberId !=0)
             {
-                UserMange userdb = new UserMange(_sqldb);
                 UserDb db = new UserDb(_sqldb);
                 db.AddChatRoom(SellerId, MemberId);
                 return Ok();
