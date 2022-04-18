@@ -144,15 +144,12 @@ namespace TuanBuy.Controllers
         [Authorize(Roles = "FullUser")]
         [Authorize(Roles = "SystemAdmin")]
 
-        public IActionResult AddChatRoom(int SellerId,int MemberId,string ProductName)
+        public IActionResult AddChatRoom(int SellerId,int MemberId)
         {
             if(SellerId!=0 && MemberId !=0)
             {
                 UserMange userdb = new UserMange(_sqldb);
                 UserDb db = new UserDb(_sqldb);
-
-                userdb.CreateTuanButChat(MemberId);
-
                 db.AddChatRoom(SellerId, MemberId);
                 return Ok();
             }
