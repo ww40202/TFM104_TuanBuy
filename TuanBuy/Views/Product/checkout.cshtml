@@ -291,7 +291,7 @@
                 for (let i = 0; i < app.checkVouchers.length; i++) {
                     let result = app.vouchersData.find(x => x.vouchersId == app.checkVouchers[i])
                     console.log(result);
-                    if (app.productshoppingAddSum > result.vouchersAvlAmount) {
+                    if (app.productshoppingAddSum >= result.vouchersAvlAmount) {
                         let sum = app.productshoppingAddSum - result.vouchersDiscount;
                         app.productshoppingAddSum = sum;
                     }

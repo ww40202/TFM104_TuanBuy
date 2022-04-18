@@ -12,6 +12,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Topic.Hubs;
 using TuanBuy.Models;
+using TuanBuy.Models.AppUtlity;
 using TuanBuy.Models.Entities;
 using TuanBuy.ViewModel;
 
@@ -143,11 +144,15 @@ namespace TuanBuy.Controllers
         [Authorize(Roles = "FullUser")]
         [Authorize(Roles = "SystemAdmin")]
 
-        public IActionResult AddChatRoom(int SellerId,int MemberId)
+        public IActionResult AddChatRoom(int SellerId,int MemberId,string ProductName)
         {
             if(SellerId!=0 && MemberId !=0)
             {
+                UserMange userdb = new UserMange(_sqldb);
                 UserDb db = new UserDb(_sqldb);
+
+                userdb.CreateTuanButChat(MemberId);
+
                 db.AddChatRoom(SellerId, MemberId);
                 return Ok();
             }
