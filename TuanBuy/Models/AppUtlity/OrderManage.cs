@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MailKit.Search;
 using TuanBuy.Controllers;
 using TuanBuy.ViewModel;
 
@@ -138,6 +139,7 @@ namespace TuanBuy.Models.Entities
                 where product.Disable == false
                 join orderDetail in _dbContext.OrderDetail on product.Id equals orderDetail.ProductId
                 join order in _dbContext.Order on orderDetail.OrderId equals order.Id
+                orderby order.CreateDate descending
                 where order.StateId >= 2
                 select new { order, orderDetail, product }).ToList();
             var orderList = new List<SellerOrderViewModel>();

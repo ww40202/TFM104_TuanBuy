@@ -119,8 +119,8 @@
                 </div>
                 <!--待收貨商品-->
                 <div class="tab-pane fade" id="product2" role="tabpanel" aria-labelledby="product2-tab">
-                    <div class="purchaseback">
-                        <div class="purchasemg"  v-for="(item,index) in orderList"  v-if="item.orderState==3">
+                    <div class="purchaseback"  >
+                        <div class="purchasemg" v-for="(item,index) in orderList"  v-if="item.orderState==3">
                             <div class="col-12 form-row">
                                 <div>
                                     <!--賣家名稱-->
@@ -163,7 +163,7 @@
                 <!--完成-->
                 <div class="tab-pane fade" id="product3" role="tabpanel" aria-labelledby="product3-tab">
                     <!--v-for="item in orderList"-->
-                    <div class="purchaseback" >
+                    <div class="purchaseback"  >
                         <div class="purchasemg" v-for="(item,index) in orderList" v-if="item.orderState==4">
                             <div class="col-12 form-row">
                                 <div>
@@ -205,11 +205,10 @@
                         </div>
                     </div>
                     <!--  -->
-
                 </div>
                 <!--已取消訂單-->
                 <div class="tab-pane fade" id="product4" role="tabpanel" aria-labelledby="product4-tab">
-                    <div class="purchaseback" v-for="(item,index) in orderList" v-if="item.orderState==5">
+                    <div class="purchaseback"  v-for="(item,index) in orderList" v-if="item.orderState==5">
                         <div class="purchasemg">
                             <div class="col-12 form-row">
                                 <div>
