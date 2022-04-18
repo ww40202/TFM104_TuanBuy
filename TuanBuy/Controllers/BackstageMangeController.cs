@@ -129,9 +129,11 @@ namespace TuanBuy.Controllers
         public HomeBackMangeViewModel Homeinformation()
         {
             var usercount = _dbcontext.User.Count();
-            var productcount = _dbcontext.Product.Count();
+            //var productcount = _dbcontext.Product.Count();
+            var productcount = _dbcontext.Product.Where(x => x.Disable == false).Count();
             var processOrder = _dbcontext.Order.Where(x => x.StateId == 2).Count();
             var finishOrder = _dbcontext.Order.Where(x => x.StateId == 4).Count();
+            
             HomeBackMangeViewModel homeBackMangeViewModel = new HomeBackMangeViewModel() { 
                 UserCount= usercount,
                 ProductCount = productcount,

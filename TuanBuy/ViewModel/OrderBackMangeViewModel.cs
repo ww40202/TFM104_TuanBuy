@@ -44,5 +44,7 @@ namespace TuanBuy.ViewModel
         //處理中訂單  已完成訂單
         public int ProcessOrder { set; get; }
         public int FinishOrder { get; set; }
+        public int Sales { get; set; }
+        public string Hotproduct { get; set; }
     }
 }
