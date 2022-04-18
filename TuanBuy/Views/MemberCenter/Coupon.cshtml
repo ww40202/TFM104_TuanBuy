@@ -1,5 +1,54 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿
+<script src="/VueComponent/VueDemo.js"></script>
+
+<div class="container mtb2rem" id="app">
+    <div class="row">
+
+        <test v-bind:user="user"></test>
+
+        <div class="col-lg-10 notify-alldiv">
+            <div class="notify-read">
+                <button class="notify-read-btn">標示為已讀</button>
+            </div>
+            @*動態複製開頭*@
+            <div class="notifymgbt">
+                <img src="https://picsum.photos/300/150" width=100px height=100px
+                     alt="">
+                <span class="notify-title-p">已出貨狀態</span>
+                <span class="notify-p">通知內容通知內容通知內容通知內容通知內容通知內容通知內容通知內容通知內容通知內容通知內容通知內容通知內容通知內容通知內容通知內容通知內容通知內容通知內容通知內容通知內容通知內容通知內容通知內容</span>
+                <span class="notify-date">2022/4/17 12:12 PM</span>
+                <button class="notifybtn">查看更多</button>
+            </div>
+            @*動態複製結束*@
+            @*動態複製開頭*@
+            <div class="notifymgbt">
+                <img src="https://picsum.photos/300/150" width=100px height=100px
+                     alt="">
+                <span class="notify-title-p">已出貨狀態</span>
+                <span class="notify-p">通知內容通知內容通知內容通知內容通知內容通知內容通知內容通知內容通知內容通知內容通知內容通知內容通知內容通知內容通知內容通知內容通知內容通知內容通知內容通知內容通知內容通知內容通知內容通知內容</span>
+                <span class="notify-date">2022/4/17 12:12 PM</span>
+                <button class="notifybtn">查看更多</button>
+            </div>
+            @*動態複製結束*@
+        </div>
+    </div>
+</div>
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            user: {
+                name: "",
+                phone: "",
+                birth: "",
+                address: "",
+                sex: "",
+                uploadPicPath: ""
+            }
+        },
+        mounted: function () {
+            let self = this;
+            axios.get("/api/MemberCenter/").then((resp) => { this.user = resp.data });
+        }
+    });
+</script>
