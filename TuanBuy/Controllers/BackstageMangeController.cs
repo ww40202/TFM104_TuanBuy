@@ -126,13 +126,22 @@ namespace TuanBuy.Controllers
         #endregion
 
         //後台首頁
-        public void Homeinformation()
+        public HomeBackMangeViewModel Homeinformation()
         {
             var usercount = _dbcontext.User.Count();
-            var ordercount = _dbcontext.Product.Count();
+            var productcount = _dbcontext.Product.Count();
+            var processOrder = _dbcontext.Order.Where(x => x.StateId == 2).Count();
+            var finishOrder = _dbcontext.Order.Where(x => x.StateId == 4).Count();
+            HomeBackMangeViewModel homeBackMangeViewModel = new HomeBackMangeViewModel() { 
+                UserCount= usercount,
+                ProductCount = productcount,
+                ProcessOrder = processOrder,
+                FinishOrder = finishOrder
+            };
+            return homeBackMangeViewModel;
             //var productcount = _dbcontext.Product.Count(x => x.Id == productCount);
             //var orderstate = _dbcontext.OrderState.
-           
+
 
         }
 

@@ -2,9 +2,30 @@
     Layout = "_BackstageLayout";
 }
 
-
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Bootstrap Material Admin by Bootstrapious.com</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="robots" content="all,follow">
+    <!-- Google fonts - Poppins -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
+    <!-- Choices CSS-->
+    <link rel="stylesheet" href="/BackMangeView/vendor/choices.js/public/assets/styles/choices.min.css">
+    <!-- theme stylesheet-->
+    <link rel="stylesheet" href="/BackMangeView/css/style.default.css" id="theme-stylesheet">
+    <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" href="/BackMangeView/css/custom.css">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="/BackMangeView/img/favicon.ico">
+    <!-- Tweaks for older IEs-->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+</head>
 @*中間內容變動區*@
-<div class="content-inner w-100">
+<div class="content-inner w-100" id="navBar">
     <!-- Page Header儀錶板-->
     <header class="bg-white shadow-sm px-4 py-3 z-index-20">
         <div class="container-fluid px-0">
@@ -31,7 +52,7 @@
                                         <div class="progress-bar bg-violet" role="progressbar" style="width: 25%; height: 4px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
-                                <div class="number"><strong class="text-lg">{{home.userCount}}</strong></div>
+                                <div class="number"><strong class="text-lg">{{manger.userCount}}</strong></div>
                             </div>
                         </div>
                         <!-- 處理中訂單 -->
@@ -48,7 +69,7 @@
                                         <div class="progress-bar bg-green" role="progressbar" style="width: 40%; height: 4px;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
-                                <div class="number"><strong class="text-lg">{{home.productCount}}</strong></div>
+                                <div class="number"><strong class="text-lg">{{manger.productCount}}</strong></div>
                             </div>
                         </div>
                         <!-- 商品總數-->
@@ -65,7 +86,7 @@
                                         <div class="progress-bar bg-red" role="progressbar" style="width: 70%; height: 4px;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
-                                <div class="number"><strong class="text-lg">{{home.}}</strong></div>
+                                <div class="number"><strong class="text-lg">{{manger.processOrder}}</strong></div>
                             </div>
                         </div>
                         <!-- 已處理完訂單 -->
@@ -84,7 +105,7 @@
                                         <div class="progress-bar bg-orange" role="progressbar" style="width: 50%; height: 4px;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
-                                <div class="number"><strong class="text-lg">{{home.}}</strong></div>
+                                <div class="number"><strong class="text-lg">{{manger.finishOrder}}</strong></div>
                             </div>
                         </div>
                     </div>
@@ -102,7 +123,7 @@
                         <div class="card-body">
                             <div class="d-flex align-items-center">
                                 <div class="icon flex-shrink-0 bg-red"><i class="fas fa-tasks"></i></div>
-                                <div class="ms-3"><strong class="text-lg d-block lh-1 mb-1">234</strong><small class="text-uppercase text-gray-500 small d-block lh-1">Applications</small></div>
+                                <div class="ms-3"><strong class="text-lg d-block lh-1 mb-1">234</strong><h5>營業總額</h5></div>
                             </div>
                         </div>
                     </div>
@@ -110,7 +131,7 @@
                         <div class="card-body">
                             <div class="d-flex align-items-center">
                                 <div class="icon flex-shrink-0 bg-green"><i class="far fa-calendar"></i></div>
-                                <div class="ms-3"><strong class="text-lg d-block lh-1 mb-1">152</strong><small class="text-uppercase text-gray-500 small d-block lh-1">Interviews</small></div>
+                                <div class="ms-3"><strong class="text-lg d-block lh-1 mb-1">152</strong><h5>暢銷商品</h5></div>
                             </div>
                         </div>
                     </div>
@@ -153,17 +174,26 @@
         </div>
     </section>
 </div>
-
+<!-- JavaScript files-->
+<script src="/BackMangeView/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/BackMangeView/vendor/chart.js/Chart.min.js"></script>
+<script src="/BackMangeView/vendor/just-validate/js/just-validate.min.js"></script>
+<script src="/BackMangeView/vendor/choices.js/public/assets/scripts/choices.min.js"></script>
+<script src="/BackMangeView/js/charts-home.js"></script>
+<!-- Main File-->
+<script src="/BackMangeView/js/front.js"></script>
 <script>
+    class Manger {
+        finishOrder = 0;
+        processOrder = 0;
+        productCount = 0;
+        userCount = 0;
+    }
     var layout = new Vue({
         el: '#navBar',
         data: {
             homes: [],
-            home: {
-                userCount:'',
-                productCount:'',
-                StateId:'',
-            },
+            manger: new Manger(),
             user: "",
             picPath: ""
         },
@@ -178,7 +208,11 @@
                 .then((resp) => { self.picPath = resp.data })
                 .catch((res) => res.response.data);
             axios.get("/BackstageMange/Homeinformation")
-                .then((resp) => { self.homes = resp.data })
+                .then((resp) => {
+                    /*self.homes = resp.data*/
+                    layout.manger = resp.data;
+                    console.log(layout.manger);
+                })
                 .catch((res) => res.response.data);
         },
         methods: {
@@ -187,10 +221,7 @@
                     window.location.href = "/Home/Index";
                 });
             },
-            getinformation: function () {
-                let self = this;
 
-            }
         }
 
     });

@@ -42,6 +42,7 @@ namespace TuanBuy.ViewModel
         public int UserCount { get; set; }
         public int ProductCount { get; set; }
         //處理中訂單  已完成訂單
-        public int StateId { set; get; }
+        public int ProcessOrder { set; get; }
+        public int FinishOrder { get; set; }
     }
 }
