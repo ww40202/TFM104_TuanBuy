@@ -41,7 +41,7 @@
 
         <!-- 熱門按鈕 -->
         <<div class="container ">
-            <div class="bt pt3 tc mb3 mb0-l bb">
+            <div class="mt4 bt pt3 tc mb3 mb0-l bb">
                 <div class="db nowrap overflow-auto pb3 pt1">
                     <a class="f6 ph3 pv2 b link mid-gray mh1" style="cursor:pointer" v-on:click="filterClass(event)" id="全部">全部</a>
                     <a class="f6 ph3 pv2 b link mid-gray mh1" style="cursor:pointer" v-on:click="filterClass(event)" id="精選">精選</a>
@@ -136,8 +136,23 @@
         </div>
     </div>
 </body>
-
 <script>
+
+
+    //測試資料
+    // var testData = {
+    //    list:[
+    //        {createTime:"1996/07/06",name:"商品名稱", description:"商品描述"},
+    //        {createTime:"1996/07/06",name:"商品名稱", description:"商品描述"},
+    //        {createTime:"1996/07/06",name:"商品名稱", description:"商品描述"},
+    //        {createTime:"1996/07/06",name:"商品名稱", description:"商品描述"},
+    //        {createTime:"1996/07/06",name:"商品名稱", description:"商品描述"},
+    //        {createTime:"1996/07/06",name:"商品名稱", description:"商品描述"},
+    //        {createTime:"1996/07/06",name:"商品名稱", description:"商品描述"},
+    //        {createTime:"1996/07/06",name:"商品名稱", description:"商品描述"}
+    //    ]
+    //}
+
     var app = new Vue({
         el: "#productCard",
         data: {
