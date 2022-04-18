@@ -39,6 +39,8 @@ namespace TuanBuy.ViewModel
     {
         //訂單ID
         public string OrderId { get; set; }
+        //DateTime
+        public DateTime CreateTime { get; set; } 
         //商品名稱
         public string ProductName { get; set; }
         //商品描述
