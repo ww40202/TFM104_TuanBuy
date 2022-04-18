@@ -33,6 +33,8 @@ namespace TuanBuy.ViewModel
         public string SellerName { get; set; }
         //訂單狀態
         public int OrderState { get; set; }
+        //訂單金額
+        public decimal OrderPrice { get; set; }
     }
 
     public class SellerOrderViewModel
