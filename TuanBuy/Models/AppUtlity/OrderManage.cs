@@ -118,7 +118,8 @@ namespace TuanBuy.Models.Entities
                     ProductName = item.myOrderDetail.product.Name,
                     ProductDescription = item.myOrderDetail.product.Description,
                     ProductPrice = item.myOrderDetail.product.Price,
-                    ProductId = item.myOrderDetail.product.Id
+                    ProductId = item.myOrderDetail.product.Id,
+                    OrderPrice = item.myOrderDetail.orderDetail.Price
                 };
                 if (item.myOrderDetail.product.Id == item.pic.ProductId)
                 {
