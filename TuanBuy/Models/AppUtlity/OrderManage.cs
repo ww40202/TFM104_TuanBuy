@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MailKit.Search;
 using TuanBuy.Controllers;
 using TuanBuy.ViewModel;
 
@@ -117,7 +118,8 @@ namespace TuanBuy.Models.Entities
                     ProductName = item.myOrderDetail.product.Name,
                     ProductDescription = item.myOrderDetail.product.Description,
                     ProductPrice = item.myOrderDetail.product.Price,
-                    ProductId = item.myOrderDetail.product.Id
+                    ProductId = item.myOrderDetail.product.Id,
+                    OrderPrice = item.myOrderDetail.orderDetail.Price
                 };
                 if (item.myOrderDetail.product.Id == item.pic.ProductId)
                 {
@@ -128,7 +130,11 @@ namespace TuanBuy.Models.Entities
             return myOrderDetails;
         }
 
-        //撈出會員中心賣家的待出貨商品
+        /// <summary>
+        /// 撈出會員中心賣家的待出貨商品
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public List<SellerOrderViewModel> GetSellerOrder(int id)
         {
             var result = (
@@ -138,6 +144,7 @@ namespace TuanBuy.Models.Entities
                 where product.Disable == false
                 join orderDetail in _dbContext.OrderDetail on product.Id equals orderDetail.ProductId
                 join order in _dbContext.Order on orderDetail.OrderId equals order.Id
+                orderby order.CreateDate descending
                 where order.StateId >= 2
                 select new { order, orderDetail, product }).ToList();
             var orderList = new List<SellerOrderViewModel>();
@@ -192,7 +199,8 @@ namespace TuanBuy.Models.Entities
                 orderList.Add(sellerOrder);
             }
 
-            return orderList;
+            
+            return orderList.OrderBy(x => x.CreateTime).ToList();
         }
     }
 }
