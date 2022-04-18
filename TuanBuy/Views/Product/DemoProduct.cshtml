@@ -257,11 +257,12 @@
     }
 </style>
 
+
 <!--測試按鈕-->
 <!--昌浚寫的 後端志輝-->
 <link rel="stylesheet" href="~/css/image.css" type="text/css">
 <body class="colerwhite">
-    <div class="container" id="app">
+    <div class="container mt2rem" id="app">
         <div class="row">
             <div class="col-lg-8">
                 <!--商品圖片-->
@@ -320,7 +321,7 @@
                         </div>
                         <div class="price">
                             單價NT${{productData.productPrice}}
-                            <!--測試按鈕-->
+                            <!--收藏按鈕-->
                             <input type="checkbox" id="checkbox" v-on:click="addFavicon($event)" />
                             <label for="checkbox">
                                 <svg id="heart-svg" viewBox="467 392 58 57" xmlns="http://www.w3.org/2000/svg">
@@ -365,7 +366,7 @@
                                     </g>
                                 </svg>
                             </label>
-                            <!--測試按鈕-->
+                            <!--收藏按鈕-->
                         </div>
 
                         <div class="purchase">
@@ -383,9 +384,9 @@
 
                         <div class="Buy">
                             <span class="stepper">
-                                <button>–</button>
-                                <input type="number" id="stepper" value="1" min="0" max="100" step="1" readonly>
-                                <button>+</button>
+                                <button v-on:click="productData.productCount -= 1">–</button>
+                                <input type="number"  min="0" max="100"  v-model="productData.productCount" readonly>
+                                <button v-on:click="productData.productCount += 1">+</button>
                             </span>
                             <button type="button" class="btn btn-danger" v-on:click="AddProductToMe">加入團購</button>
                         </div>
@@ -419,21 +420,21 @@
                                                     {{productData.productDescription}}
                                                     <img src="" alt="">
                                                 </h2>
-                                                <div class="item">
+                                                <div class="demoproduct-item">
                                                     <img src="" alt="">
                                                 </div>
-                                                <div class="item">
+                                                <div class="demoproduct-item">
                                                     <img src="" alt="">
                                                 </div>
 
-                                                <div class="item">
+                                                <div class="demoproduct-item">
                                                     <h6></h6>
                                                     <img src="" alt="">
                                                     <h6 class="productfont">
                                                         {{productData.productSummary}}
                                                     </h6>
                                                 </div>
-                                                <div class="item">
+                                                <div class="demoproduct-item">
                                                     <img src="" alt="">
                                                     <h6 class="productfont">
                                                         而火的既視感被德國特製陶瓷玻璃看得不要不要，啪滋啪滋聲就是露營追求的信仰聲 .ᐟ
@@ -635,6 +636,7 @@
             sellerId = 0;
             percentage = null;
             color = null;
+            productCount = 1;
         }
         class Message {
             messageId = 0;
@@ -733,14 +735,16 @@
                         }
                     });
                 },
+
                 AddChat: function () {
                     $.ajax({
                         type: "POST",
                         url: "/Member/AddChatRoom",
                         data: {
                             SellerId: app.sellerId,
-                            MemberId: app.useUserId
-                        },
+                            MemberId: app.useUserId,
+                            ProductName: app.productData.productTitle,
+                            },
                         success: function (response) {
                             window.location.href = '/Member/chatRoom/';
                         },
@@ -749,13 +753,16 @@
                         }
                     });
                 },
+
                 AddProductToMe: function () {
+                    console.log(app.productData.productCount);
                     $.ajax({
                         type: "POST",
                         url: "/Product/AddProductOrder",
                         data: {
                             UserId: app.useUserId,
                             ProductId: app.productData.productId,
+                            ProductCount: app.productData.productCount
                         },
                         success: function (response) {
                             window.location.href = '/Product/checkout/';
@@ -851,37 +858,37 @@
 <!--切換分頁-->
 
 <script>
-    var inc = document.getElementsByClassName("stepper");
-    for (i = 0; i < inc.length; i++) {
-        var incI = inc[i].querySelector("input"),
-            id = incI.getAttribute("id"),
-            min = incI.getAttribute("min"),
-            max = incI.getAttribute("max"),
-            step = incI.getAttribute("step");
-        document
-            .getElementById(id)
-            .previousElementSibling.setAttribute(
-                "onclick",
-                "stepperInput('" + id + "', -" + step + ", " + min + ")"
-            );
-        document
-            .getElementById(id)
-            .nextElementSibling.setAttribute(
-                "onclick",
-                "stepperInput('" + id + "', " + step + ", " + max + ")"
-            );
-    }
-    //團購按鈕
-    function stepperInput(id, s, m) {
-        var el = document.getElementById(id);
-        if (s > 0) {
-            if (parseInt(el.value) < m) {
-                el.value = parseInt(el.value) + s;
-            }
-        } else {
-            if (parseInt(el.value) > m) {
-                el.value = parseInt(el.value) + s;
-            }
-        }
-    }
+    //var inc = document.getElementsByClassName("stepper");
+    //for (i = 0; i < inc.length; i++) {
+    //    var incI = inc[i].querySelector("input"),
+    //        id = incI.getAttribute("id"),
+    //        min = incI.getAttribute("min"),
+    //        max = incI.getAttribute("max"),
+    //        step = incI.getAttribute("step");
+    //    document
+    //        .getElementById(id)
+    //        .previousElementSibling.setAttribute(
+    //            "onclick",
+    //            "stepperInput('" + id + "', -" + step + ", " + min + ")"
+    //        );
+    //    document
+    //        .getElementById(id)
+    //        .nextElementSibling.setAttribute(
+    //            "onclick",
+    //            "stepperInput('" + id + "', " + step + ", " + max + ")"
+    //        );
+    //}
+    ////團購按鈕
+    //function stepperInput(id, s, m) {
+    //    var el = document.getElementById(id);
+    //    if (s > 0) {
+    //        if (parseInt(el.value) < m) {
+    //            el.value = parseInt(el.value) + s;
+    //        }
+    //    } else {
+    //        if (parseInt(el.value) > m) {
+    //            el.value = parseInt(el.value) + s;
+    //        }
+    //    }
+    //}
 </script>

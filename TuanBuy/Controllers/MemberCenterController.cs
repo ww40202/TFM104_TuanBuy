@@ -41,6 +41,11 @@ namespace TuanBuy.Controllers
             return View();
         }
 
+        public IActionResult Coupon()
+        {
+            return View();
+        }
+
 
         #region 我是買家我購買的商品
         //我是買家我購買的商品

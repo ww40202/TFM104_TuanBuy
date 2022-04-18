@@ -593,7 +593,7 @@ justify-content: center; */
     align-items: center;
     border-radius: 2px;
     border: 1px solid rgba(0, 0, 0, 0.14);
-    box-shadow: rgb(0 0 0 / 2%) 0px 2px 0px 0px inset;
+    box-shadow: rgb(0 mt2rem0 0 / 2%) 0px 2px 0px 0px inset;
     color: rgb(34, 34, 34);
     height: 40px;
     padding: 10px;
@@ -628,7 +628,8 @@ justify-content: center; */
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     white-space: normal;
-    width: 45%;
+    width: 25%;
+    margin-left: 0 1%;
 }
 
 .check-chose-p2 {
@@ -639,15 +640,15 @@ justify-content: center; */
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     white-space: normal;
-    width: 20%;
+    width: 18%;
     color: #ee4d2d;
-    margin-left:3%
+    margin-left: 0 1%;
 }
 
 .checkcheckbox {
     width: 16px;
     height: 16px;
-    margin: auto .5rem;
+    /*    margin: auto .5rem;*/
 }
 
 
@@ -2188,6 +2189,11 @@ p,
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    max-width:290px;
+}
+
+.card-title-max {
+    max-width: 290px;
 }
 
 .card-text {
@@ -2393,17 +2399,22 @@ p,
     padding:4rem;
 }
 
-.notify-read{
-    display:flex;
-    justify-content:right;
-    border-bottom:1px solid #f6f6f6;
-    min-height:3rem;
+
+.notify-read {
+    display: flex;
+    justify-content: right;
+    border-bottom: 2px solid #f5f5f5;
+    min-height: 3rem;
 }
 
-.notify-read-btn{
-    border:0;
-    background-color:transparent;
-    margin:auto .5rem;
+.notify-read-btn {
+    border: 0;
+    background-color: transparent;
+    margin: auto .5rem;
+}
+
+.notify-read-btn:hover {
+    color: coral;
 }
 
 .notify-alldiv {
@@ -2420,4 +2431,70 @@ p,
 
 .mt2rem {
     margin-top: 2rem;
+}
+
+.notifybtn {
+    border: 1px solid rgba(0, 0, 0, .09);
+    color: rgba(0, 0, 0, .8);
+    background-color: #fff;
+    max-height: 30px;
+    margin: auto;
+}
+
+.notifyright {
+    text-align: right;
+}
+
+.notifymgbt {
+    padding: .5rem;
+    display: flex;
+    min-width: 15%;
+    cursor: pointer;
+}
+
+.notifymgbt:hover {
+    background-color: #f6f6f6;
+}
+
+.notify-title-p {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin: auto;
+    font-size: 16px;
+    min-width: 10%;
+    margin: auto;
+    font-weight:700;
+}
+
+.notify-p {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    white-space: normal;
+    min-width: 50%;
+    max-width: 50%;
+    margin: auto;
+    letter-spacing:.5px;
+}
+
+
+.notify-date {
+    min-width: 10%;
+    margin: auto;
+}
+
+.ready-prodct-card {
+    max-width: 50px;
+    position: absolute;
+    right: 10px;
+    top: 208px;
+}
+
+.demoproduct-item {
+    width: 650px;
+    margin: 10px;
 }

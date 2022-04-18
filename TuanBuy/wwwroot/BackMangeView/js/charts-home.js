@@ -54,6 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     pointHoverBorderWidth: 2,
                     pointRadius: 1,
                     pointHitRadius: 0,
+                    //TODO
                     data: [50, 20, 60, 31, 52, 22, 40, 25, 30, 68, 56, 40, 60, 43, 55, 39, 47],
                     spanGaps: false
                 },
@@ -77,6 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     pointHoverBorderWidth: 2,
                     pointRadius: 1,
                     pointHitRadius: 10,
+                    //TODO
                     data: [20, 7, 35, 17, 26, 8, 18, 10, 14, 46, 30, 30, 14, 28, 17, 25, 17, 40],
                     spanGaps: false
                 }

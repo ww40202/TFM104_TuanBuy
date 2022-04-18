@@ -104,6 +104,7 @@
                                 </div>
                                 <div class="checkchosediv" v-for="voucher in vouchersData">
                                     <img src="https://beautiful666.com/images/10/2s.jpg" alt="折價券" width="100" height="100">
+                                    <p class="checkchosep">折價卷的標題</p>
                                     <p class="checkchosep">{{voucher.vouchersDescribe}}</p>
                                     <p class="check-chose-p2">{{voucher.discountDescribe}}</p>
                                     <input class="checkcheckbox" type="checkbox" name="" :value="voucher.vouchersId" v-model="checkVouchers">
@@ -291,7 +292,7 @@
                 for (let i = 0; i < app.checkVouchers.length; i++) {
                     let result = app.vouchersData.find(x => x.vouchersId == app.checkVouchers[i])
                     console.log(result);
-                    if (app.productshoppingAddSum > result.vouchersAvlAmount) {
+                    if (app.productshoppingAddSum >= result.vouchersAvlAmount) {
                         let sum = app.productshoppingAddSum - result.vouchersDiscount;
                         app.productshoppingAddSum = sum;
                     }

@@ -112,7 +112,7 @@ namespace TuanBuy.Controllers
 
         #region 將商品加入購物車
         [Authorize(Roles = "FullUser")]
-        public void AddProductOrder(int ProductId, int UserId)
+        public void AddProductOrder(int ProductId, int UserId,int ProductCount)
         {
             var productData = (from product in _dbContext.Product
                                join productpic in _dbContext.ProductPics on product.Id equals productpic.ProductId
@@ -133,7 +133,7 @@ namespace TuanBuy.Controllers
                 //如果購物車商品重複則只重新加數量不加商品
                 if(shoppingcarts.Any(x=>x.ProductId== ProductId))
                 {
-                    shoppingcarts.FirstOrDefault(x => x.ProductId == ProductId).ProductCount += 1;
+                    shoppingcarts.FirstOrDefault(x => x.ProductId == ProductId).ProductCount += ProductCount;
                 }
                 else
                 {
@@ -145,6 +145,7 @@ namespace TuanBuy.Controllers
                         ProductPicPath = productData.productpic.PicPath,
                         ProductPrice = productData.product.Price,
                         ProductDescription = productData.product.Description,
+                        ProductCount = ProductCount,
                         BuyerId = UserId,
                         BuyerName = userData.Name,
                         BuyerPhone = userData.Phone,
@@ -168,7 +169,8 @@ namespace TuanBuy.Controllers
                     ProductPicPath = productData.productpic.PicPath,
                     ProductPrice = productData.product.Price,
                     ProductDescription = productData.product.Description,
-                    BuyerId = UserId,
+                    ProductCount = ProductCount,
+                    BuyerId = UserId,                  
                     BuyerName = userData.Name,
                     BuyerPhone = userData.Phone,
                     BuyerAddress = userData.Address
@@ -240,7 +242,6 @@ namespace TuanBuy.Controllers
 
 
         #endregion
-
 
         #region 刪除購物車商品
         public void DelectShoppingCart(int productId)
