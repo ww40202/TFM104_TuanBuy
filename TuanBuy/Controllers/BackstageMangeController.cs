@@ -92,7 +92,7 @@ namespace TuanBuy.Controllers
         }
         #endregion
         #region 產品管理
-        //產品管理撈出上架商品
+        //撈出所有產品資料
         public List<ProductBackMangeViewModel> ProductJoin()
         {
             var BackOrder = new OrderManage(_dbcontext);
@@ -111,13 +111,7 @@ namespace TuanBuy.Controllers
             _dbcontext.SaveChanges();
             return Ok();
         }
-        //產品管理撈出下架商品
-        public List<ProductBackMangeViewModel> ProductJoinup()
-        {
-            var BackOrder = new OrderManage(_dbcontext);
-            var result = BackOrder.GetProductdown();
-            return result;
-        }
+
         //產品上架
         [HttpDelete]
         public IActionResult ProductUp(int id)
@@ -130,5 +124,15 @@ namespace TuanBuy.Controllers
             return Ok();
         }
         #endregion
+        //後台首頁
+        public void Homeinformation()
+        {
+            var usercount = _dbcontext.User.Count();
+            var ordercount = _dbcontext.Product.Count();
+            //var productcount = _dbcontext.Product.Count(x => x.Id == productCount);
+            //var orderstate = _dbcontext.OrderState.
+           
+
+        }
     }
 }
