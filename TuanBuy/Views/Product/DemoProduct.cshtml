@@ -740,7 +740,8 @@
                         url: "/Member/AddChatRoom",
                         data: {
                             SellerId: app.sellerId,
-                            MemberId: app.useUserId
+                            MemberId: app.useUserId,
+                            ProductName: app.productData.productTitle
                         },
                         success: function (response) {
                             window.location.href = '/Member/chatRoom/';

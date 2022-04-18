@@ -70,7 +70,7 @@ namespace TuanBuy.Models.Entities
                     //將目前團購累計金額傳入
                     foreach(var buyesSumPrice in item.user.prd.product.OrderDetails)
                     {
-                        demoProductViewModel.BuyersSumPrice += (buyesSumPrice.Price*buyesSumPrice.Count);
+                        demoProductViewModel.BuyersSumPrice += buyesSumPrice.Price;
                     }
                     //透過目前團購金額在後端進行進度條及金額百分比計算
                     var i = demoProductViewModel.BuyersSumPrice;
