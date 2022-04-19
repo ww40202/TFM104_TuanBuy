@@ -23,7 +23,9 @@ using Org.BouncyCastle.Asn1.Ocsp;
 using StackExchange.Redis;
 using Topic.Hubs;
 using TuanBuy.Models.AppUtlity;
+using TuanBuy.Models.Bank.Extensions;
 using TuanBuy.Models.Entities;
+using TuanBuy.Models.Extension;
 using TuanBuy.ViewModel;
 using Order = StackExchange.Redis.Order;
 
@@ -43,6 +45,49 @@ namespace TuanBuy.Controllers
             _distributedCache = distributedCache;
             _mydb = Mydb;
         }
+
+        public IActionResult SingalR()
+        {
+            return View();
+        }
+
+        public IActionResult RedisList()
+        {
+
+            var _IDatabase = _mydb.GetRedisDb(3);
+            var listKey = "Notify_"+1;
+            _IDatabase.KeyDelete(listKey, CommandFlags.FireAndForget);//delete all item
+            _IDatabase.SaveMessage(listKey, "通知內容");
+            //存取每一個字元
+
+            //put 8 _IDatabase.ListRightPush(listKey, "ricoisme".Select(x => (RedisValue)x.ToString()).ToArray());
+            //抓取這list長度
+            //Console.WriteLine(_IDatabase.ListLength(listKey));
+            //撈取list前三個字 rico
+            //var firstFour = _IDatabase.ListRange(listKey, 0, 3);
+            //Console.WriteLine(string.Concat(firstFour));
+            ////撈取倒數五個字rcosme
+            //var lastFive = _IDatabase.ListRange(listKey, -5);
+            //Console.WriteLine(string.Concat(lastFive));
+            //移除一個字
+            _IDatabase.ListRemove(listKey, "i");  //remove i
+            Console.WriteLine(string.Concat(_IDatabase.ListRange(listKey)));
+
+            return Ok();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         #region Enum取DisplayName
 
@@ -128,6 +173,10 @@ namespace TuanBuy.Controllers
             return JsonConvert.DeserializeObject<Dictionary<String, Object>>(jsonStr);
         }
 
+
+
+        #region 暫時用不到
+
         public object GetRedis()
         {
 
@@ -138,69 +187,6 @@ namespace TuanBuy.Controllers
 
             return data;
         }
-        //List<SellerOrderViewModel>
-        //public List<SellerOrderViewModel> SellerOrder()
-        //{
-        //    var tarUser = GetTargetUser();
-        //    var result = (
-        //        from user in _dbContext.User
-        //        where user.Id == tarUser.Id
-        //        join product in _dbContext.Product on user.Id equals product.UserId
-        //        where product.Disable == false
-        //        join orderDetail in _dbContext.OrderDetail on product.Id equals orderDetail.ProductId
-        //        join order in _dbContext.Order on orderDetail.OrderId equals order.Id
-        //        where order.StateId >= 2
-        //        select new { order, orderDetail, product }).ToList();
-        //    var orderList = new List<SellerOrderViewModel>();
-
-        //    var buyer =
-        //        (from orders in result
-        //         join user in _dbContext.User on orders.order.UserId equals user.Id
-        //         select user).ToList();
-
-        //    #region 這段不行 莫名其妙
-        //    //foreach (var item in result)
-        //    //{
-        //    //    foreach (var user in buyer)
-        //    //    {
-        //    //        if (user.Id == item.order.UserId)
-        //    //        {
-        //    //            orderList.Add(new SellerOrderViewModel()
-        //    //            {
-        //    //                OrderId = item.order.Id,
-        //    //                OrderDateTime = item.order.CreateDate.ToString("yyyy-MM-dd"),
-        //    //                ProductName = item.product.Name,
-        //    //                Total = item.orderDetail.Count * item.orderDetail.Price,
-        //    //                Address = item.order.Address,
-        //    //                BuyerName = user.Name
-        //    //            });
-        //    //        }
-        //    //    }
-        //    //}
-        //    #endregion
-        //    //OK
-        //    foreach (var item in result)
-        //    {
-        //        var sellerOrder = new SellerOrderViewModel()
-        //        {
-        //            OrderId = item.order.Id,
-        //            OrderDateTime = item.order.CreateDate.ToString("yyyy-MM-dd"),
-        //            ProductName = item.product.Name,
-        //            Total = item.orderDetail.Count * item.orderDetail.Price,
-        //            Address = item.order.Address
-        //        };
-        //        foreach (var user in buyer)
-        //        {
-        //            if (user.Id == item.order.UserId)
-        //            {
-        //                sellerOrder.BuyerName = user.Name;
-        //            }
-        //        }
-        //        orderList.Add(sellerOrder);
-        //    }
-
-        //    return orderList;
-        //}
         private User GetTargetUser()
         {
             var claim = HttpContext.User.Claims;
@@ -227,8 +213,6 @@ namespace TuanBuy.Controllers
             public string BuyerName { get; set; }
         }
 
-
-        #region 暫時用不到
         public string DemoUrl()
         {
             string url = _environment.WebRootPath;
@@ -284,6 +268,28 @@ namespace TuanBuy.Controllers
 
         #endregion
 
-
+        #region 文字編輯器
+        public IActionResult HtmlEditText()      
+        {    
+            return View();
+        }
+        [HttpPost]
+        public IActionResult HtmlEditText(string TextContent)
+        {
+            using (_dbContext)
+            {
+                var result = _dbContext.Product.Single(x => x.Id == 2);
+                result.Content = TextContent;
+                _dbContext.SaveChanges();
+            }
+            return View();
+        }
+        #endregion
+        #region 文字編輯器的效果
+        public IActionResult TextDemo()
+        {
+            return View();
+        }
+        #endregion
     }
 }
