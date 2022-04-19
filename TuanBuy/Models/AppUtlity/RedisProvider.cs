@@ -24,6 +24,15 @@ namespace TuanBuy.Models.AppUtlity
             return Db;
 
         }
+        /// <summary>
+        /// 存取通知
+        /// </summary>
+        /// <param name="db"></param>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+
+
 
         #region 將物件轉換成HashEntry[]
 
