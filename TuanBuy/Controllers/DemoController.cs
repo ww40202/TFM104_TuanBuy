@@ -284,6 +284,28 @@ namespace TuanBuy.Controllers
 
         #endregion
 
-
+        #region 文字編輯器
+        public IActionResult HtmlEditText()      
+        {    
+            return View();
+        }
+        [HttpPost]
+        public IActionResult HtmlEditText(string TextContent)
+        {
+            using (_dbContext)
+            {
+                var result = _dbContext.Product.Single(x => x.Id == 2);
+                result.Content = TextContent;
+                _dbContext.SaveChanges();
+            }
+            return View();
+        }
+        #endregion
+        #region 文字編輯器的效果
+        public IActionResult TextDemo()
+        {
+            return View();
+        }
+        #endregion
     }
 }

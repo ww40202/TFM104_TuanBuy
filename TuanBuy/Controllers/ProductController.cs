@@ -385,7 +385,7 @@ namespace TuanBuy.Controllers
 
 
             #endregion
-            return Ok();
+            return RedirectToAction("index", "Home");
         }
 
 
