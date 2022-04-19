@@ -36,12 +36,15 @@ namespace TuanBuy.ViewModel
         public string UserName { get; set; }
         public bool Disable { get; set; }
     }
-    public class ProductBackMangeViewMode2
+    //首頁資訊
+    public class HomeBackMangeViewModel
     {
-        public int ProductId { get; set; }
-        public string ProductName { get; set; }
-        public decimal Price { get; set; }
-
-        public string PicPath { get; set; }
+        public int UserCount { get; set; }
+        public int ProductCount { get; set; }
+        //處理中訂單  已完成訂單
+        public int ProcessOrder { set; get; }
+        public int FinishOrder { get; set; }
+        public int Sales { get; set; }
+        public string Hotproduct { get; set; }
     }
 }

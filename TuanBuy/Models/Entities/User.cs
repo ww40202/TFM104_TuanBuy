@@ -36,5 +36,6 @@ namespace TuanBuy.Models.Entities
         public virtual ICollection<ChatRoomMember> ChatRoom { get; set; }
 
         public virtual ICollection<UserVoucher> UserVoucher { get; set; }
+        public virtual ICollection<UserNotify> UserNotify { get; set; }
     }
 }

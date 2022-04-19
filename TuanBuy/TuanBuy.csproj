@@ -46,6 +46,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Models\Extension\" />
     <Folder Include="wwwroot\css\義傑原版\" />
     <Folder Include="Models\Bank\Extensions\" />
     <Folder Include="Models\Bank\Utlity\" />

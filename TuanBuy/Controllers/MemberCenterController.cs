@@ -75,7 +75,6 @@ namespace TuanBuy.Controllers
         [AllowAnonymous]
         public IActionResult StartMemberState(string s)
         {
-            Console.WriteLine(s);
 
             var decodeEmail = Models.AppUtlity.GoDecode.Decode(s);
 

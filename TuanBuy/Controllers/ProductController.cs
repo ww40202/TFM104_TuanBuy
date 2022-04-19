@@ -228,7 +228,7 @@ namespace TuanBuy.Controllers
 
         }
 
-        public object GetAllFavicon()
+        public List<ProductViewModel> GetAllFavicon()
         {
             var claim = HttpContext.User.Claims;
             var userId = claim.FirstOrDefault(a => "Userid" == a.Type)?.Value;
@@ -236,8 +236,83 @@ namespace TuanBuy.Controllers
            
             var userShopCar = RedisProvider.ConvertToDictionaryInt((db.HashGetAll(userId)));
             var keyList = userShopCar.Select(i => i.Key).ToList();
-            var productList = _dbContext.Product.Where(x => keyList.Contains(x.Id)).ToList();
-            return productList;
+            var productList = _dbContext.Product.Where(x => x.Disable == false & keyList.Contains(x.Id)).ToList().GroupJoin(
+                _dbContext.ProductPics.ToList(),
+                product => product,
+                productPic => productPic.Product,
+                (p, pic) => new ProductViewModel
+                {
+                    User = p.User,
+                    Disable = p.Disable,
+                    Id = p.Id,
+                    Name = p.Name,
+                    Description = p.Description,
+                    Content = p.Content,
+                    Category = p.Category,
+                    PicPath = "/productpicture/" + pic.FirstOrDefault()?.PicPath,
+                    EndTime = p.EndTime,
+                    Price = p.Price,
+                    //目標金額是商品的Total欄位
+                    TargetPrice = p.Total,
+                    Href = "/Product/DemoProduct/" + p.Id
+                }
+            ).ToList();
+
+
+            var orderDetails =
+                (from orderDetail in _dbContext.OrderDetail
+                    //where (products.Select(x => x.Id)).Contains(orderDetail.ProductId)
+                    select new { orderdetail = orderDetail }).ToList();
+            var result = new List<ProductViewModel>();
+            foreach (var p in productList)
+            {
+                var i = new ProductViewModel();
+                i.Id = p.Id;
+                i.Name = p.Name;
+                i.Description = p.Description;
+                i.Content = p.Content;
+                i.Category = p.Category;
+                i.PicPath = p.PicPath;
+                TimeSpan timeSpan = p.EndTime.Subtract(DateTime.Now).Duration();
+                i.LastTime = timeSpan.Days + "天";
+                i.Price = p.Price;
+                i.Total = 0;
+                i.Href = p.Href;
+                i.TargetPrice = p.TargetPrice;
+                i.Color = "#3366a9";
+                foreach (var orderDetail in orderDetails)
+                {
+                    if (orderDetail.orderdetail.ProductId == p.Id)
+                    {
+                        i.Total += orderDetail.orderdetail.Count * p.Price;
+                    }
+                }
+
+                if (i.Total != null && i.Total != 0 && i.TargetPrice != 0)
+                {
+                    var a = (i.Total / i.TargetPrice) * 100;
+                    if (a >= 100)
+                    {
+                        a = 100;
+                    }
+                    i.Color = GetBarColor.GetColor(a);
+                    i.Percentage = a + "%";
+                }
+                else
+                {
+                    i.Percentage = "0%";
+
+                }
+                if (i.TargetPrice == 0)
+                {
+                    i.Percentage = "100%";
+                }
+
+                result.Add(i);
+            }
+
+            return result;
+
         }
 
 
