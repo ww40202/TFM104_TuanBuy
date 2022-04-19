@@ -130,15 +130,20 @@ namespace TuanBuy.Controllers
         {
             var usercount = _dbcontext.User.Count();
             //var productcount = _dbcontext.Product.Count();
-            var productcount = _dbcontext.Product.Where(x => x.Disable == false).Count();
+            var productCount = _dbcontext.Product.Where(x => x.Disable == false).Count();
             var processOrder = _dbcontext.Order.Where(x => x.StateId == 2).Count();
             var finishOrder = _dbcontext.Order.Where(x => x.StateId == 4).Count();
-            //var totalSales = _dbcontext.OrderDetail.Where(x=>x.Price) 
-            HomeBackMangeViewModel homeBackMangeViewModel = new HomeBackMangeViewModel() { 
-                UserCount= usercount,
-                ProductCount = productcount,
+            var totalSales = _dbcontext.OrderDetail.Select(x => x.Price).Sum();
+            var hotProduct = _dbcontext.OrderDetail.OrderBy(x => x.Count).Take(3);
+            var productName= hotProduct.Select(x => new { name = x.Product.Name });
+            HomeBackMangeViewModel homeBackMangeViewModel = new HomeBackMangeViewModel() {
+                UserCount = usercount,
+                ProductCount = productCount,
                 ProcessOrder = processOrder,
-                FinishOrder = finishOrder
+                FinishOrder = finishOrder,
+                TotalSales = totalSales,
+                //HotproductCount = Convert.ToInt32(hotProduct),
+                ProductName = productName.ToString()
             };
             return homeBackMangeViewModel;
             //var productcount = _dbcontext.Product.Count(x => x.Id == productCount);
