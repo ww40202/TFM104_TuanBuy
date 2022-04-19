@@ -102,12 +102,20 @@
                                     <input class="checkcosttext" type="text" v-model="couponCode">
                                     <button class="checktextbtn" v-on:click="AddVoucher()">使用</button>
                                 </div>
-                                <div class="checkchosediv" v-for="voucher in vouchersData">
-                                    <img src="https://beautiful666.com/images/10/2s.jpg" alt="折價券" width="100" height="100">
-                                    <p class="checkchosep">折價卷的標題</p>
-                                    <p class="checkchosep">{{voucher.vouchersDescribe}}</p>
-                                    <p class="check-chose-p2">{{voucher.discountDescribe}}</p>
-                                    <input class="checkcheckbox" type="checkbox" name="" :value="voucher.vouchersId" v-model="checkVouchers">
+                                <div>
+                                    <label :for="voucher.vouchersId" class="checkout-flix"  v-for="voucher in vouchersData">
+                                        <div class="checkout-div">
+                                            <div>
+                                                <img src="https://beautiful666.com/images/10/2s.jpg" alt="折價券" width="100" height="100">
+                                            </div>
+                                            <div class="checkout-p-div">
+                                                <p class="coupon-p-title checkout-p-right-mg">折價卷的標題</p>
+                                                <p class="coupon-p checkout-p-right-mg">{{voucher.vouchersDescribe}}</p>
+                                                <p class="coupon-date checkout-p-right-mg">{{voucher.discountDescribe}}</p>
+                                            </div>
+                                            <input class="checkcheckbox" type="checkbox" name="" :id="voucher.vouchersId" :value="voucher.vouchersId" v-model="checkVouchers">
+                                        </div>
+                                    </label>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -188,7 +196,7 @@
             //使用者選擇使用的優惠卷
             checkVouchers: [],
             //使用者優惠卷暫折扣金額
-            vouchersSum:0,
+            vouchersSum: 0,
         },
         methods: {
             DeleteProduct: function (e) {
@@ -346,7 +354,7 @@
                     for (let i = 0; i < val.length; i++) {
                         let result = app.productShoppings.find(x => x.productId == val[i]);
                         //將選擇的商品相關資訊加入到陣列
-                        app.checkProductResult.push(result);                       
+                        app.checkProductResult.push(result);
                         sum = result.productCount * result.productPrice;
                         app.productshoppingAddSum += sum;
                         //預存待會可能使用折價卷的金額
