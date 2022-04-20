@@ -64,6 +64,10 @@ footer {
     box-shadow: 0px 5px 10px rgb(91 91 91 / 10%);
 }
 
+.head-padding {
+    padding-right: 15px;
+    padding-left: 15px;
+}
 
 .texthead1 {
     text-align: left;
@@ -915,9 +919,21 @@ border: 0;
     color: #fff;
 }
 
+.purchasebtn:hover {
+    color: #fff;
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
 .purchasebtn2 {
     background-color: white;
     color: black;
+}
+
+.purchasebtn2:hover {
+    color: #fff;
+    background-color: #c82333;
+    border-color: #bd2130;
 }
 
 .purchasebtnsize {
@@ -2642,24 +2658,163 @@ p,
     margin-right:1%;
 }
 
-.demoproduct-addchat-btn {
-    background-color: #ee4d2d;
-    color: #fff;
-    border: 1px solid black;
-    font-size: 20px;
-    padding: 1%;
-    font-weight: 400;
-    border-radius:.25rem;
-    margin:1%;
-}
-
 .demoproduct-personname-btn {
     background-color: white;
     color: black;
     border: 1px solid black;
-    font-size: 20px;
-    padding: 1%;
+    font-size: 18px;
     font-weight: 400;
     border-radius: .25rem;
     margin: 1%;
+    min-width: 4rem;
+}
+
+.demoproduct-personname-btn:hover {
+    color: #fff;
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+.demoproduct-addchat-btn {
+    background-color: #ee4d2d;
+    color: #fff;
+    border: 1px solid black;
+    font-size: 18px;
+    font-weight: 400;
+    border-radius: .25rem;
+    margin: 1%;
+    width: 4rem;
+}
+
+.demoproduct-addchat-btn:hover {
+    color: #fff;
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+.btn-danger {
+    font-size: 24px;
+    vertical-align: top;
+}
+
+/*RWD*/
+
+@media (min-width:0px) {
+    .texthead1 {
+        min-width: 32%
+    }
+}
+
+@media (min-width:0px) {
+    .texthead2 {
+        min-width: 24%
+    }
+}
+
+@media (min-width:0px) {
+    .texthead3 {
+        min-width: 44%
+    }
+}
+
+@media (min-width:0px) {
+    .texthead4 {
+        min-width: 44%
+    }
+}
+
+@media (min-width:576px) {
+    .texthead1 {
+        min-width: 32%
+    }
+}
+
+@media (min-width:576px) {
+    .texthead2 {
+        min-width: 24%
+    }
+}
+
+@media (min-width:576px) {
+    .texthead3 {
+        min-width: 44%
+    }
+}
+
+@media (min-width:576px) {
+    .texthead4 {
+        min-width: 44%
+    }
+}
+
+@media (min-width:768px) {
+    .texthead1 {
+        min-width: 24%
+    }
+}
+
+@media (min-width:768px) {
+    .texthead2 {
+        min-width: 24%
+    }
+}
+
+@media (min-width:768px) {
+    .texthead3 {
+        min-width: 52%
+    }
+}
+
+@media (min-width:768px) {
+    .texthead4 {
+        min-width: 52%
+    }
+}
+
+@media (min-width:992px) {
+    .texthead1 {
+        min-width: 18%
+    }
+}
+
+@media (min-width:992px) {
+    .texthead2 {
+        min-width: 30%
+    }
+}
+
+@media (min-width:992px) {
+    .texthead3 {
+        min-width: 52%
+    }
+}
+
+@media (min-width:992px) {
+    .texthead4 {
+        min-width: 52%
+    }
+}
+
+@media (min-width:1200px) {
+    .texthead1 {
+        min-width: 15%
+    }
+}
+
+@media (min-width:1200px) {
+    .texthead2 {
+        min-width: 30%
+    }
+}
+
+@media (min-width:1200px) {
+    .texthead3 {
+        min-width: 55%
+    }
+}
+
+@media (min-width:1200px) {
+    .texthead4 {
+        min-width: 55%
+    }
 }

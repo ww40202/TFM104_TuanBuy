@@ -88,11 +88,11 @@
     <!-- Header Section Begin -->
     <header class="header" id="layout">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-2 texthead1">
+            <div class="row head-padding">
+                <div class="texthead1">
                     <a href=@Url.Action("Index","Home")><img src="/img/Log.png" alt=""></a>
                 </div>
-                <div class="col-lg-7 texthead2">
+                <div class="texthead2">
                     <p class="display headsize1">|</p>
                     <a class="display headsize" href="#" v-on:click="checkUser">開團</a>
                 </div>
@@ -100,7 +100,7 @@
                     System.Diagnostics.Debug.Assert(User.Identity != null, "User.Identity != null");
                     if (User.Identity.IsAuthenticated)
                     {
-                        <div class="col-lg-3 texthead3">
+                        <div class="texthead3">
                             <a class="display" href="#" id="bell">
                                 <div class="bell-icon" tabindex="0" id="notifyBell">
                                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
@@ -171,7 +171,7 @@
                     }
                     else
                     {
-                        <div class="col-lg-3 texthead4">
+                        <div class="texthead4">
                             <a class="display headsize3" href=@Url.Action("Register","Home")>註冊</a>
                             <a class="display headsize" href=@Url.Action("Login","Home")>登入</a>
                         </div>
