@@ -143,10 +143,7 @@ namespace TuanBuy.Controllers
             //    )
             //var hotProduct = _dbcontext.OrderDetail.OrderBy(x => x.Count).Take(3);
             //var productName= hotProduct.Select(x => new { name = x.Product.Name });
-            HomeBackMangeViewModel homeBackMangeViewModel = new HomeBackMangeViewModel() {
-            var hotProduct = _dbcontext.OrderDetail.OrderBy(x => x.Count).Take(3);
-            var productName = hotProduct.Select(x => new { name = x.Product.Name });
-            HomeBackMangeViewModel homeBackMangeViewModel = new HomeBackMangeViewModel()
+            HomeBackMangeViewModel homeBackMangeViewModel = new HomeBackMangeViewModel() 
             {
                 UserCount = usercount,
                 ProductCount = productCount,
